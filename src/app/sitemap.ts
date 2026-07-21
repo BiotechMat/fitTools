@@ -5,6 +5,7 @@ import { allTools, toolsForHub } from "@/registry/tools";
 
 const STATIC_PATHS = [
   AUTHOR.path,
+  "/labs",
   "/legal/privacy-policy",
   "/legal/cookie-policy",
   "/legal/terms",

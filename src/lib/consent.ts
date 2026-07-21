@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 
 /**
  * Consent state (SPEC §2, §10). Consent Mode v2 semantics with a hard

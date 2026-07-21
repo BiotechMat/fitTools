@@ -24,6 +24,7 @@ import { dotsConfig } from "@/registry/configs/dots-calculator";
 import { paceConfig } from "@/registry/configs/running-pace-calculator";
 import { raceConfig } from "@/registry/configs/race-time-predictor";
 import { caffeineConfig } from "@/registry/configs/caffeine-calculator";
+import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -56,6 +57,7 @@ export const allTools: ToolConfig[] = [
   paceConfig,
   raceConfig,
   caffeineConfig,
+  peptideConfig,
 ];
 
 export const toolsBySlug: ReadonlyMap<string, ToolConfig> = new Map(
@@ -77,7 +79,8 @@ export function labsTools(): ToolConfig[] {
 }
 
 export function toolsForHub(hub: Hub): ToolConfig[] {
-  return allTools.filter((tool) => tool.hub === hub);
+  // Tier 4 tools live under /labs and never appear in hub listings.
+  return allTools.filter((tool) => tool.hub === hub && tool.tier !== 4);
 }
 
 /** Related tools that actually exist in the registry — never a dead link. */
