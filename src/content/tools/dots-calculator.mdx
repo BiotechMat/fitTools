@@ -1,0 +1,40 @@
+## Methodology
+
+All three scoring systems share one idea: multiply your total by a
+coefficient derived from bodyweight so different-sized lifters can be
+compared.
+
+- **DOTS** — `total × 500 ÷ poly4(bodyweight)`, a fourth-degree
+  polynomial fitted separately for men and women.
+- **Wilks** (original) — the same structure with a fifth-degree
+  polynomial; the historical standard.
+- **IPF GL points** — `total × 100 ÷ (A − B·e^(−C·bw))`, with parameter
+  sets per sex, event (full power or bench-only) and equipment (raw or
+  equipped); the system used at IPF competitions.
+
+Every coefficient is taken verbatim from the OpenPowerlifting codebase —
+the open-source project whose rankings the powerlifting world treats as
+canonical — and our DOTS implementation is regression-tested against
+OPL's own computed scores for eleven real meet entries.
+
+## Interpreting your result
+
+As rough waypoints for raw full-power DOTS: 200–300 covers most
+recreational lifters, 300–450 is competitive club-to-national territory,
+450–550 is national-to-international, and 600+ belongs to the sport's
+outliers. Wilks runs on a similar scale; IPF GL centres differently
+(100 GL ≈ a notional reference performance), so compare GL only with GL.
+
+Scores are for comparing lifters at a moment in time — for tracking your
+own progress, your total in kilograms is the honest metric, since your
+score also moves with bodyweight.
+
+## Limitations
+
+- Formulas are fitted to competition populations; extremes of bodyweight
+  sit on the least-supported parts of the curves (inputs are clamped to
+  each formula's published range).
+- DOTS and Wilks here assume a full-power total; only IPF GL has
+  bench-only parameters.
+- No formula fully removes the bodyweight debate — they are the accepted
+  compromise, not a solved problem.
