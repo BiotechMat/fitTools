@@ -42,6 +42,38 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   },
   // Wake 07:00 → 6 cycles bedtime 21:45.
   "sleep-calculator": { results: { "bedtime-6": "21:45" } },
+  // Mifflin male 30/80/175 → 1748.75 ≈ 1,749.
+  "bmr-calculator": { results: { "bmr-value": "1,749" } },
+  // Boer male 80 kg / 180 cm → 61.42.
+  "lean-body-mass-calculator": { results: { "lbm-value": "61.4 kg" } },
+  // 80 kg, 15% BF, 180 cm → FFM 68 → FFMI 20.99.
+  "ffmi-calculator": { results: { "ffmi-value": "21.0" } },
+  // EFSA male, no exercise → 2.5 L.
+  "water-intake-calculator": { results: { "water-value": "2.5" } },
+  // Running 6 mph (9.3 MET), 80 kg, 30 min → 390.6 ≈ 391.
+  "calories-burned-calculator": { results: { "burn-value": "391" } },
+  // Male 175 cm, 80 kg, 10,000 steps, moderate → 482.96 ≈ 483.
+  "steps-to-calories-calculator": { results: { "steps-kcal": "483" } },
+  // 80 kg × 0.3 g/kg → 24 g/day.
+  "creatine-calculator": {
+    results: { "creatine-loading": "24", "creatine-maintenance": "3–5 g/day" },
+  },
+  // 100 kg work set → 60 kg × 3 as the third ramp step.
+  "warmup-calculator": { results: { "warmup-row-2": "60.0 kg" } },
+  // Defaults 6–8 @ 50 kg, reps 8,8,8 → 52.5 kg × 6.
+  "double-progression-planner": { results: { "progression-next": "52.5 kg × 6" } },
+  // 3 × 8 × 100 → 2,400 kg tonnage.
+  "training-volume-calculator": { results: { "tonnage-value": "2,400" } },
+  // Male squat, 91 kg BW, 150 kg 1RM → intermediate (Kilgore 20–29).
+  "strength-standards": { results: { "standard-level": "Intermediate" } },
+  // Male 93 kg BW, 700 kg total → DOTS 445.4 (OPL coefficients).
+  "dots-calculator": { results: { "dots-value": "445.4" } },
+  // 10 km in 50:00 → 5:00 /km.
+  "running-pace-calculator": { results: { "pace-value": "5:00" } },
+  // Riegel from 50:00 10 km → HM 1:50:19.
+  "race-time-predictor": { results: { "riegel-hm": "1:50:19" } },
+  // 200 mg → 50 mg at t½ 5 h → 10 hours.
+  "caffeine-calculator": { results: { "caffeine-threshold": "10.0" } },
 };
 
 function collectConsoleErrors(page: Page): string[] {
