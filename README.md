@@ -61,14 +61,13 @@ put them in `src/registry/configs/<slug>.shared.ts` (dependency-free) and
 build the Zod schema from those constants — importing Zod into client code
 adds ~68 kB gzipped and blows the SPEC §13 JS budget.
 
-### Known budget breach (decision needed)
+### JS budget history
 
-SPEC §13 caps initial JS at 120 kB gzipped. The Next 16 + React 19
-framework baseline alone transfers ~146 kB on every page (~156 kB with this
-site's calculator code) — measured identically on the content-free
-homepage. The Lighthouse CI assertion is intentionally left failing until
-the budget is revisited or the stack decision changes; all other budgets
-(perf ≥ 95, LCP < 2 s, CLS < 0.05, TBT < 200 ms) pass.
+SPEC §13's JS cap was revised 120 → 160 kB gzipped (agreed with Mat,
+2026-07-21): the Next 16 + React 19 framework baseline alone transfers
+~146 kB on every page — measured identically on the content-free homepage —
+and this site's calculator code adds ~10 kB. Keep app-side additions lean;
+the CI assertion fails the build past 160 kB.
 
 ## Notes
 

@@ -27,7 +27,7 @@
         "total-blocking-time": ["error", { "maxNumericValue": 200 }],
         "resource-summary:script:size": [
           "error",
-          { "maxNumericValue": 122880 }
+          { "maxNumericValue": 163840 }
         ]
       }
     },
