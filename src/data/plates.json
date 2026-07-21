@@ -1,0 +1,21 @@
+{
+  "metric": {
+    "defaultBarKg": 20,
+    "barOptionsKg": [10, 15, 20],
+    "plates": [
+      { "plateKg": 25, "perSide": 4 },
+      { "plateKg": 20, "perSide": 2 },
+      { "plateKg": 15, "perSide": 2 },
+      { "plateKg": 10, "perSide": 2 },
+      { "plateKg": 5, "perSide": 2 },
+      { "plateKg": 2.5, "perSide": 2 },
+      { "plateKg": 1.25, "perSide": 2 }
+    ]
+  },
+  "sources": [
+    {
+      "label": "IPF Technical Rules (standard competition plate denominations and bar weights)",
+      "url": "https://www.powerlifting.sport/rules/codes/info/technical-rules"
+    }
+  ]
+}
