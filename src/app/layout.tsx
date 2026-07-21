@@ -65,6 +65,11 @@ export default function RootLayout({
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/labs" className="text-muted hover:text-foreground">
+                  Labs
+                </Link>
+              </li>
             </ul>
           </nav>
         </header>
