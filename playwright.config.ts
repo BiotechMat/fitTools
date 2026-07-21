@@ -13,6 +13,9 @@ export default defineConfig({
   use: {
     baseURL: "http://localhost:3100",
     trace: "on-first-retry",
+    // Deterministic unit-system default (UK/metric); imperial behaviour
+    // has its own explicit test in tdee.spec.ts.
+    locale: "en-GB",
   },
   projects: [
     {
