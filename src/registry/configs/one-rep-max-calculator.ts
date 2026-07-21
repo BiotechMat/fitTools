@@ -45,7 +45,7 @@ export const oneRmConfig: ToolConfig = {
       a: "Rep-to-max relationships vary by lift and by lifter — deadlifts in particular are commonly underestimated by prediction equations. Calibrate against how each lift actually feels rather than transferring one lift's estimate to another.",
     },
   ],
-  related: ["plate-calculator"],
+  related: ["plate-calculator", "strength-standards", "dots-calculator"],
   monetization: { ads: true, affiliates: true },
   lastReviewed: "2026-07-21",
   sources: [

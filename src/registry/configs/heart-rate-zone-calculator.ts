@@ -48,7 +48,7 @@ export const hrConfig: ToolConfig = {
       a: "Devices mix different HRmax formulas, reserve methods and zone boundaries, so small disagreements are normal. Whichever scheme you use, consistency matters more than the exact cut-offs.",
     },
   ],
-  related: ["sleep-calculator", "tdee-calculator"],
+  related: ["sleep-calculator", "running-pace-calculator", "tdee-calculator"],
   monetization: { ads: true, affiliates: true },
   lastReviewed: "2026-07-21",
   sources: [
