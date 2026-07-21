@@ -3,7 +3,9 @@
 import { useCallback, useId, useState, useSyncExternalStore } from "react";
 import {
   cmToFeetInches,
+  cmToInches,
   feetInchesToCm,
+  inchesToCm,
   kgToLb,
   kgToStonesLb,
   lbToKg,
@@ -270,6 +272,56 @@ export function WeightField({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * Generic length/circumference input (neck, waist, hip…). Canonical value
+ * is always cm; imperial mode shows inches.
+ */
+export function LengthField({
+  label,
+  valueCm,
+  onChange,
+  system,
+}: {
+  label: string;
+  valueCm: number;
+  onChange: (cm: number) => void;
+  system: UnitSystem;
+}) {
+  const id = useId();
+  const [text, setText] = useState(() =>
+    formatNumber(system === "metric" ? valueCm : cmToInches(valueCm), 1),
+  );
+
+  const [lastSystem, setLastSystem] = useState<UnitSystem>(system);
+  if (lastSystem !== system) {
+    setLastSystem(system);
+    setText(formatNumber(system === "metric" ? valueCm : cmToInches(valueCm), 1));
+  }
+
+  return (
+    <div>
+      <label htmlFor={id} className={labelClass}>
+        {label} ({system === "metric" ? "cm" : "in"})
+      </label>
+      <input
+        id={id}
+        type="number"
+        inputMode="decimal"
+        step="0.1"
+        className={`${fieldClass} mt-1`}
+        value={text}
+        onChange={(event) => {
+          setText(event.target.value);
+          const value = parseNumber(event.target.value);
+          if (value !== null) {
+            onChange(system === "metric" ? value : inchesToCm(value));
+          }
+        }}
+      />
     </div>
   );
 }
