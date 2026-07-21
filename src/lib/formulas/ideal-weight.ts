@@ -4,10 +4,14 @@ import { cmToInches } from "@/lib/units";
 /**
  * Ideal ("historical estimating") body-weight formulas (SPEC §7): Devine,
  * Robinson, Miller, Hamwi — each a base weight plus kg per inch over 5 ft.
- * Coefficients per Pai MP, Paloucek FP. The origin of the "ideal" body
- * weight equations. Ann Pharmacother 2000;34:1066–1069
- * (https://pubmed.ncbi.nlm.nih.gov/10981254/). The page frames these
- * explicitly as historical estimating formulas, not health targets.
+ * Devine/Miller/Hamwi coefficients per Pai MP, Paloucek FP. The origin of
+ * the "ideal" body weight equations. Ann Pharmacother 2000;34:1066–1069
+ * (https://pubmed.ncbi.nlm.nih.gov/10981254/). Robinson uses the ORIGINAL
+ * published coefficients (Robinson JD et al., Am J Hosp Pharm 1983;40:
+ * 1016–1019, https://pubmed.ncbi.nlm.nih.gov/6869387/ — decision recorded
+ * 2026-07-21), not the rounded 52 + 1.9 / 49 + 1.7 variant that circulates.
+ * The page frames these explicitly as historical estimating formulas, not
+ * health targets.
  */
 
 export interface IdealWeightInput {
@@ -25,13 +29,13 @@ export interface IdealWeights {
 const COEFFICIENTS: Record<Sex, Record<keyof IdealWeights, [base: number, perInch: number]>> = {
   male: {
     devine: [50, 2.3],
-    robinson: [52, 1.9],
+    robinson: [51.65, 1.85],
     miller: [56.2, 1.41],
     hamwi: [48, 2.7],
   },
   female: {
     devine: [45.5, 2.3],
-    robinson: [49, 1.7],
+    robinson: [48.67, 1.65],
     miller: [53.1, 1.36],
     hamwi: [45.5, 2.2],
   },
