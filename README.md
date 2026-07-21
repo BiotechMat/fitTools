@@ -65,9 +65,18 @@ adds ~68 kB gzipped and blows the SPEC §13 JS budget.
 
 SPEC §13's JS cap was revised 120 → 160 kB gzipped (agreed with Mat,
 2026-07-21): the Next 16 + React 19 framework baseline alone transfers
-~146 kB on every page — measured identically on the content-free homepage —
-and this site's calculator code adds ~10 kB. Keep app-side additions lean;
-the CI assertion fails the build past 160 kB.
+~146 kB on every page. Keep app-side additions lean; the CI assertion
+fails the build past 160 kB.
+
+### Why production builds use webpack
+
+`pnpm build` runs `next build --webpack` deliberately. Turbopack's
+production chunking merges the whole client graph into shared chunks, so
+every calculator ships on every page (~167 kB and growing with each tool).
+Webpack respects the per-tool `next/dynamic` code splitting in
+`src/components/calculators/index.ts`, keeping each page at ~145 kB
+regardless of catalogue size. Dev still uses Turbopack for fast HMR.
+Revisit when Turbopack gains chunking controls.
 
 ## Notes
 
