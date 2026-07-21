@@ -26,7 +26,7 @@ defaults), and preview deployments per branch.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | Canonical origin used in metadata, JSON-LD, and the sitemap. Set to the production domain on Vercel. |
+| `NEXT_PUBLIC_SITE_URL` | `http://localhost:3000` | Canonical origin used in metadata, JSON-LD, and the sitemap. Set to the production domain on Vercel. **While unset, every page emits `noindex`** so previews can never enter the search index. |
 | `NEXT_PUBLIC_ADS_ENABLED` | unset (off) | When `"true"` AND consent is granted, `AdSlot` reserves its fixed dimensions and lazy-mounts ads. Until M3 wires up the CMP, consent is hard-coded to denied, so no ad can render regardless of this flag. |
 
 With all flags off the site makes **zero third-party requests** — this is

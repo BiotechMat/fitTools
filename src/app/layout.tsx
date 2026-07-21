@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_CONFIGURED, SITE_NAME, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
 import { toolsForHub } from "@/registry/tools";
 
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   },
   description:
     "Free fitness and health calculators built on published, peer-reviewed formulas. Every tool cites its sources.",
+  robots: SITE_CONFIGURED ? undefined : { index: false, follow: false },
 };
 
 // Only hubs with live tools appear in navigation — no dead links.
