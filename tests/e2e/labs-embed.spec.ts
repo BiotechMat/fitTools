@@ -31,6 +31,18 @@ test.describe("labs", () => {
     await expect(page.getByTestId("peptide-units")).toContainText("10.0");
   });
 
+  test("homepage has a Labs section linking to the peptide tool", async ({ page }) => {
+    await page.goto("/");
+    const section = page.locator("section", {
+      has: page.getByRole("heading", { name: "Labs" }),
+    });
+    await expect(section.getByRole("link", { name: /Peptide Reconstitution/ })).toHaveAttribute(
+      "href",
+      "/labs/peptide-reconstitution",
+    );
+    await expect(section).toContainText("enhanced disclaimers");
+  });
+
   test("labs index lists the tool; no critical axe violations", async ({ page }) => {
     await page.goto("/labs");
     await expect(

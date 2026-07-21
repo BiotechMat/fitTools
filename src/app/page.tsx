@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
-import { toolsForHub } from "@/registry/tools";
+import { labsTools, toolsForHub } from "@/registry/tools";
 
 export default function HomePage() {
   const hubsWithTools = Object.values(hubMeta)
@@ -43,6 +43,31 @@ export default function HomePage() {
           </ul>
         </section>
       ))}
+      <section className="py-4" aria-labelledby="hub-labs">
+        <h2 id="hub-labs" className="text-xl font-bold">
+          <Link href="/labs" className="hover:text-primary-strong">
+            Labs
+          </Link>
+        </h2>
+        <p className="mt-1 max-w-prose text-sm text-muted">
+          Advanced tools with enhanced disclaimers — arithmetic only on
+          values you supply, no advertising, and a one-time acknowledgement
+          before use.
+        </p>
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+          {labsTools().map((tool) => (
+            <li key={tool.slug} className="rounded-lg border border-border p-4">
+              <Link
+                href={`/labs/${tool.slug}`}
+                className="font-semibold text-primary underline underline-offset-2"
+              >
+                {tool.title}
+              </Link>
+              <p className="mt-1 text-sm text-muted">{tool.metaDescription}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }
