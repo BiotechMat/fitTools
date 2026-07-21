@@ -69,7 +69,17 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="border-t border-border">
-          <div className="mx-auto max-w-5xl space-y-2 px-4 py-6 text-sm text-muted">
+          <div className="mx-auto max-w-5xl space-y-4 px-4 py-6 text-sm text-muted">
+            <nav aria-label="Legal and site information">
+              <ul className="flex flex-wrap gap-x-5 gap-y-2">
+                <li><Link href="/legal/privacy-policy" className="hover:text-foreground">Privacy</Link></li>
+                <li><Link href="/legal/cookie-policy" className="hover:text-foreground">Cookies</Link></li>
+                <li><Link href="/legal/terms" className="hover:text-foreground">Terms</Link></li>
+                <li><Link href="/legal/affiliate-disclosure" className="hover:text-foreground">Affiliate disclosure</Link></li>
+                <li><Link href="/legal/medical-disclaimer" className="hover:text-foreground">Medical disclaimer</Link></li>
+                <li><Link href="/author/mathew-beale" className="hover:text-foreground">About the author</Link></li>
+              </ul>
+            </nav>
             <p>
               © {new Date().getFullYear()} {SITE_NAME}. Calculators provide
               estimates for general information only and are not medical advice.

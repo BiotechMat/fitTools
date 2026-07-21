@@ -60,6 +60,33 @@ export function faqPageJsonLd(tool: ToolConfig): FaqPageJsonLd {
   };
 }
 
+export interface PersonJsonLd {
+  "@context": "https://schema.org";
+  "@type": "Person";
+  name: string;
+  url: string;
+  description: string;
+  alumniOf: string;
+  knowsAbout: string[];
+}
+
+/** Person JSON-LD for the author page (SPEC §9, §11 — accurate credentials only). */
+export function personJsonLd(author: {
+  name: string;
+  path: string;
+  credentials: string;
+}): PersonJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: author.name,
+    url: `${SITE_URL}${author.path}`,
+    description: `Author and reviewer of FitTools calculators. ${author.credentials}.`,
+    alumniOf: "University of Reading",
+    knowsAbout: ["fitness calculators", "nutrition science", "exercise physiology"],
+  };
+}
+
 export interface BreadcrumbJsonLd {
   "@context": "https://schema.org";
   "@type": "BreadcrumbList";

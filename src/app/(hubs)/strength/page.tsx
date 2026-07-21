@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { hubMeta } from "@/registry/hubs";
 import { HubPage } from "@/components/HubPage";
 
-const meta = hubMeta.nutrition;
+const meta = hubMeta.strength;
 
 export const metadata: Metadata = {
   title: `${meta.title} calculators`,
@@ -10,6 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: meta.path },
 };
 
-export default function NutritionHubPage() {
-  return <HubPage hub="nutrition" />;
+export default function StrengthHubPage() {
+  return <HubPage hub="strength" />;
 }

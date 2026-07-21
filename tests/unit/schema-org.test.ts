@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
+  personJsonLd,
   webApplicationJsonLd,
 } from "@/lib/schema-org";
+import { AUTHOR } from "@/lib/site";
 import { tdeeConfig } from "@/registry/configs/tdee";
 import { SITE_URL } from "@/lib/site";
 
@@ -64,6 +66,18 @@ describe("faqPageJsonLd", () => {
       expect(question.acceptedAnswer["@type"]).toBe("Answer");
       expect(question.acceptedAnswer.text).toBe(tdeeConfig.faq[i].a);
     }
+  });
+});
+
+describe("personJsonLd", () => {
+  const jsonLd = personJsonLd(AUTHOR);
+
+  it("declares a schema.org Person with accurate credentials", () => {
+    expect(jsonLd["@type"]).toBe("Person");
+    expect(jsonLd.name).toBe("Mathew Beale");
+    expect(jsonLd.alumniOf).toBe("University of Reading");
+    expect(jsonLd.description).toContain("MSc Biotechnology");
+    expect(jsonLd.url).toBe(`${SITE_URL}/author/mathew-beale`);
   });
 });
 
