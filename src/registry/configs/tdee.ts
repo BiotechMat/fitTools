@@ -59,7 +59,7 @@ export const tdeeConfig: ToolConfig = {
       a: "Prediction equations are typically within about 10% of measured values for most healthy adults, but individual results vary with genetics, body composition and daily movement. Treat the number as a starting estimate to refine with real-world tracking, not a precise measurement.",
     },
   ],
-  related: [],
+  related: ["macro-calculator", "calorie-deficit-calculator", "bmi-calculator"],
   monetization: { ads: true, affiliates: true },
   lastReviewed: "2026-07-21",
   sources: [
