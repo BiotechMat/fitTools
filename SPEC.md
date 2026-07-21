@@ -245,6 +245,9 @@ JSON-LD passes rich-results validation; axe clean.
 
 **M1 — Tier 1 live.** 10 Tier 1 tools, 3 hubs, legal pages, author page, sitemap,
 OG images, disclaimers.
+(Tier 1 list agreed with Mat 2026-07-21: TDEE, macros, calorie deficit/timeline,
+BMI, body fat % (US Navy), ideal weight, 1RM, plate loading, heart-rate zones,
+sleep calculator.)
 ✓ All M0 criteria on every page; internal links resolve; sitemap valid.
 
 **M2 — Full catalogue.** Tiers 2–3 (~27 tools total incl. DOTS with regression tests),
