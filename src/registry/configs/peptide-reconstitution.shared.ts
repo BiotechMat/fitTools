@@ -11,6 +11,3 @@ export const PEPTIDE_DEFAULTS = {
   diluentMl: 2,
   doseMcg: 250,
 } as const;
-
-/** localStorage flag for the enhanced-disclaimer acknowledgement (SPEC §7). */
-export const LABS_ACK_KEY = "fittools:labs-ack";

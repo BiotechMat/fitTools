@@ -51,8 +51,7 @@ export default function HomePage() {
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
           Advanced tools with enhanced disclaimers — arithmetic only on
-          values you supply, no advertising, and a one-time acknowledgement
-          before use.
+          values you supply, and no advertising.
         </p>
         <ul className="mt-4 grid gap-4 sm:grid-cols-2">
           {labsTools().map((tool) => (

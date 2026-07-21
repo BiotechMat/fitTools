@@ -15,8 +15,7 @@ export default function LabsIndexPage() {
       <h1 className="text-2xl font-bold sm:text-3xl">Labs</h1>
       <p className="mt-1 max-w-prose text-muted">
         Advanced tools with enhanced disclaimers. Labs tools carry no
-        advertising, perform arithmetic only on values you supply, and
-        require a one-time acknowledgement before use.
+        advertising and perform arithmetic only on values you supply.
       </p>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2">
         {labsTools().map((tool) => (

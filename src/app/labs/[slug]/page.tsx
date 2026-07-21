@@ -5,7 +5,6 @@ import { getTool, labsTools } from "@/registry/tools";
 import { calculators } from "@/components/calculators";
 import { AuthorBox } from "@/components/AuthorBox";
 import { FAQ } from "@/components/FAQ";
-import { LabsAcknowledgement } from "@/components/LabsAcknowledgement";
 import { breadcrumbJsonLd, faqPageJsonLd, webApplicationJsonLd } from "@/lib/schema-org";
 
 interface LabsPageParams {
@@ -84,9 +83,7 @@ export default async function LabsToolPage({ params }: LabsPageParams) {
         </p>
       </aside>
 
-      <LabsAcknowledgement>
-        <Calculator />
-      </LabsAcknowledgement>
+      <Calculator />
 
       <div className="prose">
         <Editorial />

@@ -171,7 +171,9 @@ position stand (Kreider et al. 2017).
 **Peptide reconstitution (Tier 4, /labs/)**: concentration = vial mg ÷ diluent ml;
 draw volume = desired dose ÷ concentration; U-100 syringe units = ml × 100. Inputs are
 user-supplied only; no compound presets, no dosing suggestions; `ads: false`; enhanced
-disclaimer requiring acknowledgement before first use (localStorage flag).
+disclaimer always visible. (Original requirement included an acknowledgement gate
+before first use; removed at Mat's direction 2026-07-21 — the enhanced disclaimer
+remains mandatory.)
 
 ## 8. Page template (tool pages)
 Order: H1 + one-sentence value line → calculator (interactive, zero-CLS, usable without
