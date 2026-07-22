@@ -48,12 +48,12 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
   // Home + 3 hubs + 32 standard tools + labs tool + labs index + author + 5
-  // legal + peptides pillar + 8 peptide pages + index-methodology + 2 recovery
+  // legal + peptides pillar + 8 peptide pages + index-methodology + 8 recovery
   // pillars + 4 recovery satellites + glossary hub + 23 glossary terms +
   // supplements hub + 13 supplement pages + exercises hub + 3 pattern hubs +
   // 13 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables.
-  expect(locs.length).toBe(124);
+  expect(locs.length).toBe(130);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
