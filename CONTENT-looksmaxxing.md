@@ -4,12 +4,22 @@ Companion to `SPEC.md`, `METHODOLOGY.md`, `ROADMAP.md`, `CONTENT.md`,
 `DESIGN.md`. Defines a Gen-Z-facing **looksmaxxing / self-improvement** content
 section and the decision framework for an optional body-composition estimator.
 
-**Status (2026-07-22): BLUEPRINT — not built, not signed off.** This document
-is a proposal for review. The body-composition estimator (§6) is now
-architecturally in scope (Mat, 2026-07-22: server-side/AI calc and accounts are
-planned); its remaining gates are the data-protection posture and the
-body-image / minor-safety guardrails in §6.3. Build content clusters first;
-sequence the estimator after accounts land.
+**Status (2026-07-23): §8 STEP 1 BUILT (pending Mat's sign-off).** The launch
+increment is live on the `v2-design` branch: the **skin & sun cluster** (§3.1 —
+pillar + 6 satellites: sunscreen, retinoids, routine, ingredients, plus the
+tanmaxxing and sunscreen-myths debunks) and the **debunk hub** (§3.5,
+`/glow-up/looksmaxxing-myths` — mewing, bone-smashing, tanmaxxing, mouth-taping,
+SARMs, each rated with a route to the honest alternative). Registry-driven
+(`src/registry/glowup-content.ts`), evidence-tiered with a new `not-supported`
+tier + rotated verdict stamp, every page carrying the safety box, medical
+disclaimer and the §1.3/§6.3 body-image support signpost (`BodyImageResources`).
+Cross-linked both ways into the calculators (§4), surfaced in the nav and the
+homepage category strip, in the sitemap, and covered by
+`tests/e2e/glowup-content.spec.ts`. No appearance rating anywhere (§1.1).
+Still to build: §3.2 sleep, §3.3 body-composition, §3.4 hair, §7 "Trends,
+rated". The body-composition estimator (§6) remains architecturally in scope
+(Mat, 2026-07-22) but gated on the data-protection posture and the §6.3
+body-image / minor-safety guardrails — sequence it after accounts land, not now.
 
 ---
 
@@ -45,9 +55,9 @@ grounded in body-image research:
 
 1. **No appearance rating. Ever.** No face scoring, "canthal tilt" analysis,
    attractiveness rank, "looksmax score", or before/after "potential" mockups.
-   This is the hard line ROADMAP §2.5/§6 already draws, restated here because
-   this is the section most tempted to cross it. We rate *evidence*, never a
-   person.
+   This is this blueprint's own hard line (ROADMAP no longer draws it
+   site-wide), stated here because this is the section most tempted to cross
+   it. We rate *evidence*, never a person.
 2. **Health-framed, not aesthetic-ranked.** Every recommendation is justified by
    a health mechanism (UV → skin cancer + photoageing; sleep → skin repair;
    protein → lean mass), with the appearance benefit as a *consequence*, never
@@ -76,8 +86,8 @@ grounded in body-image research:
 ## 2. Psychology & retention — what the research actually supports
 
 Researched 2026; sources in §9. The goal: durable return visits **without**
-running on insecurity (ROADMAP §2's governing principle). Mechanisms below are
-split into *use* and *avoid*.
+running on insecurity (ROADMAP §2.1's positive-frame rule, applied hard here).
+Mechanisms below are split into *use* and *avoid*.
 
 ### 2.1 Mechanisms we use (positive-frame, SDT-aligned)
 
@@ -119,8 +129,8 @@ split into *use* and *avoid*.
 > A reader who gets a clear, honest answer and a routine they chose will come
 > back for the next question and tell a friend — the credibility flywheel. We
 > optimise for *"came back because it helped"*, never *"came back because they
-> felt bad"*. A harm-signal nudge toward rest (ROADMAP §2.7) sits behind any
-> compulsive-checking pattern.
+> felt bad"*. A rest nudge (this doc's §6.3, styled in DESIGN.md §6) sits
+> behind any compulsive-checking pattern in this section.
 
 ---
 
@@ -229,9 +239,9 @@ Built as a clearly-bounded, opt-in feature with **every** guardrail below:
   18–22%, athletic range"), never a single dramatic number, alongside the
   healthy-range context and the same non-diagnostic disclaimer as every tool.
   No "you need to lose X". Pair with the "what this is / isn't" panel.
-- **Harm-signal + exit.** Repeated re-checks trigger the ROADMAP §2.7 rest
-  nudge and a signpost to body-image resources (Beat / NEDA). An eating-concern
-  screening link is always present.
+- **Harm-signal + exit.** Repeated re-checks trigger the rest nudge (styled in
+  DESIGN.md §6) and a signpost to body-image resources (Beat / NEDA). An
+  eating-concern screening link is always present.
 - **Free, never a premium hook.** Charging for an appearance number is exactly
   the insecurity monetisation the whole strategy rejects.
 - **Architecture:** a single serverless endpoint (Vercel function) that proxies

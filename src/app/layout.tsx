@@ -75,13 +75,21 @@ export default function RootLayout({
                 SITE_NAME
               )}
             </Link>
-            <ul className="flex gap-4 text-sm">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
               <li>
                 <Link
                   href="/pulse"
                   className="font-semibold text-foreground hover:text-primary"
                 >
                   Pulse
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/daily"
+                  className="font-semibold text-foreground hover:text-primary"
+                >
+                  Daily
                 </Link>
               </li>
               {liveHubs.map((meta) => (
@@ -107,6 +115,11 @@ export default function RootLayout({
               <li>
                 <Link href="/supplements" className="text-muted hover:text-foreground">
                   Supplements
+                </Link>
+              </li>
+              <li>
+                <Link href="/glow-up" className="text-muted hover:text-foreground">
+                  Glow-up
                 </Link>
               </li>
               <li>

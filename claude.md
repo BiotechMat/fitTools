@@ -7,7 +7,7 @@ M3 (monetisation infra) and M4 (labs + embeds) built, not yet formally signed
 off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age,
 Heart Age/PREVENT, CGM metrics, lifestyle life-expectancy done; Fitness Age
 blocked on paywalled source), Layer 2 composite indices (all three done), and
-CONTENT clusters (cold-water + sauna done).
+CONTENT clusters (cold-water + sauna done), and Pulse (PULSE.md) in build.
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
@@ -41,6 +41,13 @@ and Mat has signed off.
   pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
   vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
   PULSE_LLM_MODEL / PULSE_LLM_PROVIDER.
+- DAILY-GAMES.md — the daily ritual games at `/daily` ("Ballpark"
+  guess-the-stat daily + "Myth or Fact?" weekly), the daily-return loop
+  (ROADMAP E3/E5 threads). Hand-authored, sourced, deterministic per day —
+  no LLM at runtime by design (the deliberate contrast with Pulse). v1 BUILT
+  (2026-07-23, see §15): src/registry/daily.ts, src/lib/daily/*,
+  src/lib/daily-store.ts, /daily, homepage banner + nav. "Ballpark" name
+  LOCKED (Mat, 2026-07-23); "Myth or Fact?" name still proposed (§12.1).
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.

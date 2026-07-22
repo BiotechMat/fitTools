@@ -189,10 +189,10 @@ every component below.
 - **Challenge card** *(E4 — lapsed-user re-activation)*. Time-limited, Space
   Mono countdown, ink border + hard shadow like tool cards; completion state
   feeds the share card.
-- **Rest nudge** *(ROADMAP §2.7 harm guardrail)*. When usage patterns suggest
-  overreaching (e.g. low readiness + repeated re-checks), a forest,
-  care-register card nudges toward rest — never gamified, never dismissible
-  into a streak penalty.
+- **Rest nudge** *(CONTENT-looksmaxxing §6.3 estimator guardrail)*. Scoped to
+  the photo-estimator flow: on repeated re-checks, a forest, care-register
+  card nudges toward rest — never gamified, never dismissible into a streak
+  penalty.
 - **Premium surfaces** *(E6)*. The save prompt ("Keep this number — free
   account"), the Trajectory depth upsell (30 days free, full history paid),
   and the ad-free benefit line — all styled per §5's honest-and-quiet rules:

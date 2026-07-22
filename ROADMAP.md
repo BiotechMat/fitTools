@@ -7,8 +7,7 @@ the audience and the loops first, switch revenue on once traffic arrives. The ad
 and affiliate infrastructure is already stubbed behind flags in `SPEC.md` §10.
 
 **Governing principle:** every mechanic runs on *positive* psychology — progress,
-flattering achievement, earned status, novelty. Nothing here runs on insecurity,
-appearance judgement, or shame. This is a product decision AND a strategic one:
+flattering achievement, earned status, novelty. This is a product decision AND a strategic one:
 the site's moat is credibility, and shame-driven engagement burns out and
 generates backlash while progress-driven engagement compounds.
 
@@ -50,14 +49,10 @@ generates backlash while progress-driven engagement compounds.
    the gap is small and attainable); everyone can be top of *some* board; opt-in.
 4. **Graceful streaks.** Streak freezes, rest days, warm re-entry for returners.
    No guilt UX.
-5. **No appearance or insecurity mechanics.** No face/vitality rating, no
-   body-ranking, nothing engineered to needle self-image.
-6. **Metrics remain estimates.** All scoring obeys `METHODOLOGY.md` (open,
+5. **Metrics remain estimates.** All scoring obeys `METHODOLOGY.md` (open,
    versioned, non-diagnostic, no mortality figures, body-composition never
    dominant).
-7. **Watch for harm signals.** If usage patterns suggest obsessive checking or
-   overtraining, the product nudges toward rest, not more engagement.
-8. **Monetisation deferred.** No ads until traffic thresholds (Phase E6). Keep the
+6. **Monetisation deferred.** No ads until traffic thresholds (Phase E6). Keep the
    experience clean while building the loops.
 
 ---
@@ -141,7 +136,7 @@ behaviours — but only with small gaps and personal-best framing to avoid
 inferiority/overtraining. Challenges are the best lapsed-user re-activation tool.
 **Key features:** opt-in leaderboards; multiple boards so everyone tops one;
 "personal best" emphasis over rank; challenge start/end + completion cards (feeds
-E1); harm-signal guardrails from §2.7.
+E1).
 **Success metric:** lapsed-user reactivation rate; opt-in %; sessions/user.
 
 ### Phase E5 — Novelty & content cadence
@@ -177,19 +172,7 @@ the loops while they're forming.
 
 ---
 
-## 6. What we are NOT building (explicit)
-
-- Face, selfie, or appearance/"vitality" rating of any kind.
-- Body-ranking leaderboards, or any large-distance forced upward comparison.
-- Any mechanic that rewards restriction, overtraining, or compulsive checking.
-- Guilt-based streak/loss UX.
-
-These are excluded on both ethical and strategic grounds: they damage vulnerable
-users and they corrode the credibility that is this site's actual moat.
-
----
-
-## 7. Sequencing summary
+## 6. Sequencing summary
 
 1. **E1 + E0** — ship the share loop and the account/instrumentation base together
    (viral on-ramp + identity).

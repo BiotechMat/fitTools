@@ -9,11 +9,14 @@ import { TIER_LABELS } from "@/registry/peptides";
  */
 
 // v2 (DESIGN.md §3): green = earned trust, fading to paper as evidence
-// weakens; the tier is always spelled out, never colour alone.
+// weakens; the tier is always spelled out, never colour alone. `not-supported`
+// (CONTENT-looksmaxxing §4 debunk tier) reads as active caution — ember on soft
+// orange — distinct from the muted, merely-unproven `marketing-claim`.
 const TIER_STYLES: Record<Tier, string> = {
   "well-supported": "border-good bg-good-soft text-good",
   preliminary: "border-warning-border bg-warning-bg text-foreground",
   "marketing-claim": "border-border bg-surface text-muted",
+  "not-supported": "border-primary bg-primary-soft text-primary",
 };
 
 const BASIS_LABELS: Record<EvidenceBasis, string> = {

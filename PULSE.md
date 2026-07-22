@@ -145,8 +145,8 @@ export interface PulseCard {
 ```
 
 **Identity rule (locked §11):** generated phrasings vary, so the card `id` is
-ephemeral. Everything durable — likes, saves, seen-set, share URLs, SEO
-routes, analytics — keys on the stable **`chunkId`**. The in-memory cache
+ephemeral. Everything durable — likes, saves, the seen-set, analytics — keys
+on the stable **`chunkId`** (share/SEO surfaces per §8). The in-memory cache
 (`src/lib/pulse/cache.ts`, 30-min TTL, keyed by chunk) keeps phrasing stable
 within a session and bounds LLM cost; a shared KV cache is a later swap behind
 the same module surface.
@@ -174,10 +174,11 @@ route degrades, it doesn't break.
 
 - Seed corpus target for v1: **~60–100 chunks** across all categories (enough
   that the feed feels bottomless for a session — generation multiplies
-  *phrasings*, never *claims*). The initial corpus is harvested from the
-  cold-water and sauna clusters and the ApoB/Lp(a) glossary entries, so it
-  spans recovery / cardio / longevity / physiology; growing the other
-  categories is the next authoring job.
+  *phrasings*, never *claims*). The seed corpus is harvested from sources
+  already vetted in the repo (cold-water + sauna clusters, ApoB/Lp(a)
+  glossary) and currently spans recovery / cardio / longevity / physiology /
+  training / mind (§14); nutrition, supplements and sleep are the thin
+  categories to grow next.
 - Chunks are **harvested from existing content** — the recovery clusters,
   glossary, supplement pages and METHODOLOGY tools are full of card-sized,
   already-sourced claims. Harvesting reuses vetted claims *and* creates natural
@@ -206,14 +207,14 @@ tag to filter to it.
 - **Saved view.** A dedicated surface (`/pulse/saved` or a Pulse tab) listing
   bookmarked cards. This is where save earns its retention keep; without a home,
   save is a dead gesture.
-- **Share payload (image card up front — locked §11).** v1 generates the
-  flattering **OG-image card** — the branded 1200×630 + 1080×1920 story formats
-  (DESIGN §6): espresso ground, the fact in branded type, source credited,
-  FitTools watermark. This reuses/pulls forward the E1 image pipeline (a
-  dependency to sequence — see §13). The per-chunk URL (`/pulse/<chunkId>`,
-  server-rendered, crawlable — §8) is the link target and the copy-link /
-  native share-sheet fallback path; it renders the vetted claim, so a shared
-  page is deterministic even though feed phrasings vary.
+- **Share payload (image card — locked §11, lands with E1).** The target share
+  format is the flattering **OG-image card** — the branded 1200×630 +
+  1080×1920 story formats (DESIGN §6): espresso ground, the fact in branded
+  type, source credited, FitTools watermark. It depends on the E1 image
+  pipeline; until that lands, share is the Web Share sheet / clipboard with
+  the card's fact + source and a `/pulse` link (§8, §14). Once the daily page
+  ships (§8), shares of the daily card deep-link to its stable
+  `/pulse/<date>` URL.
 - **Optimism + degradation.** Like/save update instantly and never block on
   storage; if `localStorage` is unavailable (private mode/quota) the action
   degrades to session-only, mirroring `history.ts`'s guarded wrapper — never a
@@ -225,7 +226,11 @@ tag to filter to it.
 
 Chosen model: **weighted by engagement** (the most "social-media" feel). This is
 the option with real failure modes (filter bubble, cold start, repeats), so the
-guardrails below are part of the spec, not optional polish.
+guardrails below are part of the spec, not optional polish. Selection runs
+**server-side** in the pure `selectChunks()` (`src/lib/pulse/rank.ts`): the
+client sends its capped, category-level affinity vector with each batch
+request and the server ranks statelessly — nothing is stored server-side
+(§5.1.1a).
 
 ### 5.1 The signal (explicit + dwell — locked §11)
 
@@ -239,12 +244,22 @@ Dwell was chosen in over explicit-only, so it carries a **privacy contract** to
 keep it consistent with the site's no-surveillance posture (this is a hard
 requirement, not a nicety):
 
-1. **Local-only, never transmitted.** Dwell/scroll timing is computed on-device
-   and collapsed *immediately* into the per-category affinity score. Raw
+1. **Raw signal is local-only, never transmitted.** Dwell/scroll timing is
+   computed on-device and collapsed *immediately* into the per-category
+   affinity score (`applyEngagement`, bounded steps, clamped [-1, 1]). Raw
    per-card timings are **not** stored and **not** sent to analytics — no
    `pulse_card_dwell` event exists. What persists is only the aggregated
-   affinity vector (§6), the same shape whether the signal came from a like or a
-   dwell.
+   affinity vector (§6), the same shape whether the signal came from a like or
+   a dwell.
+
+   **1a. The aggregate crosses the wire, statelessly.** Because ranking runs
+   server-side (§5.2), each batch request carries the affinity vector, the
+   recent seen-set and any category filter — nine clamped numbers and opaque
+   chunk ids, no identity, no cookies, no raw timings. The server uses them
+   for that draw and stores nothing. This is the documented data-protection
+   posture for `/api/pulse` (SPEC §2): no personal or health data is sent by
+   the client or forwarded to the model — the model only ever sees the site's
+   own vetted claims.
 2. **No identity, no cross-user data, no profiling.** Purely the anonymous local
    user tuning their own shuffle.
 3. **Consent-independent.** Because nothing leaves the device, dwell tracking
@@ -260,33 +275,34 @@ where the affinity vector came from.
 
 ### 5.2 The ranking
 
-For a given draw, each not-recently-seen card gets a score roughly:
+For a given draw, each not-recently-seen chunk gets a sampling weight (as
+built in `rank.ts`):
 
 ```
-score = affinity(category) * w_aff
-      + freshness(card)     * w_fresh     // newer cards & unseen categories lifted
-      + randomJitter()      * w_rand      // keeps it lively, breaks ties
+weight = 1                                  // base — every chunk stays drawable
+       + clamp(affinity[category]) * cap    // capped affinity tilt (default cap 0.6)
+       + jitter                             // seeded random 0–0.25, keeps it lively
 ```
 
-Then draw the next batch by weighted sampling (not strict top-N — sampling keeps
-it non-deterministic and avoids a frozen "greatest hits").
+Then draw the batch by weighted sampling (not strict top-N — sampling keeps it
+non-deterministic per seed and avoids a frozen "greatest hits"), with a
+fraction of picks ignoring affinity entirely (novelty injection, §5.3.2).
 
 ### 5.3 The guardrails (mandatory)
 
-1. **Diversity floor.** No more than *N* consecutive cards from one category
-   (e.g. 2–3); every batch must include at least one card from outside the
-   user's top affinities. The bubble cannot fully close.
-2. **Novelty injection.** A fixed fraction of every batch (e.g. ~25–30%) is
-   drawn *ignoring* affinity — pure freshness/random — so new topics keep
-   surfacing.
-3. **No-repeat window.** Track recently-seen `id`s (session + a rolling local
-   set) and exclude them until the pool is exhausted, then reset. Refreshing the
-   page must not replay the same opening cards (the "pure random each load"
-   failure mode we explicitly rejected).
-4. **Cold start.** With no history, ordering falls back to **seeded shuffle +
-   freshness** — indistinguishable from a good default feed. Weighting only
-   kicks in once there's signal, and only ever *tilts*, never *dominates*
-   (`w_aff` capped so the floor/novelty rules always bind).
+1. **Diversity floor.** No more than `maxRun` consecutive cards from one
+   category (default 2) while another category still has cards available. The
+   bubble cannot fully close.
+2. **Novelty injection.** A fixed fraction of picks (default 0.3) is drawn
+   *ignoring* affinity — pure seeded random — so new topics keep surfacing.
+3. **No-repeat window.** Track recently-seen `chunkId`s (a rolling local set,
+   most recent 200) and exclude them until the pool is exhausted, then reset.
+   Refreshing the page must not replay the same opening cards (the "pure
+   random each load" failure mode we explicitly rejected).
+4. **Cold start.** With no affinity the weight reduces to base + jitter — a
+   seeded shuffle, indistinguishable from a good default feed. Weighting only
+   ever *tilts*, never *dominates* (the cap keeps the floor and novelty rules
+   binding).
 5. **No engagement dark patterns.** Weighting optimises *relevance*, not
    time-on-site at any cost. No infinite dwell traps, no variable-reward
    manipulation beyond honest novelty (ROADMAP §2 positive-psychology
@@ -294,11 +310,12 @@ it non-deterministic and avoids a frozen "greatest hits").
 
 ### 5.4 Testability
 
-The ranking is a **pure function** `rank(cards, signal, seenSet, seed) →
-ordered[]` in `src/lib/pulse/` (mirrors the pure-core/thin-wrapper split in
-`history.ts`). Unit tests assert: diversity floor holds, novelty fraction holds,
-no-repeat holds, and cold-start === seeded shuffle. Deterministic via injected
-seed.
+The ranking is the **pure function** `selectChunks(pool, opts)` in
+`src/lib/pulse/rank.ts` (mirrors the pure-core/thin-wrapper split in
+`history.ts`), deterministic via an injected mulberry32 seed. Unit tests
+(built — §14) assert: diversity floor holds, novelty fraction holds, no-repeat
+holds, and cold-start behaves as a seeded shuffle. `buildCardsFromDrafts` —
+the §1.1 enforcement point — is likewise pure and unit-tested.
 
 ---
 
@@ -307,13 +324,13 @@ seed.
 Chosen: **local now, shaped for later account sync** (ROADMAP E0). Extend the
 existing local-first pattern rather than inventing a new one.
 
-- New module `src/lib/pulse-store.ts` (or extend `history.ts`'s approach):
-  guarded `localStorage` wrapper + node-testable pure core, same as
-  `history.ts`. Keys namespaced `fittools.pulse.v1` (likes, saves, affinity,
-  seen-set).
+- Module `src/lib/pulse-store.ts` (built): guarded `localStorage` wrapper +
+  node-testable pure core, same as `history.ts`. One namespaced key
+  `fittools.pulse.v1` holding a versioned `{ likes, saves, seen, affinity }`
+  document, with a change event for `useSyncExternalStore`.
 - **Sync-ready shape:** all state is a serialisable document keyed by stable
-  card `id`s (not array indices), with a `version` field and tolerant parse —
-  exactly like `HistoryFile`. When E0 accounts land, the same document can be
+  `chunkId`s (not array indices or ephemeral card ids), with a `version` field
+  and tolerant parse — exactly like `HistoryFile`. When E0 accounts land, the same document can be
   read/written server-side without changing callers (the SPEC §10 /
   `history.ts` promise: "swap to authed storage later without changing
   callers").
@@ -330,14 +347,17 @@ All tokens/type per DESIGN §1–§3; retention-card language per §6. Zero-CLS
 
 - **`<PulseDaily />`** *(fact of the day — locked §11)* — a single hero card
   pinned at the top of the feed and given headline treatment (larger, Anton-led).
-  **Deterministic per-day pick** from the bank (date-seeded, so every visitor
-  sees the same daily fact and it's stable across a day's reloads — and so it can
-  be pre-rendered and reused as the newsletter's unit-of-one, feeding E5). Fully
-  shareable via the same OG-image card. Cheap: it's a selector over the existing
-  bank, no new content type.
+  **Deterministic per-day pick** from the corpus (`dailyChunkIndex`, seeded by
+  the server's UTC date, so every visitor sees the same daily fact and it's
+  stable across a day's reloads — and so it can be pre-rendered and reused as
+  the newsletter's unit-of-one, feeding E5). Fully shareable; the one Pulse
+  artefact stable enough to earn its own crawlable page later (§8). Cheap:
+  it's a selector over the existing corpus, no new content type.
 - **`<PulseCard />`** — espresso/paper card, ink border + hard shadow like the
   tool cards; category accent stripe or tag colour; Anton for any number-forward
-  facts, Figtree body, Space Mono for the source label. `<EvidenceTier />` badge.
+  facts, Figtree body, Space Mono for the source label. `<EvidenceTier />` badge;
+  when `generated` is true the card carries a quiet "AI-phrased ·
+  source-verified" note (honest about the phrasing, confident in the claim).
   Action row (like/save/share/source). Optional expand for `detail`. Reports
   view/dwell to the local signal aggregator (§5.1) — no network.
 - **`<PulseFilterBar />`** — sticky category chips; multi-select; active state in
@@ -353,7 +373,8 @@ All tokens/type per DESIGN §1–§3; retention-card language per §6. Zero-CLS
   DESIGN's warm-empty-state convention.
 - **Share card** — the E1 OG/story image (DESIGN §6): espresso ground, the fact
   in the branded type, source credited, FitTools watermark. Wins/insights only.
-  Built in v1 (§11), so this shares the E1 image pipeline as a dependency.
+  Locked as the target format (§11); ships with the E1 pipeline — until then
+  share degrades to Web Share/clipboard (§4, §14).
 
 ### 7.1 Accessibility
 
@@ -396,7 +417,7 @@ artefact to give its own crawlable page. So the SEO strategy is:
 
 - Cards → tools/content via `relatedTool` / `relatedContent` (validated).
 - **Reciprocal surfacing:** relevant tool result pages and articles can render a
-  small "related facts" strip drawn from the bank by shared tag — Pulse
+  small "related facts" strip drawn from the corpus by shared tag — Pulse
   pushes traffic *and* pulls it. (v1 may ship one direction; the schema supports
   both from day one.)
 - Tags map onto existing hubs (nutrition/strength/recovery) so Pulse
@@ -407,7 +428,7 @@ artefact to give its own crawlable page. So the SEO strategy is:
 ## 10. Analytics (SPEC §12 — typed events, consent-gated)
 
 Extend the `AnalyticsEvent` union in `src/lib/analytics.ts` (helpers exist now;
-GA4 fires post-consent). Proposed events:
+GA4 fires post-consent). Events (wired — §14; `id` carries the `chunkId`):
 
 ```ts
 | { name: "pulse_card_viewed"; params: { id: string; category: string } }  // sampled, not every card
@@ -453,44 +474,59 @@ Recorded so the rationale survives; changing any of these is a spec change.
    (§13). Higher viral quality from day one; slower first ship.
 5. **Fact of the day → in.** `<PulseDaily />` hero (§7), date-seeded, doubling as
    the E5 newsletter unit-of-one.
+6. **Runtime grounded generation → in (2026-07-22, Mat).** Supersedes the
+   original "never runtime-generated" posture. Card *copy* is model-rephrased
+   at request time; claims and citations remain hand-vetted corpus data,
+   enforced structurally (§1.1, §3.2). Rationale: endless fresh phrasings from
+   a compact corpus, with no way for the model to invent a fact or a source.
+   Degraded mode (no key) serves claims verbatim, so the feature never depends
+   on the API being up.
+7. **Canonical identity → `chunkId`.** Generated card ids are phrasing-hashed
+   and ephemeral; likes, saves, the seen-set and analytics key on the stable
+   chunk id (§3.1). This is what keeps generation compatible with durable
+   saves and sync.
+8. **Ranking server-side, stateless.** `selectChunks` runs in the route; the
+   client sends its capped affinity vector per request; the server stores
+   nothing (§5.1.1a). Chosen so selection, caching and generation share one
+   draw path.
 
-**Still genuinely open (minor, decide during build):** exact `w_aff/w_fresh/
-w_rand` weights and the diversity-floor/novelty-fraction constants (§5) — these
-are tuning values to settle empirically against the seed bank, not architecture.
+**Still genuinely open (minor, decide during build):** the tuning constants —
+affinity cap (0.6), novelty fraction (0.3), `maxRun` (2), cache TTL (30 min),
+engagement steps (§6) — to settle empirically against the grown corpus; and
+the generation model (default Opus 4.8; consider Haiku 4.5 for this
+high-volume, low-complexity workload — §14).
 
 ---
 
 ## 12. Out of scope (v1)
 
-- Runtime/AI-generated facts (§1.1 — never).
+- **Ungrounded generation — never.** The model may rephrase vetted claims
+  (§1.1); it may not originate facts, statistics or sources. Any change that
+  lets model output reach the feed without a vetted chunk behind it is a spec
+  change to §1.1, not an implementation detail.
 - User-submitted facts / comments (moderation burden; revisit far later).
 - Cross-user social graph, following, public profiles (beyond ROADMAP).
-- Server-side personalisation or recommendation models (local-only signal by
-  design, §5.1). No calc/recommendation API (CLAUDE.md / SPEC §17).
+- Stored server-side personalisation: no profiles, no server-kept affinity, no
+  request logging for recommendation. Ranking is stateless per-request
+  (§5.1.1a); the durable signal lives on-device until E0 sync.
 - Monetising Pulse (ad slots in-feed) — deferred to E6 like all monetisation;
   keep the surface clean while the loop forms.
 
 ---
 
-## 13. Suggested build sequence (when scheduled)
+## 13. Remaining work (as-built state in §14)
 
-1. **Bank + registry + validation** — `src/registry/pulse.ts`, types, cross-link
-   + source validation, seed ~20 harvested cards, registry test.
-2. **Card pages + hub index** (§8) — SEO-durable, crawlable, sitemap/JSON-LD.
-   The feature has value even before the scroller exists.
-3. **Pulse scroller + filter + tags + `<PulseDaily />`** (§7) — client discovery
-   layer, zero-CLS.
-4. **Local store: like/save + Saved view** (§6) — `src/lib/pulse-store.ts`, the
-   retention actions.
-5. **Engagement-weighted ordering + guardrails** (§5) — pure `rank()` in
-   `src/lib/pulse/` + tests; explicit signal first, then wire the local
-   dwell aggregator (§5.1) behind the privacy contract.
-6. **Share — OG-image card up front** (§4, locked §11). This depends on the E1
-   image pipeline; if E1 hasn't built it yet, this step includes standing that
-   pipeline up. Copy-link/native-share to `/pulse/<id>` is the fallback path.
-7. **Analytics wiring + reciprocal cross-links** (§9, §10) — remember: no dwell
-   event.
-8. Grow the bank to the v1 target and settle into the E5 content cadence.
+The v1 vertical slice is built (§14). Still to do, in suggested order:
+
+1. **Saved view** (`/pulse/saved`, §4/§7) — the store already supports it.
+2. **Corpus growth** to the ~60–100 chunk v1 target (§3.3) — nutrition,
+   supplements and sleep are the thin categories.
+3. **Daily `/pulse/<date>` page** + JSON-LD + sitemap entry (§8) — the durable
+   SEO/share artefact; unlocks deep-linked daily shares.
+4. **Share — OG-image card** (§4, locked §11) — with/after the E1 image
+   pipeline; also unlocks achievement-card reuse everywhere else.
+5. **Reciprocal "related facts" strips** on tool/article pages (§9).
+6. **Tuning pass** on the §11 constants against the grown corpus.
 
 ---
 
@@ -533,6 +569,40 @@ generation; `PULSE_LLM_MODEL` overrides the model (default `claude-opus-4-8` —
 consider `claude-haiku-4-5` for this high-volume, low-complexity workload);
 `PULSE_LLM_PROVIDER=none` forces degraded mode. No key set → the site serves
 vetted claims and never breaks.
+
+### ⚠️ PRODUCTION TODO — revisit after launch (2026-07-23)
+
+Pulse is merged to `main` and deployed, but **runs in degraded mode in
+production until an API key is set** (deliberate — deferred by Mat). To switch
+generation on:
+
+- [ ] **Set `ANTHROPIC_API_KEY`** in the Vercel project env (Production scope),
+      then redeploy. *(Credential/settings step — must be done in the Vercel
+      dashboard; cannot be done from the repo.)*
+- [ ] *(Recommended)* **Set `PULSE_LLM_MODEL=claude-haiku-4-5`** — far cheaper
+      and faster than the Opus default for this high-volume rephrasing workload.
+- [ ] Separately (SEO, not Pulse-specific): **`NEXT_PUBLIC_SITE_URL`** is still
+      unset, so the whole site — Pulse included — is `noindex`. Set it when
+      ready for search engines to index `/pulse`.
+
+**What flips the moment `ANTHROPIC_API_KEY` is live** (no code change, no
+redeploy beyond picking up the env var):
+
+- `getGenerator()` returns the Claude generator instead of the null one, so the
+  API stops returning `degraded: true` and the yellow "showing source-verified
+  facts directly" banner disappears.
+- Cards become **LLM-generated rephrasings** of the vetted claims (varied,
+  punchy) instead of the raw claim text; `card.generated` flips `false → true`,
+  and the same chunk yields different wording over time (the endless-novelty
+  feel). The 30-min per-chunk cache keeps phrasing stable within a session and
+  bounds cost.
+- **Credibility is unchanged**: every card still carries the same real,
+  pre-vetted source — the `chunkId → source` mapping is untouched; only the
+  wording is generated. The chunkId-only anti-hallucination contract (§1.1)
+  still holds, and any failed/invalid generation still falls back per-card to
+  the vetted claim.
+- Cost/latency appears: one Messages API call per cache-miss batch (and for the
+  daily hero). This is why Haiku is recommended above.
 
 **Deliberately deferred (flagged to Mat):**
 - **Branded OG-image share card** (§4, locked §11) depends on the E1 image
