@@ -7,6 +7,7 @@ import { calculators } from "@/components/calculators";
 import { AdSlot } from "@/components/AdSlot";
 import { AffiliateBlock } from "@/components/AffiliateBlock";
 import { AuthorBox } from "@/components/AuthorBox";
+import { ClinicalDisclaimer } from "@/components/ClinicalDisclaimer";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EmailCapture } from "@/components/EmailCapture";
 import { EmbedCode } from "@/components/EmbedCode";
@@ -101,6 +102,8 @@ export default async function ToolPage({ params }: ToolPageParams) {
           {tool.valueLine ?? tool.metaDescription}
         </p>
       </div>
+
+      {tool.disclaimerLevel === "clinical-input" ? <ClinicalDisclaimer /> : null}
 
       <Calculator />
 

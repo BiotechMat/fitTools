@@ -1,0 +1,73 @@
+## Methodology
+
+Phenotypic Age (PhenoAge) is the clinical, blood-based biological-age
+measure developed by Levine and colleagues (*Aging*, 2018; originally
+derived in *J Gerontol A*, 2013). It combines nine routine blood markers
+with chronological age into a single estimate of biological age, built to
+predict differences in mortality risk between people of the same calendar
+age.
+
+The calculation runs in three stages. First, a weighted linear combination
+of the markers:
+
+`xb = −19.90667 + Σ(coefficient × marker) + 0.08035356 × age`
+
+with the published coefficients (each marker in the exact unit its
+coefficient expects):
+
+<table>
+  <thead>
+    <tr><th scope="col">Marker</th><th scope="col">Unit</th><th scope="col">Coefficient</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Albumin</td><td>g/L</td><td>−0.03359355</td></tr>
+    <tr><td>Creatinine</td><td>µmol/L</td><td>+0.009506491</td></tr>
+    <tr><td>Glucose</td><td>mmol/L</td><td>+0.1953192</td></tr>
+    <tr><td>ln(C-reactive protein)</td><td>mg/dL</td><td>+0.09536762</td></tr>
+    <tr><td>Lymphocytes</td><td>%</td><td>−0.01199984</td></tr>
+    <tr><td>Mean corpuscular volume</td><td>fL</td><td>+0.02676401</td></tr>
+    <tr><td>Red cell distribution width</td><td>%</td><td>+0.3306156</td></tr>
+    <tr><td>Alkaline phosphatase</td><td>U/L</td><td>+0.001868778</td></tr>
+    <tr><td>White blood cells</td><td>10⁹/L</td><td>+0.05542406</td></tr>
+    <tr><td>Age</td><td>years</td><td>+0.08035356</td></tr>
+  </tbody>
+</table>
+
+Second, that score is converted to a 10-year mortality estimate under a
+Gompertz proportional-hazards model. Third, the mortality estimate is
+back-transformed to the age at which the population-average person carries
+the same risk — your Phenotypic Age.
+
+We took these coefficients directly from the authors' own published code
+(the `BioAge` R package) and locked our implementation to a reproduced
+worked example, cross-checked two independent ways, before shipping.
+
+**A note on CRP units.** The formula uses the natural log of CRP in mg/dL.
+This calculator accepts CRP in mg/L (the common UK unit) or mg/dL and
+converts internally. A reported value of zero is floored to 0.01 mg/dL so
+the logarithm stays defined.
+
+## Interpreting your result
+
+A Phenotypic Age *lower* than your chronological age is the favourable
+direction — at population level it is associated with lower mortality risk.
+But this is an association across large groups, not a forecast for you: two
+people with the same PhenoAge can have very different futures.
+
+Treat the number as a conversation-starter with your doctor, not a verdict.
+It is also a *snapshot* — a recent infection, injury or flare of
+inflammation raises CRP and white cell count and will push the estimate up
+temporarily, then settle. If your result surprises you, the most useful
+next step is to discuss the underlying blood values with a clinician.
+
+## Limitations
+
+- PhenoAge reflects the day's blood panel, not a stable trait — acute
+  illness and inflammation move it.
+- It was derived and validated primarily in US (NHANES) data; performance
+  in other populations may differ.
+- Nine markers cannot capture everything about ageing; the model is a
+  useful summary, not the whole picture.
+- This is a research measure of population risk, **not a medical test or a
+  diagnosis**. Nothing here should be used to start, stop or change any
+  treatment — that is a decision for you and your clinician.
