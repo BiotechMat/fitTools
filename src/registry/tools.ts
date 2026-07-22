@@ -27,6 +27,7 @@ import { caffeineConfig } from "@/registry/configs/caffeine-calculator";
 import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { phenoAgeConfig } from "@/registry/configs/phenotypic-age-calculator";
 import { cgmConfig } from "@/registry/configs/cgm-metrics-calculator";
+import { lifeExpectancyConfig } from "@/registry/configs/life-expectancy-calculator";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -61,6 +62,7 @@ export const allTools: ToolConfig[] = [
   caffeineConfig,
   phenoAgeConfig,
   cgmConfig,
+  lifeExpectancyConfig,
   peptideConfig,
 ];
 

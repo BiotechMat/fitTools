@@ -80,6 +80,8 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "phenotypic-age-calculator": { results: { "phenoage-value": "37.7" } },
   // CGM starts empty (needs pasted readings); assert the empty-state prompt.
   "cgm-metrics-calculator": { skipDefaultResult: true },
+  // No factors ticked by default → "0 of 5".
+  "lifestyle-life-expectancy": { results: { "factor-count": "0 of 5" } },
 };
 
 function collectConsoleErrors(page: Page): string[] {

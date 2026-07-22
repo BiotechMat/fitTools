@@ -106,4 +106,9 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
   "cgm-metrics-calculator": dynamic(() =>
     import("@/components/calculators/CgmCalculator").then((m) => m.CgmCalculator),
   ),
+  "lifestyle-life-expectancy": dynamic(() =>
+    import("@/components/calculators/LifeExpectancyCalculator").then(
+      (m) => m.LifeExpectancyCalculator,
+    ),
+  ),
 };
