@@ -95,4 +95,7 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
   "caffeine-calculator": dynamic(() =>
     import("@/components/calculators/CaffeineCalculator").then((m) => m.CaffeineCalculator),
   ),
+  "peptide-reconstitution": dynamic(() =>
+    import("@/components/calculators/PeptideCalculator").then((m) => m.PeptideCalculator),
+  ),
 };
