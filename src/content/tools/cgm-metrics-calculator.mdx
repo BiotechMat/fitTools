@@ -1,0 +1,46 @@
+## Methodology
+
+This tool computes the four standardised continuous-glucose-monitoring
+(CGM) metrics from the international consensus, entirely in your browser:
+
+- **Mean glucose** — the simple average of your readings.
+- **Glucose Management Indicator (GMI)** — an estimate of HbA1c from CGM
+  data: `GMI(%) = 3.31 + 0.02392 × mean glucose (mg/dL)` (Bergenstal et
+  al., *Diabetes Care* 2018). Readings in mmol/L are converted to mg/dL
+  first (× 18.0182).
+- **Glucose variability (%CV)** — `standard deviation ÷ mean × 100`. The
+  consensus stability target is below 36%.
+- **Time in range (TIR)** — the percentage of readings between 3.9 and
+  10.0 mmol/L (70–180 mg/dL), the consensus target range (Battelino et
+  al., *Diabetes Care* 2019). We also show time below and above range.
+
+Paste your readings (one per line, or comma-separated; rows like
+`timestamp, glucose` work too — we take the glucose value from each line).
+
+## Interpreting your result
+
+For people managing diabetes, these are the numbers clinicians actually
+use: a common target is at least 70% time in range with %CV below 36%, and
+GMI gives a CGM-based estimate of HbA1c between lab tests. Two averages that
+look identical can hide very different variability, which is why %CV sits
+next to the mean.
+
+**If you don&rsquo;t have diabetes, read this carefully.** These metrics
+were developed for diabetes care. The popular idea that healthy people
+should chase a &ldquo;flat&rdquo; glucose line is not well supported —
+there is limited evidence that flattening normal post-meal rises in a
+metabolically healthy person improves health outcomes. Minor spikes after
+meals are normal physiology. Use these numbers as interesting self-tracking
+data, not as a diagnosis or a target to optimise anxiously.
+
+## Limitations
+
+- GMI is an estimate of HbA1c from glucose, not a lab measurement; the two
+  can differ, especially with conditions affecting red blood cells.
+- Metrics are only as good as the data: short recording windows, sensor
+  warm-up artefacts and compression lows can distort them.
+- Targets (time-in-range goals, acceptable variability) are individual and
+  set with a clinician — this tool reports the numbers, it does not
+  prescribe goals.
+- This is educational self-tracking, not a medical test. Anything
+  concerning belongs with your doctor.

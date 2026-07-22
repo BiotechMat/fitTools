@@ -12,7 +12,9 @@ import { standardTools } from "../../src/registry/tools";
 
 interface ToolExpectation {
   /** data-testid → text the element must contain with default inputs. */
-  results: Record<string, string>;
+  results?: Record<string, string>;
+  /** Tools that need user input before showing a result (e.g. CGM paste). */
+  skipDefaultResult?: boolean;
 }
 
 const EXPECTATIONS: Record<string, ToolExpectation> = {
@@ -76,6 +78,8 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "caffeine-calculator": { results: { "caffeine-threshold": "10.0" } },
   // Levine PhenoAge, reference-range defaults at age 45 → 37.7 years.
   "phenotypic-age-calculator": { results: { "phenoage-value": "37.7" } },
+  // CGM starts empty (needs pasted readings); assert the empty-state prompt.
+  "cgm-metrics-calculator": { skipDefaultResult: true },
 };
 
 function collectConsoleErrors(page: Page): string[] {
@@ -102,7 +106,7 @@ for (const [slug, expectation] of Object.entries(EXPECTATIONS)) {
       await page.goto(`/${slug}`);
 
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      for (const [testId, expected] of Object.entries(expectation.results)) {
+      for (const [testId, expected] of Object.entries(expectation.results ?? {})) {
         await expect(page.getByTestId(testId)).toContainText(expected);
       }
       await expect(page.getByTestId("disclaimer-banner")).toBeVisible();
