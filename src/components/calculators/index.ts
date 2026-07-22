@@ -98,4 +98,9 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
   "peptide-reconstitution": dynamic(() =>
     import("@/components/calculators/PeptideCalculator").then((m) => m.PeptideCalculator),
   ),
+  "phenotypic-age-calculator": dynamic(() =>
+    import("@/components/calculators/PhenotypicAgeCalculator").then(
+      (m) => m.PhenotypicAgeCalculator,
+    ),
+  ),
 };

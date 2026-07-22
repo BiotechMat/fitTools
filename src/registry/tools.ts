@@ -25,6 +25,7 @@ import { paceConfig } from "@/registry/configs/running-pace-calculator";
 import { raceConfig } from "@/registry/configs/race-time-predictor";
 import { caffeineConfig } from "@/registry/configs/caffeine-calculator";
 import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
+import { phenoAgeConfig } from "@/registry/configs/phenotypic-age-calculator";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -57,6 +58,7 @@ export const allTools: ToolConfig[] = [
   paceConfig,
   raceConfig,
   caffeineConfig,
+  phenoAgeConfig,
   peptideConfig,
 ];
 

@@ -22,6 +22,14 @@ export interface Monetization {
 }
 
 /**
+ * Disclaimer strength (METHODOLOGY.md §6). `standard` is the default
+ * medical disclaimer; `clinical-input` adds a "discuss with your clinician"
+ * framing for tools taking blood-panel or blood-pressure values (§1.5);
+ * `labs` is the enhanced /labs/ disclaimer.
+ */
+export type DisclaimerLevel = "standard" | "clinical-input" | "labs";
+
+/**
  * Single source of truth for a tool (SPEC §5). The registry drives routing,
  * sitemap, hub listings, related-tool links and JSON-LD. Adding a tool must
  * require zero changes outside its three files plus one registry import.
@@ -39,6 +47,8 @@ export interface ToolConfig {
   faq: FaqEntry[];
   related: string[];
   monetization: Monetization;
+  /** Defaults to "standard" when omitted (METHODOLOGY.md §6). */
+  disclaimerLevel?: DisclaimerLevel;
   /** ISO date (YYYY-MM-DD) of the last editorial/formula review. */
   lastReviewed: string;
   sources: Source[];

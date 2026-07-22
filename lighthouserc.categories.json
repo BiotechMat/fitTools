@@ -2,11 +2,11 @@
   "ci": {
     "collect": {
       "settings_note": "Full-category pass for the SPEC §18 release gate (perf 100 SEO/a11y/best-practices). Metric budgets live in lighthouserc.json's perf-preset pass — full runs inflate LCP measurement. Build with NEXT_PUBLIC_SITE_URL set.",
-      "startServerCommand": "pnpm exec next start --port 3200",
+      "startServerCommand": "pnpm exec next start --port 3201",
       "startServerReadyPattern": "Ready",
       "url": [
-        "http://localhost:3200/tdee-calculator",
-        "http://localhost:3200/"
+        "http://localhost:3201/tdee-calculator",
+        "http://localhost:3201/"
       ],
       "numberOfRuns": 1,
       "settings": {

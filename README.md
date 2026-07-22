@@ -78,8 +78,9 @@ adds ~68 kB gzipped and blows the SPEC §13 JS budget.
 
 SPEC §13's JS cap was revised 120 → 160 kB gzipped (agreed with Mat,
 2026-07-21): the Next 16 + React 19 framework baseline alone transfers
-~146 kB on every page. Keep app-side additions lean; the CI assertion
-fails the build past 160 kB.
+~146 kB on every page. Revised again 160 → 170 kB (2026-07-22) after M3
+consent + M4 labs/embed infrastructure grew the shared bundle to ~165 kB.
+Keep app-side additions lean; the CI assertion fails the build past 170 kB.
 
 ### Why production builds use webpack
 

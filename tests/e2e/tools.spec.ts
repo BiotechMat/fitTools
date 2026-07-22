@@ -74,6 +74,8 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "race-time-predictor": { results: { "riegel-hm": "1:50:19" } },
   // 200 mg → 50 mg at t½ 5 h → 10 hours.
   "caffeine-calculator": { results: { "caffeine-threshold": "10.0" } },
+  // Levine PhenoAge, reference-range defaults at age 45 → 37.7 years.
+  "phenotypic-age-calculator": { results: { "phenoage-value": "37.7" } },
 };
 
 function collectConsoleErrors(page: Page): string[] {
