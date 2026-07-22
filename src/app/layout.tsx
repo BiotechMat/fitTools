@@ -71,6 +71,11 @@ export default function RootLayout({
                 </Link>
               </li>
               <li>
+                <Link href="/supplements" className="text-muted hover:text-foreground">
+                  Supplements
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/peptides" className="text-muted hover:text-foreground">
                   Peptides
                 </Link>

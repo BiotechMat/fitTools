@@ -5,6 +5,7 @@ import { allTools, toolsForHub } from "@/registry/tools";
 import { allPeptides } from "@/registry/peptides";
 import { recoveryClusters } from "@/registry/recovery-content";
 import { GLOSSARY_LAST_REVIEWED, glossaryEntries } from "@/registry/glossary";
+import { SUPPLEMENTS_LAST_REVIEWED, supplements } from "@/registry/supplements";
 
 const STATIC_PATHS = [
   AUTHOR.path,
@@ -66,6 +67,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
+  const supplementPages = [
+    { url: `${SITE_URL}/supplements`, changeFrequency: "monthly" as const },
+    ...supplements.map((s) => ({
+      url: `${SITE_URL}/supplements/${s.slug}`,
+      lastModified: SUPPLEMENTS_LAST_REVIEWED,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
@@ -74,5 +84,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...peptides,
     ...recoveryContent,
     ...glossary,
+    ...supplementPages,
   ];
 }
