@@ -5,9 +5,11 @@ Companion to `SPEC.md`, `METHODOLOGY.md`, `ROADMAP.md`, `CONTENT.md`,
 section and the decision framework for an optional body-composition estimator.
 
 **Status (2026-07-22): BLUEPRINT — not built, not signed off.** This document
-is a proposal for review. The body-composition estimator (§6) contains an
-architectural conflict with `SPEC.md` §17 and a data-protection threshold that
-require Mat's explicit go/no-go before any build. Do not implement ahead of it.
+is a proposal for review. The body-composition estimator (§6) is now
+architecturally in scope (Mat, 2026-07-22: server-side/AI calc and accounts are
+planned); its remaining gates are the data-protection posture and the
+body-image / minor-safety guardrails in §6.3. Build content clusters first;
+sequence the estimator after accounts land.
 
 ---
 
@@ -193,27 +195,28 @@ Peer-reviewed 2D-photo → body-fat models now reach ~2.1% mean absolute error
 vs DXA (Cambridge BodyShape; Nature *npj Digital Medicine* VBC and PhotoScan
 cohorts — §9). The science is real and improving.
 
-### 6.2 Does it fit the site? Not as specified. Three hard conflicts:
+### 6.2 Does it fit the site? Now yes, with two real gates.
 
-1. **SPEC.md §17 + CLAUDE.md Don'ts: "No server-side calculation or calc
-   APIs."** A Claude-API image call is, by definition, server-side calculation
-   on user data. The site's entire architecture is client-side/static (SPEC
-   §9). **This feature cannot be built without Mat consciously amending §17** —
-   it is not a normal tool.
-2. **Data protection (BUSINESS_PLAN §13 threshold).** A body photo is deeply
+The architecture objection is resolved: server-side / AI-API calculation and
+accounts are in scope (Mat, 2026-07-22; SPEC §2, §17). A serverless proxy to
+the Claude vision API is a legitimate feature, not a rule-break. Two gates
+remain — both about safety, not architecture, and both binding:
+
+1. **Data protection (BUSINESS_PLAN §13 threshold).** A body photo is deeply
    sensitive personal data — far beyond the stateless numbers the site handles
-   today. Uploading it to any API crosses the exact "stateless → stored health
-   data" line the risk register says to treat as a deliberate, resourced step
-   (UK GDPR special-category-adjacent; and minors are in-audience per §1.5).
-3. **Body-image safety (§1.3, §2.2).** A photo-based body-fat number is close
+   today. Uploading it to any API crosses the "stateless → stored/processed
+   health data" line the risk register says to treat as a deliberate, resourced
+   step (UK GDPR special-category-adjacent; minors are in-audience per §1.5).
+   This work is coming anyway with accounts — the estimator rides on it, it does
+   not get to skip it.
+2. **Body-image safety (§1.3, §2.2).** A photo-based body-fat number is close
    to the definition of a body-checking mechanic — the highest-risk pattern in
-   the literature for the at-risk subset.
+   the literature for the at-risk subset. This is the gate that never fully
+   goes away and that §6.3's guardrails exist to hold.
 
-### 6.3 If it is built anyway — the mandatory safe design
+### 6.3 Mandatory safe design (all binding)
 
-Only proceed if Mat amends §17 AND accepts the data-protection work. Then it is
-built as a clearly-bounded, opt-in feature with **every** guardrail below (all
-binding):
+Built as a clearly-bounded, opt-in feature with **every** guardrail below:
 
 - **Ephemeral, no storage.** Photo is processed and discarded; never stored,
   never logged, never added to `HistoryProvider`. No progress-photo feature —
@@ -238,15 +241,15 @@ binding):
 
 ### 6.4 Recommendation
 
-**Ship the §3.3 body-composition *content* now; do NOT ship the photo estimator
-in v1.** The site already has a validated, private, zero-risk body-fat tool (US
-Navy circumference method, client-side). Lead with that. Revisit the photo
-estimator only as a deliberate, separately-scoped project with the §6.3
-guardrails and Mat's explicit §17 amendment — most likely as a premium,
-adults-only, ephemeral feature *after* accounts (E0) exist and the
-data-protection posture is built. The upside (novelty, virality) is real; the
-downside (a minor's body photo on a server, a body-checking loop, a YMYL trust
-hit) is existential. Not a v1 bet.
+**Green-lit as a planned feature; sequence it after accounts land.** Build the
+§3.3 body-composition *content* first (it stands alone and routes to the
+existing client-side Navy-method tool). Then build the estimator as an
+adults-only, ephemeral, §6.3-guardrailed feature on top of the accounts /
+data-protection posture (ROADMAP E0) — the natural moment, since that
+infrastructure is what makes the sensitive-data handling safe. The upside
+(novelty, virality) is real; the downside it must engineer against (a minor's
+body photo on a server, a body-checking loop, a YMYL trust hit) is why §6.3 is
+binding, not advisory. Ship it *because* of the guardrails, never without them.
 
 ---
 
@@ -286,13 +289,14 @@ newsletter feeder, and backlink magnet, all without an insecurity loop.
 3. **§3.2 sleep** and **§3.3 body-composition (content)** clusters.
 4. **§7 "Trends, rated"** standing hub + newsletter feeder.
 5. **§3.4 hair/grooming.**
-6. **§6 estimator** — only if Mat amends SPEC §17 and commissions the data-
-   protection work; otherwise permanently deferred in favour of the existing
-   Navy-method tool.
+6. **§6 estimator** — sequenced onto the accounts / data-protection work
+   (ROADMAP E0), adults-only, with the §6.3 guardrails. The content clusters and
+   the existing client-side Navy-method tool cover body composition until then.
 
-No new dependencies; clusters reuse the recovery-content registry pattern and
-existing components. Estimator (if ever) is the only server-side addition and
-is gated on an explicit architectural decision.
+Clusters reuse the recovery-content registry pattern and existing components,
+and need no new dependencies. The estimator is the one server-side surface; it
+rides on the accounts / data-protection infrastructure (ROADMAP E0) rather than
+being a standalone decision, and remains gated on the §6.3 safety guardrails.
 
 ---
 

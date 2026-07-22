@@ -39,10 +39,10 @@ and Mat has signed off.
 - CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
   Gen-Z "glow-up" content section (skin/sun, sleep, body-comp, hair, a
   debunk hub) plus retention psychology and a body-composition estimator.
-  No appearance rating, ever (§1). The photo estimator (§6) conflicts with
-  SPEC §17 (no server-side calc APIs) and crosses a data-protection
-  threshold — needs Mat's explicit go/no-go; recommended deferred in favour
-  of the existing client-side Navy-method tool.
+  No appearance rating, ever (§1). The photo estimator (§6) is now
+  architecturally unblocked (server-side/AI APIs and accounts in scope); its
+  remaining gates are the data-protection posture and the body-image / minor-
+  safety guardrails in §6.3 — sequence after accounts land.
 
 ## Commands
 pnpm dev | build | test | lint | typecheck | test:e2e | lighthouse
@@ -67,6 +67,10 @@ runs two passes — metric budgets then category scores. See README.)
 - Don't push, deploy, or open PRs without asking.
 
 ## Don'ts
-- Nothing in SPEC §17 (out of scope). No server-side calculation or calc APIs.
+- Respect SPEC §17's remaining out-of-scope items (CMS, i18n, native apps).
+  Server-side calculation, calc/AI APIs, accounts and a pro tier are now in
+  scope where a feature needs them — build them behind consent + a documented
+  data-protection posture (SPEC §2, §17). Client-side stays the default for the
+  static calculators.
 - No third-party scripts outside the env-flagged loaders in SPEC §10.
 - Never soften or remove disclaimers/compliance components to simplify a page.

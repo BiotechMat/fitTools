@@ -25,8 +25,12 @@ Goals, in priority order:
 - Tier 4 tools (`/labs/` route group) ship with `monetization.ads: false`, a stronger
   disclaimer, and no compound-specific dosing recommendations — the user supplies their
   own prescribed values; the tool does arithmetic only.
-- All calculation logic is client-side pure TypeScript. No calculation APIs, no server
-  round-trips, no external calc libraries.
+- Calculation logic is client-side pure TypeScript **by default** — it keeps the static
+  tools private, zero-cost to host, SEO-friendly and inside the performance budgets, so
+  new calculators start here. Server-side calculation and external/AI APIs are **permitted
+  where a feature genuinely needs them** (e.g. a vision-based estimator), behind explicit
+  per-use consent, a documented data-protection posture, and their own threat model; they
+  must not regress the static tools or their budgets.
 - Consent Mode v2 defaults to denied for UK/EEA. No ad or analytics tags fire before consent.
 - Canonical internal units are SI (kg, cm, ml, seconds). Conversion happens only at the
   display/input layer.
@@ -204,8 +208,10 @@ tools with descriptions and interlink laterally.
   disclosure line; links `rel="sponsored nofollow"`; click events tracked.
 - `EmailCapture`: provider-agnostic POST (env-configured endpoint), double-opt-in
   compatible, one placement per page max.
-- Pro tier: OUT OF SCOPE v1. Architect for it only: results history saved to
-  localStorage behind a `HistoryProvider` that can later swap to authed storage.
+- Accounts & pro tier: PLANNED (ROADMAP E0/E6) — sign-in is on the near-term
+  roadmap. Results history is saved to localStorage behind a `HistoryProvider`
+  designed to swap to authed storage when accounts land; build all new
+  persistence through it so that migration stays a central change.
 
 ## 11. Compliance & legal
 Pages: Privacy Policy, Cookie Policy, Terms, Affiliate Disclosure, Medical Disclaimer,
@@ -273,7 +279,13 @@ acknowledgement flow, embed builds + copy-embed UI.
 ✓ Labs pages serve no ads; embed renders < 50 kB and links back.
 
 ## 17. Out of scope (v1)
-Accounts/auth, payments, pro tier, CMS, blog beyond tool editorial, i18n, native apps.
+CMS, blog beyond tool editorial, i18n, native apps.
+
+Previously out of scope, now **planned** (do not treat as blockers): accounts/auth,
+payments, and the pro tier — see ROADMAP E0/E6 and §10. Server-side and AI-API
+features are likewise permitted under §2's conditions. Crossing from stateless tools
+to stored personal/health data still requires the data-protection posture in
+BUSINESS_PLAN §13 to be built as a deliberate step, not skipped.
 
 ## 18. Definition of done (release gate)
 All CI green; Lighthouse ≥ 95 perf / 100 SEO / 100 a11y / 100 best-practices on the
