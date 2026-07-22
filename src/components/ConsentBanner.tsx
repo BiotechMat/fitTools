@@ -59,7 +59,7 @@ export function ConsentBanner() {
             type="button"
             onClick={() => decide("granted")}
             data-testid="consent-accept"
-            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-strong"
+            className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 text-sm font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
           >
             Accept all
           </button>

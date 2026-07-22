@@ -83,7 +83,10 @@ export default async function ToolPage({ params }: ToolPageParams) {
       ))}
 
       <div>
-        <nav aria-label="Breadcrumb" className="text-sm text-muted">
+        <nav
+          aria-label="Breadcrumb"
+          className="font-mono text-xs uppercase tracking-widest text-muted"
+        >
           <ol className="flex flex-wrap gap-1">
             <li>
               <Link href="/" className="hover:text-foreground">
@@ -98,10 +101,21 @@ export default async function ToolPage({ params }: ToolPageParams) {
             </li>
           </ol>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{tool.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
         <p className="mt-1 max-w-prose text-muted">
           {tool.valueLine ?? tool.metaDescription}
         </p>
+        <ul className="mt-3 flex flex-wrap gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">
+          <li className="rounded-full border border-foreground bg-primary-soft px-2.5 py-0.5">
+            {hub.title}
+          </li>
+          <li className="rounded-full border border-foreground bg-good-soft px-2.5 py-0.5">
+            {tool.sources.length} cited {tool.sources.length === 1 ? "source" : "sources"}
+          </li>
+          <li className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-muted">
+            Runs in your browser
+          </li>
+        </ul>
       </div>
 
       {tool.disclaimerLevel === "clinical-input" ? <ClinicalDisclaimer /> : null}

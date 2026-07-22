@@ -64,7 +64,7 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/recovery" className="hover:text-foreground">Recovery</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{c.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{c.title}</h1>
         <p className="mt-2 max-w-prose text-muted">{c.pillarValueLine}</p>
       </div>
 
@@ -88,10 +88,10 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
 
       {c.satellites.length > 0 ? (
         <section aria-labelledby="cluster-articles">
-          <h2 id="cluster-articles" className="text-xl font-bold">In this guide</h2>
+          <h2 id="cluster-articles" className="font-display text-2xl uppercase">In this guide</h2>
           <ul className="mt-3 grid gap-3 sm:grid-cols-2">
             {c.satellites.map((a) => (
-              <li key={a.slug} className="rounded-lg border border-border p-4">
+              <li key={a.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
                 <Link href={`/recovery/${c.slug}/${a.slug}`} className="font-semibold text-primary underline underline-offset-2">
                   {a.title}
                 </Link>

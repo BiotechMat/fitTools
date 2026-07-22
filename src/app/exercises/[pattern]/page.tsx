@@ -50,12 +50,12 @@ export default async function PatternHubPage({ params }: PatternParams) {
         <span aria-hidden="true"> / </span>
         <Link href="/exercises" className="hover:text-foreground">Exercises</Link>
       </nav>
-      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{p.title}</h1>
+      <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{p.title}</h1>
       <p className="mt-2 max-w-prose text-muted">{p.description}</p>
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2">
         {list.map((e) => (
-          <li key={e.slug} className="rounded-lg border border-border p-4">
+          <li key={e.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
             <Link
               href={`/exercises/${p.slug}/${e.slug}`}
               className="font-semibold text-primary underline underline-offset-2"
@@ -68,7 +68,7 @@ export default async function PatternHubPage({ params }: PatternParams) {
       </ul>
 
       <nav aria-label="Other movement patterns" className="mt-10">
-        <h2 className="text-lg font-bold">Other patterns</h2>
+        <h2 className="font-display text-xl uppercase">Other patterns</h2>
         <ul className="mt-2 flex flex-wrap gap-4 text-sm">
           {exercisePatterns
             .filter((other) => other.slug !== p.slug)

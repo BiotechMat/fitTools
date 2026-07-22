@@ -17,7 +17,7 @@ export default function RecoveryHubPage() {
     <div className="space-y-12">
       <HubPage hub="recovery" />
       <section aria-labelledby="recovery-guides">
-        <h2 id="recovery-guides" className="text-lg font-bold">
+        <h2 id="recovery-guides" className="font-display text-xl uppercase">
           Recovery &amp; wellness guides
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
@@ -26,7 +26,7 @@ export default function RecoveryHubPage() {
         </p>
         <ul className="mt-4 grid gap-4 sm:grid-cols-2">
           {recoveryClusters.map((c) => (
-            <li key={c.slug} className="rounded-lg border border-border p-4">
+            <li key={c.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
               <Link
                 href={`/recovery/${c.slug}`}
                 className="font-semibold text-primary underline underline-offset-2"

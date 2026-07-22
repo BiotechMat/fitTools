@@ -11,7 +11,7 @@ export function ClinicalDisclaimer() {
       role="note"
       aria-label="Clinical disclaimer"
       data-testid="clinical-disclaimer"
-      className="rounded-lg border border-warning-border bg-warning-bg p-4 text-sm"
+      className="rounded-xl border-2 border-warning-border bg-warning-bg p-4 text-sm"
     >
       <h2 className="font-semibold">This uses clinical inputs — read first</h2>
       <p className="mt-1">

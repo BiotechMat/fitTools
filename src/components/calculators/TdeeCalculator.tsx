@@ -19,7 +19,9 @@ import {
 } from "@/registry/configs/tdee.shared";
 import { trackEvent } from "@/lib/analytics";
 import { CalculatorShell } from "@/components/CalculatorShell";
+import { ResultHistory } from "@/components/ResultHistory";
 import { ResultsPanel } from "@/components/ResultsPanel";
+import { ScoreCard } from "@/components/ScoreCard";
 import {
   HeightField,
   UnitSystemToggle,
@@ -45,7 +47,7 @@ const FORMULA_LABELS: Record<Formula, string> = {
 };
 
 const selectClass =
-  "mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-base focus:outline-2 focus:outline-primary";
+  "mt-1 w-full rounded-xl border-2 border-foreground bg-background px-3 py-2 text-base focus:outline-2 focus:outline-offset-2 focus:outline-primary";
 
 function formatKcal(value: number): string {
   return Math.round(value).toLocaleString("en-GB");
@@ -219,14 +221,17 @@ export function TdeeCalculator() {
       <ResultsPanel>
         {result ? (
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              Your estimated daily energy expenditure
-            </h2>
-            <p className="mt-1 text-4xl font-bold text-primary-strong" data-testid="tdee-value">
-              {formatKcal(result.tdeeKcal)}{" "}
-              <span className="text-lg font-medium text-muted">kcal/day</span>
-            </p>
-            <p className="mt-2 max-w-prose text-sm text-muted">
+            <ScoreCard
+              label="Your estimated daily energy expenditure"
+              value={formatKcal(result.tdeeKcal)}
+              unit="kcal/day"
+              valueTestId="tdee-value"
+              secondary={{
+                label: "of which BMR",
+                value: `${formatKcal(result.bmr)} kcal`,
+              }}
+            />
+            <p className="mt-3 max-w-prose text-sm text-muted">
               We estimate you burn around {formatKcal(result.tdeeKcal)} kcal per
               day at your selected activity level, of which{" "}
               {formatKcal(result.bmr)} kcal is your estimated basal metabolic
@@ -235,6 +240,13 @@ export function TdeeCalculator() {
               adjust based on how your weight actually responds over a few
               weeks.
             </p>
+            <ResultHistory
+              tool={TDEE_SLUG}
+              value={result.tdeeKcal}
+              direction="none"
+              epsilon={25}
+              formatDelta={(delta) => `${formatKcal(delta)} kcal`}
+            />
             <table className="mt-4 w-full text-sm">
               <caption className="sr-only">
                 Estimated daily energy expenditure at each activity level
@@ -254,7 +266,7 @@ export function TdeeCalculator() {
                   <tr
                     key={level}
                     className={`border-b border-border last:border-0 ${
-                      level === activity ? "font-semibold text-primary-strong" : ""
+                      level === activity ? "font-semibold text-primary" : ""
                     }`}
                   >
                     <td className="py-1.5 pr-2">{ACTIVITY_LABELS[level]}</td>

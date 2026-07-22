@@ -12,7 +12,7 @@ export function RelatedReference({ slug }: { slug: string }) {
 
   return (
     <section aria-labelledby="related-reference" data-testid="related-reference">
-      <h2 id="related-reference" className="text-lg font-bold">
+      <h2 id="related-reference" className="font-display text-xl uppercase">
         Learn more
       </h2>
       <div className="mt-2 space-y-2">

@@ -8,14 +8,14 @@ export function RelatedTools({ tool }: { tool: ToolConfig }) {
   if (related.length === 0) return null;
   return (
     <section aria-labelledby="related-heading">
-      <h2 id="related-heading" className="text-xl font-bold">
+      <h2 id="related-heading" className="font-display text-2xl uppercase">
         Related tools
       </h2>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2">
         {related.map((relatedTool) => (
           <li
             key={relatedTool.slug}
-            className="rounded-lg border border-border p-4"
+            className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
           >
             <Link
               href={`/${relatedTool.slug}`}

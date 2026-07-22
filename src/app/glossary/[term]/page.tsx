@@ -80,7 +80,7 @@ export default async function GlossaryTermPage({ params }: TermParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/glossary" className="hover:text-foreground">Glossary</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
           {entry.term}
           {entry.aka && entry.aka.length > 0 ? (
             <span className="ml-2 align-middle text-lg font-normal text-muted">
@@ -109,7 +109,7 @@ export default async function GlossaryTermPage({ params }: TermParams) {
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">
-          <h2 id="related-tools" className="text-lg font-bold">Put it to use</h2>
+          <h2 id="related-tools" className="font-display text-xl uppercase">Put it to use</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedTools.map((t) => (
               <li key={t.href}>
@@ -122,7 +122,7 @@ export default async function GlossaryTermPage({ params }: TermParams) {
 
       {relatedTerms.length > 0 ? (
         <section aria-labelledby="related-terms">
-          <h2 id="related-terms" className="text-lg font-bold">Related terms</h2>
+          <h2 id="related-terms" className="font-display text-xl uppercase">Related terms</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedTerms.map((r) => (
               <li key={r.slug}>

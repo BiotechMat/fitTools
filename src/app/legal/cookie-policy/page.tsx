@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CookiePolicyPage() {
   return (
     <article className="prose">
-      <h1 className="text-2xl font-bold sm:text-3xl">Cookie policy</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Cookie policy</h1>
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <h2>Cookies we set today</h2>
       <p>

@@ -33,7 +33,7 @@ export default function IndexMethodologyPage() {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
-      <h1 className="text-2xl font-bold sm:text-3xl">Open composite index methodology</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Open composite index methodology</h1>
       <p className="mt-1 text-sm text-muted">Last reviewed: 22 July 2026</p>
       <p>
         Some of our tools are <strong>open composite indices</strong> — single

@@ -175,7 +175,7 @@ export default async function ReferenceTablePageView({ params }: TableParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/reference" className="hover:text-foreground">Reference tables</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{p.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{p.title}</h1>
         <p className="mt-2 max-w-prose text-muted">{p.intro}</p>
       </div>
 
@@ -198,7 +198,7 @@ export default async function ReferenceTablePageView({ params }: TableParams) {
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">
-          <h2 id="related-tools" className="text-lg font-bold">Calculate your own</h2>
+          <h2 id="related-tools" className="font-display text-xl uppercase">Calculate your own</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedTools.map((t) => (
               <li key={t.href}>

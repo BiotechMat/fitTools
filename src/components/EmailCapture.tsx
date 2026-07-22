@@ -38,7 +38,7 @@ export function EmailCapture() {
   return (
     <section
       aria-label="Email newsletter sign-up"
-      className="rounded-lg border border-border bg-surface p-4"
+      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
     >
       {status === "done" ? (
         <p className="text-sm font-medium">
@@ -59,7 +59,7 @@ export function EmailCapture() {
               required
               autoComplete="email"
               placeholder="you@example.com"
-              className="mt-2 w-full rounded-md border border-border bg-background px-3 py-2 text-base focus:outline-2 focus:outline-primary"
+              className="mt-2 w-full rounded-xl border-2 border-foreground bg-background px-3 py-2 text-base focus:outline-2 focus:outline-offset-2 focus:outline-primary"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -67,7 +67,7 @@ export function EmailCapture() {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="rounded-md bg-primary px-4 py-2 font-medium text-white hover:bg-primary-strong disabled:opacity-60"
+            className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] disabled:opacity-60"
           >
             {status === "sending" ? "Signing up…" : "Sign up"}
           </button>

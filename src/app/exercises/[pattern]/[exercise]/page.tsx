@@ -103,7 +103,7 @@ export default async function ExercisePage({ params }: ExerciseParams) {
           <span aria-hidden="true"> / </span>
           <Link href={`/exercises/${p.slug}`} className="hover:text-foreground">{p.title}</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{e.name}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{e.name}</h1>
         {e.aka && e.aka.length > 0 ? (
           <p className="mt-1 text-sm text-muted">Also known as: {e.aka.join(", ")}</p>
         ) : null}
@@ -142,7 +142,7 @@ export default async function ExercisePage({ params }: ExerciseParams) {
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">
-          <h2 id="related-tools" className="text-lg font-bold">Plan your training</h2>
+          <h2 id="related-tools" className="font-display text-xl uppercase">Plan your training</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedTools.map((t) => (
               <li key={t.href}>
@@ -155,7 +155,7 @@ export default async function ExercisePage({ params }: ExerciseParams) {
 
       {substitutions.length > 0 ? (
         <section aria-labelledby="substitutions">
-          <h2 id="substitutions" className="text-lg font-bold">Variations &amp; substitutions</h2>
+          <h2 id="substitutions" className="font-display text-xl uppercase">Variations &amp; substitutions</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {substitutions.map((sub) => (
               <li key={sub.slug}>

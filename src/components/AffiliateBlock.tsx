@@ -15,7 +15,7 @@ export function AffiliateBlock({ slug }: { slug: string }) {
   return (
     <section
       aria-label="Recommended products"
-      className="rounded-lg border border-border bg-surface p-4"
+      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
     >
       <p className="text-xs text-muted">
         Affiliate disclosure: we may earn a commission if you buy through the

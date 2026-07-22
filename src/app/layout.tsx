@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Anton, Figtree, Space_Mono } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { SITE_CONFIGURED, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -9,13 +9,22 @@ import { ConsentBanner } from "@/components/ConsentBanner";
 import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { ThirdPartyScripts } from "@/components/ThirdPartyScripts";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// v2 type roles (DESIGN.md §2): Anton shouts, Figtree explains, Space Mono
+// handles the receipts. Self-hosted via next/font — zero CLS (SPEC §13).
+const anton = Anton({
+  weight: "400",
+  variable: "--font-anton",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const figtree = Figtree({
+  variable: "--font-figtree",
+  subsets: ["latin"],
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
   subsets: ["latin"],
 });
 
@@ -43,16 +52,28 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${anton.variable} ${figtree.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="border-b border-border">
+        <header className="border-b-2 border-foreground bg-background">
           <nav
             aria-label="Main"
             className="mx-auto flex max-w-5xl items-center gap-6 px-4 py-3"
           >
-            <Link href="/" className="text-lg font-bold text-primary-strong">
-              {SITE_NAME}
+            <Link
+              href="/"
+              className="font-display text-xl uppercase tracking-wide"
+            >
+              {SITE_NAME.endsWith("Tools") ? (
+                <>
+                  {SITE_NAME.slice(0, -5)}
+                  <span className="ml-0.5 inline-block -rotate-2 rounded-md bg-primary-strong px-1.5 pb-0.5 text-foreground">
+                    Tools
+                  </span>
+                </>
+              ) : (
+                SITE_NAME
+              )}
             </Link>
             <ul className="flex gap-4 text-sm">
               {liveHubs.map((meta) => (
@@ -91,12 +112,18 @@ export default function RootLayout({
                 </Link>
               </li>
             </ul>
+            <Link
+              href="/heart-age-calculator"
+              className="ml-auto hidden rounded-full border-2 border-foreground bg-primary-strong px-4 py-1.5 text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] lg:inline-block"
+            >
+              Check your heart age
+            </Link>
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
           {children}
         </main>
-        <footer className="border-t border-border">
+        <footer className="border-t-2 border-foreground bg-surface-deep">
           <div className="mx-auto max-w-5xl space-y-4 px-4 py-6 text-sm text-muted">
             <nav aria-label="Legal and site information">
               <ul className="flex flex-wrap gap-x-5 gap-y-2">

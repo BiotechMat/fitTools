@@ -18,13 +18,24 @@ export function ogCard(title: string, subtitle: string): ImageResponse {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 72,
-          background: "linear-gradient(135deg, #115e59 0%, #0f766e 60%, #14b8a6 100%)",
-          color: "#ffffff",
+          background: "#1c130d",
+          color: "#fbf4ec",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 40, fontWeight: 700 }}>
-          {SITE_NAME}
+        <div style={{ display: "flex", fontSize: 40, fontWeight: 800 }}>
+          <span style={{ textTransform: "uppercase" }}>{SITE_NAME}</span>
+          <span
+            style={{
+              marginLeft: 16,
+              width: 28,
+              height: 28,
+              marginTop: 12,
+              borderRadius: 8,
+              background: "#ff531a",
+              transform: "rotate(-6deg)",
+            }}
+          />
         </div>
         <div
           style={{
@@ -39,11 +50,13 @@ export function ogCard(title: string, subtitle: string): ImageResponse {
               fontSize: 64,
               fontWeight: 800,
               lineHeight: 1.15,
+              textTransform: "uppercase",
+              color: "#ff531a",
             }}
           >
             {title}
           </div>
-          <div style={{ display: "flex", fontSize: 30, opacity: 0.9 }}>
+          <div style={{ display: "flex", fontSize: 30, color: "#e7d8c6" }}>
             {subtitle}
           </div>
         </div>

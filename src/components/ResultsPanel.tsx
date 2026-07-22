@@ -9,7 +9,7 @@ export function ResultsPanel({ children }: { children: ReactNode }) {
     <div
       aria-live="polite"
       data-testid="results-panel"
-      className="mt-4 min-h-[16rem] rounded-lg border border-border bg-background p-4 sm:p-5"
+      className="mt-4 min-h-[16rem] rounded-xl border-2 border-foreground bg-background p-4 sm:p-5 lg:mt-0"
     >
       {children}
     </div>

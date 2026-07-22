@@ -19,7 +19,7 @@ export default function AuthorPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <h1 className="text-2xl font-bold sm:text-3xl">Mathew Beale</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Mathew Beale</h1>
       <p className="mt-1 text-muted">{AUTHOR.credentials}</p>
       <p>
         I build and maintain every calculator on FitTools. My background is
