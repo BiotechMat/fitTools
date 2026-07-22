@@ -70,6 +70,11 @@ export default function RootLayout({
                   Labs
                 </Link>
               </li>
+              <li>
+                <Link href="/learn/peptides" className="text-muted hover:text-foreground">
+                  Peptides
+                </Link>
+              </li>
             </ul>
           </nav>
         </header>

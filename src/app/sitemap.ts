@@ -2,10 +2,12 @@ import type { MetadataRoute } from "next";
 import { AUTHOR, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
 import { allTools, toolsForHub } from "@/registry/tools";
+import { allPeptides } from "@/registry/peptides";
 
 const STATIC_PATHS = [
   AUTHOR.path,
   "/labs",
+  "/learn/peptides",
   "/legal/privacy-policy",
   "/legal/cookie-policy",
   "/legal/terms",
@@ -33,10 +35,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "yearly" as const,
   }));
 
+  const peptides = allPeptides.map((p) => ({
+    url: `${SITE_URL}/learn/peptides/${p.slug}`,
+    lastModified: p.lastReviewed,
+    changeFrequency: "monthly" as const,
+  }));
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
     ...tools,
     ...staticPages,
+    ...peptides,
   ];
 }

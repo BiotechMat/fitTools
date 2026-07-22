@@ -1,4 +1,4 @@
-import type { ToolConfig } from "@/registry/types";
+import type { FaqEntry, ToolConfig } from "@/registry/types";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -48,11 +48,11 @@ export interface FaqPageJsonLd {
   }[];
 }
 
-export function faqPageJsonLd(tool: ToolConfig): FaqPageJsonLd {
+export function faqPageJsonLd(source: { faq: FaqEntry[] }): FaqPageJsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: tool.faq.map(({ q, a }) => ({
+    mainEntity: source.faq.map(({ q, a }) => ({
       "@type": "Question",
       name: q,
       acceptedAnswer: { "@type": "Answer", text: a },
@@ -84,6 +84,43 @@ export function personJsonLd(author: {
     description: `Author and reviewer of FitTools calculators. ${author.credentials}.`,
     alumniOf: "University of Reading",
     knowsAbout: ["fitness calculators", "nutrition science", "exercise physiology"],
+  };
+}
+
+export interface ArticleJsonLd {
+  "@context": "https://schema.org";
+  "@type": "Article";
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  author: { "@type": "Person"; name: string; url: string };
+  publisher: { "@type": "Organization"; name: string };
+}
+
+/** Article + Person JSON-LD for editorial/reference pages (SPEC §9). */
+export function articleJsonLd(article: {
+  title: string;
+  description: string;
+  path: string;
+  lastReviewed: string;
+  author: { name: string; path: string };
+}): ArticleJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    url: `${SITE_URL}${article.path}`,
+    datePublished: article.lastReviewed,
+    dateModified: article.lastReviewed,
+    author: {
+      "@type": "Person",
+      name: article.author.name,
+      url: `${SITE_URL}${article.author.path}`,
+    },
+    publisher: { "@type": "Organization", name: "FitTools" },
   };
 }
 
