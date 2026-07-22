@@ -8,6 +8,7 @@ import { GLOSSARY_LAST_REVIEWED, glossaryEntries } from "@/registry/glossary";
 import { SUPPLEMENTS_LAST_REVIEWED, supplements } from "@/registry/supplements";
 import { FOOD_REFERENCE_LAST_REVIEWED, foodReferencePages } from "@/registry/food-reference";
 import { EXERCISES_LAST_REVIEWED, allExercisePaths } from "@/registry/exercises";
+import { REFERENCE_TABLES_LAST_REVIEWED, referenceTablePages } from "@/registry/reference-tables";
 
 const STATIC_PATHS = [
   AUTHOR.path,
@@ -96,6 +97,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
+  const referenceTables = [
+    { url: `${SITE_URL}/reference`, changeFrequency: "monthly" as const },
+    ...referenceTablePages.map((p) => ({
+      url: `${SITE_URL}/reference/${p.slug}`,
+      lastModified: REFERENCE_TABLES_LAST_REVIEWED,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
@@ -107,5 +117,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...supplementPages,
     ...exercisePages,
     ...foodReference,
+    ...referenceTables,
   ];
 }
