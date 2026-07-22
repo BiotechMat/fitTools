@@ -1,5 +1,6 @@
 import type { IndexResult } from "@/lib/composite/index-engine";
 import { RadarBreakdown } from "@/components/composite/RadarBreakdown";
+import { ScoreCard } from "@/components/ScoreCard";
 
 const TIER_TEXT: Record<string, string> = {
   T1: "T1 · strong evidence",
@@ -33,27 +34,17 @@ export function IndexResultPanel({
 }) {
   return (
     <div data-testid="index-result">
-      <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-            Your {scoreLabel}
-          </h2>
-          <p className="text-4xl font-bold text-primary-strong" data-testid="index-value">
-            {Math.round(result.index)}
-            <span className="text-lg font-medium text-muted"> / 100</span>
-          </p>
-        </div>
-        {paceValue ? (
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              {paceLabel}
-            </h2>
-            <p className="text-3xl font-bold text-primary-strong" data-testid="pace-value">
-              {paceValue}
-            </p>
-          </div>
-        ) : null}
-      </div>
+      <ScoreCard
+        label={`Your ${scoreLabel}`}
+        value={String(Math.round(result.index))}
+        unit="/ 100"
+        valueTestId="index-value"
+        secondary={
+          paceValue
+            ? { label: paceLabel ?? "pace", value: paceValue, testId: "pace-value" }
+            : undefined
+        }
+      />
 
       {result.reducedConfidence ? (
         <p className="mt-2 rounded-md border border-warning-border bg-warning-bg p-2 text-sm">

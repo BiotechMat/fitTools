@@ -9,7 +9,7 @@ https://claude.ai/code/artifact/6caa375c-4ef2-425b-9cf4-b1d997460ba9
 images, and the mockup compositions: homepage kicker/CTA row, marquee ticker
 (reduced-motion safe), number-first "start here" cards (stats computed from
 each tool's real formula at its defaults), colour-block hub strip, nav CTA,
-tool-page meta pills, supplement tier stamp. Not built: midnight mode (§1,
+tool-page meta pills, supplement tier stamp, the §03 calculator layout (form/results split, espresso ScoreCard with delta pill, computed what-moves-the-needle panel on Heart Age). Not built: midnight mode (§1,
 separate decision) and the §6 components beyond the "since last time" chip.
 AA note applied in code: Blaze is display-size only; small-text accents are
 Ember; CTAs are ink-on-Blaze.

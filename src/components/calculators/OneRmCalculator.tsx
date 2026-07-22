@@ -18,6 +18,7 @@ import { inRange } from "@/registry/configs/tdee.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { ResultHistory } from "@/components/ResultHistory";
 import { ResultsPanel } from "@/components/ResultsPanel";
+import { ScoreCard } from "@/components/ScoreCard";
 import { UnitSystemToggle, useUnitSystem } from "@/components/UnitInput";
 import { formatNumber, inputClass, labelClass, warningClass } from "@/components/calculators/styles";
 
@@ -125,12 +126,11 @@ export function OneRmCalculator() {
       <ResultsPanel>
         {result ? (
           <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              Your estimated one-rep max
-            </h2>
-            <p className="mt-1 text-4xl font-bold text-primary-strong" data-testid="one-rm-value">
-              {display(result.maxKg)}
-            </p>
+            <ScoreCard
+              label="Your estimated one-rep max"
+              value={display(result.maxKg)}
+              valueTestId="one-rm-value"
+            />
             {result.reps > REP_VALIDITY_LIMIT ? (
               <p className={warningClass} role="alert">
                 Estimates lose accuracy beyond {REP_VALIDITY_LIMIT} reps —

@@ -9,7 +9,7 @@ export function CalculatorShell({ children }: { children: ReactNode }) {
   return (
     <section
       aria-label="Calculator"
-      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[5px_5px_0_0_var(--color-foreground)] sm:p-6"
+      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[5px_5px_0_0_var(--color-foreground)] sm:p-6 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6"
     >
       {children}
     </section>

@@ -1,7 +1,12 @@
 "use client";
 
 import { useId, useMemo, useState } from "react";
-import { heartAge, type Sex } from "@/lib/formulas/heart-age";
+import {
+  HEART_AGE_REFERENCE,
+  type PreventInput,
+  heartAge,
+  type Sex,
+} from "@/lib/formulas/heart-age";
 import {
   HEART_AGE_DEFAULTS,
   HEART_AGE_LIMITS,
@@ -9,6 +14,8 @@ import {
 import { inRange } from "@/registry/configs/tdee.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { ResultsPanel } from "@/components/ResultsPanel";
+import { ScoreCard } from "@/components/ScoreCard";
+import { type NeedleEntry, WhatMovesIt } from "@/components/WhatMovesIt";
 import { formatNumber, inputClass, labelClass } from "@/components/calculators/styles";
 
 type CholUnit = "mmol" | "mg";
@@ -97,6 +104,63 @@ export function HeartAgeCalculator() {
   const older = result ? result.deltaYears > 0 : false;
   const lpa = s.lpaNmol != null ? lpaBand(s.lpaNmol) : null;
   const apoB = s.apoBmgDl != null ? apoBBand(s.apoBmgDl) : null;
+
+  // "What moves the needle": each row re-runs the same PREVENT heart-age
+  // solve with ONE input moved to the model's own optimal-reference value
+  // (HEART_AGE_REFERENCE) — a real what-if, never a hand-written estimate,
+  // and no clinical target invented outside the published method.
+  const levers = useMemo<NeedleEntry[] | null>(() => {
+    if (!result || result.clampedAt !== null) return null;
+    const base: PreventInput = {
+      sex: s.sex,
+      ageYears: s.ageYears,
+      totalCholMmol: s.totalCholMmol,
+      hdlMmol: s.hdlMmol,
+      systolicBp: s.systolicBp,
+      onBpMeds: s.onBpMeds,
+      onStatin: s.onStatin,
+      diabetes: s.diabetes,
+      currentSmoker: s.currentSmoker,
+      egfr: s.egfr,
+    };
+    const entries: NeedleEntry[] = [];
+    const tryLever = (label: string, patch: Partial<PreventInput>) => {
+      const gain = result.heartAge - heartAge({ ...base, ...patch }).heartAge;
+      if (gain >= 0.1) {
+        entries.push({ label, win: `−${formatNumber(gain, 1)} yrs` });
+      }
+    };
+    if (s.systolicBp > HEART_AGE_REFERENCE.systolicBp) {
+      tryLever(`Systolic BP at the reference ${HEART_AGE_REFERENCE.systolicBp} mmHg`, {
+        systolicBp: HEART_AGE_REFERENCE.systolicBp,
+      });
+    }
+    if (s.totalCholMmol > HEART_AGE_REFERENCE.totalCholMmol) {
+      tryLever(
+        `Total cholesterol at the reference ${formatNumber(
+          cholDisplay(HEART_AGE_REFERENCE.totalCholMmol),
+          cholUnit === "mg" ? 0 : 1,
+        )} ${cholUnitLabel}`,
+        { totalCholMmol: HEART_AGE_REFERENCE.totalCholMmol },
+      );
+    }
+    if (s.hdlMmol < HEART_AGE_REFERENCE.hdlMmol) {
+      tryLever(
+        `HDL up to the reference ${formatNumber(
+          cholDisplay(HEART_AGE_REFERENCE.hdlMmol),
+          cholUnit === "mg" ? 0 : 1,
+        )} ${cholUnitLabel}`,
+        { hdlMmol: HEART_AGE_REFERENCE.hdlMmol },
+      );
+    }
+    if (s.currentSmoker) {
+      tryLever("Quitting smoking", { currentSmoker: false });
+    } else {
+      entries.push({ label: "Staying smoke-free (you already are)", win: "banked ✓" });
+    }
+    return entries;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- cholDisplay/cholUnitLabel derive from cholUnit
+  }, [result, s, cholUnit]);
 
   return (
     <CalculatorShell>
@@ -238,32 +302,41 @@ export function HeartAgeCalculator() {
 
       <ResultsPanel>
         {result ? (
-          <div>
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
-              Your estimated heart age
-            </h2>
-            <p className="mt-1 text-4xl font-bold text-primary-strong" data-testid="heart-age-value">
-              {result.clampedAt === "max" ? "79+" : formatNumber(result.heartAge, 0)}{" "}
-              <span className="text-lg font-medium text-muted">years</span>
-            </p>
-            <p className="mt-1 text-lg" data-testid="heart-age-delta">
-              {result.clampedAt ? (
-                <>
-                  Your risk sits {result.clampedAt === "max" ? "above" : "below"} the model&rsquo;s
-                  reference range for your age.
-                </>
-              ) : (
-                <>
-                  That&rsquo;s{" "}
-                  <span className="font-semibold">
-                    {formatNumber(Math.abs(result.deltaYears), 0)} years{" "}
-                    {older ? "older" : "younger"}
-                  </span>{" "}
-                  than your actual age of {formatNumber(s.ageYears, 0)}.
-                </>
-              )}
-            </p>
-            <p className="mt-2 text-sm text-muted">
+          <div className="space-y-4">
+            <ScoreCard
+              label="Your estimated heart age"
+              value={result.clampedAt === "max" ? "79+" : formatNumber(result.heartAge, 0)}
+              unit="years"
+              valueTestId="heart-age-value"
+              secondary={{
+                label: "calendar age",
+                value: `${formatNumber(s.ageYears, 0)} yrs`,
+              }}
+              delta={
+                result.clampedAt === null
+                  ? {
+                      text: older
+                        ? `+${formatNumber(result.deltaYears, 0)} yrs ahead of your calendar age`
+                        : `${formatNumber(Math.abs(result.deltaYears), 0)} yrs younger than your calendar age ✓`,
+                      tone: older ? "blaze" : "good",
+                      testId: "heart-age-delta",
+                    }
+                  : undefined
+              }
+            />
+            {result.clampedAt !== null ? (
+              <p className="text-lg" data-testid="heart-age-delta">
+                Your risk sits {result.clampedAt === "max" ? "above" : "below"} the model&rsquo;s
+                reference range for your age.
+              </p>
+            ) : null}
+            {levers && levers.length > 0 ? (
+              <WhatMovesIt
+                entries={levers}
+                footnote="Each row re-runs the same PREVENT equation with that one input at the model's optimal-reference value — a modelled what-if, not medical advice."
+              />
+            ) : null}
+            <p className="text-sm text-muted">
               Predicted 10-year risk of a cardiovascular event:{" "}
               <span className="font-semibold text-foreground" data-testid="heart-age-risk">
                 {formatNumber(result.risk10yr * 100, 1)}%
