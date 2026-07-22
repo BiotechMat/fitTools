@@ -36,6 +36,13 @@ and Mat has signed off.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
+- CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
+  Gen-Z "glow-up" content section (skin/sun, sleep, body-comp, hair, a
+  debunk hub) plus retention psychology and a body-composition estimator.
+  No appearance rating, ever (§1). The photo estimator (§6) conflicts with
+  SPEC §17 (no server-side calc APIs) and crosses a data-protection
+  threshold — needs Mat's explicit go/no-go; recommended deferred in favour
+  of the existing client-side Navy-method tool.
 
 ## Commands
 pnpm dev | build | test | lint | typecheck | test:e2e | lighthouse
