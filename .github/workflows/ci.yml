@@ -32,6 +32,10 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          # CI builds lift the pre-launch noindex so Lighthouse's SEO
+          # audits (is-crawlable) reflect the launched configuration.
+          NEXT_PUBLIC_SITE_URL: "https://ci.fittools.invalid"
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
