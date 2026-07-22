@@ -13,6 +13,7 @@ import { EmailCapture } from "@/components/EmailCapture";
 import { EmbedCode } from "@/components/EmbedCode";
 import { FAQ } from "@/components/FAQ";
 import { RelatedTools } from "@/components/RelatedTools";
+import { RelatedReference } from "@/components/RelatedReference";
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
@@ -134,6 +135,8 @@ export default async function ToolPage({ params }: ToolPageParams) {
       <AuthorBox lastReviewed={tool.lastReviewed} />
 
       <RelatedTools tool={tool} />
+
+      <RelatedReference slug={tool.slug} />
 
       <DisclaimerBanner />
     </article>
