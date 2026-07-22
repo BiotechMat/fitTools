@@ -6,6 +6,7 @@ import { allPeptides } from "@/registry/peptides";
 import { recoveryClusters } from "@/registry/recovery-content";
 import { GLOSSARY_LAST_REVIEWED, glossaryEntries } from "@/registry/glossary";
 import { SUPPLEMENTS_LAST_REVIEWED, supplements } from "@/registry/supplements";
+import { FOOD_REFERENCE_LAST_REVIEWED, foodReferencePages } from "@/registry/food-reference";
 import { EXERCISES_LAST_REVIEWED, allExercisePaths } from "@/registry/exercises";
 
 const STATIC_PATHS = [
@@ -86,6 +87,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
+  const foodReference = [
+    { url: `${SITE_URL}/nutrition/reference`, changeFrequency: "monthly" as const },
+    ...foodReferencePages.map((p) => ({
+      url: `${SITE_URL}/nutrition/reference/${p.slug}`,
+      lastModified: FOOD_REFERENCE_LAST_REVIEWED,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
@@ -96,5 +106,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...glossary,
     ...supplementPages,
     ...exercisePages,
+    ...foodReference,
   ];
 }

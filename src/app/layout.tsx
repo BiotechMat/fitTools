@@ -107,6 +107,7 @@ export default function RootLayout({
                 <li><Link href="/legal/medical-disclaimer" className="hover:text-foreground">Medical disclaimer</Link></li>
                 <li><Link href="/author/mathew-beale" className="hover:text-foreground">About the author</Link></li>
                 <li><Link href="/labs" className="hover:text-foreground">Labs</Link></li>
+                <li><Link href="/nutrition/reference" className="hover:text-foreground">Food reference</Link></li>
                 <li><CookieSettingsButton /></li>
               </ul>
             </nav>
