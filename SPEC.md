@@ -217,8 +217,10 @@ GA4 behind Consent Mode v2. Typed events: `calc_completed {tool}`, `unit_toggled
 verification file included.
 
 ## 13. Performance budgets (tool page template, mobile, throttled)
-LCP < 2.0 s, CLS < 0.05, INP < 200 ms, initial JS < 120 kB gzipped. Lighthouse
+LCP < 2.0 s, CLS < 0.05, INP < 200 ms, initial JS < 160 kB gzipped. Lighthouse
 performance ≥ 95 pre-ads. CI fails the build on budget regression (Lighthouse CI).
+(JS budget revised 120 → 160 kB, agreed with Mat 2026-07-21: the Next 16 +
+React 19 framework baseline alone transfers ~146 kB; app code adds ~10 kB.)
 
 ## 14. Testing & QA
 - Vitest: every formula ≥3 vectors incl. published examples; unit converters exact;
@@ -243,6 +245,9 @@ JSON-LD passes rich-results validation; axe clean.
 
 **M1 — Tier 1 live.** 10 Tier 1 tools, 3 hubs, legal pages, author page, sitemap,
 OG images, disclaimers.
+(Tier 1 list agreed with Mat 2026-07-21: TDEE, macros, calorie deficit/timeline,
+BMI, body fat % (US Navy), ideal weight, 1RM, plate loading, heart-rate zones,
+sleep calculator.)
 ✓ All M0 criteria on every page; internal links resolve; sitemap valid.
 
 **M2 — Full catalogue.** Tiers 2–3 (~27 tools total incl. DOTS with regression tests),

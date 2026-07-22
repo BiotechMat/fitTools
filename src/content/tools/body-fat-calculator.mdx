@@ -1,0 +1,54 @@
+## Methodology
+
+This tool implements the US Navy circumference method exactly as published
+by Hodgdon and Beckett (Naval Health Research Center, 1984), working in
+centimetres with base-10 logarithms:
+
+<table>
+  <thead>
+    <tr><th scope="col">Sex</th><th scope="col">Equation (% body fat)</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Men</td>
+      <td><code>495 ÷ (1.0324 − 0.19077 × log₁₀(waist − neck) + 0.15456 × log₁₀(height)) − 450</code></td>
+    </tr>
+    <tr>
+      <td>Women</td>
+      <td><code>495 ÷ (1.29579 − 0.35004 × log₁₀(waist + hip − neck) + 0.22100 × log₁₀(height)) − 450</code></td>
+    </tr>
+  </tbody>
+</table>
+
+The equations estimate body density from the circumference measurements,
+then convert to percent fat. In the original validation they correlated
+about r = 0.90 with underwater weighing.
+
+**Measuring well matters more than anything else**: use a flexible,
+non-stretch tape, snug against the skin without compressing it. Neck: just
+below the larynx, tape sloping slightly down to the front. Waist: at the
+navel for men; at the narrowest point for women. Hips (women): at the
+widest point. Take each measurement two or three times and average.
+
+## Interpreting your result
+
+Every result carries the method's published error band of roughly ±3–4
+percentage points, which is why we display a range rather than pretending
+to single-decimal accuracy. A reading of 18% really means "most likely
+somewhere between about 14.5% and 21.5%".
+
+Where the method shines is **trend tracking**: measurement error is fairly
+consistent for a given person, so changes over weeks and months are much
+more trustworthy than any single absolute number.
+
+## Limitations
+
+- Circumference methods assume typical fat-distribution patterns; very
+  muscular necks, or fat carried atypically, push results off in
+  predictable directions.
+- Hydration, food timing and tape tension all move readings — measure
+  under consistent conditions, ideally first thing in the morning.
+- The equations were derived from US Navy personnel and generalise
+  reasonably, but not perfectly, to other populations.
+- No field method replaces clinical assessment where body composition has
+  medical implications.
