@@ -9,7 +9,7 @@ export function FAQ({ entries }: { entries: FaqEntry[] }) {
   if (entries.length === 0) return null;
   return (
     <section aria-labelledby="faq-heading">
-      <h2 id="faq-heading" className="text-xl font-bold">
+      <h2 id="faq-heading" className="font-display text-2xl uppercase">
         Frequently asked questions
       </h2>
       <dl className="mt-4 space-y-5">

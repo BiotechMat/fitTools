@@ -90,7 +90,7 @@ export default async function PeptidePageRoute({ params }: PeptidePageParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/learn/peptides" className="hover:text-foreground">Peptides</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{page.name}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{page.name}</h1>
         {page.aka && page.aka.length > 0 ? (
           <p className="mt-1 text-sm text-muted">Also known as: {page.aka.join(", ")}</p>
         ) : null}
@@ -129,10 +129,10 @@ export default async function PeptidePageRoute({ params }: PeptidePageParams) {
 
       {related.length > 0 ? (
         <section aria-labelledby="related-peptides">
-          <h2 id="related-peptides" className="text-xl font-bold">Related compounds</h2>
+          <h2 id="related-peptides" className="font-display text-2xl uppercase">Related compounds</h2>
           <ul className="mt-3 grid gap-3 sm:grid-cols-2">
             {related.map((r) => (
-              <li key={r.slug} className="rounded-lg border border-border p-4">
+              <li key={r.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
                 <Link
                   href={`/learn/peptides/${r.slug}`}
                   className="font-semibold text-primary underline underline-offset-2"

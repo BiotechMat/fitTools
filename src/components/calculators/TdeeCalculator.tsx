@@ -46,7 +46,7 @@ const FORMULA_LABELS: Record<Formula, string> = {
 };
 
 const selectClass =
-  "mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-base focus:outline-2 focus:outline-primary";
+  "mt-1 w-full rounded-xl border-2 border-foreground bg-background px-3 py-2 text-base focus:outline-2 focus:outline-offset-2 focus:outline-primary";
 
 function formatKcal(value: number): string {
   return Math.round(value).toLocaleString("en-GB");
@@ -262,7 +262,7 @@ export function TdeeCalculator() {
                   <tr
                     key={level}
                     className={`border-b border-border last:border-0 ${
-                      level === activity ? "font-semibold text-primary-strong" : ""
+                      level === activity ? "font-semibold text-primary" : ""
                     }`}
                   >
                     <td className="py-1.5 pr-2">{ACTIVITY_LABELS[level]}</td>

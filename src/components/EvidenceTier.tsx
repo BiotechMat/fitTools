@@ -8,9 +8,10 @@ import { TIER_LABELS } from "@/registry/peptides";
  * MDX "what the evidence shows" sections and on listing cards.
  */
 
+// v2 (DESIGN.md §3): green = earned trust, fading to paper as evidence
+// weakens; the tier is always spelled out, never colour alone.
 const TIER_STYLES: Record<Tier, string> = {
-  "well-supported":
-    "border-[color:var(--primary)] bg-primary-soft text-primary-strong",
+  "well-supported": "border-good bg-good-soft text-good",
   preliminary: "border-warning-border bg-warning-bg text-foreground",
   "marketing-claim": "border-border bg-surface text-muted",
 };

@@ -89,7 +89,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
           <Link href="/supplements" className="hover:text-foreground">Supplements</Link>
         </nav>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-bold sm:text-3xl">{s.name}</h1>
+          <h1 className="font-display text-3xl uppercase sm:text-4xl">{s.name}</h1>
           <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
         </div>
         {s.aka && s.aka.length > 0 ? (
@@ -122,7 +122,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">
-          <h2 id="related-tools" className="text-lg font-bold">Related calculators</h2>
+          <h2 id="related-tools" className="font-display text-xl uppercase">Related calculators</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedTools.map((t) => (
               <li key={t.href}>
@@ -135,7 +135,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
 
       {relatedSupplements.length > 0 ? (
         <section aria-labelledby="related-supplements">
-          <h2 id="related-supplements" className="text-lg font-bold">Related supplements</h2>
+          <h2 id="related-supplements" className="font-display text-xl uppercase">Related supplements</h2>
           <ul className="mt-2 flex flex-wrap gap-3 text-sm">
             {relatedSupplements.map((r) => (
               <li key={r.slug}>

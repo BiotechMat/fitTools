@@ -16,7 +16,7 @@ export function EmbedCode({ slug }: { slug: string }) {
   const snippet = `<iframe src="${SITE_URL}/embed/${slug}" width="440" height="420" style="border:0;max-width:100%" title="Calculator by FitTools" loading="lazy"></iframe>`;
 
   return (
-    <section aria-label="Embed this calculator" className="rounded-lg border border-border bg-surface p-4">
+    <section aria-label="Embed this calculator" className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
       <h2 className="text-sm font-semibold">Embed this calculator</h2>
       <p className="mt-1 text-xs text-muted">
         Free to embed with the attribution link intact.

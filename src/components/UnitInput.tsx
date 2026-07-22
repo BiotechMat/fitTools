@@ -73,14 +73,14 @@ export function UnitSystemToggle({
   onChange: (next: UnitSystem) => void;
 }) {
   return (
-    <fieldset className="flex items-center gap-1 rounded-lg border border-border bg-background p-1 text-sm">
+    <fieldset className="flex items-center gap-1 rounded-full border-2 border-foreground bg-background p-0.5 text-sm">
       <legend className="sr-only">Unit system</legend>
       {(["metric", "imperial"] as const).map((option) => (
         <label
           key={option}
-          className={`cursor-pointer rounded-md px-3 py-1 font-medium ${
+          className={`cursor-pointer rounded-full px-3 py-1 font-semibold ${
             system === option
-              ? "bg-primary text-white"
+              ? "bg-foreground text-background"
               : "text-muted hover:text-foreground"
           }`}
         >
@@ -100,8 +100,8 @@ export function UnitSystemToggle({
 }
 
 const fieldClass =
-  "w-full rounded-md border border-border bg-background px-3 py-2 text-base focus:outline-2 focus:outline-primary";
-const labelClass = "block text-sm font-medium";
+  "w-full rounded-xl border-2 border-foreground bg-background px-3 py-2 text-base focus:outline-2 focus:outline-offset-2 focus:outline-primary";
+const labelClass = "block text-sm font-semibold";
 
 function parseNumber(raw: string): number | null {
   if (raw.trim() === "") return null;

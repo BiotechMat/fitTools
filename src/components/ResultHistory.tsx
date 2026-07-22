@@ -64,8 +64,10 @@ function baselineDate(baseline: StoredResult): string {
   });
 }
 
+// Positive deltas are forest green (DESIGN.md §1: Forest owns health wins);
+// neutral states stay quiet — regression is never given an alarm colour.
 const goodChipClass =
-  "inline-flex items-center gap-1 rounded-full border border-primary bg-primary-soft px-2.5 py-0.5 font-medium text-primary-strong tabular-nums";
+  "inline-flex items-center gap-1 rounded-full border border-good bg-good-soft px-2.5 py-0.5 font-medium text-good tabular-nums";
 const neutralChipClass =
   "inline-flex items-center gap-1 rounded-full border border-border bg-surface px-2.5 py-0.5 text-muted tabular-nums";
 
@@ -115,7 +117,7 @@ export function ResultHistory({
       if (saved && claimFirstWin()) setFirstWin(true);
     }, SAVE_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [tool, value]);
+  }, [tool, value, epsilon]);
 
   if (value === null) return null;
 

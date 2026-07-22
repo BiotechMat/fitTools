@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function MedicalDisclaimerPage() {
   return (
     <article className="prose">
-      <h1 className="text-2xl font-bold sm:text-3xl">Medical disclaimer</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Medical disclaimer</h1>
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <p>
         FitTools provides calculators and editorial content for general

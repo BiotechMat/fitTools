@@ -27,7 +27,7 @@ export default function NutritionReferenceHubPage() {
         <span aria-hidden="true"> / </span>
         <span>Food reference</span>
       </nav>
-      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Nutrition &amp; food reference</h1>
+      <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Nutrition &amp; food reference</h1>
       <p className="mt-2 max-w-prose text-muted">
         Quick, bookmarkable tables for everyday nutrition — protein, calories and
         portions. When you need your personal numbers, each page links to the
@@ -36,7 +36,7 @@ export default function NutritionReferenceHubPage() {
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2">
         {foodReferencePages.map((p) => (
-          <li key={p.slug} className="rounded-lg border border-border p-4">
+          <li key={p.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
             <Link
               href={`/nutrition/reference/${p.slug}`}
               className="font-semibold text-primary underline underline-offset-2"

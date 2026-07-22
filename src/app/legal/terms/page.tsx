@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <article className="prose">
-      <h1 className="text-2xl font-bold sm:text-3xl">Terms of use</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Terms of use</h1>
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <p>
         By using FitTools you agree to these terms. If you do not agree,

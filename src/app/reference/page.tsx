@@ -24,7 +24,7 @@ export default function ReferenceHubPage() {
         <span aria-hidden="true"> / </span>
         <span>Reference tables</span>
       </nav>
-      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Reference tables &amp; charts</h1>
+      <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Reference tables &amp; charts</h1>
       <p className="mt-2 max-w-prose text-muted">
         Static charts to look up and bookmark — each generated from the same
         formula as its calculator, so the numbers always match. When you want
@@ -33,7 +33,7 @@ export default function ReferenceHubPage() {
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2">
         {referenceTablePages.map((p) => (
-          <li key={p.slug} className="rounded-lg border border-border p-4">
+          <li key={p.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
             <Link
               href={`/reference/${p.slug}`}
               className="font-semibold text-primary underline underline-offset-2"

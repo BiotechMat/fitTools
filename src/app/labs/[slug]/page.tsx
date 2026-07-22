@@ -61,7 +61,7 @@ export default async function LabsToolPage({ params }: LabsPageParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/labs" className="hover:text-foreground">Labs</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{tool.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
         <p className="mt-1 max-w-prose text-muted">{tool.valueLine ?? tool.metaDescription}</p>
       </div>
 

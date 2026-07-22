@@ -52,7 +52,7 @@ export default function PeptidesPillarPage() {
           <span aria-hidden="true"> / </span>
           <span>Peptides</span>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
           Peptides in fitness: what they are, and what the evidence actually says
         </h1>
         <p className="mt-2 max-w-prose text-muted">
@@ -138,12 +138,12 @@ export default function PeptidesPillarPage() {
 
       {grouped.map(([category, pages]) => (
         <section key={category} aria-labelledby={`cat-${category}`}>
-          <h2 id={`cat-${category}`} className="text-xl font-bold">
+          <h2 id={`cat-${category}`} className="font-display text-2xl uppercase">
             {CATEGORY_LABELS[category]}
           </h2>
           <ul className="mt-3 grid gap-3 sm:grid-cols-2">
             {pages.map((p) => (
-              <li key={p.slug} className="rounded-lg border border-border p-4">
+              <li key={p.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
                 <div className="flex flex-wrap items-center gap-2">
                   <Link
                     href={`/learn/peptides/${p.slug}`}

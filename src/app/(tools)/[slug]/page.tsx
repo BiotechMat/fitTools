@@ -83,7 +83,10 @@ export default async function ToolPage({ params }: ToolPageParams) {
       ))}
 
       <div>
-        <nav aria-label="Breadcrumb" className="text-sm text-muted">
+        <nav
+          aria-label="Breadcrumb"
+          className="font-mono text-xs uppercase tracking-widest text-muted"
+        >
           <ol className="flex flex-wrap gap-1">
             <li>
               <Link href="/" className="hover:text-foreground">
@@ -98,7 +101,7 @@ export default async function ToolPage({ params }: ToolPageParams) {
             </li>
           </ol>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{tool.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
         <p className="mt-1 max-w-prose text-muted">
           {tool.valueLine ?? tool.metaDescription}
         </p>

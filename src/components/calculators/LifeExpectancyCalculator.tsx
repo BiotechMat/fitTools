@@ -85,7 +85,7 @@ export function LifeExpectancyCalculator() {
           </p>
           <p className="mt-1 text-sm text-muted">low-risk lifestyle factors.</p>
 
-          <div className="mt-4 rounded-lg border border-border bg-surface p-4 text-sm">
+          <div className="mt-4 rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)] text-sm">
             <p className="font-semibold">What the study found (population average)</p>
             <p className="mt-1">
               In the Li 2018 cohort, {sex === "female" ? "women" : "men"} who

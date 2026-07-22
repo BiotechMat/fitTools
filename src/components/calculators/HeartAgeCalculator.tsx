@@ -46,14 +46,14 @@ function round(value: number, dp = 2): string {
 function lpaBand(nmol: number): { label: string; tone: string } {
   if (nmol >= 125) return { label: "High risk (≥125 nmol/L)", tone: "text-foreground" };
   if (nmol >= 75) return { label: "Intermediate (75–125 nmol/L)", tone: "text-foreground" };
-  return { label: "Lower risk (<75 nmol/L)", tone: "text-primary-strong" };
+  return { label: "Lower risk (<75 nmol/L)", tone: "text-good" };
 }
 
 /** ApoB general reference band, mg/dL. Context only, not a treatment target. */
 function apoBBand(mgDl: number): { label: string; tone: string } {
   if (mgDl >= 130) return { label: "High (≥130 mg/dL)", tone: "text-foreground" };
   if (mgDl >= 90) return { label: "Above desirable (90–129 mg/dL)", tone: "text-foreground" };
-  return { label: "Desirable (<90 mg/dL)", tone: "text-primary-strong" };
+  return { label: "Desirable (<90 mg/dL)", tone: "text-good" };
 }
 
 export function HeartAgeCalculator() {
@@ -108,7 +108,7 @@ export function HeartAgeCalculator() {
               <label
                 key={option}
                 className={`cursor-pointer rounded-md px-3 py-1 font-medium capitalize ${
-                  s.sex === option ? "bg-primary text-white" : "text-muted hover:text-foreground"
+                  s.sex === option ? "bg-foreground text-background" : "text-muted hover:text-foreground"
                 }`}
               >
                 <input
@@ -144,7 +144,7 @@ export function HeartAgeCalculator() {
               <label
                 key={option}
                 className={`cursor-pointer rounded-md px-3 py-1 font-medium ${
-                  cholUnit === option ? "bg-primary text-white" : "text-muted hover:text-foreground"
+                  cholUnit === option ? "bg-foreground text-background" : "text-muted hover:text-foreground"
                 }`}
               >
                 <input

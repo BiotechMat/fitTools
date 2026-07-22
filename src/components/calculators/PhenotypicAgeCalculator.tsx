@@ -127,7 +127,7 @@ export function PhenotypicAgeCalculator() {
               <label
                 key={option}
                 className={`cursor-pointer rounded-md px-3 py-1 font-medium ${
-                  mode === option ? "bg-primary text-white" : "text-muted hover:text-foreground"
+                  mode === option ? "bg-foreground text-background" : "text-muted hover:text-foreground"
                 }`}
               >
                 <input

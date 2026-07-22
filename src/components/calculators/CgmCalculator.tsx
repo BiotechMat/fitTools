@@ -56,7 +56,7 @@ export function CgmCalculator() {
               <label
                 key={u}
                 className={`cursor-pointer rounded-md px-3 py-1 font-medium ${
-                  unit === u ? "bg-primary text-white" : "text-muted hover:text-foreground"
+                  unit === u ? "bg-foreground text-background" : "text-muted hover:text-foreground"
                 }`}
               >
                 <input

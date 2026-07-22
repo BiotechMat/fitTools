@@ -11,7 +11,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecoverySafety } from "@/components/RecoverySafety";
+import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
 interface ArticleParams {
@@ -76,7 +76,7 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
           <span aria-hidden="true"> / </span>
           <Link href={`/recovery/${c.slug}`} className="hover:text-foreground">{c.title}</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{a.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{a.title}</h1>
         <p className="mt-2 max-w-prose text-muted">{a.valueLine}</p>
       </div>
 
@@ -94,7 +94,13 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         </p>
       ) : null}
 
-      <RecoverySafety variant={c.safety} />
+      <SafetyCallout title={c.safety.title}>
+        <ul className="list-disc space-y-1 pl-5">
+          {c.safety.points.map((p, i) => (
+            <li key={i}>{p}</li>
+          ))}
+        </ul>
+      </SafetyCallout>
 
       <div className="prose">
         <Content />
@@ -110,7 +116,7 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
 
       {related.length > 0 ? (
         <section aria-labelledby="related-articles">
-          <h2 id="related-articles" className="text-xl font-bold">Related</h2>
+          <h2 id="related-articles" className="font-display text-2xl uppercase">Related</h2>
           <ul className="mt-3 flex flex-wrap gap-4 text-sm">
             {related.map((r) => (
               <li key={r.href}>

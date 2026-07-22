@@ -28,7 +28,7 @@ export default function GlossaryHubPage() {
         <span aria-hidden="true"> / </span>
         <span>Glossary</span>
       </nav>
-      <h1 className="mt-2 text-2xl font-bold sm:text-3xl">Fitness &amp; longevity glossary</h1>
+      <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Fitness &amp; longevity glossary</h1>
       <p className="mt-2 max-w-prose text-muted">
         Plain-English definitions of the training, nutrition and longevity terms
         used across the site. Each entry explains what it means, why it matters,
@@ -37,7 +37,7 @@ export default function GlossaryHubPage() {
 
       <ul className="mt-6 grid gap-3 sm:grid-cols-2">
         {entries.map((e) => (
-          <li key={e.slug} className="rounded-lg border border-border p-4">
+          <li key={e.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
             <Link
               href={`/glossary/${e.slug}`}
               className="font-semibold text-primary underline underline-offset-2"

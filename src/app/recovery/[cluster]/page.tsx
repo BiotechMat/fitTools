@@ -6,7 +6,7 @@ import { getCluster, recoveryClusters } from "@/registry/recovery-content";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecoverySafety } from "@/components/RecoverySafety";
+import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
 interface ClusterParams {
@@ -64,11 +64,17 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/recovery" className="hover:text-foreground">Recovery</Link>
         </nav>
-        <h1 className="mt-2 text-2xl font-bold sm:text-3xl">{c.title}</h1>
+        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{c.title}</h1>
         <p className="mt-2 max-w-prose text-muted">{c.pillarValueLine}</p>
       </div>
 
-      <RecoverySafety variant={c.safety} />
+      <SafetyCallout title={c.safety.title}>
+        <ul className="list-disc space-y-1 pl-5">
+          {c.safety.points.map((p, i) => (
+            <li key={i}>{p}</li>
+          ))}
+        </ul>
+      </SafetyCallout>
 
       <div className="prose">
         <Content />
@@ -80,22 +86,24 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
         </ul>
       </div>
 
-      <section aria-labelledby="cluster-articles">
-        <h2 id="cluster-articles" className="text-xl font-bold">In this guide</h2>
-        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-          {c.satellites.map((a) => (
-            <li key={a.slug} className="rounded-lg border border-border p-4">
-              <Link href={`/recovery/${c.slug}/${a.slug}`} className="font-semibold text-primary underline underline-offset-2">
-                {a.title}
-              </Link>
-              {a.kind === "commercial" ? (
-                <span className="ml-2 rounded-full border border-border bg-surface px-2 py-0.5 text-xs text-muted">Buying guide</span>
-              ) : null}
-              <p className="mt-1 text-sm text-muted">{a.metaDescription}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {c.satellites.length > 0 ? (
+        <section aria-labelledby="cluster-articles">
+          <h2 id="cluster-articles" className="font-display text-2xl uppercase">In this guide</h2>
+          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+            {c.satellites.map((a) => (
+              <li key={a.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
+                <Link href={`/recovery/${c.slug}/${a.slug}`} className="font-semibold text-primary underline underline-offset-2">
+                  {a.title}
+                </Link>
+                {a.kind === "commercial" ? (
+                  <span className="ml-2 rounded-full border border-border bg-surface px-2 py-0.5 text-xs text-muted">Buying guide</span>
+                ) : null}
+                <p className="mt-1 text-sm text-muted">{a.metaDescription}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <FAQ entries={c.faq} />
       <AuthorBox lastReviewed={c.lastReviewed} />

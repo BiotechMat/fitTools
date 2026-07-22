@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function AffiliateDisclosurePage() {
   return (
     <article className="prose">
-      <h1 className="text-2xl font-bold sm:text-3xl">Affiliate disclosure</h1>
+      <h1 className="font-display text-3xl uppercase sm:text-4xl">Affiliate disclosure</h1>
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <p>
         FitTools may include affiliate links — links to products or

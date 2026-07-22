@@ -26,7 +26,7 @@ export function HubPage({ hub }: { hub: Hub }) {
       <p className="mt-1 max-w-prose text-muted">{meta.description}</p>
       <ul className="mt-6 grid gap-4 sm:grid-cols-2">
         {tools.map((tool) => (
-          <li key={tool.slug} className="rounded-lg border border-border p-4">
+          <li key={tool.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
             <Link
               href={`/${tool.slug}`}
               className="font-semibold text-primary underline underline-offset-2"
@@ -39,7 +39,7 @@ export function HubPage({ hub }: { hub: Hub }) {
       </ul>
       {otherHubs.length > 0 ? (
         <nav aria-label="Other calculator hubs" className="mt-10">
-          <h2 className="text-lg font-bold">More calculators</h2>
+          <h2 className="font-display text-xl uppercase">More calculators</h2>
           <ul className="mt-2 flex flex-wrap gap-4 text-sm">
             {otherHubs.map((other) => (
               <li key={other.hub}>

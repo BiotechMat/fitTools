@@ -13,7 +13,7 @@ export function AuthorBox({ lastReviewed }: { lastReviewed: string }) {
   return (
     <section
       aria-label="Author and review information"
-      className="rounded-lg border border-border bg-surface p-4 text-sm"
+      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)] text-sm"
     >
       <p>
         <span className="font-semibold">
