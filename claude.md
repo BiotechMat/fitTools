@@ -2,8 +2,12 @@
 
 ## Project
 Fitness calculator platform. Full requirements in SPEC.md — read it before any work.
-Current milestone: M0. Do not start a milestone until the previous one's acceptance
-criteria pass and Mat has signed off.
+Status (2026-07-22): SPEC milestones M0–M4 built. M0–M2 signed off by Mat;
+M3 (monetisation infra) and M4 (labs + embeds) built, not yet formally signed
+off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age
+done; Fitness Age blocked on paywalled source) and CONTENT clusters.
+Do not start a SPEC milestone until the previous one's acceptance criteria pass
+and Mat has signed off.
 
 ## Project docs
 - SPEC.md — the build. Authoritative for engineering. Implement from this.
@@ -15,10 +19,13 @@ criteria pass and Mat has signed off.
 - ROADMAP.md — post-v1 / engagement sequencing. Context, NOT a current build
   target. Do not implement ahead of SPEC milestones.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
+- CONTENT-peptides.md — educational peptides reference section. Build from
+  this when building those pages. No dosing/protocols by design.
 
 ## Commands
 pnpm dev | build | test | lint | typecheck | test:e2e | lighthouse
-(create these scripts in M0 and keep this list current as they change)
+(all exist. `build` uses --webpack for per-tool code-splitting; `lighthouse`
+runs two passes — metric budgets then category scores. See README.)
 
 ## Engineering conventions
 - TypeScript strict; no `any`; no `as` casts without a justifying comment.
