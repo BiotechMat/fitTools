@@ -88,7 +88,7 @@ export const supplements: SupplementEntry[] = [
     short:
       "A convenient protein source that supports muscle when your total intake falls short.",
     metaDescription:
-      "Whey and protein powder, evidence-first: what it is, the well-established role of total protein in muscle growth, who actually benefits, practical notes and the ISSN position stand.",    relatedSupplements: ["creatine-monohydrate", "caffeine"],
+      "Whey and protein powder, evidence-first: what it is, the well-established role of total protein in muscle growth, who actually benefits, practical notes and the ISSN position stand.",    relatedSupplements: ["creatine-monohydrate", "collagen"],
     relatedTools: ["macro-calculator", "tdee-calculator"],
     faq: [
       {
@@ -251,7 +251,7 @@ export const supplements: SupplementEntry[] = [
         "As a herbal product, purity and dose vary between brands; this is educational information, not a recommendation to take it.",
       ],
     },
-    relatedSupplements: [],
+    relatedSupplements: ["magnesium", "zma"],
     relatedTools: ["recovery-readiness-index"],
     faq: [
       {
@@ -276,6 +276,291 @@ export const supplements: SupplementEntry[] = [
         label:
           "PubMed: Withania somnifera (ashwagandha) — randomised trials on stress, sleep and strength",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+randomized+controlled+trial+stress+OR+strength",
+      },
+    ],
+  },
+  {
+    slug: "vitamin-d",
+    name: "Vitamin D",
+    aka: ["Vitamin D3", "cholecalciferol"],
+    headlineTier: "preliminary",
+    headlineBasis: "human",
+    short:
+      "Correcting a deficiency matters; a performance boost if you're already replete is unproven.",
+    metaDescription:
+      "Vitamin D, evidence-first: correcting deficiency is well established for health, but a performance boost in people who are already replete is preliminary at best. Who should test, and safety.",
+    safety: {
+      title: "Safety — vitamin D",
+      points: [
+        "More is not better: very high doses over time can cause toxicity (high blood calcium) with nausea, kidney problems and worse.",
+        "Do not megadose. If unsure, ask for a blood test and follow national guidance on sensible amounts.",
+      ],
+    },
+    relatedSupplements: ["omega-3", "magnesium"],
+    relatedTools: [],
+    faq: [
+      {
+        q: "Should I take vitamin D?",
+        a: "If you're deficient — common in winter at northern latitudes — correcting it is worthwhile for bone and general health. If your levels are already adequate, extra vitamin D is unlikely to improve performance.",
+      },
+      {
+        q: "Does it boost strength or testosterone?",
+        a: "Claims of strength or testosterone gains mostly come from correcting a deficiency, not from topping up someone who is already replete. In replete people the performance evidence is weak.",
+      },
+      {
+        q: "How would I know if I'm low?",
+        a: "A simple blood test. Risk factors include little sun exposure, darker skin, covering up, and northern winters. Testing beats guessing at a dose.",
+      },
+      {
+        q: "D3 or D2?",
+        a: "D3 (cholecalciferol) is generally preferred as it raises blood levels more effectively than D2.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: vitamin D status, supplementation and muscle function / athletic performance (reviews and trials)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+D+supplementation+muscle+function+athletic+performance+review",
+      },
+    ],
+  },
+  {
+    slug: "omega-3",
+    name: "Omega-3 (fish oil)",
+    aka: ["EPA/DHA", "fish oil"],
+    headlineTier: "preliminary",
+    headlineBasis: "human",
+    short:
+      "Solid general-health rationale; the muscle and recovery benefits are still preliminary.",
+    metaDescription:
+      "Omega-3 / fish oil, honestly reviewed: the general-health case, the preliminary evidence for recovery and muscle, and how it differs from the marketing — with sources.",
+    relatedSupplements: ["vitamin-d"],
+    relatedTools: ["heart-age-calculator"],
+    faq: [
+      {
+        q: "Do omega-3s help muscle or recovery?",
+        a: "There's early, promising evidence that EPA/DHA may modestly support muscle protein synthesis and reduce soreness, but it's preliminary and not a reason to expect big training gains.",
+      },
+      {
+        q: "Should I take fish oil anyway?",
+        a: "If you rarely eat oily fish, a supplement is a reasonable way to get EPA and DHA, which have a broader general-health rationale. Whole-food fish is the first-choice source.",
+      },
+      {
+        q: "How much and what to look for?",
+        a: "What matters is the EPA + DHA content, not the total fish-oil weight — check the label. Quality and freshness (avoiding rancidity) also matter.",
+      },
+      {
+        q: "Are algae oils an option?",
+        a: "Yes — algae-based omega-3 provides EPA/DHA without fish and suits vegans.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: omega-3 (EPA/DHA) supplementation, muscle protein synthesis and exercise recovery",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=omega-3+EPA+DHA+muscle+protein+synthesis+recovery",
+      },
+    ],
+  },
+  {
+    slug: "magnesium",
+    name: "Magnesium",
+    headlineTier: "preliminary",
+    headlineBasis: "human",
+    short:
+      "Fixing a shortfall can help sleep and cramps; a boost when you're replete is weak.",
+    metaDescription:
+      "Magnesium, evidence-first: correcting a deficiency may help sleep and cramps, but performance benefits in people who are already replete are weak. Forms, and safety.",
+    safety: {
+      title: "Safety — magnesium",
+      points: [
+        "High supplemental doses commonly cause diarrhoea and stomach upset; magnesium oxide is the worst offender.",
+        "People with kidney problems should not supplement magnesium without medical advice.",
+      ],
+    },
+    relatedSupplements: ["zma", "vitamin-d"],
+    relatedTools: ["recovery-readiness-index"],
+    faq: [
+      {
+        q: "Does magnesium improve sleep?",
+        a: "If you're low in magnesium, correcting it may help sleep and muscle cramps. The evidence for a sleep benefit in people who already get enough is weaker and often overstated.",
+      },
+      {
+        q: "Which form is best?",
+        a: "Well-absorbed forms like magnesium citrate, glycinate or malate are preferable to magnesium oxide, which is poorly absorbed and most likely to cause loose stools.",
+      },
+      {
+        q: "Will it help my performance?",
+        a: "Mainly by fixing a deficiency. Topping up someone who is already replete has not been shown to reliably boost strength or endurance.",
+      },
+      {
+        q: "Can I just get it from food?",
+        a: "Often yes — leafy greens, nuts, seeds, legumes and wholegrains are good sources. Food first, supplement to fill a genuine gap.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: magnesium supplementation, sleep, cramps and exercise performance",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=magnesium+supplementation+sleep+OR+exercise+performance",
+      },
+    ],
+  },
+  {
+    slug: "electrolytes",
+    name: "Electrolytes",
+    aka: ["Sodium, potassium, etc."],
+    headlineTier: "well-supported",
+    headlineBasis: "human",
+    short:
+      "Genuinely useful for heavy, prolonged sweating — overkill as an everyday drink for most.",
+    metaDescription:
+      "Electrolytes, honestly reviewed: the well-established role in replacing sweat losses during prolonged exercise versus the marketing that everyone needs a daily electrolyte drink.",
+    safety: {
+      title: "Safety — electrolytes",
+      points: [
+        "Most people already get plenty of sodium from food; adding a lot more isn't automatically helpful, especially with high blood pressure.",
+        "In very long events, drinking large volumes of plain water without electrolytes can dangerously dilute blood sodium (hyponatraemia).",
+      ],
+    },
+    relatedSupplements: ["caffeine"],
+    relatedTools: ["water-intake-calculator"],
+    faq: [
+      {
+        q: "Do I need an electrolyte drink every day?",
+        a: "For most people, no. A normal diet supplies enough electrolytes. They earn their keep during long, hot or very sweaty sessions where you lose meaningful sodium — not as an everyday wellness drink.",
+      },
+      {
+        q: "When do electrolytes actually matter?",
+        a: "During prolonged endurance exercise (roughly beyond 60–90 minutes), heavy sweating, or in the heat, where replacing sodium (and fluid) supports performance and safety.",
+      },
+      {
+        q: "Isn't more sodium bad for me?",
+        a: "For athletes losing lots in sweat, replacing it is sensible. But most people already eat plenty of sodium, and those with high blood pressure shouldn't add more without a reason.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: sodium / electrolyte replacement, hydration and endurance-exercise performance",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=electrolyte+sodium+hydration+endurance+exercise+performance",
+      },
+    ],
+  },
+  {
+    slug: "collagen",
+    name: "Collagen",
+    headlineTier: "preliminary",
+    headlineBasis: "human",
+    short:
+      "Emerging evidence for tendons, joints and skin — but a poor muscle-building protein.",
+    metaDescription:
+      "Collagen, evidence-first: the emerging (preliminary) case for tendon, joint and skin support versus its weakness as a muscle-building protein. What the research shows.",
+    relatedSupplements: ["whey-protein"],
+    relatedTools: [],
+    faq: [
+      {
+        q: "Does collagen help joints and tendons?",
+        a: "There's growing, still-preliminary evidence that collagen (often with vitamin C, taken before loading) may support tendon and joint tissue and reduce some joint pain. Promising, not proven.",
+      },
+      {
+        q: "Is collagen good for building muscle?",
+        a: "No — it's a low-quality protein for muscle, lacking enough of the key amino acid leucine. For muscle, whey or a good mixed-protein diet is far better.",
+      },
+      {
+        q: "What about skin?",
+        a: "Some trials report improvements in skin hydration and elasticity. The effect sizes are modest and the field is commercially driven, so keep expectations measured.",
+      },
+      {
+        q: "Does the source matter?",
+        a: "Hydrolysed collagen (collagen peptides) is the common, more absorbable form used in studies. It is not vegan (it's animal-derived).",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: collagen peptide supplementation — tendon, joint and skin outcomes (trials and reviews)",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptide+supplementation+tendon+OR+joint+OR+skin",
+      },
+    ],
+  },
+  {
+    slug: "zma",
+    name: "ZMA",
+    aka: ["Zinc, magnesium aspartate, B6"],
+    headlineTier: "marketing-claim",
+    headlineBasis: "human",
+    short:
+      "The testosterone- and strength-boosting claims don't hold up in people who aren't deficient.",
+    metaDescription:
+      "ZMA, honestly reviewed: why the testosterone- and strength-boosting marketing isn't supported in people who aren't deficient, and what zinc and magnesium actually do.",
+    relatedSupplements: ["magnesium", "ashwagandha"],
+    relatedTools: [],
+    faq: [
+      {
+        q: "Does ZMA boost testosterone?",
+        a: "In men who aren't deficient in zinc or magnesium — which is most people who train and eat reasonably — controlled studies do not support meaningful testosterone or strength increases. That's the headline claim, and it doesn't hold up.",
+      },
+      {
+        q: "So is ZMA useless?",
+        a: "Not entirely: if you're genuinely low in zinc or magnesium, correcting that has value. But that's a case for fixing a deficiency, not for ZMA's marketed muscle-building promise.",
+      },
+      {
+        q: "Is it just zinc and magnesium?",
+        a: "Yes — ZMA is zinc, magnesium and vitamin B6 in a branded combination. You can get the same nutrients from food or plain zinc/magnesium if needed.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: ZMA (zinc magnesium aspartate) supplementation, testosterone and strength — controlled trials",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=ZMA+zinc+magnesium+testosterone+strength",
+      },
+    ],
+  },
+  {
+    slug: "pre-workout",
+    name: "Pre-workout",
+    aka: ["Pre-workout blends"],
+    headlineTier: "marketing-claim",
+    headlineBasis: "human",
+    short:
+      "A few proven ingredients wrapped in a lot of underdosed, unproven extras.",
+    metaDescription:
+      "Pre-workout supplements, honestly reviewed: the handful of ingredients that actually work (caffeine, beta-alanine, citrulline) versus the underdosed proprietary-blend marketing.",
+    safety: {
+      title: "Safety — pre-workout",
+      points: [
+        "Most of the effect is caffeine, often in high doses; watch total daily intake, late-day timing and stacking with coffee.",
+        "People who are pregnant or have heart, blood-pressure or anxiety conditions should be cautious with stimulant blends.",
+        "“Proprietary blends” can hide doses; occasionally products are adulterated with undisclosed stimulants.",
+      ],
+    },
+    relatedSupplements: ["caffeine", "beta-alanine", "citrulline-malate"],
+    relatedTools: ["caffeine-calculator"],
+    faq: [
+      {
+        q: "Do pre-workouts work?",
+        a: "The parts that work are the well-evidenced ingredients — mainly caffeine, plus beta-alanine and citrulline. The benefit is those ingredients, not the brand or the proprietary blend around them.",
+      },
+      {
+        q: "What's actually worth having in one?",
+        a: "Caffeine (for most of the kick), beta-alanine (for repeated high-intensity efforts) and citrulline (a modest maybe). Much of the rest is underdosed or unproven.",
+      },
+      {
+        q: "Why 'proprietary blend' is a red flag",
+        a: "A blend that lists a total without per-ingredient amounts lets a product look loaded while under-dosing the effective ingredients. Prefer products that disclose every dose.",
+      },
+      {
+        q: "Can I just make my own?",
+        a: "Effectively yes — the evidence-based ingredients are available individually, letting you control the doses and skip paying for filler.",
+      },
+    ],
+    sources: [
+      {
+        label:
+          "PubMed: multi-ingredient pre-workout supplements — performance evidence and ingredient dosing",
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=multi-ingredient+pre-workout+supplement+performance",
       },
     ],
   },
