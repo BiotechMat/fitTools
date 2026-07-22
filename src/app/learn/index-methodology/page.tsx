@@ -93,6 +93,19 @@ export default function IndexMethodologyPage() {
           <Link href="/metabolic-fitness-index">tool page</Link> for its full
           weights and anchors.
         </li>
+        <li>
+          <strong>Pace of Aging Index v1.0.0</strong> (2026-07-22) — initial
+          release. Cardio fitness (VO₂max) is an optional input pending a
+          verifiable fitness-age source; grip and HRV are optional too. See
+          the <Link href="/pace-of-aging-index">tool page</Link>.
+        </li>
+        <li>
+          <strong>Recovery Readiness Index v1.0.0</strong> (2026-07-22) —
+          initial release. Weights adjusted from the proposed HRV 40% to
+          HRV 30 / resting HR 25 / sleep 25 / breathing 20 to respect the
+          30% single-input cap. See the{" "}
+          <Link href="/recovery-readiness-index">tool page</Link>.
+        </li>
       </ul>
 
       <AuthorBox lastReviewed={LAST_REVIEWED} />

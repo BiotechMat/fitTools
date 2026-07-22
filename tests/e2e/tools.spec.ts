@@ -84,6 +84,8 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "lifestyle-life-expectancy": { results: { "factor-count": "0 of 5" } },
   // Default mid-range inputs produce a computed index (assert it renders).
   "metabolic-fitness-index": { results: { "index-value": "/ 100" } },
+  "pace-of-aging-index": { results: { "index-value": "/ 100", "pace-value": "" } },
+  "recovery-readiness-index": { results: { "index-value": "/ 100" } },
 };
 
 function collectConsoleErrors(page: Page): string[] {

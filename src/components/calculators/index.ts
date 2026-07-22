@@ -116,4 +116,14 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
       (m) => m.MetabolicFitnessCalculator,
     ),
   ),
+  "pace-of-aging-index": dynamic(() =>
+    import("@/components/calculators/PaceOfAgingCalculator").then(
+      (m) => m.PaceOfAgingCalculator,
+    ),
+  ),
+  "recovery-readiness-index": dynamic(() =>
+    import("@/components/calculators/RecoveryReadinessCalculator").then(
+      (m) => m.RecoveryReadinessCalculator,
+    ),
+  ),
 };

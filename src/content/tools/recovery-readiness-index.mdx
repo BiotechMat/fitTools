@@ -1,0 +1,59 @@
+## Methodology
+
+The Recovery Readiness Index is an **open composite index** (v1.0.0) — a
+transparent, self-relative version of the daily "readiness" scores built
+into wearables. Every input compares **today's value against your own
+baseline**; there is no cross-user comparison and no clinical meaning.
+
+Each metric becomes a 0–100 sub-score based on how far today deviates from
+your usual figure, in the favourable or unfavourable direction, then
+combined by weight:
+
+<table>
+  <thead>
+    <tr><th scope="col">Input</th><th scope="col">Weight</th><th scope="col">Direction</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>HRV vs baseline</td><td>30%</td><td>higher is better</td></tr>
+    <tr><td>Resting HR vs baseline</td><td>25%</td><td>lower is better</td></tr>
+    <tr><td>Sleep vs your need</td><td>25%</td><td>meeting need is better</td></tr>
+    <tr><td>Breathing rate vs baseline</td><td>20%</td><td>lower is better</td></tr>
+  </tbody>
+</table>
+
+All four inputs are T2 (moderate/surrogate evidence). **A note on the
+weights:** the published methodology proposed HRV at 40%, but our house rule
+caps any single input at ~30%, so we adjusted the weighting (HRV 30, resting
+HR 25, sleep 25, breathing 20). That change is recorded in the public
+[index methodology changelog](/learn/index-methodology).
+
+The sub-scores use a documented deviation mapping rather than a strict
+z-score, because most people don't know their baseline's standard
+deviation — you enter today's value and your usual value, and the score
+reflects the proportional change.
+
+## Interpreting your result
+
+This is a **daily, self-relative** number — it only means something relative
+to *you*. A score of 60 today versus 40 yesterday says your body's signals
+are more favourable than yesterday, nothing about anyone else. Read the
+breakdown to see which signal moved: suppressed HRV and an elevated resting
+heart rate often show up together after poor sleep, alcohol, illness or hard
+training.
+
+Use it as one input alongside how you actually feel and what your week looks
+like — not as an instruction to train or rest. The signals it uses are
+genuinely informative for monitoring, but they're noisy day to day.
+
+## Limitations
+
+- **Self-relative only** — no clinical meaning, no cross-user comparison,
+  not a medical test.
+- Single-day readings are noisy; trends over several days are more
+  trustworthy than any one score.
+- Baselines matter: garbage-in figures give a misleading score. Use stable
+  7–30 day averages from a consistent measurement method.
+- HRV in particular depends heavily on how and when it's measured
+  (overnight vs morning, device, position).
+- It doesn't know *why* a signal changed — illness, stress, alcohol and
+  travel all look similar to it.
