@@ -78,6 +78,10 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "caffeine-calculator": { results: { "caffeine-threshold": "10.0" } },
   // Levine PhenoAge, reference-range defaults at age 45 → 37.7 years.
   "phenotypic-age-calculator": { results: { "phenoage-value": "37.7" } },
+  // PREVENT, default male 50 (TC 5.2, HDL 1.3, SBP 125, eGFR 95) → 3.0%, heart age 55.
+  "heart-age-calculator": {
+    results: { "heart-age-value": "55", "heart-age-risk": "3.0%" },
+  },
   // CGM starts empty (needs pasted readings); assert the empty-state prompt.
   "cgm-metrics-calculator": { skipDefaultResult: true },
   // No factors ticked by default → "0 of 5".

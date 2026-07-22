@@ -4,8 +4,10 @@
 Fitness calculator platform. Full requirements in SPEC.md — read it before any work.
 Status (2026-07-22): SPEC milestones M0–M4 built. M0–M2 signed off by Mat;
 M3 (monetisation infra) and M4 (labs + embeds) built, not yet formally signed
-off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age
-done; Fitness Age blocked on paywalled source) and CONTENT clusters.
+off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age,
+Heart Age/PREVENT, CGM metrics, lifestyle life-expectancy done; Fitness Age
+blocked on paywalled source), Layer 2 composite indices (all three done), and
+CONTENT clusters (cold-water + sauna done).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
@@ -16,6 +18,12 @@ and Mat has signed off.
   primary sources with a reproduced test — see the doc.
 - CONTENT.md — recovery/wellness content section spec. Build from this when
   building content pages.
+  
+  - CONTENT-reference.md — reference/lookup content spec (exercise library,
+  supplement database, food reference, glossary, reference tables). Content-only,
+  no accounts. Build from this when building those pages. Cross-linking into the
+  calculators (its §8) is a build requirement, not optional.
+
 - ROADMAP.md — post-v1 / engagement sequencing. Context, NOT a current build
   target. Do not implement ahead of SPEC milestones.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.

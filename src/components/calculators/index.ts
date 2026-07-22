@@ -103,6 +103,11 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
       (m) => m.PhenotypicAgeCalculator,
     ),
   ),
+  "heart-age-calculator": dynamic(() =>
+    import("@/components/calculators/HeartAgeCalculator").then(
+      (m) => m.HeartAgeCalculator,
+    ),
+  ),
   "cgm-metrics-calculator": dynamic(() =>
     import("@/components/calculators/CgmCalculator").then((m) => m.CgmCalculator),
   ),

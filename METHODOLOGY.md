@@ -165,6 +165,16 @@ lab test); do not imply measured precision.
 
 ### 3.3 Heart Age (cardiovascular risk age)
 
+> **Status: IMPLEMENTED (2026-07-22).** `/heart-age-calculator`, built on the
+> AHA PREVENT base 10-year total-CVD model (preferred source below). Sex-specific
+> coefficients transcribed from the open `preventr` package (which transcribes the
+> AHA supplement and is validated against the AHA calculator) into
+> `src/lib/formulas/heart-age.ts`; implementation locked to a reproduced worked
+> example (0.147, to the digit). Heart age = age at which an optimal reference
+> profile carries the same risk (bisection over the valid 30–79 window). ApoB/Lp(a)
+> shown as a separate context panel only, never in the maths (per the nuance below).
+> BMI omitted: its published total-CVD coefficient is exactly 0.
+
 **Source (preferred):** AHA **PREVENT** equations (Khan SS et al., *Circulation*
 2023–2024). This is the current standard and underlies the direction of the 2026
 ACC/AHA guidelines, so it is the right modern choice.
