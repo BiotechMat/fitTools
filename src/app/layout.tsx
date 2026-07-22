@@ -75,6 +75,11 @@ export default function RootLayout({
                   Peptides
                 </Link>
               </li>
+              <li>
+                <Link href="/glossary" className="text-muted hover:text-foreground">
+                  Glossary
+                </Link>
+              </li>
             </ul>
           </nav>
         </header>

@@ -4,6 +4,7 @@ import { hubMeta } from "@/registry/hubs";
 import { allTools, toolsForHub } from "@/registry/tools";
 import { allPeptides } from "@/registry/peptides";
 import { recoveryClusters } from "@/registry/recovery-content";
+import { GLOSSARY_LAST_REVIEWED, glossaryEntries } from "@/registry/glossary";
 
 const STATIC_PATHS = [
   AUTHOR.path,
@@ -56,6 +57,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]);
 
+  const glossary = [
+    { url: `${SITE_URL}/glossary`, changeFrequency: "monthly" as const },
+    ...glossaryEntries.map((e) => ({
+      url: `${SITE_URL}/glossary/${e.slug}`,
+      lastModified: GLOSSARY_LAST_REVIEWED,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
@@ -63,5 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...staticPages,
     ...peptides,
     ...recoveryContent,
+    ...glossary,
   ];
 }
