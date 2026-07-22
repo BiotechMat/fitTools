@@ -76,6 +76,14 @@ export default function RootLayout({
               )}
             </Link>
             <ul className="flex gap-4 text-sm">
+              <li>
+                <Link
+                  href="/pulse"
+                  className="font-semibold text-foreground hover:text-primary"
+                >
+                  Pulse
+                </Link>
+              </li>
               {liveHubs.map((meta) => (
                 <li key={meta.hub}>
                   <Link

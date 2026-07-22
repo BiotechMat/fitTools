@@ -9,7 +9,16 @@ export type AnalyticsEvent =
   | { name: "unit_toggled"; params: { system: "metric" | "imperial" } }
   | { name: "affiliate_click"; params: { slug: string; offer: string } }
   | { name: "email_signup"; params: Record<string, never> }
-  | { name: "embed_copied"; params: { tool: string } };
+  | { name: "embed_copied"; params: { tool: string } }
+  // Pulse feed (PULSE.md §10). NB: there is deliberately no dwell event — dwell
+  // is aggregated on-device into local affinity and never transmitted (§5.1).
+  | { name: "pulse_card_viewed"; params: { id: string; category: string } }
+  | { name: "pulse_card_liked"; params: { id: string } }
+  | { name: "pulse_card_saved"; params: { id: string } }
+  | { name: "pulse_card_shared"; params: { id: string } }
+  | { name: "pulse_source_click"; params: { id: string } }
+  | { name: "pulse_filter_applied"; params: { categories: string } }
+  | { name: "pulse_related_click"; params: { id: string; target: string } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

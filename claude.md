@@ -36,9 +36,24 @@ and Mat has signed off.
   the live site still uses the teal tokens in globals.css.
 - ROADMAP.md — post-v1 / engagement sequencing. Context, NOT a current build
   target. Do not implement ahead of SPEC milestones.
+- PULSE.md — spec + build for "Pulse", an endless-scroll cited-fact-card feed
+  (ROADMAP Phase E5 + E1/E3 threads). Retrieval-grounded: facts are generated
+  at runtime from a vetted grounding corpus, and every card carries a REAL
+  source (the model only cites a chunk id; the server attaches the citation —
+  never model-invented). v1 built (see §14): src/lib/pulse/*, src/registry/
+  pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
+  vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
+  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
+- CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
+  Gen-Z "glow-up" content section (skin/sun, sleep, body-comp, hair, a
+  debunk hub) plus retention psychology and a body-composition estimator.
+  No appearance rating, ever (§1). The photo estimator (§6) is now
+  architecturally unblocked (server-side/AI APIs and accounts in scope); its
+  remaining gates are the data-protection posture and the body-image / minor-
+  safety guardrails in §6.3 — sequence after accounts land.
 
 ## Commands
 pnpm dev | build | test | lint | typecheck | test:e2e | lighthouse
@@ -63,6 +78,10 @@ runs two passes — metric budgets then category scores. See README.)
 - Don't push, deploy, or open PRs without asking.
 
 ## Don'ts
-- Nothing in SPEC §17 (out of scope). No server-side calculation or calc APIs.
+- Respect SPEC §17's remaining out-of-scope items (CMS, i18n, native apps).
+  Server-side calculation, calc/AI APIs, accounts and a pro tier are now in
+  scope where a feature needs them — build them behind consent + a documented
+  data-protection posture (SPEC §2, §17). Client-side stays the default for the
+  static calculators.
 - No third-party scripts outside the env-flagged loaders in SPEC §10.
 - Never soften or remove disclaimers/compliance components to simplify a page.
