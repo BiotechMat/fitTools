@@ -8,6 +8,7 @@ const STATIC_PATHS = [
   AUTHOR.path,
   "/labs",
   "/learn/peptides",
+  "/learn/index-methodology",
   "/legal/privacy-policy",
   "/legal/cookie-policy",
   "/legal/terms",

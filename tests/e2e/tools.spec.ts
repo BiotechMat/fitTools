@@ -82,6 +82,8 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "cgm-metrics-calculator": { skipDefaultResult: true },
   // No factors ticked by default → "0 of 5".
   "lifestyle-life-expectancy": { results: { "factor-count": "0 of 5" } },
+  // Default mid-range inputs produce a computed index (assert it renders).
+  "metabolic-fitness-index": { results: { "index-value": "/ 100" } },
 };
 
 function collectConsoleErrors(page: Page): string[] {

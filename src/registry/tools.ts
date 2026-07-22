@@ -28,6 +28,7 @@ import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { phenoAgeConfig } from "@/registry/configs/phenotypic-age-calculator";
 import { cgmConfig } from "@/registry/configs/cgm-metrics-calculator";
 import { lifeExpectancyConfig } from "@/registry/configs/life-expectancy-calculator";
+import { metabolicFitnessConfig } from "@/registry/configs/metabolic-fitness-index";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -63,6 +64,7 @@ export const allTools: ToolConfig[] = [
   phenoAgeConfig,
   cgmConfig,
   lifeExpectancyConfig,
+  metabolicFitnessConfig,
   peptideConfig,
 ];
 

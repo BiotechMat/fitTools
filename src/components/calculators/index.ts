@@ -111,4 +111,9 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
       (m) => m.LifeExpectancyCalculator,
     ),
   ),
+  "metabolic-fitness-index": dynamic(() =>
+    import("@/components/calculators/MetabolicFitnessCalculator").then(
+      (m) => m.MetabolicFitnessCalculator,
+    ),
+  ),
 };
