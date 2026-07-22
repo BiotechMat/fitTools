@@ -61,6 +61,15 @@ two layers:
 
 ### 3.1 Blood-based biological age — *Phenotypic Age*
 
+> **Status: IMPLEMENTED (2026-07-22).** `/phenotypic-age-calculator`,
+> `src/lib/formulas/phenotypic-age.ts`. Coefficients transcribed verbatim from
+> the authors' published code (Levine lab BioAge `phenoage_calc.R`) since the
+> paper gives no worked example; the reference constant 1.51714 = exp(120γ)−1
+> for γ=0.0076927, confirming code and this doc describe the same model.
+> Worked example reproduced and cross-checked two independent ways (agree to
+> 0.001 yr). CRP floored at 0.01 mg/dL before ln. `disclaimerLevel:
+> clinical-input`.
+
 **Source:** Levine ME et al., "An epigenetic biomarker of aging for lifespan and
 healthspan," *Aging* 2018 (the **clinical** Phenotypic Age, derived originally in
 Levine 2013, *J Gerontol A*). Use the 9-biomarker clinical version — NOT the DNA
@@ -124,6 +133,11 @@ disclaimer (§1.5). No advice to act on the number.
 ---
 
 ### 3.2 Fitness Age (non-exercise VO₂max)
+
+> **Status: BLOCKED (2026-07-22).** The Nes 2011 paper is paywalled and no
+> open-access source reproduces the sex-specific equations or the
+> physical-activity index coding. Per §1, these must not be transcribed from
+> memory. Held until the full text (equations + PA-index coding) is supplied.
 
 **Source:** Nes BM et al., "Estimating VO₂peak from a nonexercise prediction
 model," *Med Sci Sports Exerc* 2011 (HUNT Fitness Study). This is the actual
