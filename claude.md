@@ -33,6 +33,14 @@ and Mat has signed off.
   the live site still uses the teal tokens in globals.css.
 - ROADMAP.md — post-v1 / engagement sequencing. Context, NOT a current build
   target. Do not implement ahead of SPEC milestones.
+- PULSE.md — spec + build for "Pulse", an endless-scroll cited-fact-card feed
+  (ROADMAP Phase E5 + E1/E3 threads). Retrieval-grounded: facts are generated
+  at runtime from a vetted grounding corpus, and every card carries a REAL
+  source (the model only cites a chunk id; the server attaches the citation —
+  never model-invented). v1 built (see §14): src/lib/pulse/*, src/registry/
+  pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
+  vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
+  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
