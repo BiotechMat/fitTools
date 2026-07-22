@@ -19,6 +19,7 @@ import {
 } from "@/registry/configs/tdee.shared";
 import { trackEvent } from "@/lib/analytics";
 import { CalculatorShell } from "@/components/CalculatorShell";
+import { ResultHistory } from "@/components/ResultHistory";
 import { ResultsPanel } from "@/components/ResultsPanel";
 import {
   HeightField,
@@ -235,6 +236,13 @@ export function TdeeCalculator() {
               adjust based on how your weight actually responds over a few
               weeks.
             </p>
+            <ResultHistory
+              tool={TDEE_SLUG}
+              value={result.tdeeKcal}
+              direction="none"
+              epsilon={25}
+              formatDelta={(delta) => `${formatKcal(delta)} kcal`}
+            />
             <table className="mt-4 w-full text-sm">
               <caption className="sr-only">
                 Estimated daily energy expenditure at each activity level

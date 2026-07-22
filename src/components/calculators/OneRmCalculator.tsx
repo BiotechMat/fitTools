@@ -12,9 +12,11 @@ import { kgToLb, lbToKg } from "@/lib/units";
 import {
   ONE_RM_DEFAULTS,
   ONE_RM_LIMITS,
+  ONE_RM_SLUG,
 } from "@/registry/configs/one-rep-max-calculator.shared";
 import { inRange } from "@/registry/configs/tdee.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
+import { ResultHistory } from "@/components/ResultHistory";
 import { ResultsPanel } from "@/components/ResultsPanel";
 import { UnitSystemToggle, useUnitSystem } from "@/components/UnitInput";
 import { formatNumber, inputClass, labelClass, warningClass } from "@/components/calculators/styles";
@@ -142,6 +144,13 @@ export function OneRmCalculator() {
                 percentages rather than to attempt a true max.
               </p>
             )}
+            <ResultHistory
+              tool={ONE_RM_SLUG}
+              value={result.maxKg}
+              direction="up"
+              epsilon={0.25}
+              formatDelta={display}
+            />
             <table className="mt-4 w-full text-sm">
               <caption className="sr-only">Working weights as a percentage of 1RM</caption>
               <thead>
