@@ -33,13 +33,25 @@ defaults), and preview deployments per branch.
 With all flags off the site makes **zero third-party requests** — this is
 asserted again in M3 acceptance.
 
-## Ad activation (M3 — do not enable before)
+## Activation guide (M3 infrastructure — all off by default)
 
-1. Install the Google-certified CMP + Consent Mode v2 defaults (denied for
-   UK/EEA) behind `next/script` env flags — see SPEC §10.
-2. Replace `src/lib/consent.ts` with the real CMP consent signal.
-3. Set `NEXT_PUBLIC_ADS_ENABLED=true` in the Vercel environment.
-4. Verify in a preview deployment: no tags before consent, CLS < 0.05.
+| Variable | Effect when set |
+| --- | --- |
+| `NEXT_PUBLIC_GA4_ID` | Loads GA4 **only after consent is granted** (basic Consent Mode v2, default denied). Enables the consent banner. |
+| `NEXT_PUBLIC_CMP_SCRIPT_URL` | Loads a Google-certified CMP script (loads unconditionally — it is the consent tool). Required before ad activation per SPEC §10. |
+| `NEXT_PUBLIC_ADS_SCRIPT_URL` | Loads the ad network script (Journey/Grow) **only after consent**. |
+| `NEXT_PUBLIC_ADS_ENABLED` | `"true"` lets `AdSlot` render (still consent-gated, fixed 300×250 reservation, lazy mount). |
+
+Activation order: (1) sign up with a Google-certified CMP and set its
+script URL; (2) set the GA4 ID; (3) verify consent-gating on a preview
+(`FLAGS_ON=1 pnpm test:e2e` runs the gated suite); (4) set the ad script
+URL + `NEXT_PUBLIC_ADS_ENABLED=true`; (5) re-run Lighthouse — CLS must
+stay < 0.05. With every flag unset the site makes zero third-party
+requests (asserted by e2e).
+
+Affiliate offers: add entries to `src/registry/affiliates.ts` (slug →
+offers). Every rendered offer carries the disclosure line and
+`rel="sponsored nofollow"` automatically; clicks emit `affiliate_click`.
 
 ## Adding a tool (content workflow)
 

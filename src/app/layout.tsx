@@ -5,6 +5,9 @@ import "./globals.css";
 import { SITE_CONFIGURED, SITE_NAME, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
 import { toolsForHub } from "@/registry/tools";
+import { ConsentBanner } from "@/components/ConsentBanner";
+import { CookieSettingsButton } from "@/components/CookieSettingsButton";
+import { ThirdPartyScripts } from "@/components/ThirdPartyScripts";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -78,6 +81,7 @@ export default function RootLayout({
                 <li><Link href="/legal/affiliate-disclosure" className="hover:text-foreground">Affiliate disclosure</Link></li>
                 <li><Link href="/legal/medical-disclaimer" className="hover:text-foreground">Medical disclaimer</Link></li>
                 <li><Link href="/author/mathew-beale" className="hover:text-foreground">About the author</Link></li>
+                <li><CookieSettingsButton /></li>
               </ul>
             </nav>
             <p>
@@ -90,6 +94,8 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+        <ConsentBanner />
+        <ThirdPartyScripts />
       </body>
     </html>
   );
