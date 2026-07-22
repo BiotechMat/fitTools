@@ -24,6 +24,13 @@ and Mat has signed off.
   no accounts. Build from this when building those pages. Cross-linking into the
   calculators (its §8) is a build requirement, not optional.
 
+- DESIGN.md — v2 visual identity (Gen-Z rebrand: Blaze orange / Forest green,
+  Anton/Figtree/Space Mono). Authoritative for colours, type and component
+  styling when building or restyling UI; also records the premium-lean
+  monetisation posture (§5: ads optional, never structural) and the
+  return-visit/retention component specs (§6, styled now, built with their
+  ROADMAP phases). Direction approved as mockups only — not yet implemented;
+  the live site still uses the teal tokens in globals.css.
 - ROADMAP.md — post-v1 / engagement sequencing. Context, NOT a current build
   target. Do not implement ahead of SPEC milestones.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
