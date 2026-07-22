@@ -124,6 +124,33 @@ export function articleJsonLd(article: {
   };
 }
 
+export interface HowToJsonLd {
+  "@context": "https://schema.org";
+  "@type": "HowTo";
+  name: string;
+  description: string;
+  step: { "@type": "HowToStep"; position: number; text: string }[];
+}
+
+/** HowTo JSON-LD for exercise "how to perform it" steps (CONTENT-reference §3). */
+export function howToJsonLd(source: {
+  name: string;
+  description: string;
+  steps: string[];
+}): HowToJsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: source.name,
+    description: source.description,
+    step: source.steps.map((text, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      text,
+    })),
+  };
+}
+
 export interface BreadcrumbJsonLd {
   "@context": "https://schema.org";
   "@type": "BreadcrumbList";
