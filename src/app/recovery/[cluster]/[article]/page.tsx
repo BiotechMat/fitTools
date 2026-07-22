@@ -11,7 +11,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecoverySafety } from "@/components/RecoverySafety";
+import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
 interface ArticleParams {
@@ -94,7 +94,13 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         </p>
       ) : null}
 
-      <RecoverySafety variant={c.safety} />
+      <SafetyCallout title={c.safety.title}>
+        <ul className="list-disc space-y-1 pl-5">
+          {c.safety.points.map((p, i) => (
+            <li key={i}>{p}</li>
+          ))}
+        </ul>
+      </SafetyCallout>
 
       <div className="prose">
         <Content />

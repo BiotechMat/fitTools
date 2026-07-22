@@ -31,8 +31,8 @@ export interface RecoveryCluster {
   title: string;
   pillarValueLine: string;
   metaDescription: string;
-  /** Which safety box variant to render. */
-  safety: "cold" | "sauna";
+  /** Safety box content (CONTENT.md §5) — mandatory on every intervention page. */
+  safety: { title: string; points: string[] };
   faq: FaqEntry[];
   lastReviewed: string;
   sources: Source[];
@@ -46,7 +46,15 @@ const coldWater: RecoveryCluster = {
     "What ice baths and cold plunges actually do — separating the well-supported effects from the hype.",
   metaDescription:
     "An evidence-tiered guide to cold water immersion: what the research supports (and doesn't) for recovery, mood and metabolism, the timing trade-off with muscle growth, and how to start safely.",
-  safety: "cold",
+  safety: {
+    title: "Safety — cold water immersion",
+    points: [
+      "Cold immersion is a strong stressor on the heart and circulation. The cold-shock response (gasping, spiking heart rate and blood pressure) is the main acute danger, especially in very cold water.",
+      "Be cautious or avoid it with heart conditions, uncontrolled high blood pressure, or during pregnancy, and never immerse alone or after alcohol.",
+      "Enter gradually, keep sessions short, and get out at any warning sign.",
+      "Consult a doctor before starting if you have any medical condition or are pregnant.",
+    ],
+  },
   lastReviewed: "2026-07-22",
   faq: [
     {
@@ -138,7 +146,15 @@ const sauna: RecoveryCluster = {
     "Among the better-supported recovery practices — here's what the evidence shows, and where it stops.",
   metaDescription:
     "An evidence-tiered guide to sauna therapy: the strong observational links to cardiovascular and all-cause mortality, blood-pressure benefits, the causation caveat, infrared vs traditional, and how to use it safely.",
-  safety: "sauna",
+  safety: {
+    title: "Safety — sauna use",
+    points: [
+      "The main risks are overheating, dehydration and fainting. Hydrate before and after, and don't stay in longer than feels comfortable.",
+      "Be cautious or avoid it with certain cardiovascular conditions, unstable angina, recent heart attack, or during pregnancy, and never combine sauna with alcohol.",
+      "Cool down gradually and stand up slowly to avoid dizziness.",
+      "Consult a doctor before starting if you have any medical condition or are pregnant.",
+    ],
+  },
   lastReviewed: "2026-07-22",
   faq: [
     {
@@ -223,7 +239,279 @@ const sauna: RecoveryCluster = {
   ],
 };
 
-export const recoveryClusters: RecoveryCluster[] = [coldWater, sauna];
+const compression: RecoveryCluster = {
+  slug: "compression-therapy",
+  title: "Compression Boots: Benefits, Evidence and How to Use Them",
+  pillarValueLine:
+    "What pneumatic compression boots actually do for recovery — the real effects versus the marketing.",
+  metaDescription:
+    "An evidence-tiered guide to pneumatic compression boots: what the research supports for recovery and soreness, what it doesn't, who should be cautious, and how to use them.",
+  safety: {
+    title: "Safety — compression therapy",
+    points: [
+      "Avoid if you have or are at risk of a blood clot (DVT), serious circulation problems, or an active leg injury or infection — squeezing the leg could be harmful.",
+      "Stop if you get numbness, tingling or pain, and don't use over open wounds.",
+      "Consult a doctor first if you have any vascular condition, are pregnant, or have any doubt.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "Do compression boots aid recovery?",
+      a: "The best-supported effect is on how recovered you feel and on reducing muscle soreness after hard exercise. Whether they meaningfully improve next-day performance is far less clear, and the effect sizes are modest.",
+    },
+    {
+      q: "How do they work?",
+      a: "They inflate in a sequence to squeeze the legs, which is thought to help move fluid and blood flow. The medical version of this (for conditions like lymphoedema) is well established; the athletic-recovery use is a different, weaker evidence base.",
+    },
+    {
+      q: "Are they worth the money?",
+      a: "They're a convenience and a 'feel-good' recovery tool rather than a proven performance booster. Gentle movement, sleep and nutrition do more for recovery — and cost nothing.",
+    },
+    {
+      q: "How long should I use them?",
+      a: "Typical sessions are 15–30 minutes at a comfortable pressure. More isn't necessarily better, and there's no strong evidence for a precise protocol.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: intermittent pneumatic compression and exercise recovery / delayed-onset muscle soreness (trials and reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=intermittent+pneumatic+compression+exercise+recovery",
+    },
+  ],
+  satellites: [],
+};
+
+const massageGuns: RecoveryCluster = {
+  slug: "massage-guns",
+  title: "Massage Guns (Percussive Therapy): What the Evidence Says",
+  pillarValueLine:
+    "What percussive massage devices do for soreness and range of motion — and what they don't.",
+  metaDescription:
+    "An evidence-tiered guide to massage guns: the preliminary evidence for short-term range of motion and soreness relief, the overblown claims, and how to use one safely.",
+  safety: {
+    title: "Safety — massage guns",
+    points: [
+      "Keep them on muscle. Avoid bones, joints, the neck/throat, the spine, nerves and any injured, bruised or inflamed area.",
+      "Don't use over numbness, recent injuries, blood clots or if you're on blood thinners without medical advice.",
+      "Keep sessions short and pressure moderate — more force and time is not better, and can bruise.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "Do massage guns work?",
+      a: "For a short-term increase in range of motion and some relief of muscle soreness, the evidence is modest but real. As a way to feel looser and more recovered before or after training, they're reasonable — just don't expect performance gains.",
+    },
+    {
+      q: "Do they improve performance or build muscle?",
+      a: "No. There's no good evidence that percussive therapy boosts strength, speed or muscle growth. Its role is comfort and short-term mobility, not adaptation.",
+    },
+    {
+      q: "Before or after training?",
+      a: "Brief use before can aid warm-up mobility without the strength loss long static stretching can cause; after, it may ease soreness. Both are low-stakes.",
+    },
+    {
+      q: "How long should I use it?",
+      a: "Short bouts — roughly 1–2 minutes per muscle — are plenty. Prolonged, aggressive use risks bruising and offers no extra benefit.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: percussive / vibration massage therapy, range of motion and muscle soreness (trials and reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=percussive+massage+therapy+range+of+motion+soreness",
+    },
+  ],
+  satellites: [],
+};
+
+const redLight: RecoveryCluster = {
+  slug: "red-light-therapy",
+  title: "Red Light Therapy (Photobiomodulation): Benefits and Evidence",
+  pillarValueLine:
+    "What red and near-infrared light therapy is claimed to do — and where the evidence actually stands.",
+  metaDescription:
+    "An evidence-tiered guide to red light therapy (photobiomodulation): the preliminary and mixed evidence for recovery, skin and muscle, the marketing claims to ignore, and safety.",
+  safety: {
+    title: "Safety — red light therapy",
+    points: [
+      "Protect your eyes — don't stare into the light source; use goggles for facial/near-eye use.",
+      "It is generally low-risk on skin, but stop if you get irritation, and be cautious if you take photosensitising medication or have a light-sensitive condition.",
+      "Devices vary widely in power and quality; follow the manufacturer's distance and time guidance.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "Does red light therapy work?",
+      a: "It's genuinely being researched, with preliminary and mixed evidence for muscle recovery, some skin outcomes and pain. It's one of the more plausible 'light' treatments — but the evidence is early and the consumer market overpromises.",
+    },
+    {
+      q: "What are the credible uses?",
+      a: "The better-studied areas are skin (wrinkles, some healing) and short-term muscle recovery/soreness. Even there, results are inconsistent and depend heavily on dose and device.",
+    },
+    {
+      q: "What claims should I ignore?",
+      a: "Sweeping promises of fat loss, anti-ageing across the whole body, or dramatic performance gains run well ahead of the evidence.",
+    },
+    {
+      q: "Do cheap panels work like the studies?",
+      a: "Not necessarily. Wavelength, power output and distance matter a lot, and inexpensive devices may not deliver a dose comparable to research equipment.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: photobiomodulation / red light therapy — muscle recovery, skin and performance (trials and reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=photobiomodulation+red+light+therapy+muscle+recovery+OR+skin",
+    },
+  ],
+  satellites: [],
+};
+
+const sleepEnvironment: RecoveryCluster = {
+  slug: "sleep-environment",
+  title: "Optimising Your Sleep Environment: Temperature, Light and Sound",
+  pillarValueLine:
+    "The bedroom factors that genuinely affect sleep — and the gadgets that mostly don't.",
+  metaDescription:
+    "An evidence-based guide to your sleep environment: the well-supported basics (cool, dark, quiet), what the research says about temperature and light, and which gadgets are hype.",
+  safety: {
+    title: "Safety — sleep",
+    points: [
+      "Persistent poor sleep, loud snoring or gasping, or daytime exhaustion can signal a treatable sleep disorder — see a doctor rather than relying on gadgets.",
+      "This is general information about your environment, not treatment for insomnia or a sleep disorder.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "What actually matters for sleep environment?",
+      a: "The well-supported basics: a cool room, darkness, and quiet. Your body lowers its core temperature to sleep, so a slightly cool room (often cited around 16–19°C) and light control are the highest-value changes.",
+    },
+    {
+      q: "Does room temperature really matter?",
+      a: "Yes — temperature is one of the better-supported environmental factors. Too warm a room is a common, fixable cause of restless sleep.",
+    },
+    {
+      q: "Are sleep gadgets worth it?",
+      a: "Most are preliminary at best. Blackout, quiet and a cool room deliver the reliable wins; cooling mattresses, trackers and the like are optional extras, not fundamentals.",
+    },
+    {
+      q: "What about light at night?",
+      a: "Darkness supports melatonin and sleep; bright light — especially in the hours before bed — works against it. Reducing evening light and blocking morning light where needed both help.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: bedroom environment — ambient temperature, light and noise effects on sleep (reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=sleep+environment+temperature+light+noise+review",
+    },
+  ],
+  satellites: [],
+};
+
+const breathwork: RecoveryCluster = {
+  slug: "breathwork",
+  title: "Breathwork for Recovery and Stress: What the Evidence Shows",
+  pillarValueLine:
+    "What breathing techniques can and can't do for stress, recovery and focus — honestly assessed.",
+  metaDescription:
+    "An evidence-tiered guide to breathwork: the reasonable evidence for slow breathing and acute stress relief, the overblown claims, and important safety limits.",
+  safety: {
+    title: "Safety — breathwork",
+    points: [
+      "Never do breath-holds or hyperventilation-style techniques (e.g. Wim Hof) in or near water, while driving, or standing — fainting can cause drowning or injury. Do them seated or lying down.",
+      "Intense hyperventilation methods can cause dizziness, tingling and blackouts. Be cautious with heart or lung conditions, epilepsy, high blood pressure or pregnancy, and seek medical advice first.",
+      "Gentle slow breathing is low-risk for most people; stop any technique that makes you feel unwell.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "Does breathwork reduce stress?",
+      a: "Slow, controlled breathing (around six breaths a minute) has reasonable evidence for acutely calming the nervous system, lowering stress and nudging heart-rate variability. It's a genuinely useful, free tool for in-the-moment stress.",
+    },
+    {
+      q: "What about the more extreme methods?",
+      a: "Intense hyperventilation-and-hold methods (such as the Wim Hof method) have some preliminary research and passionate advocates, but the evidence for lasting benefits is early — and the safety cautions above are important.",
+    },
+    {
+      q: "Can it help recovery or sleep?",
+      a: "Slow breathing before bed or after training can aid relaxation, which supports winding down. Treat it as a relaxation aid rather than a proven recovery accelerator.",
+    },
+    {
+      q: "How long do I need to do it?",
+      a: "Even a few minutes of slow breathing can shift how you feel. Consistency matters more than long sessions.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: slow-paced breathing / breathwork — stress, heart-rate variability and wellbeing (trials and reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+breathing+breathwork+stress+heart+rate+variability",
+    },
+  ],
+  satellites: [],
+};
+
+const foamRolling: RecoveryCluster = {
+  slug: "foam-rolling",
+  title: "Foam Rolling & Mobility: Benefits and Limits",
+  pillarValueLine:
+    "What foam rolling actually does for mobility and soreness — and the myths worth dropping.",
+  metaDescription:
+    "An evidence-tiered guide to foam rolling: the real short-term benefits for range of motion and soreness, the myths about 'breaking up' fascia, and how to use it well.",
+  safety: {
+    title: "Safety — foam rolling",
+    points: [
+      "Roll muscle, not joints or bone. Avoid rolling directly over the lower back (spine), the neck, the front of the knee, or any injured or inflamed area.",
+      "Ease off if you get sharp pain, numbness or tingling — some discomfort is normal, pain is not.",
+      "Keep pressure moderate; grinding hard on a spot offers no extra benefit.",
+    ],
+  },
+  lastReviewed: "2026-07-22",
+  faq: [
+    {
+      q: "Does foam rolling work?",
+      a: "For a short-term increase in range of motion — without the temporary strength loss long static stretching can cause — and for modestly easing muscle soreness, yes. Those short-term effects are its real, evidence-based value.",
+    },
+    {
+      q: "Does it 'break up' fascia or knots?",
+      a: "No. The popular idea that rolling physically breaks up fascia or 'knots' isn't supported; the effects are more likely neural (changing how tight a muscle feels) and short-lived.",
+    },
+    {
+      q: "Does it improve long-term flexibility?",
+      a: "The range-of-motion boost is mostly acute. For lasting flexibility, regular mobility and strength work through a full range does more than rolling alone.",
+    },
+    {
+      q: "When should I foam roll?",
+      a: "It works well as part of a warm-up to feel looser, or afterwards for soreness. A minute or so per muscle is plenty.",
+    },
+  ],
+  sources: [
+    {
+      label:
+        "PubMed: foam rolling / self-myofascial release — range of motion and muscle soreness (trials and reviews)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=foam+rolling+self-myofascial+release+range+of+motion+soreness",
+    },
+  ],
+  satellites: [],
+};
+
+export const recoveryClusters: RecoveryCluster[] = [
+  coldWater,
+  sauna,
+  compression,
+  massageGuns,
+  redLight,
+  sleepEnvironment,
+  breathwork,
+  foamRolling,
+];
 
 export const clustersBySlug: ReadonlyMap<string, RecoveryCluster> = new Map(
   recoveryClusters.map((c) => [c.slug, c]),
