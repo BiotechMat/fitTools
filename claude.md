@@ -2,12 +2,15 @@
 
 ## Project
 Fitness calculator platform. Full requirements in SPEC.md — read it before any work.
-Status (2026-07-22): SPEC milestones M0–M4 built. M0–M2 signed off by Mat;
-M3 (monetisation infra) and M4 (labs + embeds) built, not yet formally signed
-off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age,
-Heart Age/PREVENT, CGM metrics, lifestyle life-expectancy done; Fitness Age
-blocked on paywalled source), Layer 2 composite indices (all three done), and
-CONTENT clusters (cold-water + sauna done).
+Status (2026-07-22): SPEC milestones M0–M4 built and signed off by Mat (M3
+monetisation infra and M4 labs + embeds signed off 2026-07-22). Post-v1 work
+done: METHODOLOGY.md Layer 1 tools (Phenotypic Age, Heart Age/PREVENT, CGM
+metrics, lifestyle life-expectancy; Fitness Age blocked on paywalled source),
+Layer 2 composite indices (all three), CONTENT.md recovery clusters (all eight:
+cold-water, sauna, compression, massage guns, red-light, sleep environment,
+breathwork, foam rolling), CONTENT-peptides.md, and the CONTENT-reference.md
+first batch (glossary, supplement database, exercise library, food reference,
+reference tables, plus both-way calculator↔reference cross-links).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
