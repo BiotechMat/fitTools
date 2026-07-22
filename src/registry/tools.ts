@@ -9,6 +9,21 @@ import { oneRmConfig } from "@/registry/configs/one-rep-max-calculator";
 import { plateConfig } from "@/registry/configs/plate-calculator";
 import { hrConfig } from "@/registry/configs/heart-rate-zone-calculator";
 import { sleepConfig } from "@/registry/configs/sleep-calculator";
+import { bmrConfig } from "@/registry/configs/bmr-calculator";
+import { lbmConfig } from "@/registry/configs/lean-body-mass-calculator";
+import { ffmiConfig } from "@/registry/configs/ffmi-calculator";
+import { waterConfig } from "@/registry/configs/water-intake-calculator";
+import { caloriesBurnedConfig } from "@/registry/configs/calories-burned-calculator";
+import { stepsConfig } from "@/registry/configs/steps-to-calories-calculator";
+import { creatineConfig } from "@/registry/configs/creatine-calculator";
+import { warmupConfig } from "@/registry/configs/warmup-calculator";
+import { progressionConfig } from "@/registry/configs/double-progression-planner";
+import { volumeConfig } from "@/registry/configs/training-volume-calculator";
+import { standardsConfig } from "@/registry/configs/strength-standards";
+import { dotsConfig } from "@/registry/configs/dots-calculator";
+import { paceConfig } from "@/registry/configs/running-pace-calculator";
+import { raceConfig } from "@/registry/configs/race-time-predictor";
+import { caffeineConfig } from "@/registry/configs/caffeine-calculator";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -26,6 +41,21 @@ export const allTools: ToolConfig[] = [
   plateConfig,
   hrConfig,
   sleepConfig,
+  bmrConfig,
+  lbmConfig,
+  ffmiConfig,
+  waterConfig,
+  caloriesBurnedConfig,
+  stepsConfig,
+  creatineConfig,
+  warmupConfig,
+  progressionConfig,
+  volumeConfig,
+  standardsConfig,
+  dotsConfig,
+  paceConfig,
+  raceConfig,
+  caffeineConfig,
 ];
 
 export const toolsBySlug: ReadonlyMap<string, ToolConfig> = new Map(

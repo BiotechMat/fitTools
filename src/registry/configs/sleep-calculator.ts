@@ -39,7 +39,7 @@ export const sleepConfig: ToolConfig = {
       a: "Consistency beats precision: a regular sleep and wake time, a dark cool room, and winding down without screens matter more than hitting an exact minute. Persistent trouble sleeping is worth discussing with your GP.",
     },
   ],
-  related: ["heart-rate-zone-calculator"],
+  related: ["heart-rate-zone-calculator", "caffeine-calculator"],
   monetization: { ads: true, affiliates: true },
   lastReviewed: "2026-07-21",
   sources: [

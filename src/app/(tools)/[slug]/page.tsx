@@ -8,6 +8,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { AffiliateBlock } from "@/components/AffiliateBlock";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
+import { EmailCapture } from "@/components/EmailCapture";
 import { FAQ } from "@/components/FAQ";
 import { RelatedTools } from "@/components/RelatedTools";
 import {
@@ -121,6 +122,8 @@ export default async function ToolPage({ params }: ToolPageParams) {
       <FAQ entries={tool.faq} />
 
       {tool.monetization.affiliates ? <AffiliateBlock slug={tool.slug} /> : null}
+
+      <EmailCapture />
 
       <AuthorBox lastReviewed={tool.lastReviewed} />
 

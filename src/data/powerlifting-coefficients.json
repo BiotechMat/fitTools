@@ -1,0 +1,47 @@
+{
+  "dots": {
+    "male": { "a": -0.000001093, "b": 0.0007391293, "c": -0.1918759221, "d": 24.0900756, "e": -307.75076, "minBw": 40, "maxBw": 210 },
+    "female": { "a": -0.0000010706, "b": 0.0005158568, "c": -0.1126655495, "d": 13.6175032, "e": -57.96288, "minBw": 40, "maxBw": 150 }
+  },
+  "wilks": {
+    "male": { "a": -216.0475144, "b": 16.2606339, "c": -0.002388645, "d": -0.00113732, "e": 0.00000701863, "f": -0.00000001291, "minBw": 40, "maxBw": 201.9 },
+    "female": { "a": 594.31747775582, "b": -27.23842536447, "c": 0.82112226871, "d": -0.00930733913, "e": 0.00004731582, "f": -0.00000009054, "minBw": 26.51, "maxBw": 154.53 }
+  },
+  "ipfGl": {
+    "minBw": 35,
+    "sbd": {
+      "raw": {
+        "male": { "a": 1199.72839, "b": 1025.18162, "c": 0.00921 },
+        "female": { "a": 610.32796, "b": 1045.59282, "c": 0.03048 }
+      },
+      "equipped": {
+        "male": { "a": 1236.25115, "b": 1449.21864, "c": 0.01644 },
+        "female": { "a": 758.63878, "b": 949.31382, "c": 0.02435 }
+      }
+    },
+    "bench": {
+      "raw": {
+        "male": { "a": 320.98041, "b": 281.40258, "c": 0.01008 },
+        "female": { "a": 142.40398, "b": 442.52671, "c": 0.04724 }
+      },
+      "equipped": {
+        "male": { "a": 381.22073, "b": 733.79378, "c": 0.02398 },
+        "female": { "a": 221.82209, "b": 357.00377, "c": 0.02937 }
+      }
+    }
+  },
+  "sources": [
+    {
+      "label": "OpenPowerlifting coefficients: dots.rs (official DOTS polynomial)",
+      "url": "https://raw.githubusercontent.com/sstangl/openpowerlifting/main/crates/coefficients/src/dots.rs"
+    },
+    {
+      "label": "OpenPowerlifting coefficients: wilks.rs (original Wilks polynomial)",
+      "url": "https://raw.githubusercontent.com/sstangl/openpowerlifting/main/crates/coefficients/src/wilks.rs"
+    },
+    {
+      "label": "OpenPowerlifting coefficients: goodlift.rs (IPF GL points)",
+      "url": "https://raw.githubusercontent.com/sstangl/openpowerlifting/main/crates/coefficients/src/goodlift.rs"
+    }
+  ]
+}

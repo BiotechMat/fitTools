@@ -54,7 +54,7 @@ export const bodyFatConfig: ToolConfig = {
       a: "Bio-impedance scales estimate body fat from electrical conductivity, which swings with hydration, food and skin temperature. Neither method is exact; what matters most is tracking the trend using the same method under the same conditions.",
     },
   ],
-  related: ["bmi-calculator", "ideal-weight-calculator"],
+  related: ["bmi-calculator", "ffmi-calculator", "lean-body-mass-calculator"],
   monetization: { ads: true, affiliates: true },
   lastReviewed: "2026-07-21",
   sources: [

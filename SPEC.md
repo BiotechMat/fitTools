@@ -252,6 +252,11 @@ sleep calculator.)
 
 **M2 — Full catalogue.** Tiers 2–3 (~27 tools total incl. DOTS with regression tests),
 MDX editorial for all, RelatedTools graph, EmailCapture.
+(M2 list agreed with Mat 2026-07-21 — 15 new tools, 25 total: BMR, lean body
+mass, FFMI, water intake, calories burned, steps-to-calories, creatine
+[nutrition]; warm-up generator, double progression, volume, strength
+standards, powerlifting score DOTS/Wilks/IPF GL [strength]; running pace,
+race predictor, caffeine half-life [recovery].)
 ✓ Formula test count ≥ 3×tools; strength-standards data sourced; zero orphan pages.
 
 **M3 — Monetisation readiness.** CMP + Consent Mode v2, AdSlot, affiliate registry

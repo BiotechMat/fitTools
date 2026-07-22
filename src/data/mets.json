@@ -1,0 +1,44 @@
+{
+  "activities": [
+    { "code": "17170", "label": "Walking, 2.5 mph (4 km/h), level", "met": 3.0 },
+    { "code": "17190", "label": "Walking, 3.0 mph (4.8 km/h), moderate", "met": 3.8 },
+    { "code": "17200", "label": "Walking, 3.5 mph (5.6 km/h), brisk", "met": 4.8 },
+    { "code": "17220", "label": "Walking, 4.0 mph (6.4 km/h), very brisk", "met": 5.5 },
+    { "code": "17080", "label": "Hiking, cross country", "met": 6.0 },
+    { "code": "12030", "label": "Running, 5 mph (12 min/mile)", "met": 8.5 },
+    { "code": "12050", "label": "Running, 6 mph (10 min/mile)", "met": 9.3 },
+    { "code": "12070", "label": "Running, 7 mph (8.5 min/mile)", "met": 11.0 },
+    { "code": "12090", "label": "Running, 8 mph (7.5 min/mile)", "met": 12.0 },
+    { "code": "12120", "label": "Running, 10 mph (6 min/mile)", "met": 14.8 },
+    { "code": "01020", "label": "Cycling, 10–11.9 mph, light", "met": 4.3 },
+    { "code": "01030", "label": "Cycling, 12–13.9 mph, moderate", "met": 8.0 },
+    { "code": "01040", "label": "Cycling, 14–15.9 mph, vigorous", "met": 10.0 },
+    { "code": "01220", "label": "Stationary cycling, 90–100 W, moderate", "met": 6.0 },
+    { "code": "02054", "label": "Resistance training, multiple exercises, 8–15 reps", "met": 3.5 },
+    { "code": "02035", "label": "Circuit training, moderate effort", "met": 5.0 },
+    { "code": "02040", "label": "Circuit training incl. kettlebells, vigorous", "met": 7.5 },
+    { "code": "02020", "label": "Calisthenics (press-ups, burpees), vigorous", "met": 7.5 },
+    { "code": "02022", "label": "Calisthenics, moderate effort", "met": 3.8 },
+    { "code": "02071", "label": "Rowing machine, moderate (<100 W)", "met": 5.0 },
+    { "code": "02048", "label": "Elliptical trainer, moderate", "met": 5.0 },
+    { "code": "02150", "label": "Yoga, Hatha", "met": 2.3 },
+    { "code": "18240", "label": "Swimming laps, freestyle, slow/recreational", "met": 5.8 },
+    { "code": "18230", "label": "Swimming laps, freestyle, fast/vigorous", "met": 9.8 },
+    { "code": "18310", "label": "Swimming, leisurely", "met": 6.0 }
+  ],
+  "walkingByPace": {
+    "casual": { "code": "17170", "met": 3.0, "kmh": 4.0 },
+    "moderate": { "code": "17190", "met": 3.8, "kmh": 4.8 },
+    "brisk": { "code": "17200", "met": 4.8, "kmh": 5.6 }
+  },
+  "sources": [
+    {
+      "label": "Compendium of Physical Activities (Adult Compendium), activity codes and MET values",
+      "url": "https://pacompendium.com/"
+    },
+    {
+      "label": "Ainsworth BE, et al. 2011 Compendium of Physical Activities: a second update of codes and MET values. Med Sci Sports Exerc 2011;43:1575–1581",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21681120/"
+    }
+  ]
+}

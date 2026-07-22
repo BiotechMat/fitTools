@@ -1,0 +1,83 @@
+{
+  "referenceAgeBand": "20-29",
+  "levels": ["physicallyActive", "beginner", "intermediate", "advanced", "elite"],
+  "levelLabels": {
+    "untrained": "Untrained",
+    "physicallyActive": "Physically active",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "elite": "Elite"
+  },
+  "lifts": {
+    "backSquat": {
+      "label": "Back squat",
+      "male": [
+        { "bw": 57, "values": [38, 65, 87, 120, 153] },
+        { "bw": 68, "values": [46, 78, 104, 143, 189] },
+        { "bw": 79, "values": [51, 87, 116, 160, 210] },
+        { "bw": 91, "values": [57, 98, 130, 179, 236] },
+        { "bw": 102, "values": [57, 98, 131, 180, 232] },
+        { "bw": 113, "values": [70, 120, 160, 220, 285] },
+        { "bw": 136, "values": [72, 123, 164, 226, 282] }
+      ],
+      "female": [
+        { "bw": 57, "values": [27, 37, 51, 70, 97] },
+        { "bw": 68, "values": [32, 45, 62, 85, 118] },
+        { "bw": 79, "values": [35, 49, 67, 93, 128] },
+        { "bw": 91, "values": [36, 50, 69, 95, 132] },
+        { "bw": 102, "values": [40, 55, 76, 105, 145] },
+        { "bw": 113, "values": [46, 63, 87, 120, 165] },
+        { "bw": 136, "values": [57, 75, 105, 140, 195] }
+      ]
+    },
+    "benchPress": {
+      "label": "Bench press",
+      "male": [
+        { "bw": 57, "values": [36, 51, 65, 80, 92] },
+        { "bw": 68, "values": [50, 70, 90, 110, 130] },
+        { "bw": 79, "values": [50, 70, 90, 110, 150] },
+        { "bw": 91, "values": [52, 73, 93, 114, 161] },
+        { "bw": 102, "values": [55, 77, 99, 121, 170] },
+        { "bw": 113, "values": [59, 82, 106, 129, 181] },
+        { "bw": 136, "values": [61, 85, 109, 133, 182] }
+      ],
+      "female": [
+        { "bw": 57, "values": [14, 19, 26, 36, 49] },
+        { "bw": 68, "values": [19, 27, 37, 51, 70] },
+        { "bw": 79, "values": [21, 29, 40, 56, 77] },
+        { "bw": 91, "values": [22, 30, 42, 57, 79] },
+        { "bw": 102, "values": [25, 34, 47, 64, 89] },
+        { "bw": 113, "values": [25, 35, 48, 66, 91] },
+        { "bw": 136, "values": [28, 39, 54, 75, 103] }
+      ]
+    },
+    "deadlift": {
+      "label": "Deadlift",
+      "male": [
+        { "bw": 57, "values": [47, 81, 101, 127, 141] },
+        { "bw": 68, "values": [64, 112, 139, 186, 207] },
+        { "bw": 79, "values": [76, 131, 164, 219, 243] },
+        { "bw": 91, "values": [83, 144, 180, 240, 266] },
+        { "bw": 102, "values": [84, 146, 182, 243, 270] },
+        { "bw": 113, "values": [85, 147, 184, 245, 273] },
+        { "bw": 136, "values": [86, 149, 187, 249, 276] }
+      ],
+      "female": [
+        { "bw": 57, "values": [25, 58, 74, 91, 120] },
+        { "bw": 68, "values": [30, 70, 90, 110, 140] },
+        { "bw": 79, "values": [33, 77, 99, 121, 150] },
+        { "bw": 91, "values": [34, 79, 101, 124, 154] },
+        { "bw": 102, "values": [35, 82, 107, 133, 162] },
+        { "bw": 113, "values": [35, 82, 106, 134, 164] },
+        { "bw": 136, "values": [36, 84, 108, 132, 159] }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "label": "Kilgore L. Strength Standard Tables (© 2023, Kilgore Academy) — kilogram tables, age band 20–29; the source covers ages 15–89 and further lifts",
+      "url": "https://lonkilgore.com/resources/Lon_Kilgore_Strength_Standard_Tables-Copyright-2023.pdf"
+    }
+  ]
+}

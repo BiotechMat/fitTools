@@ -47,8 +47,8 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const xml = await response.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
-  // Home + 3 hubs + 10 tools + author + 5 legal pages.
-  expect(locs.length).toBe(20);
+  // Home + 3 hubs + 25 tools + author + 5 legal pages.
+  expect(locs.length).toBe(35);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
