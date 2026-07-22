@@ -10,6 +10,18 @@ are high-commercial-intent topics researched *before a significant purchase*
 (a sauna or plunge tub is a serious buy), and they hold attention for minutes —
 lifting ad viewability and click-through in ways the tools structurally can't.
 
+**Status (2026-07-22): IMPLEMENTED — both launch clusters (§3.1, §3.2).**
+Routes: pillars at `/recovery/<cluster>`, satellites at
+`/recovery/<cluster>/<article>`, driven by the single-source registry
+`src/registry/recovery-content.ts`. Cold water immersion (pillar + `ice-bath-
+benefits` authority + `best-cold-plunge-tubs` commercial) and sauna therapy
+(pillar + `sauna-benefits` authority + `best-home-saunas` commercial) are live,
+evidence-tiered, safety-boxed, disclosed on commercial pages, and surfaced from
+the recovery hub and sitemap. Commercial pages are deliberately neutral
+selection-criteria guides that name no specific products, so no Product/Review
+schema is emitted (nothing to review); they defer all health claims to the
+evidence-tiered pillar. Covered by `tests/e2e/recovery-content.spec.ts`.
+
 ---
 
 ## 1. Non-negotiable principles

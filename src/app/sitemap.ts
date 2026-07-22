@@ -3,6 +3,7 @@ import { AUTHOR, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
 import { allTools, toolsForHub } from "@/registry/tools";
 import { allPeptides } from "@/registry/peptides";
+import { recoveryClusters } from "@/registry/recovery-content";
 
 const STATIC_PATHS = [
   AUTHOR.path,
@@ -42,11 +43,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
+  const recoveryContent = recoveryClusters.flatMap((c) => [
+    {
+      url: `${SITE_URL}/recovery/${c.slug}`,
+      lastModified: c.lastReviewed,
+      changeFrequency: "monthly" as const,
+    },
+    ...c.satellites.map((a) => ({
+      url: `${SITE_URL}/recovery/${c.slug}/${a.slug}`,
+      lastModified: a.lastReviewed,
+      changeFrequency: "monthly" as const,
+    })),
+  ]);
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
     ...hubs,
     ...tools,
     ...staticPages,
     ...peptides,
+    ...recoveryContent,
   ];
 }

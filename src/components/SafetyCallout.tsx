@@ -27,6 +27,52 @@ export function SafetyCallout({
   );
 }
 
+/** Cold water immersion safety box (CONTENT.md §5). */
+export function ColdWaterSafetyCallout() {
+  return (
+    <SafetyCallout title="Safety — cold water immersion">
+      <ul className="list-disc space-y-1 pl-5">
+        <li>
+          Cold immersion is a strong stressor on the heart and circulation.
+          The <strong>cold-shock response</strong> (gasping, spiking heart
+          rate and blood pressure) is the main acute danger, especially in
+          very cold water.
+        </li>
+        <li>
+          Be cautious or avoid it with <strong>heart conditions,
+          uncontrolled high blood pressure, or during pregnancy</strong>, and{" "}
+          <strong>never immerse alone or after alcohol</strong>.
+        </li>
+        <li>Enter gradually, keep sessions short, and get out at any warning sign.</li>
+        <li>Consult a doctor before starting if you have any medical condition or are pregnant.</li>
+      </ul>
+    </SafetyCallout>
+  );
+}
+
+/** Sauna safety box (CONTENT.md §5). */
+export function SaunaSafetyCallout() {
+  return (
+    <SafetyCallout title="Safety — sauna use">
+      <ul className="list-disc space-y-1 pl-5">
+        <li>
+          The main risks are <strong>overheating, dehydration and
+          fainting</strong>. Hydrate before and after, and don&rsquo;t stay
+          in longer than feels comfortable.
+        </li>
+        <li>
+          Be cautious or avoid it with <strong>certain cardiovascular
+          conditions, unstable angina, recent heart attack, or during
+          pregnancy</strong>, and <strong>never combine sauna with
+          alcohol</strong>.
+        </li>
+        <li>Cool down gradually and stand up slowly to avoid dizziness.</li>
+        <li>Consult a doctor before starting if you have any medical condition or are pregnant.</li>
+      </ul>
+    </SafetyCallout>
+  );
+}
+
 /** The standard peptides safety/legality box (CONTENT-peptides.md §4). */
 export function PeptideSafetyCallout() {
   return (
