@@ -55,6 +55,25 @@ body {
   line-height: 0.95;
 }
 
+/* Homepage marquee ticker (DESIGN.md mockups §02). Decorative motion only —
+   disabled under prefers-reduced-motion; content is duplicated for the loop
+   with the copy aria-hidden. */
+.ticker-rail {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker-scroll 32s linear infinite;
+}
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-rail {
+    animation: none;
+  }
+}
+
 /* Editorial (MDX) typography — hand-rolled to avoid a plugin dependency. */
 .prose {
   max-width: 65ch;

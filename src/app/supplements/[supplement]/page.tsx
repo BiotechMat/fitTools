@@ -88,9 +88,11 @@ export default async function SupplementPage({ params }: SupplementParams) {
           <span aria-hidden="true"> / </span>
           <Link href="/supplements" className="hover:text-foreground">Supplements</Link>
         </nav>
-        <div className="mt-2 flex flex-wrap items-center gap-3">
+        <div className="mt-2 flex flex-wrap items-center gap-4">
           <h1 className="font-display text-3xl uppercase sm:text-4xl">{s.name}</h1>
-          <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
+          <span className="inline-block rotate-2 [&>span]:border-2 [&>span]:px-3 [&>span]:py-1 [&>span]:text-sm [&>span]:shadow-[3px_3px_0_0_var(--color-foreground)]">
+            <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
+          </span>
         </div>
         {s.aka && s.aka.length > 0 ? (
           <p className="mt-1 text-sm text-muted">Also known as: {s.aka.join(", ")}</p>

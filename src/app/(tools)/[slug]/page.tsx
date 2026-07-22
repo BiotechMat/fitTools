@@ -105,6 +105,17 @@ export default async function ToolPage({ params }: ToolPageParams) {
         <p className="mt-1 max-w-prose text-muted">
           {tool.valueLine ?? tool.metaDescription}
         </p>
+        <ul className="mt-3 flex flex-wrap gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.12em]">
+          <li className="rounded-full border border-foreground bg-primary-soft px-2.5 py-0.5">
+            {hub.title}
+          </li>
+          <li className="rounded-full border border-foreground bg-good-soft px-2.5 py-0.5">
+            {tool.sources.length} cited {tool.sources.length === 1 ? "source" : "sources"}
+          </li>
+          <li className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-muted">
+            Runs in your browser
+          </li>
+        </ul>
       </div>
 
       {tool.disclaimerLevel === "clinical-input" ? <ClinicalDisclaimer /> : null}

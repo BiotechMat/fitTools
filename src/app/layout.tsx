@@ -112,6 +112,12 @@ export default function RootLayout({
                 </Link>
               </li>
             </ul>
+            <Link
+              href="/heart-age-calculator"
+              className="ml-auto hidden rounded-full border-2 border-foreground bg-primary-strong px-4 py-1.5 text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] lg:inline-block"
+            >
+              Check your heart age
+            </Link>
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">

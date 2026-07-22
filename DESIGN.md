@@ -5,11 +5,14 @@ Direction chosen by Mat (2026-07-22). Mockups:
 https://claude.ai/code/artifact/6caa375c-4ef2-425b-9cf4-b1d997460ba9
 
 **Status: implemented on the `v2-design` branch (2026-07-22)** — tokens, fonts
-(next/font: Anton/Figtree/Space Mono), shared components, page templates and
-OG images. Not built: midnight mode (§1, separate decision), the marquee
-ticker and number-first tool cards from the mockups, and the §6 components
-beyond the "since last time" chip. AA note applied in code: Blaze is
-display-size only; small-text accents are Ember; CTAs are ink-on-Blaze.
+(next/font: Anton/Figtree/Space Mono), shared components, page templates, OG
+images, and the mockup compositions: homepage kicker/CTA row, marquee ticker
+(reduced-motion safe), number-first "start here" cards (stats computed from
+each tool's real formula at its defaults), colour-block hub strip, nav CTA,
+tool-page meta pills, supplement tier stamp. Not built: midnight mode (§1,
+separate decision) and the §6 components beyond the "since last time" chip.
+AA note applied in code: Blaze is display-size only; small-text accents are
+Ember; CTAs are ink-on-Blaze.
 
 Tagline for the system: **"Loud enough to lift. Calm enough to live long."**
 Blaze orange brings gym-poster intensity; forest green is the health
