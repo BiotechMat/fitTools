@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { MaxOutGame } from "@/components/maxout/MaxOutGame";
 
 export const metadata: Metadata = {
-  title: "Max Out — The One-Rep-Max Timing Game",
+  title: "Max Out: The One-Rep-Max Timing Game",
   description:
-    "Tap when the needle crosses the green, lock the rep, load the bar. Chalk up, earn the belt, chase seven plates a side. Free browser lifting arcade — no sign-up.",
+    "Tap when the needle crosses the green, lock the rep, load the bar. Chalk up, earn the belt, chase seven plates a side. Free browser lifting arcade, no sign-up.",
   alternates: { canonical: "/max-out" },
 };
 
@@ -39,7 +39,7 @@ export default function MaxOutPage() {
       </h1>
       <p className="mt-2 max-w-prose text-muted">
         The bar is loaded and the needle is moving. Tap inside the green
-        window to lock the rep —{" "}
+        window to lock the rep,{" "}
         <strong className="font-semibold text-foreground">
           every clean one adds plates
         </strong>
@@ -52,7 +52,7 @@ export default function MaxOutPage() {
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Max Out is a cartoon, not a training plan — no needle can judge a real
+        Max Out is a cartoon, not a training plan. No needle can judge a real
         lift, and nothing here measures you. For your actual one-rep max,
         estimated from any set with the formulas cited, try the{" "}
         <Link

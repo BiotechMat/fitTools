@@ -131,7 +131,7 @@ export function DotsCalculator() {
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter bodyweight (35–210 kg) and total to see your scores.
+            Enter bodyweight (35 to 210 kg) and total to see your scores.
           </p>
         )}
       </ResultsPanel>

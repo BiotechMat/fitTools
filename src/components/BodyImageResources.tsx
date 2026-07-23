@@ -17,14 +17,14 @@ export function BodyImageResources() {
       </h2>
       <p className="mt-2 max-w-prose">
         If thoughts about your appearance, weight or eating are taking up a lot
-        of headspace, that&rsquo;s worth talking to someone about — it&rsquo;s
+        of headspace, that&rsquo;s worth talking to someone about, it&rsquo;s
         common, and support helps. You don&rsquo;t need to be &ldquo;bad
         enough&rdquo; to reach out.
       </p>
       <ul className="mt-3 space-y-1">
         <li>
           <span className="font-semibold">Beat</span> (UK eating-disorder
-          charity) —{" "}
+          charity),{" "}
           <a
             href="https://www.beateatingdisorders.org.uk/get-information-and-support/"
             rel="noopener noreferrer"
@@ -35,7 +35,7 @@ export function BodyImageResources() {
         </li>
         <li>
           <span className="font-semibold">NEDA</span> (US National Eating
-          Disorders Association) —{" "}
+          Disorders Association),{" "}
           <a
             href="https://www.nationaleatingdisorders.org/get-help/"
             rel="noopener noreferrer"

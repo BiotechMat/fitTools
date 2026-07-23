@@ -16,7 +16,7 @@ export const stepsConfig: ToolConfig = {
   slug: STEPS_SLUG,
   title: "Steps to Calories Calculator",
   valueLine:
-    "Convert your step count into distance and a rough calorie estimate — with the roughness stated honestly.",
+    "Convert your step count into distance and a rough calorie estimate, with the roughness stated honestly.",
   metaDescription:
     "Free steps-to-calories calculator: stride length from your height, distance from your steps, and energy from published walking MET values. Clearly labelled as a rough estimate.",
   hub: "nutrition",
@@ -34,7 +34,7 @@ export const stepsConfig: ToolConfig = {
     },
     {
       q: "Is 10,000 steps a day scientifically special?",
-      a: "No — it began as a 1960s Japanese pedometer marketing campaign. Research shows health benefits accumulating well before 10,000 and continuing beyond it; more movement is simply better than less.",
+      a: "No, it began as a 1960s Japanese pedometer marketing campaign. Research shows health benefits accumulating well before 10,000 and continuing beyond it; more movement is simply better than less.",
     },
     {
       q: "Do these calories include what I'd burn anyway?",
@@ -46,11 +46,11 @@ export const stepsConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Compendium of Physical Activities — walking MET values",
+      label: "Compendium of Physical Activities: walking MET values",
       url: "https://pacompendium.com/walking/",
     },
     {
-      label: "Ainsworth BE, et al. Med Sci Sports Exerc 2011;43:1575–1581",
+      label: "Ainsworth BE, et al. Med Sci Sports Exerc 2011;43:1575-1581",
       url: "https://pubmed.ncbi.nlm.nih.gov/21681120/",
     },
   ],

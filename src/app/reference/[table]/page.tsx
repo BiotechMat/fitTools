@@ -78,7 +78,7 @@ function HrZonesTable() {
     return [
       age,
       round(hrMax),
-      ...zones.map((z) => `${round(z.lowerBpm)}–${round(z.upperBpm)}`),
+      ...zones.map((z) => `${round(z.lowerBpm)} to ${round(z.upperBpm)}`),
     ];
   });
   return (

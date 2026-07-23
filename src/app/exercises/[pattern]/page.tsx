@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PatternParams): Promise<Metad
   const p = getPattern(pattern as MovementPattern);
   if (!p) return {};
   return {
-    title: `${p.title} — Exercise Guides`,
+    title: `${p.title}: Exercise Guides`,
     description: p.description,
     alternates: { canonical: `/exercises/${p.slug}` },
   };

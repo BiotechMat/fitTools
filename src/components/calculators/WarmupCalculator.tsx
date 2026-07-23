@@ -78,7 +78,7 @@ export function WarmupCalculator() {
                     </td>
                     <td className="py-1.5 text-right tabular-nums">×{set.reps}</td>
                     <td className="py-1.5 text-right tabular-nums">
-                      {set.perSide.length > 0 ? set.perSide.join(" + ") : "—"}
+                      {set.perSide.length > 0 ? set.perSide.join(" + ") : "bar only"}
                     </td>
                   </tr>
                 ))}

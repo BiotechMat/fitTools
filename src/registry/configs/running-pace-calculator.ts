@@ -11,7 +11,7 @@ export const paceInputsSchema = z.object({
 
 export const paceConfig: ToolConfig = {
   slug: PACE_SLUG,
-  title: "Running Pace Calculator — Pace, Speed & Splits",
+  title: "Running Pace Calculator: Pace, Speed & Splits",
   valueLine:
     "Turn a distance and time into pace per kilometre and mile, speed, and even splits.",
   metaDescription:
@@ -27,7 +27,7 @@ export const paceConfig: ToolConfig = {
     },
     {
       q: "What is a good 5k or 10k pace?",
-      a: "Recreational 5k times commonly span 20–35 minutes (4:00–7:00 /km). Pace is personal — the useful comparison is your own trend, not a global average.",
+      a: "Recreational 5k times commonly span 20 to 35 minutes (4:00-7:00 /km). Pace is personal, so the useful comparison is your own trend, not a global average.",
     },
     {
       q: "Should I run even splits?",
@@ -43,11 +43,11 @@ export const paceConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Riegel PS. Athletic records and human endurance. American Scientist 1981;69:285–290 (endurance-pace relationship)",
+      label: "Riegel PS. Athletic records and human endurance. American Scientist 1981;69:285-290 (endurance-pace relationship)",
       url: "https://www.jstor.org/stable/27850427",
     },
     {
-      label: "Tanaka H, et al. J Am Coll Cardiol 2001;37:153–156 (intensity context)",
+      label: "Tanaka H, et al. J Am Coll Cardiol 2001;37:153-156 (intensity context)",
       url: "https://pubmed.ncbi.nlm.nih.gov/11153730/",
     },
   ],

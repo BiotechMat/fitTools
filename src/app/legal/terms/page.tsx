@@ -22,7 +22,7 @@ export default function TermsPage() {
         FitTools provides calculators and editorial content for general
         information and education. Results are estimates produced by
         published formulas and are provided &ldquo;as is&rdquo;, without
-        warranty of any kind. The site does not provide medical advice —
+        warranty of any kind. The site does not provide medical advice,
         see the{" "}
         <Link href="/legal/medical-disclaimer">medical disclaimer</Link>,
         which forms part of these terms.

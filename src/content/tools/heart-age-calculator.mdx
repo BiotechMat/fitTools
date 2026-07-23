@@ -1,7 +1,7 @@
 ## Methodology
 
-Heart age turns an abstract percentage — your predicted 10-year
-cardiovascular risk — into something intuitive: an age. It is the age at
+Heart age turns an abstract percentage, your predicted 10-year
+cardiovascular risk, into something intuitive: an age. It is the age at
 which a person with **ideal risk factors** would carry the same risk you do.
 A heart age above your real age means your blood pressure, cholesterol and
 health history are ageing your cardiovascular system faster than the calendar.
@@ -9,8 +9,8 @@ health history are ageing your cardiovascular system faster than the calendar.
 ### The risk model
 
 We use the American Heart Association's **PREVENT equations** (Khan et al.,
-*Circulation*, 2024) — the current standard for cardiovascular risk in US
-adults aged 30–79, and the model behind the direction of the 2026 ACC/AHA
+*Circulation*, 2024), the current standard for cardiovascular risk in US
+adults aged 30 to 79, and the model behind the direction of the 2026 ACC/AHA
 guidelines. Specifically, we compute the **base model for 10-year total
 cardiovascular disease** (heart attack, stroke and heart failure combined),
 using the exact published sex-specific coefficients.
@@ -21,7 +21,7 @@ Each predictor is entered into a logistic model:
 
 The predictors are age, non-HDL cholesterol (total minus HDL), HDL, systolic
 blood pressure, diabetes, current smoking, kidney function (eGFR), and whether
-you take blood-pressure or statin medication — plus the interaction terms the
+you take blood-pressure or statin medication, plus the interaction terms the
 model specifies. Cholesterol is handled in mmol/L (converted from mg/dL at
 ÷38.67).
 
@@ -32,8 +32,8 @@ example** (a 50-year-old woman's profile returning 14.7%, matching to the
 digit) before shipping.
 
 **Note on BMI.** PREVENT's total-CVD model gives body-mass index a coefficient
-of exactly zero — BMI drives its separate *heart-failure* sub-model, not this
-one — so we don't ask for it here rather than collect an input that wouldn't
+of exactly zero (BMI drives its separate *heart-failure* sub-model, not this
+one) so we don't ask for it here rather than collect an input that wouldn't
 move your result.
 
 ### How heart age is derived
@@ -42,12 +42,12 @@ We compute your 10-year risk, then find the age at which someone with an
 **optimal reference profile** of the same sex has that same risk. Our
 reference profile is: total cholesterol 170 mg/dL, HDL 55 mg/dL, systolic
 blood pressure 110 mmHg untreated, non-smoking, non-diabetic, normal kidney
-function, no statin. If your risk falls outside the model's validated 30–79
+function, no statin. If your risk falls outside the model's validated 30 to 79
 window, we say so rather than extrapolate.
 
 ## ApoB and Lp(a): shown as context, never in the maths
 
-ApoB and lipoprotein(a) are increasingly discussed, and rightly so — but they
+ApoB and lipoprotein(a) are increasingly discussed, and rightly so, but they
 are **not inputs to the PREVENT equations**. Folding them into the risk score
 would be inventing a number the model was never built to produce. So if you
 enter them, we show them **separately**, against widely-cited reference
@@ -67,7 +67,7 @@ heart-age figure.
 ## Interpreting your result
 
 A heart age *below* your real age is the favourable direction. But this is a
-population-level estimate, not a personal forecast — two people with the same
+population-level estimate, not a personal forecast. Two people with the same
 heart age can have very different outcomes. The most useful things about it are
 the size of any gap and what's driving it: blood pressure and smoking, in
 particular, move the number a lot and are among the most modifiable.
@@ -77,7 +77,7 @@ stop or change any medication on the basis of it.**
 
 ## Limitations
 
-- PREVENT is validated for adults **aged 30–79**; outside that range it does
+- PREVENT is validated for adults **aged 30 to 79**; outside that range it does
   not apply.
 - It was developed in US population data; performance can differ elsewhere.
 - Total-CVD risk is not the same as the ASCVD figure some other tools report,

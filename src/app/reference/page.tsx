@@ -4,7 +4,7 @@ import { referenceTablePages } from "@/registry/reference-tables";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Reference Tables & Charts — Heart Rate, Protein, Plate Loading",
+  title: "Reference Tables & Charts: Heart Rate, Protein, Plate Loading",
   description:
     "Bookmarkable reference charts generated from the same formulas as our calculators: heart-rate zones by age, daily protein targets by bodyweight, and a barbell plate-loading chart.",
   alternates: { canonical: "/reference" },
@@ -26,7 +26,7 @@ export default function ReferenceHubPage() {
       </nav>
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Reference tables &amp; charts</h1>
       <p className="mt-2 max-w-prose text-muted">
-        Static charts to look up and bookmark — each generated from the same
+        Static charts to look up and bookmark, each generated from the same
         formula as its calculator, so the numbers always match. When you want
         your personal figure, follow the link to the interactive tool.
       </p>

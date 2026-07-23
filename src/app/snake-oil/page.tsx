@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { SnakeOilGame } from "@/components/snakeoil/SnakeOilGame";
 
 export const metadata: Metadata = {
-  title: "Snake Oil — The Myth-Slicing Game",
+  title: "Snake Oil: The Myth-Slicing Game",
   description:
-    "Fitness claims fly; slice the myths, spare the truths. Every busted myth is backed by a real cited source. Free browser arcade — no sign-up, just receipts.",
+    "Fitness claims fly; slice the myths, spare the truths. Every busted myth is backed by a real cited source. Free browser arcade, no sign-up, just receipts.",
   alternates: { canonical: "/snake-oil" },
 };
 
@@ -42,8 +42,7 @@ export default function SnakeOilPage() {
         flying.{" "}
         <strong className="font-semibold text-foreground">
           Slice the myths, spare the truths
-        </strong>{" "}
-        — cut a true thing in half, or let a myth escape into the group chat,
+        </strong>,{" "}cut a true thing in half, or let a myth escape into the group chat,
         and it costs you. Knowing your evidence IS the reflex.
       </p>
 

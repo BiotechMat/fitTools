@@ -151,11 +151,11 @@ describe("the blade", () => {
 describe("the fail state", () => {
   it("gags carry the claim and target the myth, not the player", () => {
     expect(escapedCause("8 GLASSES A DAY")).toContain("'8 GLASSES A DAY'");
-    expect(slicedTruthCause("3–5 G CREATINE WORKS")).toContain("It was true.");
+    expect(slicedTruthCause("3 to 5 G CREATINE WORKS")).toContain("It was true.");
   });
 
   it("share text carries the count, the points and the cause line", () => {
-    const text = shareText(41, 620, slicedTruthCause("3–5 G CREATINE WORKS"));
+    const text = shareText(41, 620, slicedTruthCause("3 to 5 G CREATINE WORKS"));
     expect(text).toContain("SNAKE OIL");
     expect(text).toContain("41 myths busted");
     expect(text).toContain("620 pts");

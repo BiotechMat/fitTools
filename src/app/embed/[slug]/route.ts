@@ -59,7 +59,7 @@ function buildDefs(): Record<EmbedSlug, EmbedDef> {
 <option value="1.9">Extremely active (×1.9)</option>
 </select></label>
 <output id="out" aria-live="polite"></output>
-<small>Mifflin–St Jeor estimate, not medical advice.</small>`,
+<small>Mifflin-St Jeor estimate, not medical advice.</small>`,
       script: `var mifflin=${embedMifflin.toString()};
 function calc(){var s=document.getElementById('sex').value,a=+document.getElementById('age').value,w=+document.getElementById('w').value,h=+document.getElementById('h').value,f=+document.getElementById('act').value;
 if(!(a>=13&&a<=100&&w>=30&&w<=300&&h>=120&&h<=250)){document.getElementById('out').textContent='Enter valid values';return;}
@@ -78,7 +78,7 @@ var t=Math.round(mifflin(s,w,h,a)*f);document.getElementById('out').textContent=
       script: `var bmi=${embedBmi.toString()};var cat=${embedBmiCategory.toString()};
 function calc(){var w=+document.getElementById('w').value,h=+document.getElementById('h').value;
 if(!(w>=30&&w<=300&&h>=120&&h<=250)){document.getElementById('out').textContent='Enter valid values';return;}
-var v=bmi(w,h);document.getElementById('out').textContent=v.toFixed(1)+' — '+cat(v);}
+var v=bmi(w,h);document.getElementById('out').textContent=v.toFixed(1)+': '+cat(v);}
 `,
     },
     "one-rep-max-calculator": {
@@ -86,7 +86,7 @@ var v=bmi(w,h);document.getElementById('out').textContent=v.toFixed(1)+' — '+c
       body: `
 <div class="row">
 <label>Weight lifted (kg)<input id="w" type="number" value="100" min="1" max="500"></label>
-<label>Reps (1–10)<input id="r" type="number" value="5" min="1" max="10"></label>
+<label>Reps (1 to 10)<input id="r" type="number" value="5" min="1" max="10"></label>
 </div>
 <output id="out" aria-live="polite"></output>
 <small>Epley estimate; valid for 10 reps or fewer.</small>`,
@@ -115,14 +115,14 @@ export async function GET(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<title>${def.title} — ${SITE_NAME}</title>
+<title>${def.title} | ${SITE_NAME}</title>
 <style>${STYLE}</style>
 </head>
 <body>
 <div class="wrap">
 <h1>${def.title}</h1>
 ${def.body}
-<p><small>Powered by <a href="${SITE_URL}/${slug}?utm_source=embed" target="_top" rel="noopener">${SITE_NAME}</a> — estimates only, not medical advice.</small></p>
+<p><small>Powered by <a href="${SITE_URL}/${slug}?utm_source=embed" target="_top" rel="noopener">${SITE_NAME}</a>, estimates only, not medical advice.</small></p>
 </div>
 <script>${def.script}
 document.querySelectorAll('input,select').forEach(function(el){el.addEventListener('input',calc);});

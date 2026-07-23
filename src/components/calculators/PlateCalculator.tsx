@@ -191,7 +191,7 @@ export function PlateCalculator() {
             </p>
             {!result.exact ? (
               <p className="mt-2 max-w-prose text-sm text-muted">
-                Your exact target can&rsquo;t be built from the plates listed —
+                Your exact target can&rsquo;t be built from the plates listed,
                 this is the closest load your rack allows. Add smaller plates
                 to the inventory for finer jumps.
               </p>

@@ -88,7 +88,7 @@ export function ProgressionCalculator() {
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
               {result.progressed
-                ? "Every set hit the top of the range — add the increment and rebuild reps from the bottom."
+                ? "Every set hit the top of the range. Add the increment and rebuild reps from the bottom."
                 : "Repeat the load and chase the top of the range on every set. The weight goes up only when all sets get there."}
             </p>
           </div>

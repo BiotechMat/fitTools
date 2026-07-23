@@ -443,11 +443,11 @@ export function MaxOutGame() {
         const aid = aidFor(w.perfectStreak);
         if (aid === "chalk") {
           w.chalkNext = true;
-          toast(LIFTER_X, 290, "CHALKED UP — SLOWER NEEDLE", "#c63d08");
+          toast(LIFTER_X, 290, "CHALKED UP, SLOWER NEEDLE", "#c63d08");
           beep(synthRef.current, 880, 90, "triangle", 0.05);
         } else if (aid === "belt") {
           w.beltNext = true;
-          toast(LIFTER_X, 290, "BELT ON — WIDER WINDOW", "#c63d08");
+          toast(LIFTER_X, 290, "BELT ON, WIDER WINDOW", "#c63d08");
           beep(synthRef.current, 660, 90, "triangle", 0.05);
           setTimeout(() => beep(synthRef.current, 990, 110, "triangle", 0.05), 90);
         }
@@ -875,7 +875,7 @@ export function MaxOutGame() {
           e.preventDefault();
           act();
         }}
-        aria-label="Max Out — tap, click or press space when the needle is inside the green window to lock the rep"
+        aria-label="Max Out, tap, click or press space when the needle is inside the green window to lock the rep"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${MAXOUT.width} / ${MAXOUT.height}` }}
       />
@@ -917,7 +917,7 @@ export function MaxOutGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 

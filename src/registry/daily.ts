@@ -23,7 +23,7 @@ export const DAILY_REGISTRY_LAST_REVIEWED = "2026-07-23";
 const SRC = {
   caffeineIOM: {
     label:
-      "Institute of Medicine. Caffeine for the Sustainment of Mental Task Performance (2001) — pharmacokinetics, ~5 h average half-life",
+      "Institute of Medicine. Caffeine for the Sustainment of Mental Task Performance (2001), covering pharmacokinetics and the ~5 h average half-life",
     url: "https://www.ncbi.nlm.nih.gov/books/NBK223808/",
   },
   caffeineEFSA: {
@@ -38,17 +38,17 @@ const SRC = {
   },
   sleepIOM: {
     label:
-      "Institute of Medicine. Sleep Disorders and Sleep Deprivation — Sleep Physiology (NREM–REM cycle length 70–120 minutes)",
+      "Institute of Medicine. Sleep Disorders and Sleep Deprivation, Sleep Physiology (NREM-REM cycle length 70 to 120 minutes)",
     url: "https://www.ncbi.nlm.nih.gov/books/NBK19956/",
   },
   sleepNSF: {
     label:
-      "Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep Health 2015;1:40–43",
+      "Hirshkowitz M, et al. National Sleep Foundation's sleep time duration recommendations. Sleep Health 2015;1:40-43",
     url: "https://pubmed.ncbi.nlm.nih.gov/29073412/",
   },
   tanaka: {
     label:
-      "Tanaka H, Monahan KD, Seals DR. Age-predicted maximal heart rate revisited. J Am Coll Cardiol 2001;37:153–156",
+      "Tanaka H, Monahan KD, Seals DR. Age-predicted maximal heart rate revisited. J Am Coll Cardiol 2001;37:153-156",
     url: "https://www.jacc.org/doi/10.1016/S0735-1097%2800%2901054-8",
   },
   proteinISSN: {
@@ -62,12 +62,12 @@ const SRC = {
   },
   saunaMortality: {
     label:
-      "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542–548",
+      "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542-548",
     url: "https://pubmed.ncbi.nlm.nih.gov/25705824/",
   },
   saunaReview: {
     label:
-      "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111–1121",
+      "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111-1121",
     url: "https://www.mayoclinicproceedings.org/article/s0025-6196(18)30275-1/fulltext",
   },
   cwiHypertrophy: {
@@ -85,7 +85,7 @@ const SRC = {
     url: "https://www.lipidjournal.com/article/S1933-2874(24)00033-3/fulltext",
   },
   steps: {
-    label: "Compendium of Physical Activities — walking MET values",
+    label: "Compendium of Physical Activities, walking MET values",
     url: "https://pacompendium.com/walking/",
   },
 } as const;
@@ -99,7 +99,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 1,
     sliderMax: 12,
     context:
-      "Caffeine's average half-life is about five hours, so a 2 pm coffee still leaves a meaningful dose at bedtime — though genetics swing this from under two to over nine hours.",
+      "Caffeine's average half-life is about five hours, so a 2 pm coffee still leaves a meaningful dose at bedtime, though genetics swing this from under two to over nine hours.",
     tier: "well-supported",
     basis: "human",
     source: SRC.caffeineIOM,
@@ -115,7 +115,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 50,
     sliderMax: 800,
     context:
-      "EFSA judges up to about 400 mg a day safe for healthy adults — roughly four cups of coffee. Pregnancy and heart conditions change that calculus.",
+      "EFSA judges up to about 400 mg a day safe for healthy adults, roughly four cups of coffee. Pregnancy and heart conditions change that calculus.",
     tier: "well-supported",
     basis: "human",
     source: SRC.caffeineEFSA,
@@ -130,7 +130,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 1,
     sliderMax: 4,
     context:
-      "EFSA sets adequate total water at 2.5 L/day for men and 2.0 L for women — and that includes the 20–30% most people get from food, not just what you drink.",
+      "EFSA sets adequate total water at 2.5 L/day for men and 2.0 L for women, and that includes the 20 to 30% most people get from food, not just what you drink.",
     tier: "well-supported",
     basis: "human",
     source: SRC.waterEFSA,
@@ -145,7 +145,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 40,
     sliderMax: 150,
     context:
-      "A full pass through light, deep and REM sleep averages about 90 minutes in adults — though real cycles run anywhere from 70 to 120 minutes and lengthen through the night.",
+      "A full pass through light, deep and REM sleep averages about 90 minutes in adults, though real cycles run anywhere from 70 to 120 minutes and lengthen through the night.",
     tier: "well-supported",
     basis: "human",
     source: SRC.sleepIOM,
@@ -160,7 +160,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 4,
     sliderMax: 12,
     context:
-      "The National Sleep Foundation recommends 7–9 hours for adults; 7 is the floor most people should aim to clear, not a target to skim.",
+      "The National Sleep Foundation recommends 7 to 9 hours for adults; 7 is the floor most people should aim to clear, not a target to skim.",
     tier: "well-supported",
     basis: "human",
     source: SRC.sleepNSF,
@@ -175,7 +175,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 150,
     sliderMax: 210,
     context:
-      "The Tanaka equation (208 − 0.7 × age) gives 180 bpm at 40 — more accurate across ages than the older '220 − age' rule of thumb.",
+      "The Tanaka equation (208 − 0.7 × age) gives 180 bpm at 40, more accurate across ages than the older '220 − age' rule of thumb.",
     tier: "well-supported",
     basis: "human",
     source: SRC.tanaka,
@@ -191,7 +191,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 0.5,
     sliderMax: 3.5,
     context:
-      "Roughly 1.6–2.2 g of protein per kg per day is well supported for muscle; beyond about 2.2 there's little added benefit for most people.",
+      "Roughly 1.6 to 2.2 g of protein per kg per day is well supported for muscle; beyond about 2.2 there's little added benefit for most people.",
     tier: "well-supported",
     basis: "human",
     source: SRC.proteinISSN,
@@ -207,7 +207,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 1,
     sliderMax: 15,
     context:
-      "A steady 3–5 g a day saturates and maintains muscle creatine stores — no loading phase required, just consistency.",
+      "A steady 3 to 5 g a day saturates and maintains muscle creatine stores, with no loading phase required, just consistency.",
     tier: "well-supported",
     basis: "human",
     source: SRC.creatineISSN,
@@ -222,7 +222,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 1,
     sliderMax: 14,
     context:
-      "The benefit tracked with frequency: 4–7 sessions a week showed the strongest association with lower cardiovascular and all-cause mortality — though the data are observational, not proof of cause.",
+      "The benefit tracked with frequency: 4 to 7 sessions a week showed the strongest association with lower cardiovascular and all-cause mortality, though the data are observational, not proof of cause.",
     tier: "well-supported",
     basis: "human",
     source: SRC.saunaMortality,
@@ -237,7 +237,7 @@ export const ballparkItems: BallparkItem[] = [
     sliderMin: 0,
     sliderMax: 100,
     context:
-      "Lp(a) is about 80–90% genetically determined and stays fairly stable through life, so a single test can flag lifelong risk that standard cholesterol misses.",
+      "Lp(a) is about 80 to 90% genetically determined and stays fairly stable through life, so a single test can flag lifelong risk that standard cholesterol misses.",
     tier: "well-supported",
     basis: "human",
     source: SRC.lpa,
@@ -253,7 +253,7 @@ export const mythItems: MythItem[] = [
     statement: "An ice bath straight after lifting boosts muscle growth.",
     verdict: "myth",
     explanation:
-      "A 2024 meta-analysis found cold-water immersion done soon after resistance training tends to blunt the muscle-growth response. If building muscle is the goal, separate the plunge from the session by several hours — or skip it that day.",
+      "A 2024 meta-analysis found cold-water immersion done soon after resistance training tends to blunt the muscle-growth response. If building muscle is the goal, separate the plunge from the session by several hours, or skip it that day.",
     tier: "well-supported",
     basis: "human",
     source: SRC.cwiHypertrophy,
@@ -265,7 +265,7 @@ export const mythItems: MythItem[] = [
     statement: "A sauna session detoxes your body and burns meaningful fat.",
     verdict: "myth",
     explanation:
-      "Detox claims are marketing — your liver and kidneys handle that — and the weight lost in a session is water that returns on rehydration. The credible benefits are cardiovascular and relaxation-related.",
+      "Detox claims are marketing, since your liver and kidneys handle that, and the weight lost in a session is water that returns on rehydration. The credible benefits are cardiovascular and relaxation-related.",
     tier: "marketing-claim",
     source: SRC.saunaReview,
     relatedContent: "/recovery/sauna-therapy",
@@ -288,7 +288,7 @@ export const mythItems: MythItem[] = [
     statement: "The 'eight glasses of water a day' rule is based on science.",
     verdict: "myth",
     explanation:
-      "The 8×8 rule has no clear scientific origin. EFSA's adequate intakes (2.0 L women / 2.5 L men of total water, food included) are the closest evidence-based reference — and thirst remains a useful signal for most healthy people.",
+      "The 8×8 rule has no clear scientific origin. EFSA's adequate intakes (2.0 L women / 2.5 L men of total water, food included) are the closest evidence-based reference, and thirst remains a useful signal for most healthy people.",
     tier: "marketing-claim",
     source: SRC.waterEFSA,
     relatedTool: "/water-intake-calculator",
@@ -299,7 +299,7 @@ export const mythItems: MythItem[] = [
     statement: "10,000 steps a day is a scientifically derived health target.",
     verdict: "myth",
     explanation:
-      "It began as a 1960s Japanese pedometer marketing slogan. Research shows benefits accumulating well before 10,000 steps and continuing beyond — more movement is simply better than less, with no magic number.",
+      "It began as a 1960s Japanese pedometer marketing slogan. Research shows benefits accumulating well before 10,000 steps and continuing beyond, so more movement is simply better than less, with no magic number.",
     tier: "marketing-claim",
     source: SRC.steps,
     relatedTool: "/steps-to-calories-calculator",
@@ -310,7 +310,7 @@ export const mythItems: MythItem[] = [
     statement: "You have to load creatine for it to work.",
     verdict: "myth",
     explanation:
-      "Loading (0.3 g/kg/day for 5–7 days) saturates muscle stores in about a week, but a steady 3–5 g/day gets to the identical end point in three to four weeks. Loading is optional, not required.",
+      "Loading (0.3 g/kg/day for 5 to 7 days) saturates muscle stores in about a week, but a steady 3 to 5 g/day gets to the identical end point in three to four weeks. Loading is optional, not required.",
     tier: "well-supported",
     basis: "human",
     source: SRC.creatineISSN,
@@ -334,7 +334,7 @@ export const mythItems: MythItem[] = [
     statement: "It's well proven that cold plunges reliably improve your mood.",
     verdict: "myth",
     explanation:
-      "The mood and wellbeing evidence for cold-water immersion is still preliminary — promising but far weaker than the marketing implies. Treat mood benefits as plausible, not established.",
+      "The mood and wellbeing evidence for cold-water immersion is still preliminary, promising but far weaker than the marketing implies. Treat mood benefits as plausible, not established.",
     tier: "preliminary",
     basis: "human",
     source: SRC.cwiWellbeing,
@@ -346,7 +346,7 @@ export const mythItems: MythItem[] = [
     statement: "You can substantially lower your Lp(a) with diet and lifestyle.",
     verdict: "myth",
     explanation:
-      "Lipoprotein(a) is roughly 80–90% genetically determined and stays fairly stable through life, largely unaffected by diet or lifestyle. That's exactly why one measurement is so informative.",
+      "Lipoprotein(a) is roughly 80 to 90% genetically determined and stays fairly stable through life, largely unaffected by diet or lifestyle. That's exactly why one measurement is so informative.",
     tier: "well-supported",
     basis: "human",
     source: SRC.lpa,

@@ -11,9 +11,9 @@ import {
 import { getTool } from "@/registry/tools";
 
 export const metadata: Metadata = {
-  title: "At-Home Blood Test — Know Your Numbers, Powered by Evidence",
+  title: "At-Home Blood Test: Know Your Numbers, Powered by Evidence",
   description:
-    "An at-home blood test that measures the biomarkers behind your metabolic, heart and longevity health — with results that flow straight into your FitTools dashboard and calculators.",
+    "An at-home blood test that measures the biomarkers behind your metabolic, heart and longevity health, with results that flow straight into your FitTools dashboard and calculators.",
   alternates: { canonical: "/blood-test" },
 };
 
@@ -21,7 +21,7 @@ const HOW_IT_WORKS = [
   {
     step: "01",
     title: "Order your test",
-    body: "Choose your panel and we send a simple, at-home finger-prick kit — or book a clinic draw if you prefer.",
+    body: "Choose your panel and we send a simple, at-home finger-prick kit, or book a clinic draw if you prefer.",
   },
   {
     step: "02",
@@ -31,22 +31,22 @@ const HOW_IT_WORKS = [
   {
     step: "03",
     title: "Your tools light up",
-    body: "Results land in your private dashboard and auto-fill the calculators that use them — your heart age, metabolic and biological-age scores, populated from your real numbers.",
+    body: "Results land in your private dashboard and auto-fill the calculators that use them, your heart age, metabolic and biological-age scores, populated from your real numbers.",
   },
 ];
 
 const FAQ = [
   {
     q: "Is this a medical diagnosis?",
-    a: "No. A blood test with us is for information and self-tracking, not a diagnosis. Results are analysed by an accredited laboratory, but interpreting them in the context of your health is a job for a qualified clinician — and anything outside the normal range should be discussed with your GP.",
+    a: "No. A blood test with us is for information and self-tracking, not a diagnosis. Results are analysed by an accredited laboratory, but interpreting them in the context of your health is a job for a qualified clinician, and anything outside the normal range should be discussed with your GP.",
   },
   {
     q: "How do the results connect to the calculators?",
-    a: "Several of our tools — heart age, phenotypic (biological) age, the metabolic fitness index — normally ask you to type in blood values. When you test through us, those fields fill in automatically from your results, so the scores reflect your real numbers rather than estimates.",
+    a: "Several of our tools (heart age, phenotypic (biological) age, the metabolic fitness index) normally ask you to type in blood values. When you test through us, those fields fill in automatically from your results, so the scores reflect your real numbers rather than estimates.",
   },
   {
     q: "Which biomarkers are included?",
-    a: "The panel below lists every marker, grouped by what it tells you — metabolic, heart and lipids, inflammation, liver and kidney, full blood count, hormones, and vitamins and minerals. The exact final panel is being confirmed with our testing partner.",
+    a: "The panel below lists every marker, grouped by what it tells you, metabolic, heart and lipids, inflammation, liver and kidney, full blood count, hormones, and vitamins and minerals. The exact final panel is being confirmed with our testing partner.",
   },
   {
     q: "What happens to my data?",
@@ -95,7 +95,7 @@ export default function BloodTestPage() {
         </h1>
         <p className="mt-4 max-w-prose text-lg text-muted">
           Order a simple at-home blood test through FitTools and your results flow
-          straight into your dashboard — automatically filling the calculators that
+          straight into your dashboard, automatically filling the calculators that
           turn raw numbers into your heart age, metabolic health and biological
           age. The same evidence-first approach as every tool on the site, now
           running on <em>your</em> data.
@@ -132,7 +132,7 @@ export default function BloodTestPage() {
         </h2>
         <p className="mt-2 max-w-prose text-muted">
           {biomarkers.length} biomarkers across seven areas of health. Each one is a
-          number worth knowing on its own — and several feed directly into the tools
+          number worth knowing on its own, and several feed directly into the tools
           you already use.
         </p>
         <p className="mt-1 text-xs text-muted">
@@ -206,7 +206,7 @@ export default function BloodTestPage() {
           Plenty of services will sell you a blood test and a scary-looking chart.
           We do the opposite: every marker above is explained in plain English, with
           no fear-mongering and no invented &ldquo;optimal&rdquo; scores. Your numbers feed
-          tools built on published, cited research — so what you get back is context
+          tools built on published, cited research, so what you get back is context
           you can actually act on, not anxiety.
         </p>
       </section>
@@ -224,7 +224,7 @@ export default function BloodTestPage() {
             A blood test bought through us is a screening and self-tracking tool, not
             a diagnostic service. Results are produced by an accredited laboratory,
             but they are <strong>not a diagnosis</strong> and are no substitute for
-            assessment by a qualified clinician — please discuss anything abnormal, or
+            assessment by a qualified clinician. Please discuss anything abnormal, or
             any symptoms, with your GP. Because real blood results are sensitive
             personal health data, they will be stored securely in your private account
             and used only to populate your own dashboard and tools; the full

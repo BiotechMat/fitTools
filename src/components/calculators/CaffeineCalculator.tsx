@@ -73,7 +73,7 @@ export function CaffeineCalculator() {
               value={halfLife}
               onChange={(e) => setHalfLife(Number(e.target.value))}
             />
-            <p className="text-xs text-muted">Average ≈ 5 h; varies 1.5–9.5 h</p>
+            <p className="text-xs text-muted">Average ≈ 5 h; varies 1.5 to 9.5 h</p>
           </div>
           <div>
             <label htmlFor={`${id}-threshold`} className={labelClass}>Sleep threshold (mg)</label>
@@ -148,7 +148,7 @@ export function CaffeineCalculator() {
             </svg>
             <p className="mt-2 max-w-prose text-sm text-muted">
               Dashed line = your {formatNumber(result.thresholdMg)} mg
-              threshold. Half-life varies hugely between people — genetics,
+              threshold. Half-life varies hugely between people. Genetics,
               pregnancy, smoking and some medications all shift it.
             </p>
           </div>

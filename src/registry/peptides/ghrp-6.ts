@@ -5,18 +5,18 @@ export const ghrp6Page: PeptidePage = {
   name: "GHRP-6",
   aka: ["Growth-hormone-releasing peptide-6"],
   category: "gh-secretagogue",
-  title: "GHRP-6 — What It Is and What the Evidence Actually Shows",
+  title: "GHRP-6: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on GHRP-6: an older growth-hormone-releasing peptide known for strongly stimulating appetite, marketed for muscle on evidence that doesn't establish real-world benefit.",
   valueLine:
-    "An older secretagogue that reliably raises growth hormone and hunger — but with no good evidence it builds muscle or improves body composition in healthy people.",
+    "An older secretagogue that reliably raises growth hormone and hunger, but with no good evidence it builds muscle or improves body composition in healthy people.",
   headlineTier: "marketing-claim",
   headlineBasis: "mixed",
   wadaProhibited: true,
   faq: [
     {
       q: "What is GHRP-6?",
-      a: "It is one of the earlier growth-hormone-releasing peptides — a ghrelin mimetic that prompts the pituitary to release growth hormone. A defining feature is that it strongly stimulates appetite, which distinguishes it from 'cleaner' newer peptides marketed to avoid that effect.",
+      a: "It is one of the earlier growth-hormone-releasing peptides, a ghrelin mimetic that prompts the pituitary to release growth hormone. A defining feature is that it strongly stimulates appetite, which distinguishes it from 'cleaner' newer peptides marketed to avoid that effect.",
     },
     {
       q: "Does GHRP-6 build muscle?",
@@ -36,12 +36,12 @@ export const ghrp6Page: PeptidePage = {
   sources: [
     {
       label:
-        "WADA Prohibited List — S2 Peptide Hormones, Growth Factors: GH-releasing peptides (GHRPs) prohibited at all times",
+        "WADA Prohibited List, S2 Peptide Hormones, Growth Factors: GH-releasing peptides (GHRPs) prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
     {
       label:
-        "PubMed: GHRP-6 — growth-hormone-releasing peptide, appetite and GH secretion (studies and reviews)",
+        "PubMed: GHRP-6, growth-hormone-releasing peptide, appetite and GH secretion (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=GHRP-6+growth+hormone+releasing+peptide",
     },
   ],

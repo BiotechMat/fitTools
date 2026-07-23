@@ -5,15 +5,15 @@ export const sermorelinPage: PeptidePage = {
   name: "Sermorelin",
   aka: ["GHRH (1-29)", "GRF 1-29"],
   category: "gh-secretagogue",
-  title: "Sermorelin — What It Is and What the Evidence Actually Shows",
+  title: "Sermorelin: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on sermorelin: a growth-hormone-releasing hormone analogue with a genuine medical history, now marketed for anti-ageing and muscle on evidence that doesn't support those claims.",
   valueLine:
-    "A GHRH analogue with a real medical past — but the anti-ageing and physique claims made for it today outrun the evidence.",
+    "A GHRH analogue with a real medical past, but the anti-ageing and physique claims made for it today outrun the evidence.",
   headlineTier: "preliminary",
   headlineBasis: "human",
   approvedUse:
-    "Historically used in medicine as a growth-hormone-releasing agent — including as a test of pituitary function and in assessing growth in children — though the branded product was later discontinued in the US.",
+    "Historically used in medicine as a growth-hormone-releasing agent, including as a test of pituitary function and in assessing growth in children, though the branded product was later discontinued in the US.",
   wadaProhibited: true,
   faq: [
     {
@@ -38,12 +38,12 @@ export const sermorelinPage: PeptidePage = {
   sources: [
     {
       label:
-        "WADA Prohibited List — S2 Peptide Hormones, Growth Factors: GHRH and its analogues prohibited at all times",
+        "WADA Prohibited List, S2 Peptide Hormones, Growth Factors: GHRH and its analogues prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
     {
       label:
-        "PubMed: sermorelin — GHRH analogue, growth-hormone stimulation and clinical use (studies and reviews)",
+        "PubMed: sermorelin, GHRH analogue, growth-hormone stimulation and clinical use (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=sermorelin+GHRH+growth+hormone",
     },
   ],

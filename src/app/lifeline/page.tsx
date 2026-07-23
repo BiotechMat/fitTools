@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { LifelineGame } from "@/components/lifeline/LifelineGame";
 
 export const metadata: Metadata = {
-  title: "Lifeline — The Heartbeat Arcade Game",
+  title: "Lifeline: The Heartbeat Arcade Game",
   description:
-    "Tap to keep the heart beating, dodge the risk factors, and see what age you reach. One button, no sign-up — and when you're done, check your real heart age.",
+    "Tap to keep the heart beating, dodge the risk factors, and see what age you reach. One button, no sign-up, and when you're done, check your real heart age.",
   alternates: { canonical: "/lifeline" },
 };
 
@@ -39,7 +39,7 @@ export default function LifelinePage() {
       </h1>
       <p className="mt-2 max-w-prose text-muted">
         You are the heartbeat. Tap to flap, thread the gaps, dodge the risk
-        factors — <strong className="font-semibold text-foreground">your score is the age you reach</strong>.
+        factors, <strong className="font-semibold text-foreground">your score is the age you reach</strong>.
         Broccoli helps. The sofa does not.
       </p>
 
@@ -48,7 +48,7 @@ export default function LifelinePage() {
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Lifeline is a cartoon, not a health prediction — no arcade heart was
+        Lifeline is a cartoon, not a health prediction. No arcade heart was
         consulted on your actual physiology. For the real number, built on the
         AHA PREVENT equations with every source cited, try the{" "}
         <Link

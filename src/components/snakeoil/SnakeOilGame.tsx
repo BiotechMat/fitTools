@@ -851,7 +851,7 @@ export function SnakeOilGame() {
         onPointerCancel={() => {
           strokeActiveRef.current = false;
         }}
-        aria-label="Snake Oil — swipe across the flying claims to slice the myths and spare the true ones"
+        aria-label="Snake Oil, swipe across the flying claims to slice the myths and spare the true ones"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${SNAKEOIL.width} / ${SNAKEOIL.height}` }}
       />
@@ -877,8 +877,8 @@ export function SnakeOilGame() {
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
           <p className="font-display text-4xl uppercase">Snake Oil</p>
           <p className="max-w-[18rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
-            Slice the myths. Spare the truth. A sliced truth — or a myth that
-            gets away — costs a heart.
+            Slice the myths. Spare the truth. A sliced truth, or a myth that
+            gets away, costs a heart.
           </p>
           <p className="max-w-[17rem] font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
             Swipe to start
@@ -893,7 +893,7 @@ export function SnakeOilGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 

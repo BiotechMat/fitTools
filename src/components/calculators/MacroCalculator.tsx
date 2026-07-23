@@ -71,7 +71,7 @@ export function MacroCalculator() {
               value={proteinGPerKg}
               onChange={(e) => setProteinGPerKg(Number(e.target.value))}
             />
-            <p className="text-xs text-muted">Evidence-based range 1.6–2.2 g/kg</p>
+            <p className="text-xs text-muted">Evidence-based range 1.6 to 2.2 g/kg</p>
           </div>
           <div>
             <label htmlFor={`${id}-fat`} className={labelClass}>
@@ -87,7 +87,7 @@ export function MacroCalculator() {
               value={fatPercent}
               onChange={(e) => setFatPercent(Number(e.target.value))}
             />
-            <p className="text-xs text-muted">Guideline range 20–35%</p>
+            <p className="text-xs text-muted">Guideline range 20 to 35%</p>
           </div>
         </div>
       </form>
@@ -139,8 +139,8 @@ export function MacroCalculator() {
             </table>
             {result.feasible ? (
               <p className="mt-3 max-w-prose text-sm text-muted">
-                These are estimated planning targets, not prescriptions —
-                staying within 5–10 g of each is plenty accurate for most
+                These are estimated planning targets, not prescriptions,
+                staying within 5 to 10 g of each is plenty accurate for most
                 goals.
               </p>
             ) : (
@@ -153,7 +153,7 @@ export function MacroCalculator() {
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter a calorie target ({formatNumber(MACRO_LIMITS.kcalTarget.min)}–
+            Enter a calorie target ({formatNumber(MACRO_LIMITS.kcalTarget.min)} to{" "}
             {formatNumber(MACRO_LIMITS.kcalTarget.max)} kcal) and bodyweight to
             see your macro split.
           </p>

@@ -24,11 +24,11 @@ export const paceOfAgingInputsSchema = z.object({
 
 export const paceOfAgingConfig: ToolConfig = {
   slug: PACE_OF_AGING_SLUG,
-  title: "Pace of Aging Index — Open Lifestyle-Trajectory Score",
+  title: "Pace of Aging Index: Open Lifestyle-Trajectory Score",
   valueLine:
-    "A transparent 0–100 lifestyle-trajectory score from habits and simple measures — you versus your own potential, not a biological age.",
+    "A transparent 0 to 100 lifestyle-trajectory score from habits and simple measures: you versus your own potential, not a biological age.",
   metaDescription:
-    "Free open-methodology Pace of Aging Index: a transparent 0–100 lifestyle-trajectory score from fitness, activity, waist-to-height, sleep, heart rate and habits, with a full sub-score breakdown. Not a biological age or medical test.",
+    "Free open-methodology Pace of Aging Index: a transparent 0 to 100 lifestyle-trajectory score from fitness, activity, waist-to-height, sleep, heart rate and habits, with a full sub-score breakdown. Not a biological age or medical test.",
   hub: "recovery",
   tier: 3,
   inputsSchema: paceOfAgingInputsSchema,
@@ -36,15 +36,15 @@ export const paceOfAgingConfig: ToolConfig = {
   faq: [
     {
       q: "Is this my biological age?",
-      a: "No — deliberately not. It's a transparent lifestyle-trajectory score built from modifiable habits and simple measures. It shows how your current lifestyle stacks up, framed as levers you can change, not a claim about your cells' age.",
+      a: "No, deliberately not. It's a transparent lifestyle-trajectory score built from modifiable habits and simple measures. It shows how your current lifestyle stacks up, framed as levers you can change, not a claim about your cells' age.",
     },
     {
       q: "What is the 'pace' number?",
-      a: "A centred display of the same 0–100 index, roughly 0.8 (favourable) to 1.2 (less favourable). It's just another way to read the score — lower suggests a lifestyle trajectory tracking younger. It's a display transform, not a separate hidden model.",
+      a: "A centred display of the same 0 to 100 index, roughly 0.8 (favourable) to 1.2 (less favourable). It's just another way to read the score, where lower suggests a lifestyle trajectory tracking younger. It's a display transform, not a separate hidden model.",
     },
     {
       q: "Do I need a VO2max, grip or HRV number?",
-      a: "No. Those three inputs are optional — enter them only if you know them from a test or wearable. Leave them blank and the score renormalises across what you did provide, flagging reduced confidence. It never guesses a value.",
+      a: "No. Those three inputs are optional, so enter them only if you know them from a test or wearable. Leave them blank and the score renormalises across what you did provide, flagging reduced confidence. It never guesses a value.",
     },
     {
       q: "Why is cardio fitness optional here?",
@@ -60,7 +60,7 @@ export const paceOfAgingConfig: ToolConfig = {
   lastReviewed: "2026-07-22",
   sources: [
     {
-      label: "WHO Guidelines on physical activity and sedentary behaviour, 2020 (150–300 min/week MVPA)",
+      label: "WHO Guidelines on physical activity and sedentary behaviour, 2020 (150 to 300 min/week MVPA)",
       url: "https://www.who.int/publications/i/item/9789240015128",
     },
     {

@@ -43,7 +43,7 @@ export function LifeMonthsGrid({ gainYears, filled }: LifeMonthsGridProps) {
       </div>
       <p className="mt-2 text-xs text-muted">
         {filled
-          ? `All five ✓ — that's the study's reported average gap of about ${years} years (${months} months) versus meeting none.`
+          ? `All five ✓, that's the study's reported average gap of about ${years} years (${months} months) versus meeting none.`
           : `Each square is a month of the ~${years}-year average gap the study reported between meeting all five factors and none. Tick all five to see it fill in.`}
       </p>
     </div>

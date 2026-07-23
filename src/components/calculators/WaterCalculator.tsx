@@ -72,7 +72,7 @@ export function WaterCalculator() {
               value={sweatRate}
               onChange={(e) => setSweatRate(Number(e.target.value))}
             />
-            <p className="text-xs text-muted">Typical range ~0.5–2.0 L/h (higher in heat)</p>
+            <p className="text-xs text-muted">Typical range ~0.5 to 2.0 L/h (higher in heat)</p>
           </div>
         </div>
       </form>
@@ -87,7 +87,7 @@ export function WaterCalculator() {
               <span className="text-lg font-medium text-muted">litres</span>
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
-              This is TOTAL water — food typically contributes 20–30% of it,
+              This is TOTAL water, food typically contributes 20 to 30% of it,
               so your drinks need to cover roughly{" "}
               {formatNumber(result.litres * 0.75, 1)} L. A guideline for
               temperate conditions, not a prescription: thirst, urine colour
@@ -95,7 +95,7 @@ export function WaterCalculator() {
             </p>
           </div>
         ) : (
-          <p className="text-sm text-muted">Enter your exercise hours (0–6) to see the guideline.</p>
+          <p className="text-sm text-muted">Enter your exercise hours (0 to 6) to see the guideline.</p>
         )}
       </ResultsPanel>
     </CalculatorShell>

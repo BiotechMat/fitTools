@@ -75,7 +75,7 @@ export function RecoveryReadinessCalculator() {
             scoreLabel="Recovery Readiness Index"
             shareTool="recovery-readiness-index"
             whatItIs="A transparent, self-relative daily readiness score comparing today's metrics to your own baseline, with every weight and mapping published. A data point to weigh alongside how you feel."
-            whatItIsnt="A medical test, a diagnosis, or a cross-user comparison. A low score is not an instruction — it reflects your own recent averages, nothing more."
+            whatItIsnt="A medical test, a diagnosis, or a cross-user comparison. A low score is not an instruction, it reflects your own recent averages, nothing more."
           />
         ) : (
           <p className="text-sm text-muted">
