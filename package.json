@@ -11,7 +11,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "lighthouse": "lhci autorun && lhci autorun --config=lighthouserc.categories.json"
+    "lighthouse": "lhci autorun && lhci autorun --config=lighthouserc.categories.json",
+    "harvest": "node scripts/pulse-harvest.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

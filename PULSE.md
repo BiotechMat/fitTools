@@ -773,8 +773,10 @@ in `study.design`.
   fields + validation, the ranking boost, the "New" chip and card badge,
   seeded with a handful of hand-authored fresh chunks. Proves the loop with no
   pipeline at all.
-- **F1 — harvest as a session.** A repeatable, Mat-initiated Claude Code
-  harvest run (feeds + web search → triage → draft → PR). No standing
+- **F1 — harvest as a session. ✅ BUILT (2026-07-23, §15.9).** A repeatable,
+  Mat-initiated harvest run (`pnpm harvest`): PubMed E-utilities discovery →
+  triage (allowlist + DOI/URL dedupe) → Haiku draft with mechanical citations
+  → merge into the `pulse-fresh.json` sidecar → review report. No standing
   infrastructure; PRs remain ask-first (CLAUDE.md workflow).
 - **F2 — scheduled automation.** A weekly GitHub Action running the same
   script (needs a repo token — ask first).
@@ -823,8 +825,43 @@ fresh seeds are hand-authored, proving the loop end-to-end. What exists:
 - **Constants to tune** (join the §11 list): `freshnessCap`, `freshHalfLifeDays`,
   `freshReserve`, `DAILY_FRESH_WINDOW_DAYS`.
 
-**Not verified in-browser at build time:** a concurrent session had an
-unfinished edit to `src/app/share/page.tsx` (an unclosed `<HoloTilt>` tag) that
-breaks `pnpm build` / full `pnpm typecheck` repo-wide; left untouched. The
-Pulse changes are covered by unit tests; the visual pass is pending a clean
-tree.
+**Verified in-browser (2026-07-23):** production build served on a spare port;
+the daily hero rendered as a fresh "Discovery of the day" card with the New
+badge + "What it shows:" caveat, all three fresh seeds interleaved into the
+feed, and the "New" chip filtered the feed strictly to fresh cards.
+
+### 15.9 F1 implementation status (BUILT — 2026-07-23)
+
+The harvest pipeline is built and unit-tested (15 harvest tests; full suite
+green), and dry-run live against real PubMed in degraded mode (42 candidates
+discovered across the 9 category queries, deduped, 0 drafted with no key).
+What exists:
+
+- **Sidecar** — fresh chunks moved to `src/registry/pulse-fresh.json`, the
+  single home for fresh cards and the pipeline's machine-append target;
+  `pulse.ts` imports + merges it (evergreen TS + fresh JSON), validated as one
+  corpus. So the automation only ever edits data, never code.
+- **Pipeline** — `src/lib/pulse/harvest/`: `sources.ts` (allowlist + one PubMed
+  query per category + a category-drift guard), `pubmed.ts` (esearch/esummary/
+  efetch over injected `fetch`, all citation metadata captured mechanically),
+  `triage.ts` (pure: allowlist enforcement, DOI/URL dedupe, stable id, design
+  inference with preprint labelling), `draft.ts` (Haiku over `fetch`, the
+  index-only anti-hallucination contract, and the pure `buildFreshChunks`
+  enforcement point — source/DOI/design attached mechanically, `n`/`population`
+  left for human review so the pipeline never fabricates a sample size),
+  `emit.ts` (pure merge + markdown report), `index.ts` (orchestrator, injectable
+  for offline tests).
+- **CLI** — `scripts/pulse-harvest.ts`, run via `pnpm harvest` (Node native
+  type-stripping; `allowImportingTsExtensions` added to tsconfig, `harvest`
+  script added). Reads the sidecar, runs the pipeline, merges, writes a
+  gitignored `harvest-report.md`. Degrades with no API key (discovers +
+  reports, drafts nothing) — never publishes; the changed sidecar + report are
+  a PR for review (§15.1).
+- **Env:** `ANTHROPIC_API_KEY`/`PULSE_LLM_API_KEY` enables drafting;
+  `PULSE_NEWS_MODEL` overrides the model (default `claude-haiku-4-5`);
+  `PULSE_NEWS_PROVIDER=none` forces degraded.
+
+**Not verified in-browser at build time (F0):** a concurrent session briefly had
+an unfinished edit to `src/app/share/page.tsx` that broke the repo build; it was
+fixed by that session before F0's browser verification (above), and left
+otherwise untouched by this work.

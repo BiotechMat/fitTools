@@ -8,13 +8,14 @@
  * never model-invented and never guessed (CLAUDE.md) — and (b) carry the
  * cross-links into tools/content.
  *
- * Seed coverage note: the evergreen chunks are grounded in sources already
+ * Seed coverage note: the evergreen chunks below are grounded in sources already
  * present in the repo (the cold-water and sauna recovery clusters, and the
  * ApoB/Lp(a) glossary entries), spanning training / recovery / mind / cardio /
- * longevity / physiology. The three fresh chunks (PULSE.md §15, `kind: "fresh"`)
- * are the F0 hand-authored recent-discovery seeds and extend coverage into
- * supplements and nutrition. Growing the corpus is the E5 content cadence
- * (PULSE.md §3.3) and each new chunk must bring its own primary source.
+ * longevity / physiology. Fresh (recent-discovery) chunks (PULSE.md §15,
+ * `kind: "fresh"`) live in the `pulse-fresh.json` sidecar — the single home for
+ * fresh cards and the harvest pipeline's append target (§15.7) — and currently
+ * extend coverage into supplements and nutrition. Growing the corpus is the E5
+ * content cadence (PULSE.md §3.3) and each new chunk must bring its own source.
  *
  * Same single-source-of-truth pattern as the glossary / recovery / peptides
  * registries.
@@ -22,6 +23,7 @@
 
 import type { GroundingChunk } from "@/lib/pulse/types";
 import { PULSE_CATEGORIES } from "@/lib/pulse/types";
+import freshChunksJson from "./pulse-fresh.json";
 
 export const PULSE_CORPUS_LAST_REVIEWED = "2026-07-22";
 
@@ -58,33 +60,7 @@ const SRC = {
   },
 } as const;
 
-/**
- * Fresh-chunk sources (PULSE.md §15) — recent primary studies, each verified
- * against PubMed (the §15.2 discovery backbone): title, journal, DOI, sample
- * and population were read from the PubMed record / abstract, not from memory.
- * These are the F0 hand-authored seeds that prove the fresh-cards loop before
- * the ingestion pipeline exists (§15.7). `addedAt` on the chunk is the corpus
- * entry date, NOT the publication date — it drives the freshness decay.
- */
-const FRESH_SRC = {
-  creatineTiming: {
-    label:
-      "Acute Creatine Ingestion Before Resistance Training Enhances Strength Performance More than Ingestion During or After Training: A Randomized Crossover Pilot Trial. Nutrients 2026",
-    url: "https://pubmed.ncbi.nlm.nih.gov/42280432/",
-  },
-  creatinePostmeno: {
-    label:
-      "Creatine monohydrate for lean mass, strength, and bone density in postmenopausal women: a systematic review and meta-analysis. J Int Soc Sports Nutr 2026",
-    url: "https://pubmed.ncbi.nlm.nih.gov/42141930/",
-  },
-  proteinWomen: {
-    label:
-      "Effects of multi-ingredient protein supplementation combined with exercise on body composition and muscle fitness in healthy women: a systematic review with multilevel meta-analysis. Front Nutr 2025",
-    url: "https://pubmed.ncbi.nlm.nih.gov/41256928/",
-  },
-} as const;
-
-export const groundingChunks: GroundingChunk[] = [
+const evergreenChunks: GroundingChunk[] = [
   {
     id: "cwi-blunts-hypertrophy",
     claim:
@@ -185,75 +161,25 @@ export const groundingChunks: GroundingChunk[] = [
     relatedContent: "/glossary/lp-a",
     relatedTool: "/heart-age-calculator",
   },
-
-  // ── Fresh cards (PULSE.md §15) — recent-discovery seeds, F0 hand-authored ──
-  {
-    id: "fresh-creatine-timing-pre-workout",
-    claim:
-      "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after — early, exploratory evidence rather than a firm recommendation.",
-    category: "supplements",
-    tags: ["creatine", "timing", "strength"],
-    tier: "preliminary",
-    basis: "human",
-    source: FRESH_SRC.creatineTiming,
-    relatedContent: "/supplements/creatine-monohydrate",
-    kind: "fresh",
-    addedAt: "2026-07-23",
-    caveat:
-      "A pilot crossover trial in just 11 active men, measuring single-session strength; the authors call it exploratory and say it needs confirming in larger, placebo-controlled studies.",
-    study: {
-      doi: "10.3390/nu18111789",
-      journal: "Nutrients",
-      design: "Pilot RCT (crossover)",
-      n: 11,
-      population: "physically active men",
-    },
-  },
-  {
-    id: "fresh-creatine-postmenopausal-muscle",
-    claim:
-      "A 2026 meta-analysis in postmenopausal women found that creatine (around 5 g a day) alongside resistance training produced small but real gains in lean mass and leg strength, with no change in bone density and no safety signals.",
-    category: "longevity",
-    tags: ["creatine", "menopause", "strength", "ageing"],
-    tier: "well-supported",
-    basis: "human",
-    source: FRESH_SRC.creatinePostmeno,
-    relatedContent: "/supplements/creatine-monohydrate",
-    kind: "fresh",
-    addedAt: "2026-07-23",
-    caveat:
-      "Pooled from seven trials (608 women, median 38 weeks). Gains were modest — about 0.4 kg lean mass — and appeared mainly at ≥5 g a day with training; several trials had some risk-of-bias concerns, and bone density did not move.",
-    study: {
-      doi: "10.1080/15502783.2026.2668435",
-      journal: "J Int Soc Sports Nutr",
-      design: "Meta-analysis (7 RCTs)",
-      n: 608,
-      population: "postmenopausal women",
-    },
-  },
-  {
-    id: "fresh-protein-supplement-women-body-comp",
-    claim:
-      "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength — but made no difference to fat mass or body-fat percentage.",
-    category: "nutrition",
-    tags: ["protein", "body-composition", "women"],
-    tier: "preliminary",
-    basis: "human",
-    source: FRESH_SRC.proteinWomen,
-    relatedContent: "/supplements/whey-protein",
-    kind: "fresh",
-    addedAt: "2026-07-23",
-    caveat:
-      "Nine trials, 408 women aged 18–73. Muscle effects were small (about 0.45 kg fat-free mass) and there was no effect on fat loss; the authors call for more high-quality trials.",
-    study: {
-      doi: "10.3389/fnut.2025.1678433",
-      journal: "Front Nutr",
-      design: "Meta-analysis (9 RCTs)",
-      n: 408,
-      population: "healthy women 18–73",
-    },
-  },
 ];
+
+/**
+ * Fresh chunks (PULSE.md §15) live in a JSON sidecar — the single home for
+ * recent-discovery cards and the machine-append target for the harvest pipeline
+ * (§15.7 F1/F2). Keeping them out of this hand-authored TS array means the
+ * automation only ever edits data, never code (a clean PR diff). The JSON is
+ * validated by `validateCorpus` at build + in the unit test, so the structural
+ * guarantees (§15.4) hold identically to the evergreen chunks above. The cast
+ * is safe because that validation gate runs over the merged corpus.
+ */
+const freshChunks = freshChunksJson as unknown as GroundingChunk[];
+
+/**
+ * The full grounding corpus: hand-authored evergreen chunks + sidecar-managed
+ * fresh chunks (PULSE.md §15). Order puts evergreen first; `selectChunks`
+ * re-orders per draw with the freshness boost, so array order is not load-bearing.
+ */
+export const groundingChunks: GroundingChunk[] = [...evergreenChunks, ...freshChunks];
 
 /**
  * Structural validation of the corpus (PULSE.md §3.2). Runs as a unit test.

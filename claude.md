@@ -50,9 +50,11 @@ and Mat has signed off.
   vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
   PULSE_LLM_MODEL / PULSE_LLM_PROVIDER. Fresh-cards extension (recent-
   discovery chunks via a PR-gated ingest pipeline, interleaved with a "New"
-  chip) — §15; F0 (schema, ranking boost + "New" chip, three verified fresh
-  seed chunks) BUILT 2026-07-23 (§15.8); ingest pipeline F1–F2 + weekly digest
-  F3 remain.
+  chip) — §15. BUILT 2026-07-23: F0 schema/ranking/"New" chip + 3 verified
+  fresh seeds (§15.8), F1 harvest pipeline `pnpm harvest` (src/lib/pulse/
+  harvest/*, fresh chunks in src/registry/pulse-fresh.json sidecar; env
+  ANTHROPIC_API_KEY / PULSE_NEWS_MODEL=claude-haiku-4-5 / PULSE_NEWS_PROVIDER,
+  §15.9). F2 scheduled Action + F3 weekly digest remain.
 - DAILY-GAMES.md — the daily ritual games at `/daily` ("Ballpark"
   guess-the-stat daily + "Myth or Fact?" weekly), the daily-return loop
   (ROADMAP E3/E5 threads). Hand-authored, sourced, deterministic per day —
