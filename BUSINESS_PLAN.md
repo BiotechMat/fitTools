@@ -180,6 +180,15 @@ boxes or the paywalls on the basics.
 
 ## 7. Business model & revenue streams
 
+> **Reconciliation owed (2026-07-23).** This section and §11 pre-date the current
+> revenue direction and still read *ads-first*. The working direction is now
+> **premium-lean, subscription-led** — a low-cost subscription selling
+> *persistence and depth* (saved history, Trajectory) is the intended primary
+> line, with ads/affiliates as *supporting* layers (see `MONETISATION.md`, the
+> source of truth for revenue direction). Once Mat confirms the model
+> (`MONETISATION.md §4`), reorder the streams below to lead with subscription.
+> Tracked in `STATUS.md §6`.
+
 Audience first; monetisation switched on in layers as traffic arrives. All
 infrastructure is pre-built behind flags so activation is a switch, not a rebuild.
 

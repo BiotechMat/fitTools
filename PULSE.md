@@ -10,7 +10,16 @@ shareable and filterable by category. Product name **Pulse**; route `/pulse`.
 **Status:** in build (2026-07-22, Mat's call — supersedes the earlier "not
 ahead of its ROADMAP phase" hold). Corpus registry, grounded generation
 pipeline, `/api/pulse`, ranking, local store and the core feed UI exist; saved
-view, share image, per-chunk SEO pages and analytics wiring remain (§13).
+view, share image (the E1 pipeline now exists but is tool-only — §4), per-chunk
+SEO pages and analytics wiring remain (§13).
+
+> **Top remaining priority (2026-07-23): grow the corpus.** It holds **12 chunks
+> (9 evergreen + 3 fresh)** against the v1 target of **60–100** (§3.3), so the
+> "endless" feed exhausts in under a minute. Growing it (nutrition, supplements
+> and sleep are the thin categories) is `STATUS.md §3` Phase 1 and the single
+> biggest lever on this feature's value — the pipeline is done; it needs fuel.
+> Pulse also runs in **degraded mode** in production until `ANTHROPIC_API_KEY` is
+> set (§14 PRODUCTION TODO).
 
 **Extension "fresh cards" — F0 BUILT (2026-07-23):** recent-discovery
 (news-feel) chunks interleaved into the feed with a "New" chip. Decisions in
@@ -546,11 +555,13 @@ high-volume, low-complexity workload — §14).
 
 ## 13. Remaining work (as-built state in §14)
 
-The v1 vertical slice is built (§14). Still to do, in suggested order:
+The v1 vertical slice is built (§14). Still to do, in suggested order (the
+current cross-cutting priority order is `STATUS.md §3` — corpus growth first):
 
-1. **Saved view** (`/pulse/saved`, §4/§7) — the store already supports it.
-2. **Corpus growth** to the ~60–100 chunk v1 target (§3.3) — nutrition,
-   supplements and sleep are the thin categories.
+1. **Corpus growth** to the ~60–100 chunk v1 target (§3.3) — nutrition,
+   supplements and sleep are the thin categories. **The top priority** (only 12
+   chunks today); harvest from already-vetted repo content.
+2. **Saved view** (`/pulse/saved`, §4/§7) — the store already supports it.
 3. **Daily `/pulse/<date>` page** + JSON-LD + sitemap entry (§8) — the durable
    SEO/share artefact; unlocks deep-linked daily shares.
 4. **Share — OG-image card** (§4, locked §11) — with/after the E1 image
@@ -614,9 +625,11 @@ generation on:
       dashboard; cannot be done from the repo.)*
 - [ ] *(Recommended)* **Set `PULSE_LLM_MODEL=claude-haiku-4-5`** — far cheaper
       and faster than the Opus default for this high-volume rephrasing workload.
-- [ ] Separately (SEO, not Pulse-specific): **`NEXT_PUBLIC_SITE_URL`** is still
-      unset, so the whole site — Pulse included — is `noindex`. Set it when
-      ready for search engines to index `/pulse`.
+- [x] ~~Set `NEXT_PUBLIC_SITE_URL` to lift `noindex`.~~ **Superseded
+      (2026-07-23):** production is now indexable automatically (`tools.fit` is
+      the built-in default, gated on `VERCEL_ENV === "production"` —
+      `src/lib/site.ts`; README env-flags table). No manual var needed; `/pulse`
+      is indexable on production.
 
 **What flips the moment `ANTHROPIC_API_KEY` is live** (no code change, no
 redeploy beyond picking up the env var):
@@ -638,9 +651,13 @@ redeploy beyond picking up the env var):
   daily hero). This is why Haiku is recommended above.
 
 **Deliberately deferred (flagged to Mat):**
-- **Branded OG-image share card** (§4, locked §11) depends on the E1 image
-  pipeline, which doesn't exist yet. v1 ships functional share (Web Share /
-  clipboard of the fact + `/pulse` link); the image card is the E1 follow-on.
+- **Branded OG-image share card** (§4, locked §11). **Update 2026-07-23:** the E1
+  image pipeline now EXISTS — `/api/share-card` renders a branded 1200×630 card
+  via `next/og` — but it validates against the *tool* registry, so Pulse cards
+  can't use it yet. Remaining work is generalising that endpoint (or adding a
+  Pulse payload) plus the 1080×1920 story format; tracked as `STATUS.md §3`
+  Phase 2. Until then Pulse share stays Web Share / clipboard (fact + `/pulse`
+  link).
 - **Saved view** (`/pulse/saved`, §4/§7) — store supports it; page not built.
 - **Reciprocal "related facts" strips** on tool/article pages (§9) — schema
   supports it; not wired.

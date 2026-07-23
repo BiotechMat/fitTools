@@ -57,7 +57,10 @@ flap blip, pickup ding, decade tick, flatline tone.
 ## 6. Not built yet (sequenced)
 
 - Daily-seeded run + streak + Wordle-style share text (joins /daily).
-- /share achievement-card hook ("Lived to 92 · top 6% today").
+- /share achievement-card hook ("Lived to 92 · top 6% today"). The E1
+  OG-image pipeline (`/api/share-card`) exists but is tool-only; extending it to
+  Lifeline is part of `STATUS.md §3` Phase 2 (build once, serve tools + Pulse +
+  Daily + Lifeline).
 - Optional leaderboard (accounts-gated, ROADMAP E4 rules apply).
 
 ## 7. Status
