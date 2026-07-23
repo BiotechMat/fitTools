@@ -70,7 +70,7 @@ function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
 /* The harvest. Silhouette + colour must read in a tenth of a second. */
 const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
   apple: {
-    scale: 3,
+    scale: 5,
     rows: [
       "....K.....",
       "....K.FF..",
@@ -84,7 +84,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   banana: {
-    scale: 3,
+    scale: 4,
     rows: [
       "KK..........",
       ".KAK........",
@@ -97,7 +97,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   orange: {
-    scale: 3,
+    scale: 5,
     rows: [
       "....KF...",
       "..KKKKK..",
@@ -110,7 +110,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   broccoli: {
-    scale: 3,
+    scale: 5,
     rows: [
       "..KKKKK...",
       ".KFFFFFK..",
@@ -124,7 +124,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   strawberry: {
-    scale: 3,
+    scale: 5,
     rows: [
       "..FFKFF..",
       ".KKKKKKK.",
@@ -137,7 +137,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   carrot: {
-    scale: 3,
+    scale: 5,
     rows: [
       "..LFL...",
       "..FLF...",
@@ -153,7 +153,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   watermelon: {
-    scale: 3,
+    scale: 4,
     rows: [
       "KKKKKKKKKKKKKK",
       "KBBBKBBBBKBBBK",
@@ -166,7 +166,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   tomato: {
-    scale: 3,
+    scale: 5,
     rows: [
       "...FKF...",
       "..KKFKK..",
@@ -179,7 +179,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   blueberry: {
-    scale: 4,
+    scale: 6,
     rows: [
       "....MM..",
       "...FF...",
@@ -192,7 +192,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   pineapple: {
-    scale: 3,
+    scale: 5,
     rows: [
       "..FL.LF...",
       "...FLF....",
@@ -207,7 +207,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   kiwi: {
-    scale: 3,
+    scale: 5,
     rows: [
       "..KKKKK...",
       ".KELLLEK..",
@@ -220,7 +220,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   avocado: {
-    scale: 3,
+    scale: 5,
     rows: [
       "...KKK...",
       "..KFFFK..",
@@ -236,7 +236,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   pepper: {
-    scale: 3,
+    scale: 5,
     rows: [
       "....F....",
       "...KFK...",
@@ -251,7 +251,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   grapes: {
-    scale: 3,
+    scale: 5,
     rows: [
       "....K....",
       "...KK....",
@@ -265,7 +265,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   cherries: {
-    scale: 3,
+    scale: 4,
     rows: [
       "....KKK....",
       "...K...K...",
@@ -278,7 +278,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   pomegranate: {
-    scale: 3,
+    scale: 5,
     rows: [
       "...KKK...",
       "...K.K...",
@@ -297,7 +297,7 @@ const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
    fizzy can are Lifeline's obstacles in the flesh. */
 const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
   cigarette: {
-    scale: 3,
+    scale: 4,
     rows: [
       "W.............",
       ".KKKKKKKKKKKK.",
@@ -307,7 +307,7 @@ const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   fizzy: {
-    scale: 3,
+    scale: 4,
     rows: [
       ".KKKKKK.",
       ".KWWWWK.",
@@ -322,7 +322,7 @@ const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   crash: {
-    scale: 2,
+    scale: 3,
     rows: [
       "..KKKKKKKKKK..",
       ".KWWWWWWWWWWK.",
@@ -349,7 +349,7 @@ const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   phone: {
-    scale: 3,
+    scale: 4,
     rows: [
       ".KKKKKK.",
       "KSSSSSAK",
@@ -366,7 +366,7 @@ const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
     ],
   },
   nugget: {
-    scale: 3,
+    scale: 4,
     rows: [
       "...KKKKK...",
       ".KKAAAAAKK.",
