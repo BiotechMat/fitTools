@@ -36,13 +36,15 @@ editorial picks now, and the buy button + disclosure appear per pick once its
 affiliate URL is pasted into the registry — activation notes in the registry
 header; no picks on marketing-claim pages by rule, enforced in
 tests/unit/affiliates.test.ts), and the 2026-07-23 IA restructure (Mat's
-direction): a "Calculators" nav menu that expands on click and lists every
-calculator by category (registry-driven; full-width panel on desktop,
-accordion in the mobile menu) with the new /calculators index as its lead
-link; topic sections Nutrition,
-Workout (renamed from Strength, /strength redirects) and Recovery each carry
-calculators plus their domain content (food reference / exercise library /
-recovery guides); /labs retired — the reconstitution calculator lives at
+direction): a "Calculators" nav menu nesting two accordion levels — menu →
+categories → each category's calculators (registry-driven, same model on
+desktop and in the mobile menu) with the /calculators index as its lead
+link and per-category pages at /calculators/nutrition|workout|recovery;
+topic sections Nutrition,
+Workout (renamed from Strength, /strength redirects) and Recovery each open
+with one card into their calculator category page, followed by their domain
+content (food reference / exercise library / recovery guides); /labs
+retired — the reconstitution calculator lives at
 /learn/peptides/peptide-reconstitution with tier-4 rules (enhanced
 disclaimer, no ads) intact and permanent redirects from the old URLs;
 `toolPath()` in src/registry/tools.ts is the single source of truth for

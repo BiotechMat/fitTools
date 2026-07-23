@@ -26,14 +26,21 @@ const STATIC_PATHS = [
 /** Sitemap generated from the registry (SPEC §9). */
 export default function sitemap(): MetadataRoute.Sitemap {
   const hubs = [
-    // The all-calculators index plus the topic section pages.
+    // The all-calculators index, the per-category listings and the topic
+    // section pages.
     { url: `${SITE_URL}/calculators`, changeFrequency: "monthly" as const },
     ...Object.values(hubMeta)
       .filter((meta) => toolsForHub(meta.hub).length > 0)
-      .map((meta) => ({
-        url: `${SITE_URL}${meta.path}`,
-        changeFrequency: "monthly" as const,
-      })),
+      .flatMap((meta) => [
+        {
+          url: `${SITE_URL}/calculators${meta.path}`,
+          changeFrequency: "monthly" as const,
+        },
+        {
+          url: `${SITE_URL}${meta.path}`,
+          changeFrequency: "monthly" as const,
+        },
+      ]),
   ];
 
   const tools = allTools.map((tool) => ({
