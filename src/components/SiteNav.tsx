@@ -10,34 +10,61 @@ export interface NavLink {
   emphasis?: boolean;
 }
 
-/** A labelled dropdown of links (e.g. Calculators → its categories). */
-export interface NavGroup {
+/** A category inside an expanding menu (e.g. Nutrition → its calculators). */
+export interface NavGroupSection {
   label: string;
   items: NavLink[];
+}
+
+/**
+ * A labelled two-level menu: the group expands on click to its categories,
+ * and each category expands to its links. `lead` renders first as the
+ * menu's index link.
+ */
+export interface NavGroup {
+  label: string;
+  lead?: NavLink;
+  sections: NavGroupSection[];
 }
 
 export type NavItem = NavLink | NavGroup;
 
 function isGroup(item: NavItem): item is NavGroup {
-  return "items" in item;
+  return "sections" in item;
 }
+
+const domId = (prefix: string, label: string) =>
+  `${prefix}-${label.toLowerCase().replace(/\s+/g, "-")}`;
 
 /**
  * Main-nav renderer. Desktop (lg+) shows the horizontal link row and the CTA;
  * below lg it collapses to a hamburger that opens a full-width dropdown, so
  * the nav items never overflow the viewport on mobile. Driven by a single
- * `items` array (no desktop/mobile duplication). Groups render as an
- * accessible disclosure dropdown on desktop and as a labelled sub-list
- * inside the mobile panel.
+ * `items` array (no desktop/mobile duplication). Groups are nested
+ * accordions on both form factors: Calculators → categories → tools, each
+ * level expanding on click (one category open at a time).
  */
 export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
   const [open, setOpen] = useState(false);
+  // Mobile accordion state: which group row and which category within it.
+  const [expandedGroup, setExpandedGroup] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+
+  const closeMobileMenu = () => {
+    setOpen(false);
+    setExpandedGroup(null);
+    setExpandedSection(null);
+  };
 
   // Close the mobile menu on Escape.
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        setExpandedGroup(null);
+        setExpandedSection(null);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -79,7 +106,7 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls="mobile-menu"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? closeMobileMenu() : setOpen(true))}
         className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-foreground bg-surface shadow-[2px_2px_0_0_var(--color-foreground)] active:translate-x-0.5 active:translate-y-0.5 lg:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
@@ -89,34 +116,83 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
       {open ? (
         <div
           id="mobile-menu"
-          className="absolute left-0 right-0 top-full z-40 border-b-2 border-foreground bg-background shadow-[0_6px_0_0_rgba(0,0,0,0.06)] lg:hidden"
+          className="absolute left-0 right-0 top-full z-40 max-h-[80dvh] overflow-y-auto border-b-2 border-foreground bg-background shadow-[0_6px_0_0_rgba(0,0,0,0.06)] lg:hidden"
         >
           <ul className="mx-auto flex max-w-5xl flex-col gap-1 px-4 py-3">
             {items.map((item) =>
               isGroup(item) ? (
                 <li key={item.label}>
-                  <p className="px-3 pt-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                  <button
+                    type="button"
+                    aria-expanded={expandedGroup === item.label}
+                    aria-controls={domId("mobile-group", item.label)}
+                    onClick={() => {
+                      setExpandedGroup(
+                        expandedGroup === item.label ? null : item.label,
+                      );
+                      setExpandedSection(null);
+                    }}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-base text-muted hover:bg-surface-deep"
+                  >
                     {item.label}
-                  </p>
-                  <ul>
-                    {item.items.map((child) => (
-                      <li key={child.href}>
+                    <ChevronIcon open={expandedGroup === item.label} />
+                  </button>
+                  {expandedGroup === item.label ? (
+                    <div id={domId("mobile-group", item.label)} className="pb-1">
+                      {item.lead ? (
                         <Link
-                          href={child.href}
-                          onClick={() => setOpen(false)}
-                          className="block rounded-lg px-3 py-2.5 pl-6 text-base text-muted hover:bg-surface-deep"
+                          href={item.lead.href}
+                          onClick={closeMobileMenu}
+                          className="block rounded-lg px-3 py-2 pl-6 text-sm font-semibold text-primary underline underline-offset-2"
                         >
-                          {child.label}
+                          {item.lead.label} →
                         </Link>
-                      </li>
-                    ))}
-                  </ul>
+                      ) : null}
+                      <ul>
+                        {item.sections.map((section) => (
+                          <li key={section.label}>
+                            <button
+                              type="button"
+                              aria-expanded={expandedSection === section.label}
+                              aria-controls={domId("mobile-section", section.label)}
+                              onClick={() =>
+                                setExpandedSection(
+                                  expandedSection === section.label
+                                    ? null
+                                    : section.label,
+                                )
+                              }
+                              className="flex w-full items-center justify-between rounded-lg px-3 py-2 pl-6 text-sm font-semibold text-foreground hover:bg-surface-deep"
+                            >
+                              {section.label}
+                              <ChevronIcon open={expandedSection === section.label} />
+                            </button>
+                            {expandedSection === section.label ? (
+                              <ul id={domId("mobile-section", section.label)}>
+                                {section.items.map((child) => (
+                                  <li key={child.href}>
+                                    <Link
+                                      href={child.href}
+                                      onClick={closeMobileMenu}
+                                      className="block rounded-lg px-3 py-2 pl-9 text-sm text-muted hover:bg-surface-deep"
+                                    >
+                                      {child.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : null}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
                 </li>
               ) : (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMobileMenu}
                     className={`block rounded-lg px-3 py-2.5 text-base hover:bg-surface-deep ${
                       item.emphasis ? "font-semibold text-foreground" : "text-muted"
                     }`}
@@ -129,7 +205,7 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
             <li className="mt-2">
               <Link
                 href={cta.href}
-                onClick={() => setOpen(false)}
+                onClick={closeMobileMenu}
                 className="block rounded-full border-2 border-foreground bg-lime px-4 py-2.5 text-center text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)]"
               >
                 {cta.label}
@@ -142,20 +218,34 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
   );
 }
 
-/** Desktop disclosure dropdown for a nav group — click to toggle, closes on Escape, outside click or item click. */
+/**
+ * Desktop expanding menu for a nav group — click to open, closes on Escape,
+ * outside click or item click. The panel lists the group's categories; each
+ * category expands in place to its links (one open at a time).
+ */
 function NavDropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const container = useRef<HTMLLIElement>(null);
-  const panelId = `nav-group-${group.label.toLowerCase().replace(/\s+/g, "-")}`;
+  const panelId = domId("nav-group", group.label);
+
+  const close = () => {
+    setOpen(false);
+    setExpandedSection(null);
+  };
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        setExpandedSection(null);
+      }
     };
     const onClick = (e: MouseEvent) => {
       if (container.current && !container.current.contains(e.target as Node)) {
         setOpen(false);
+        setExpandedSection(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -172,29 +262,64 @@ function NavDropdown({ group }: { group: NavGroup }) {
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? close() : setOpen(true))}
         className="inline-flex items-center gap-1 text-muted hover:text-foreground"
       >
         {group.label}
         <ChevronIcon open={open} />
       </button>
       {open ? (
-        <ul
+        <div
           id={panelId}
-          className="absolute left-0 top-full z-40 mt-2 w-52 rounded-xl border-2 border-foreground bg-background p-1.5 shadow-[3px_3px_0_0_var(--color-foreground)]"
+          className="absolute left-0 top-full z-40 mt-2 max-h-[75vh] w-64 overflow-y-auto rounded-xl border-2 border-foreground bg-background p-1.5 shadow-[3px_3px_0_0_var(--color-foreground)]"
         >
-          {group.items.map((child) => (
-            <li key={child.href}>
-              <Link
-                href={child.href}
-                onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2 text-muted hover:bg-surface-deep hover:text-foreground"
-              >
-                {child.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          {group.lead ? (
+            <Link
+              href={group.lead.href}
+              onClick={close}
+              className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary underline underline-offset-2 hover:bg-surface-deep"
+            >
+              {group.lead.label} →
+            </Link>
+          ) : null}
+          <ul>
+            {group.sections.map((section) => {
+              const expanded = expandedSection === section.label;
+              const sectionId = domId("nav-section", section.label);
+              return (
+                <li key={section.label}>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-controls={sectionId}
+                    onClick={() =>
+                      setExpandedSection(expanded ? null : section.label)
+                    }
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-surface-deep"
+                  >
+                    {section.label}
+                    <ChevronIcon open={expanded} />
+                  </button>
+                  {expanded ? (
+                    <ul id={sectionId} className="pb-1">
+                      {section.items.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            onClick={close}
+                            className="block rounded-lg px-3 py-1.5 pl-6 text-sm text-muted hover:bg-surface-deep hover:text-foreground"
+                          >
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       ) : null}
     </li>
   );
@@ -233,7 +358,7 @@ function CloseIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
       <line x1="6" y1="6" x2="18" y2="18" />
-      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="18" x2="18" y2="6" />
     </svg>
   );
 }

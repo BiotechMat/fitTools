@@ -22,8 +22,9 @@ first batch (glossary, supplement database, exercise library, food reference,
 reference tables, plus both-way calculator↔reference cross-links), the Pulse
 feed + fresh-cards pipeline F0–F3 (PULSE.md), the daily games (DAILY-GAMES.md),
 the arcade (LIFELINE.md /lifeline heartbeat flapper; POWERHOUSE.md /powerhouse
-side-scrolling mitochondria shooter; hub at /arcade — nav + homepage CTA point
-there), the glow-up section first step (CONTENT-looksmaxxing.md §8), the E1 share
+side-scrolling mitochondria shooter; MAXOUT.md /max-out one-rep-max timing
+game; SNAKEOIL.md /snake-oil myth slicer; ARCADE-IDEAS.md is the candidate
+bench; hub at /arcade — nav + homepage CTA point there), the glow-up section first step (CONTENT-looksmaxxing.md §8), the E1 share
 loop (/share achievement card — tool-only for now; extending it to Pulse/Daily/
 arcade is STATUS.md Phase 2),
 the /blood-test page (placeholder panel, pending partner), the dashboard D0
@@ -31,16 +32,23 @@ local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the
 data-protection posture), the DESIGN.md §8 motion & effects system, and the
 "Our recommendation" affiliate-card system (2026-07-23: shared
 src/components/RecommendationCard.tsx + surface-keyed src/registry/affiliates.ts
-wired across supplement, recovery, glow-up and tool pages; cards render their
+wired across supplement, recovery, glow-up and tool pages via
+src/components/RecommendationRail.tsx — on desktop the card sits in its own
+sticky right-hand column, below lg it follows the content; surfaces without
+picks render single-column, and the old AffiliateBlock shim is gone; cards render their
 editorial picks now, and the buy button + disclosure appear per pick once its
 affiliate URL is pasted into the registry — activation notes in the registry
 header; no picks on marketing-claim pages by rule, enforced in
 tests/unit/affiliates.test.ts), and the 2026-07-23 IA restructure (Mat's
-direction): calculator categories grouped under a "Calculators" nav submenu
-deep-linking into the new /calculators index; topic sections Nutrition,
-Workout (renamed from Strength, /strength redirects) and Recovery each carry
-calculators plus their domain content (food reference / exercise library /
-recovery guides); /labs retired — the reconstitution calculator lives at
+direction): a "Calculators" nav menu nesting two accordion levels — menu →
+categories → each category's calculators (registry-driven, same model on
+desktop and in the mobile menu) with the /calculators index as its lead
+link and per-category pages at /calculators/nutrition|workout|recovery;
+topic sections Nutrition,
+Workout (renamed from Strength, /strength redirects) and Recovery each open
+with one card into their calculator category page, followed by their domain
+content (food reference / exercise library / recovery guides); /labs
+retired — the reconstitution calculator lives at
 /learn/peptides/peptide-reconstitution with tier-4 rules (enhanced
 disclaimer, no ads) intact and permanent redirects from the old URLs;
 `toolPath()` in src/registry/tools.ts is the single source of truth for
@@ -113,6 +121,22 @@ and Mat has signed off.
   /arcade hub (src/app/arcade/) beside Lifeline + the dailies. A funnel to the
   Heart Rate Zone calculator; cartoon, not cell biology (§3). Name "Powerhouse"
   proposed, not locked.
+- ARCADE-IDEAS.md — the arcade candidate bench: the house formula distilled,
+  eight game pitches, guardrail-rejected anti-ideas. Proposals, not build
+  instructions; the two ⭐ picks are now built (MAXOUT.md, SNAKEOIL.md).
+- MAXOUT.md — spec + build for "Max Out", the one-rep-max timing game at
+  `/max-out` (stop-the-needle lineage; score = kg on the bar, flex = plates a
+  side). The arcade's strength entry. v1 BUILT (2026-07-23): src/lib/maxout.ts
+  (+ tests), src/components/maxout/*, /max-out; in the /arcade hub. A funnel to
+  the One-Rep Max calculator + strength standards; cartoon, not a training
+  plan (§3). Name "Max Out" proposed, not locked.
+- SNAKEOIL.md — spec + build for "Snake Oil", the myth-slicing game at
+  `/snake-oil` (Fruit Ninja lineage; slice the myths, spare the truths; every
+  claim derives from the vetted daily-games registry and the death card cites
+  the real source). v1 BUILT (2026-07-23): src/lib/snakeoil.ts (+ tests incl.
+  roster validation), src/components/snakeoil/*, /snake-oil; in the /arcade
+  hub. A funnel to Myth or Fact? and the debunk content; claims are about the
+  world, never the player (§3). Name "Snake Oil" proposed, not locked.
 - DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
   ("Your numbers"): the home base that aggregates vitals, saved calculations,
   composite/biological-age scores and blood-test biomarkers, with longitudinal

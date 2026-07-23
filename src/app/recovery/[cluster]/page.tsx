@@ -6,7 +6,7 @@ import { getCluster, recoveryClusters } from "@/registry/recovery-content";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecommendationCard } from "@/components/RecommendationCard";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -59,6 +59,7 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
+      <RecommendationRail surface={`recovery:${c.slug}`}>
       <div>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -107,7 +108,7 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
       ) : null}
 
       <FAQ entries={c.faq} />
-      <RecommendationCard surface={`recovery:${c.slug}`} />
+      </RecommendationRail>
       <AuthorBox lastReviewed={c.lastReviewed} />
       <DisclaimerBanner />
     </article>

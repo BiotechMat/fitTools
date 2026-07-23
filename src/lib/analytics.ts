@@ -30,7 +30,13 @@ export type AnalyticsEvent =
   | {
       name: "lifeline_flatline";
       params: { age: number; cause: string; mode: "free" | "daily" | "calm" };
-    };
+    }
+  // Max Out arcade (MAXOUT.md). Kg is the cartoon bar's score, not a lift log.
+  | { name: "maxout_run_started"; params: Record<string, never> }
+  | { name: "maxout_form_failed"; params: { kg: number; cause: string } }
+  // Snake Oil arcade (SNAKEOIL.md). Counts only — no claim-level judgements.
+  | { name: "snakeoil_run_started"; params: Record<string, never> }
+  | { name: "snakeoil_run_ended"; params: { busted: number; points: number } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

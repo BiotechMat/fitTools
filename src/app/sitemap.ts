@@ -26,14 +26,21 @@ const STATIC_PATHS = [
 /** Sitemap generated from the registry (SPEC §9). */
 export default function sitemap(): MetadataRoute.Sitemap {
   const hubs = [
-    // The all-calculators index plus the topic section pages.
+    // The all-calculators index, the per-category listings and the topic
+    // section pages.
     { url: `${SITE_URL}/calculators`, changeFrequency: "monthly" as const },
     ...Object.values(hubMeta)
       .filter((meta) => toolsForHub(meta.hub).length > 0)
-      .map((meta) => ({
-        url: `${SITE_URL}${meta.path}`,
-        changeFrequency: "monthly" as const,
-      })),
+      .flatMap((meta) => [
+        {
+          url: `${SITE_URL}/calculators${meta.path}`,
+          changeFrequency: "monthly" as const,
+        },
+        {
+          url: `${SITE_URL}${meta.path}`,
+          changeFrequency: "monthly" as const,
+        },
+      ]),
   ];
 
   const tools = allTools.map((tool) => ({
@@ -126,10 +133,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Daily games hub (DAILY-GAMES.md §9): a canonical page whose puzzle rotates
     // daily. Per-date archive pages feed the sitemap from the registry once built.
     { url: `${SITE_URL}/daily`, changeFrequency: "daily" as const },
-    // Arcade hub + game pages (LIFELINE.md, POWERHOUSE.md): static, indexable.
+    // Arcade hub + game pages (LIFELINE.md, POWERHOUSE.md, MAXOUT.md,
+    // SNAKEOIL.md): static, indexable.
     { url: `${SITE_URL}/arcade`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/lifeline`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/powerhouse`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/max-out`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/snake-oil`, changeFrequency: "monthly" as const },
     // Blood-test product page (pre-launch; partner integration to come).
     { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
     // Pulse hub (endless feed) + the crawlable weekly digest (PULSE.md §15.7 F3),
