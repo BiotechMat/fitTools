@@ -11,6 +11,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
+import { RecommendationCard } from "@/components/RecommendationCard";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -112,7 +113,17 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         </ul>
       </div>
 
+      {/* On buying guides the recommendation is the payload (CONTENT.md §4.2),
+          so it follows the selection criteria; elsewhere it sits after the FAQ. */}
+      {a.kind === "commercial" ? (
+        <RecommendationCard surface={`recovery:${c.slug}/${a.slug}`} />
+      ) : null}
+
       {a.faq.length > 0 ? <FAQ entries={a.faq} /> : null}
+
+      {a.kind !== "commercial" ? (
+        <RecommendationCard surface={`recovery:${c.slug}/${a.slug}`} />
+      ) : null}
 
       {related.length > 0 ? (
         <section aria-labelledby="related-articles">

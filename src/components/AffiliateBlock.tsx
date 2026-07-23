@@ -1,48 +1,11 @@
-"use client";
-
-import { offersForTool } from "@/registry/affiliates";
-import { trackEvent } from "@/lib/analytics";
+import { RecommendationCard } from "@/components/RecommendationCard";
 
 /**
- * Affiliate placements (SPEC §10). Renders nothing when a tool has no
- * offers. Every render carries the disclosure line; links are
- * rel="sponsored nofollow"; clicks emit affiliate_click events.
+ * Tool-page affiliate placement (SPEC §10). Kept under its SPEC name; the
+ * rendering — disclosure line, rel="sponsored nofollow", affiliate_click
+ * events, hidden-until-live behaviour — lives in the shared
+ * RecommendationCard, keyed by the tool:<slug> surface.
  */
 export function AffiliateBlock({ slug }: { slug: string }) {
-  const offers = offersForTool(slug);
-  if (offers.length === 0) return null;
-
-  return (
-    <section
-      aria-label="Recommended products"
-      className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
-    >
-      <p className="text-xs text-muted">
-        Affiliate disclosure: we may earn a commission if you buy through the
-        links below, at no extra cost to you. This never affects which tools
-        we build or what the calculators report.
-      </p>
-      <ul className="mt-3 space-y-2">
-        {offers.map((offer) => (
-          <li key={offer.offerId}>
-            <a
-              href={offer.url}
-              rel="sponsored nofollow"
-              target="_blank"
-              className="font-medium text-primary underline underline-offset-2"
-              onClick={() =>
-                trackEvent({
-                  name: "affiliate_click",
-                  params: { slug, offer: offer.offerId },
-                })
-              }
-            >
-              {offer.label}
-            </a>
-            <p className="text-sm text-muted">{offer.description}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+  return <RecommendationCard surface={`tool:${slug}`} />;
 }
