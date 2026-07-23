@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { PlateBuilder } from "@/components/tools/PlateBuilder";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
   title: "Plate Builder — Stack Foods, Watch Protein Add Up",
@@ -47,6 +48,7 @@ export default function PlateBuilderPage() {
       <div className="mt-6">
         <PlateBuilder />
       </div>
+      <AddToHomeScreen toolName="the plate builder" />
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         All numbers come from the{" "}

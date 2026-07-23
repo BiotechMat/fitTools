@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { SupplementExplorer } from "@/components/tools/SupplementExplorer";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
   title: "Supplement Evidence Explorer — Every Tier, Every Receipt",
@@ -47,6 +48,7 @@ export default function SupplementExplorerPage() {
       <div className="mt-6">
         <SupplementExplorer />
       </div>
+      <AddToHomeScreen toolName="the explorer" />
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         Prefer the long way round? Browse the{" "}

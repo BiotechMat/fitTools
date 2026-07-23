@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { MuscleMap } from "@/components/tools/MuscleMap";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
   title: "Muscle Map — Tap a Muscle, Find the Exercises",
@@ -47,6 +48,7 @@ export default function MuscleMapPage() {
       <div className="mt-6">
         <MuscleMap />
       </div>
+      <AddToHomeScreen toolName="the muscle map" />
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         Browsing rather than targeting? The{" "}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { GymTimer } from "@/components/tools/GymTimer";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
   title: "Gym Timers — Rest, Intervals & EMOM",
@@ -46,6 +47,7 @@ export default function TimerPage() {
       <div className="mt-6">
         <GymTimer />
       </div>
+      <AddToHomeScreen toolName="the timers" />
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         Pair intervals with your{" "}
