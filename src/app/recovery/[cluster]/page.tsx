@@ -6,6 +6,7 @@ import { getCluster, recoveryClusters } from "@/registry/recovery-content";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
+import { RecommendationCard } from "@/components/RecommendationCard";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -106,6 +107,7 @@ export default async function RecoveryClusterPage({ params }: ClusterParams) {
       ) : null}
 
       <FAQ entries={c.faq} />
+      <RecommendationCard surface={`recovery:${c.slug}`} />
       <AuthorBox lastReviewed={c.lastReviewed} />
       <DisclaimerBanner />
     </article>

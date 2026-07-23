@@ -12,6 +12,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
+import { RecommendationCard } from "@/components/RecommendationCard";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { BodyImageResources } from "@/components/BodyImageResources";
 import { VerdictStamp } from "@/components/VerdictStamp";
@@ -107,6 +108,8 @@ export default async function GlowUpArticlePage({ params }: ArticleParams) {
       </div>
 
       {a.faq.length > 0 ? <FAQ entries={a.faq} /> : null}
+
+      <RecommendationCard surface={`glowup:${c.slug}/${a.slug}`} />
 
       {tools.length > 0 || seeAlso.length > 0 ? (
         <section aria-labelledby="glowup-crosslinks" data-testid="glowup-crosslinks">
