@@ -9,7 +9,7 @@ import type { EvidenceBasis, EvidenceTier as Tier } from "@/registry/peptides";
  */
 export function VerdictStamp({ tier, basis }: { tier: Tier; basis?: EvidenceBasis }) {
   return (
-    <span className="inline-block rotate-2 [&>span]:border-2 [&>span]:px-3 [&>span]:py-1 [&>span]:text-sm [&>span]:shadow-[3px_3px_0_0_var(--color-foreground)]">
+    <span className="sticker-slap inline-block rotate-2 [&>span]:border-2 [&>span]:px-3 [&>span]:py-1 [&>span]:text-sm [&>span]:shadow-[3px_3px_0_0_var(--color-foreground)]">
       <EvidenceTier tier={tier} basis={basis} />
     </span>
   );

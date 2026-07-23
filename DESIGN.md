@@ -11,6 +11,7 @@ images, and the mockup compositions: homepage kicker/CTA row, marquee ticker
 each tool's real formula at its defaults), colour-block hub strip, nav CTA,
 tool-page meta pills, supplement tier stamp, the §03 calculator layout (form/results split, espresso ScoreCard with delta pill, computed what-moves-the-needle panel on Heart Age). Not built: midnight mode (§1,
 separate decision) and the §6 components beyond the "since last time" chip.
+The §8 motion & effects system is built (2026-07-23).
 AA note applied in code: Blaze is display-size only; small-text accents are
 Ember; CTAs are ink-on-Blaze.
 
@@ -132,8 +133,9 @@ design only.)
   lazy, and never above the calculator (SPEC §10–11).
 - **What premium sells is persistence**, per SPEC §10's Pro-tier note and
   ROADMAP E2/E6: saved results, Trajectory (longitudinal tracking), advanced
-  share cards, ad-free. Those surfaces are designed first-class in §6 — they
-  are the product being charged for, not bolt-ons.
+  share cards, ad-free. Those surfaces are designed first-class in §6 and
+  assembled on the personal dashboard (DASHBOARD.md) — they are the product
+  being charged for, not bolt-ons.
 - **Free stays free.** A calculation, its result and its methodology are never
   gated (BUSINESS_PLAN mission; the credibility moat). Premium gates
   *persistence and depth*, never the answer.
@@ -149,7 +151,9 @@ premium is monetised retention — so these components are part of the core
 design system, not an engagement afterthought. Each ships with its ROADMAP
 phase (noted); this section styles them, it does not schedule them
 (CLAUDE.md: no implementing ahead of milestones). ROADMAP §2 guardrails bind
-every component below.
+every component below. Their primary home is the personal dashboard
+(DASHBOARD.md §3.6, §6, §10) — this section defines how they look; DASHBOARD.md
+defines where they sit and what data drives them.
 
 - **"Since last time" delta chip** *(HistoryProvider is local-only today —
   earliest buildable)*. On any result card when a prior run exists:
@@ -210,3 +214,41 @@ every component below.
   visible focus states (2px ember outline suggested), WCAG AA contrast on all
   text-bearing fills, `prefers-reduced-motion` honoured for marquee/ticker and
   any hover motion.
+
+## 8. Motion & effects (built 2026-07-23)
+
+The motion thesis: **the interface behaves like the body it measures** —
+numbers roll in with weight, the heart-age score has a pulse, stickers land,
+gained time fills in month by month. Implementation lives in
+`src/components/effects/` plus the effects block in `globals.css`. No
+animation libraries — CSS keyframes and small client components only.
+
+### Principles (binding)
+
+- **Reduced motion is a first-class path.** Every effect is disabled or
+  static under `prefers-reduced-motion`; each page must read complete with
+  all motion off.
+- **Zero-CLS.** Motion uses transform/shadow/opacity only; anything animated
+  reserves its dimensions (odometer slots are 1ch × one display line; the
+  months grid reserves its height).
+- **Gains animate; deficits don't.** Celebration motion (cascades, slaps)
+  fires on wins and neutral reveals only — no loss theatre, per §4 and
+  ROADMAP §2.
+- **Decorative motion is `aria-hidden`** with an sr-only or plain-text
+  equivalent. Rolled result values settle back to plain text, so aria-live
+  regions and e2e text assertions always read the real value.
+
+### Inventory
+
+| Effect | Where | Behaviour |
+|---|---|---|
+| Riso press physics | `.riso-press` (globals.css) on interactive hard-shadow cards/CTAs | Hover sinks 1px into the paper; press flattens fully onto the shadow. Offset is `var(--riso, 3px)` — a fallback, not a declaration, so Tailwind `[--riso:2px]` overrides win. |
+| Odometer roll | `effects/RollingNumber.tsx`, rendered by `ScoreCard` | Digits roll to the result with staggered overshoot on every change, then settle to static text. |
+| Heartbeat | `.heartbeat`; `ScoreCard` `pulse` prop | The Heart Age score beats a resting 60 bpm lub-dub. |
+| Sticker slap | `.sticker-slap` | Delta pills (re-keyed on text change) and `VerdictStamp` land with overshoot and a small wobble. |
+| Life-in-months grid | `effects/LifeMonthsGrid.tsx` (life-expectancy tool) | The Li 2018 gap as one square per month; cascade-fills **only** at 5/5 — the paper publishes no intermediate figures, so a partial fill would invent data. |
+| ECG telemetry (Pulse hero card) | `effects/HeroEcg.tsx` + `.ecg-rail` | Two stylised PQRST traces (ember 0.30, forest 0.22) drift at different speeds (30s/48s loops) as the Pulse hero card's background, seamless duplicate-half loop like the ticker. Stylised, not clinical data. |
+
+Tuning knobs: ECG stroke opacities are props in `HeroEcg.tsx`; drift speeds
+are the `.ecg-rail` durations; roll feel is the constants at the top of
+`RollingNumber.tsx`.

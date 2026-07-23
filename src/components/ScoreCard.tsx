@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { RollingNumber } from "@/components/effects/RollingNumber";
 
 /**
  * The v2 result card (DESIGN.md §3, mockups §03): the panel flips to
@@ -20,6 +21,8 @@ interface ScoreCardProps {
   secondary?: { label: string; value: string; testId?: string };
   /** Judgement pill under the value. Blaze = attention, good = win. */
   delta?: { text: string; tone: "blaze" | "good"; testId?: string };
+  /** Beat the value at a resting 60 bpm (Heart Age). Reduced-motion safe. */
+  pulse?: boolean;
   children?: ReactNode;
 }
 
@@ -35,6 +38,7 @@ export function ScoreCard({
   valueTestId,
   secondary,
   delta,
+  pulse,
   children,
 }: ScoreCardProps) {
   return (
@@ -44,10 +48,10 @@ export function ScoreCard({
       </p>
       <div className="mt-1 flex flex-wrap items-end gap-x-8 gap-y-2">
         <p
-          className="font-display text-5xl uppercase tabular-nums text-primary-strong"
+          className={`font-display text-5xl uppercase tabular-nums text-primary-strong${pulse ? " heartbeat" : ""}`}
           data-testid={valueTestId}
         >
-          {value}
+          <RollingNumber value={value} />
           {unit ? (
             <>
               {" "}
@@ -71,7 +75,8 @@ export function ScoreCard({
       {delta ? (
         <p className="mt-4">
           <span
-            className={`inline-block rounded-full px-3 py-1 text-sm font-bold ${DELTA_TONES[delta.tone]}`}
+            key={delta.text}
+            className={`sticker-slap inline-block rounded-full px-3 py-1 text-sm font-bold ${DELTA_TONES[delta.tone]}`}
             data-testid={delta.testId}
           >
             {delta.text}

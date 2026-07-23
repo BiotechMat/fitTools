@@ -211,7 +211,12 @@ tools with descriptions and interlink laterally.
 - Accounts & pro tier: PLANNED (ROADMAP E0/E6) — sign-in is on the near-term
   roadmap. Results history is saved to localStorage behind a `HistoryProvider`
   designed to swap to authed storage when accounts land; build all new
-  persistence through it so that migration stays a central change.
+  persistence through it so that migration stays a central change. The
+  aggregating surface for that persistence — profile/vitals, saved scores and
+  blood-test biomarkers, with longitudinal Trajectory — is the personal
+  dashboard (DASHBOARD.md; blueprint, local-first scaffold buildable now,
+  identified-profile and blood-data storage gated behind E0 + the §17
+  data-protection posture).
 
 ## 11. Compliance & legal
 Pages: Privacy Policy, Cookie Policy, Terms, Affiliate Disclosure, Medical Disclaimer,

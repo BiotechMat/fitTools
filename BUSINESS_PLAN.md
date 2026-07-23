@@ -201,7 +201,8 @@ infrastructure is pre-built behind flags so activation is a switch, not a rebuil
    credibility is preserved (`CONTENT.md` §1–4).
 4. **Premium subscription** (from Phase E6). Free tools stay free forever; monetise
    *persistence* — saved profiles, longitudinal tracking, advanced cards/reports,
-   ad-free. Recurring revenue that smooths ad volatility.
+   ad-free. That persistence is surfaced on the personal dashboard
+   (`DASHBOARD.md`). Recurring revenue that smooths ad volatility.
 5. **B2B / licensing** (longer-term optionality). Embeddable widgets and a scoring
    API for coaches, gyms and other sites; the consumer property becomes
    distribution and the tooling becomes infrastructure. Steadier, higher-margin

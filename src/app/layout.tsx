@@ -50,6 +50,7 @@ const liveHubs = Object.values(hubMeta).filter(
 const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
   { href: "/daily", label: "Daily", emphasis: true },
+  { href: "/dashboard", label: "Dashboard", emphasis: true },
   ...liveHubs.map((meta) => ({ href: meta.path, label: meta.title })),
   { href: "/labs", label: "Labs" },
   { href: "/exercises", label: "Exercises" },
