@@ -8,6 +8,7 @@ import { toolsForHub } from "@/registry/tools";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { ThirdPartyScripts } from "@/components/ThirdPartyScripts";
+import { SiteNav, type NavItem } from "@/components/SiteNav";
 
 // v2 type roles (DESIGN.md §2): Anton shouts, Figtree explains, Space Mono
 // handles the receipts. Self-hosted via next/font — zero CLS (SPEC §13).
@@ -44,6 +45,21 @@ const liveHubs = Object.values(hubMeta).filter(
   (meta) => toolsForHub(meta.hub).length > 0,
 );
 
+// Main nav, rendered responsively by <SiteNav /> (horizontal on desktop,
+// hamburger dropdown below lg). Emphasised links are the primary destinations.
+const navItems: NavItem[] = [
+  { href: "/pulse", label: "Pulse", emphasis: true },
+  { href: "/daily", label: "Daily", emphasis: true },
+  ...liveHubs.map((meta) => ({ href: meta.path, label: meta.title })),
+  { href: "/labs", label: "Labs" },
+  { href: "/exercises", label: "Exercises" },
+  { href: "/supplements", label: "Supplements" },
+  { href: "/glow-up", label: "Glow-up" },
+  { href: "/learn/peptides", label: "Peptides" },
+  { href: "/glossary", label: "Glossary" },
+];
+const bloodTestCta: NavItem = { href: "/blood-test", label: "Order blood test" };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,7 +71,7 @@ export default function RootLayout({
       className={`${anton.variable} ${figtree.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="border-b-2 border-foreground bg-background">
+        <header className="relative border-b-2 border-foreground bg-background">
           <nav
             aria-label="Main"
             className="mx-auto flex max-w-5xl items-center gap-6 px-4 py-3"
@@ -75,70 +91,7 @@ export default function RootLayout({
                 SITE_NAME
               )}
             </Link>
-            <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-              <li>
-                <Link
-                  href="/pulse"
-                  className="font-semibold text-foreground hover:text-primary"
-                >
-                  Pulse
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/daily"
-                  className="font-semibold text-foreground hover:text-primary"
-                >
-                  Daily
-                </Link>
-              </li>
-              {liveHubs.map((meta) => (
-                <li key={meta.hub}>
-                  <Link
-                    href={meta.path}
-                    className="text-muted hover:text-foreground"
-                  >
-                    {meta.title}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link href="/labs" className="text-muted hover:text-foreground">
-                  Labs
-                </Link>
-              </li>
-              <li>
-                <Link href="/exercises" className="text-muted hover:text-foreground">
-                  Exercises
-                </Link>
-              </li>
-              <li>
-                <Link href="/supplements" className="text-muted hover:text-foreground">
-                  Supplements
-                </Link>
-              </li>
-              <li>
-                <Link href="/glow-up" className="text-muted hover:text-foreground">
-                  Glow-up
-                </Link>
-              </li>
-              <li>
-                <Link href="/learn/peptides" className="text-muted hover:text-foreground">
-                  Peptides
-                </Link>
-              </li>
-              <li>
-                <Link href="/glossary" className="text-muted hover:text-foreground">
-                  Glossary
-                </Link>
-              </li>
-            </ul>
-            <Link
-              href="/blood-test"
-              className="ml-auto hidden rounded-full border-2 border-foreground bg-lime px-4 py-1.5 text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] lg:inline-block"
-            >
-              Order blood test
-            </Link>
+            <SiteNav items={navItems} cta={bloodTestCta} />
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
