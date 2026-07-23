@@ -176,10 +176,11 @@ forgotten.
 cluster pillar and buying-guide page renders the shared "Our recommendation"
 card (`src/components/RecommendationCard.tsx`) from the surface-keyed registry
 `src/registry/affiliates.ts` (disclosure line, `rel="sponsored nofollow"` and
-`affiliate_click` events built in). Product-type picks are seeded per cluster;
-each stays hidden until its affiliate URL is pasted into the registry entry, so
-activation is a one-line edit per product. `Product`/`Review` schema (§4.2) is
-still owed once specific partner products are named.
+`affiliate_click` events built in). Product-type picks are seeded per cluster
+and render as editorial content now; the "View at" button and disclosure appear
+per pick once its affiliate URL is pasted into the registry entry, so
+monetising a placement is a one-line edit per product. `Product`/`Review`
+schema (§4.2) is still owed once specific partner products are named.
 
 ---
 
