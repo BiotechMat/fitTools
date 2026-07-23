@@ -146,6 +146,17 @@ and Mat has signed off.
   accounts/sync, D3 biomarkers, D4 share cards) are gated: identified profiles
   and real blood values need ROADMAP E0 accounts + the BUSINESS_PLAN §13 /
   SPEC §17 data-protection posture (§8). Build sequence + gates in §11.
+- ACCOUNTS.md — BLUEPRINT (not signed off) for ROADMAP E0 sign-in & accounts,
+  the STATUS.md Phase 4 crossing: auth approach (magic-link-first, self-hosted
+  library), the per-store sync promotion over the SPEC §10 HistoryProvider
+  seam, the binding consent/data-protection posture, build sequence A0–A3,
+  and the §9 Mat-only stack decisions. Plan from this when Phase 4 is
+  scheduled; nothing in it is built.
+- PROFILE.md — BLUEPRINT (not built, not signed off) for the health profile +
+  bloodwork auto-populate that accounts unlock (STATUS.md Phase 4, after
+  ACCOUNTS.md's E0 foundation). Manual profile + auto-populate is the lighter
+  first slice; bloodwork upload/extraction is gated on its §7 data-protection
+  posture.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.

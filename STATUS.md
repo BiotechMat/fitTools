@@ -134,7 +134,10 @@ charting library would blow the budget (README JS-budget history).
 ### Phase 4 — Accounts + data-protection posture (ROADMAP E0) — *the crossing*
 
 The next real engineering milestone and the gate everything sensitive waits on.
-Build as a deliberate, resourced step (BUSINESS_PLAN §13; SPEC §17):
+**Planning blueprint: `ACCOUNTS.md` (2026-07-23)** — architecture, the binding
+consent/data-protection posture, build sequence A0–A3, and the stack decisions
+(§4 #6 below). Build as a deliberate, resourced step (BUSINESS_PLAN §13;
+SPEC §17):
 
 1. Lawful-basis + explicit consent flow for health data; published
    data-protection posture; view / export / **delete-all** controls.
@@ -174,6 +177,12 @@ These gate the phases above and cannot be resolved from the code:
    retention window?
 5. **The blood-test partner** — `/blood-test` is live and makes promises that
    depend on it.
+6. **The accounts stack** (ACCOUNTS.md §9) — auth methods (magic link +
+   which social), auth library (Better Auth vs Auth.js — a new dependency
+   either way), database + region (Neon/Supabase, London/Frankfurt), the
+   transactional-email provider (can double as the Phase 1 newsletter
+   provider), the account age line (13/16/18), and the retention window.
+   Gates Phase 4's A1 build start; recommendations are in the doc.
 
 ---
 
