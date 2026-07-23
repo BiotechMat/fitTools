@@ -16,6 +16,7 @@ import {
   type EvidenceTier,
   evidenceGrade,
 } from "@/registry/peptides";
+import { extraSupplements } from "@/registry/supplementsExtra";
 
 export interface SupplementEntry {
   slug: string;
@@ -27,6 +28,19 @@ export interface SupplementEntry {
   /** One-line identity, for the hub list and meta description. */
   short: string;
   metaDescription: string;
+  /**
+   * Category for the hub's A–Z-by-theme grouping (source: the 200-supplement
+   * reference, CONTENT-supplements-200.md). Optional on the original in-depth
+   * entries, which are grouped by evidence grade; set on the reference pages.
+   */
+  category?: string;
+  /**
+   * Structured body paragraphs, used for the reference pages built from the
+   * 200-supplement list. When present the detail page renders these instead of
+   * importing a per-slug MDX file (the original in-depth entries keep their
+   * richer MDX bodies).
+   */
+  body?: string[];
   /** Rendered as a SafetyCallout when present (§4.6). */
   safety?: { title: string; points: string[] };
   relatedSupplements: string[];
@@ -46,7 +60,7 @@ const ISSN_CAFFEINE =
 const ISSN_BETA_ALANINE =
   "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4501114/";
 
-export const supplements: SupplementEntry[] = [
+const coreSupplements: SupplementEntry[] = [
   {
     slug: "creatine-monohydrate",
     name: "Creatine monohydrate",
@@ -1418,6 +1432,18 @@ export const supplements: SupplementEntry[] = [
       },
     ],
   },
+];
+
+/**
+ * The full supplement set: the original in-depth entries above plus the
+ * evidence-rated reference pages built from the 200-supplement list
+ * (CONTENT-supplements-200.md). Kept in a separate module so this file stays
+ * readable; every entry still gets its own page, rating, hub listing, sitemap
+ * entry and JSON-LD through the single `supplements` export.
+ */
+export const supplements: SupplementEntry[] = [
+  ...coreSupplements,
+  ...extraSupplements,
 ];
 
 export const supplementsBySlug: ReadonlyMap<string, SupplementEntry> = new Map(
