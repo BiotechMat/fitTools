@@ -7,19 +7,27 @@ import { expect, test } from "@playwright/test";
  * evidence-grade section left empty. Clearing the box restores everything.
  */
 
+// The hub also lists every supplement a second time in the by-category
+// reference below the search box, so scope assertions to the searchable cards
+// (the `[data-search-item]` wrappers the CardSearch actually shows/hides).
+const searchCard = (page: import("@playwright/test").Page, name: string) =>
+  page
+    .locator("[data-search-item]")
+    .filter({ has: page.getByRole("link", { name, exact: true }) });
+
 test("supplements hub filters as you type and restores on clear", async ({ page }) => {
   await page.goto("/supplements");
   const search = page.getByTestId("card-search");
   await expect(search).toBeVisible();
 
-  const creatine = page.getByRole("link", { name: "Creatine monohydrate" });
-  const ashwagandha = page.getByRole("link", { name: "Ashwagandha" });
+  const creatine = searchCard(page, "Creatine monohydrate");
+  const ashwagandha = searchCard(page, "Ashwagandha");
   await expect(creatine).toBeVisible();
   await expect(ashwagandha).toBeVisible();
 
   await search.fill("c");
   await expect(creatine).toBeVisible();
-  await expect(page.getByRole("link", { name: "Caffeine" })).toBeVisible();
+  await expect(searchCard(page, "Caffeine")).toBeVisible();
   await expect(ashwagandha).toBeHidden();
 
   await search.fill("");
@@ -32,10 +40,12 @@ test("an empty evidence-grade section hides, and no-matches is announced", async
 
   // "Ashwagandha" sits in a lower grade than "Creatine monohydrate"; filtering
   // to it should hide the top-grade section heading entirely.
+  // The first h2 is the top evidence-grade heading (the by-category reference
+  // headings below it come later in the DOM).
   const topGrade = page.getByRole("heading", { level: 2 }).first();
   const topGradeName = await topGrade.textContent();
   await search.fill("ashwagandha");
-  await expect(page.getByRole("link", { name: "Ashwagandha" })).toBeVisible();
+  await expect(searchCard(page, "Ashwagandha")).toBeVisible();
   await expect(
     page.getByRole("heading", { level: 2, name: topGradeName ?? "" }),
   ).toBeHidden();
