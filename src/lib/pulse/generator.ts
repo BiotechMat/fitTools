@@ -18,7 +18,10 @@
 import type { GeneratedCardDraft, GroundingChunk, PulseCard } from "./types";
 
 const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
-const DEFAULT_MODEL = "claude-opus-4-8";
+// Haiku by default (locked PULSE.md §11.12): rephrasing vetted one-liners is a
+// high-volume, low-complexity workload; Haiku is ~5× cheaper per token than
+// Opus. PULSE_LLM_MODEL overrides (e.g. claude-opus-4-8 for richer phrasing).
+const DEFAULT_MODEL = "claude-haiku-4-5";
 
 /** Tiny stable string hash for card ids (djb2). Not security-sensitive. */
 function hash(s: string): string {
@@ -176,7 +179,9 @@ export class ClaudeGenerator implements PulseGenerator {
         },
         body: JSON.stringify({
           model: this.model,
-          max_tokens: 2048,
+          // ~2 sentences + optional detail per card; scaled so a full
+          // PHRASING_BATCH_SIZE batch never truncates mid-JSON.
+          max_tokens: Math.min(512 + 220 * chunks.length, 8192),
           system: SYSTEM_PROMPT,
           output_config: { format: { type: "json_schema", schema: draftSchema(chunkIds) } },
           messages: [{ role: "user", content: userContent }],
