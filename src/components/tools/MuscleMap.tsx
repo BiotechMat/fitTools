@@ -187,7 +187,7 @@ export function MuscleMap() {
               {primary.map((exercise) => (
                 <li key={exercise.slug}>
                   <Link
-                    href={`/exercises/${exercise.slug}`}
+                    href={`/exercises/${exercise.pattern}/${exercise.slug}`}
                     className="riso-press [--riso:2px] inline-block rounded-full border-2 border-foreground bg-primary-soft px-3 py-1 text-sm font-semibold"
                   >
                     {exercise.name}
@@ -206,7 +206,7 @@ export function MuscleMap() {
               {secondary.map((exercise) => (
                 <li key={exercise.slug}>
                   <Link
-                    href={`/exercises/${exercise.slug}`}
+                    href={`/exercises/${exercise.pattern}/${exercise.slug}`}
                     className="riso-press [--riso:2px] inline-block rounded-full border-2 border-border bg-surface px-3 py-1 text-sm"
                   >
                     {exercise.name}
