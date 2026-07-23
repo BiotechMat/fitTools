@@ -29,10 +29,29 @@ export interface RunHarvestOptions {
   config?: Partial<HarvestConfig>;
   /** Hard cap on drafts per run, to bound LLM cost (§15.7). */
   maxDraftPerRun?: number;
+  /**
+   * Delay (ms) between per-candidate abstract (efetch) calls, to stay under
+   * PubMed's ~3 req/s unauthenticated limit — rate-limit misses returned empty
+   * abstracts, which produced the "abstract unavailable" cards. The CLI/Action
+   * pass a real value; unit tests leave it 0 so injected fetches don't wait.
+   */
+  abstractDelayMs?: number;
 }
+
+/**
+ * Minimum abstract length (chars) to accept a candidate for drafting. A real
+ * abstract runs many hundreds of chars; an efetch that failed or returned only
+ * a citation header falls well under this, so the study is skipped rather than
+ * drafted from nothing.
+ */
+const MIN_ABSTRACT_CHARS = 200;
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+function sleep(ms: number): Promise<void> {
+  return ms > 0 ? new Promise((r) => setTimeout(r, ms)) : Promise.resolve();
 }
 
 export async function runHarvest(opts: RunHarvestOptions): Promise<HarvestResult> {
@@ -58,23 +77,35 @@ export async function runHarvest(opts: RunHarvestOptions): Promise<HarvestResult
   const { kept, skipped } = triage(discovered, existingKeys(opts.existing), config.allowlist);
 
   // 3. Cap per run to bound cost; the overflow is reported, not silently dropped.
-  const forDraft = kept.slice(0, maxDraftPerRun);
+  const capped = kept.slice(0, maxDraftPerRun);
   for (const c of kept.slice(maxDraftPerRun)) {
     skipped.push({ candidate: c, reason: "over per-run draft cap" });
   }
 
-  // 4. Enrich with abstracts (grounding for the draft) — only when a drafter is
-  //    configured; degraded runs skip the extra efetch calls they can't use.
+  // 4. Enrich with abstracts (grounding for the draft) and DROP any candidate
+  //    without a usable one — a study we can't read can't be responsibly
+  //    drafted, so it is skipped rather than turned into an "abstract
+  //    unavailable" card (the bug behind half of the first run's drafts).
+  //    Only when a drafter is configured; degraded runs skip the efetch calls.
+  let draftable = capped;
   if (drafter.available) {
-    for (const c of forDraft) {
+    const withAbstract: StudyCandidate[] = [];
+    for (const c of capped) {
       c.abstract = await fetchAbstract(c.externalId, fetchImpl);
+      if ((c.abstract?.trim().length ?? 0) >= MIN_ABSTRACT_CHARS) {
+        withAbstract.push(c);
+      } else {
+        skipped.push({ candidate: c, reason: "no abstract available to ground a draft" });
+      }
+      await sleep(opts.abstractDelayMs ?? 0);
     }
+    draftable = withAbstract;
   }
 
   // 5. Draft (or degrade to none) and build fresh chunks — the anti-hallucination
-  //    enforcement happens in buildFreshChunks.
-  const drafts = await drafter.draft(forDraft);
-  const additions = buildFreshChunks(drafts, forDraft, config);
+  //    enforcement happens in buildFreshChunks. Indices line up with `draftable`.
+  const drafts = await drafter.draft(draftable);
+  const additions = buildFreshChunks(drafts, draftable, config);
 
   const report = renderReport({
     discovered: discovered.length,

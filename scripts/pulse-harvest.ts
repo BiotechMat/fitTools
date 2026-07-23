@@ -36,7 +36,10 @@ async function main(): Promise<void> {
   const existing = loadSidecar();
   console.log(`[pulse-harvest] loaded ${existing.length} existing fresh chunks`);
 
-  const result = await runHarvest({ existing });
+  // Throttle abstract (efetch) calls to stay under PubMed's ~3 req/s
+  // unauthenticated limit — rate-limit misses were what left studies without an
+  // abstract and produced placeholder cards. Tests leave this 0.
+  const result = await runHarvest({ existing, abstractDelayMs: 350 });
   console.log(
     `[pulse-harvest] discovered ${result.discovered}, ` +
       `${result.additions.length} new draft(s)${result.degraded ? " (degraded — no drafting model)" : ""}`,
