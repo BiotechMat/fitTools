@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { openMainNav } from "./helpers";
 import { supplements } from "../../src/registry/supplements";
 
 /**
@@ -11,6 +12,7 @@ import { supplements } from "../../src/registry/supplements";
 
 test("supplements is in the nav and the hub lists every entry", async ({ page }) => {
   await page.goto("/");
+  await openMainNav(page);
   await expect(
     page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Supplements" }),
   ).toHaveAttribute("href", "/supplements");

@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { openMainNav } from "./helpers";
 import { exercises, exercisePatterns } from "../../src/registry/exercises";
 
 /**
@@ -10,6 +11,7 @@ import { exercises, exercisePatterns } from "../../src/registry/exercises";
 
 test("exercises is in the nav and the hub lists every pattern and exercise", async ({ page }) => {
   await page.goto("/");
+  await openMainNav(page);
   await expect(
     page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Exercises" }),
   ).toHaveAttribute("href", "/exercises");

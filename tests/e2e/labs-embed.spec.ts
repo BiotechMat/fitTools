@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { openMainNav } from "./helpers";
 
 /** M4 acceptance: labs serve no ads and gate on acknowledgement; embeds are < 50 kB and link back. */
 
@@ -20,6 +21,7 @@ test.describe("labs", () => {
 
   test("header navigation includes a Labs tab", async ({ page }) => {
     await page.goto("/");
+    await openMainNav(page);
     const nav = page.getByRole("navigation", { name: "Main" });
     await expect(nav.getByRole("link", { name: "Labs" })).toHaveAttribute("href", "/labs");
     await nav.getByRole("link", { name: "Labs" }).click();

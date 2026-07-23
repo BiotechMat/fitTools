@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   HEART_AGE_REFERENCE,
   type PreventInput,
@@ -103,9 +103,17 @@ export function HeartAgeCalculator() {
 
   // One lub-dub through the phone when a result lands (mobile only; no-op
   // where the Vibration API is missing, and skipped under reduced motion).
+  // The defaults render never beats — same rule as calc_completed: no user
+  // gesture has happened yet, so Chrome would block the call and log an
+  // intervention error; only a user-driven recalculation vibrates.
   const heartAgeValue = result?.heartAge;
+  const lastBeat = useRef<number | undefined>(undefined);
   useEffect(() => {
     if (heartAgeValue === undefined) return;
+    const first = lastBeat.current === undefined;
+    if (lastBeat.current === heartAgeValue) return;
+    lastBeat.current = heartAgeValue;
+    if (first) return;
     if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     navigator.vibrate([30, 90, 45]);
