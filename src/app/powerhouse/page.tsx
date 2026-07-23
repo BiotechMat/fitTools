@@ -4,6 +4,7 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { PowerhouseGame } from "@/components/powerhouse/PowerhouseGame";
 import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
 import { gameMetadata } from "@/lib/arcade-metadata";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 const COPY = {
   title: "Powerhouse: The Mitochondria Arcade Shooter",
@@ -59,6 +60,7 @@ export default function PowerhousePage() {
 
       <div className="mt-6">
         <PowerhouseGame />
+        <AddToHomeScreen toolName="Powerhouse" />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">

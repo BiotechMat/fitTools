@@ -4,6 +4,7 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { LifelineGame } from "@/components/lifeline/LifelineGame";
 import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
 import { gameMetadata } from "@/lib/arcade-metadata";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 const COPY = {
   title: "Lifeline: The Heartbeat Arcade Game",
@@ -58,6 +59,7 @@ export default function LifelinePage() {
 
       <div className="mt-6">
         <LifelineGame />
+        <AddToHomeScreen toolName="Lifeline" />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">

@@ -29,6 +29,8 @@ export function AddToHomeScreen({ toolName }: { toolName: string }) {
       ("standalone" in navigator &&
         (navigator as Navigator & { standalone?: boolean }).standalone === true); // iOS-only field, absent from the DOM lib
     if (standalone) return;
+    /* eslint-disable-next-line react-hooks/set-state-in-effect -- one-time
+       capability detection after mount; the server render must stay UA-free */
     setIos(/iPad|iPhone|iPod/.test(navigator.userAgent));
     const onPrompt = (e: Event) => {
       e.preventDefault();
@@ -70,8 +72,8 @@ export function AddToHomeScreen({ toolName }: { toolName: string }) {
             </li>
           </ol>
           <p className="mt-1.5 text-xs text-muted">
-            The {toolName.toLowerCase()} then opens full-screen from its own
-            icon, like an app, with no browser chrome or App Store.
+            It then opens full-screen from its own icon, like an app, with no
+            browser chrome or App Store.
           </p>
         </div>
       ) : null}

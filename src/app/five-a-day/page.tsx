@@ -4,6 +4,7 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { FiveADayGame } from "@/components/fiveaday/FiveADayGame";
 import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
 import { gameMetadata } from "@/lib/arcade-metadata";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 const COPY = {
   title: "Five a Day: The Produce-Slicing Game",
@@ -61,6 +62,7 @@ export default function FiveADayPage() {
 
       <div className="mt-6">
         <FiveADayGame />
+        <AddToHomeScreen toolName="Five a Day" />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">

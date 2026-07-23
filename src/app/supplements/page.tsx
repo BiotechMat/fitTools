@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { supplementsByTier } from "@/registry/supplements";
-import { TIER_LABELS } from "@/registry/peptides";
+import { supplementsByGrade } from "@/registry/supplements";
+import { GRADE_LABELS } from "@/registry/peptides";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default function SupplementsHubPage() {
-  const grouped = supplementsByTier();
+  const grouped = supplementsByGrade();
   const jsonLd = breadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Supplements", path: "/supplements" },
@@ -41,11 +41,11 @@ export default function SupplementsHubPage() {
         </p>
       </div>
 
-      {grouped.map(([tier, list]) => (
-        <section key={tier} aria-labelledby={`tier-${tier}`}>
+      {grouped.map(([grade, list]) => (
+        <section key={grade} aria-labelledby={`grade-${grade}`}>
           <div className="flex items-center gap-2">
-            <h2 id={`tier-${tier}`} className="font-display text-2xl uppercase">{TIER_LABELS[tier]}</h2>
-            <EvidenceTier tier={tier} />
+            <h2 id={`grade-${grade}`} className="font-display text-2xl uppercase">{GRADE_LABELS[grade]}</h2>
+            <EvidenceTier tier={list[0].headlineTier} basis={list[0].headlineBasis} />
           </div>
           <ul className="mt-3 grid gap-3 sm:grid-cols-2">
             {list.map((s) => (

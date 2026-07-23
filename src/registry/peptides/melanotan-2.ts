@@ -27,7 +27,7 @@ export const melanotan2Page: PeptidePage = {
       a: "It does stimulate melanin production, so tanning claims have a real mechanism. But 'it works' is beside the point when the product is unlicensed, unmonitored for skin-cancer risk, and sold without any quality control, and the risks are why regulators advise against it.",
     },
     {
-      q: "Why is this filed under 'marketing claim'?",
+      q: "Why is this filed under 'unproven'?",
       a: "Not because tanning doesn't occur, but because it is marketed as a safe, convenient tanning shortcut while the documented risk profile and lack of any regulatory oversight are downplayed or omitted by sellers.",
     },
   ],

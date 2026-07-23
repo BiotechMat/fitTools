@@ -40,9 +40,10 @@ const domId = (prefix: string, label: string) =>
  * Main-nav renderer. Desktop (lg+) shows the horizontal link row and the CTA;
  * below lg it collapses to a hamburger that opens a full-width dropdown, so
  * the nav items never overflow the viewport on mobile. Driven by a single
- * `items` array (no desktop/mobile duplication). Groups are nested
- * accordions on both form factors: Calculators → categories → tools, each
- * level expanding on click (one category open at a time).
+ * `items` array (no desktop/mobile duplication). A group (Calculators) opens
+ * on desktop into a full-width panel that lists every link by category at
+ * once; on mobile it is a nested accordion (categories → tools) so the panel
+ * stays short on a small screen.
  */
 export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
   const [open, setOpen] = useState(false);
@@ -219,33 +220,24 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
 }
 
 /**
- * Desktop expanding menu for a nav group — click to open, closes on Escape,
- * outside click or item click. The panel lists the group's categories; each
- * category expands in place to its links (one open at a time).
+ * Desktop expanding menu for a nav group — click to toggle, closes on
+ * Escape, outside click or item click. The panel spans the full header
+ * width (the header is the nearest positioned ancestor) and lists every
+ * link grouped by category, all visible at once.
  */
 function NavDropdown({ group }: { group: NavGroup }) {
   const [open, setOpen] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const container = useRef<HTMLLIElement>(null);
   const panelId = domId("nav-group", group.label);
-
-  const close = () => {
-    setOpen(false);
-    setExpandedSection(null);
-  };
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-        setExpandedSection(null);
-      }
+      if (e.key === "Escape") setOpen(false);
     };
     const onClick = (e: MouseEvent) => {
       if (container.current && !container.current.contains(e.target as Node)) {
         setOpen(false);
-        setExpandedSection(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -257,12 +249,12 @@ function NavDropdown({ group }: { group: NavGroup }) {
   }, [open]);
 
   return (
-    <li ref={container} className="relative">
+    <li ref={container}>
       <button
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => (open ? close() : setOpen(true))}
+        onClick={() => setOpen((v) => !v)}
         className="inline-flex items-center gap-1 text-muted hover:text-foreground"
       >
         {group.label}
@@ -271,54 +263,41 @@ function NavDropdown({ group }: { group: NavGroup }) {
       {open ? (
         <div
           id={panelId}
-          className="absolute left-0 top-full z-40 mt-2 max-h-[75vh] w-64 overflow-y-auto rounded-xl border-2 border-foreground bg-background p-1.5 shadow-[3px_3px_0_0_var(--color-foreground)]"
+          className="absolute left-0 right-0 top-full z-40 border-b-2 border-foreground bg-background shadow-[0_6px_0_0_rgba(0,0,0,0.06)]"
         >
-          {group.lead ? (
-            <Link
-              href={group.lead.href}
-              onClick={close}
-              className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary underline underline-offset-2 hover:bg-surface-deep"
-            >
-              {group.lead.label} →
-            </Link>
-          ) : null}
-          <ul>
-            {group.sections.map((section) => {
-              const expanded = expandedSection === section.label;
-              const sectionId = domId("nav-section", section.label);
-              return (
-                <li key={section.label}>
-                  <button
-                    type="button"
-                    aria-expanded={expanded}
-                    aria-controls={sectionId}
-                    onClick={() =>
-                      setExpandedSection(expanded ? null : section.label)
-                    }
-                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-foreground hover:bg-surface-deep"
-                  >
+          <div className="mx-auto max-h-[75vh] max-w-5xl overflow-y-auto px-4 py-4">
+            {group.lead ? (
+              <Link
+                href={group.lead.href}
+                onClick={() => setOpen(false)}
+                className="text-sm font-semibold text-primary underline underline-offset-2"
+              >
+                {group.lead.label} →
+              </Link>
+            ) : null}
+            <div className="mt-3 grid grid-cols-2 gap-x-8 gap-y-5 lg:grid-cols-4">
+              {group.sections.map((section) => (
+                <div key={section.label}>
+                  <p className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
                     {section.label}
-                    <ChevronIcon open={expanded} />
-                  </button>
-                  {expanded ? (
-                    <ul id={sectionId} className="pb-1">
-                      {section.items.map((child) => (
-                        <li key={child.href}>
-                          <Link
-                            href={child.href}
-                            onClick={close}
-                            className="block rounded-lg px-3 py-1.5 pl-6 text-sm text-muted hover:bg-surface-deep hover:text-foreground"
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
+                  </p>
+                  <ul className="mt-2 space-y-1.5">
+                    {section.items.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className="text-sm text-muted hover:text-foreground hover:underline"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       ) : null}
     </li>
