@@ -141,6 +141,12 @@ export default function HomePage() {
             >
               Browse all tools
             </Link>
+            <Link
+              href="/lifeline"
+              className="rounded-full border-2 border-foreground bg-good px-5 py-2 font-bold text-background riso-press"
+            >
+              Play Lifeline ♥
+            </Link>
           </div>
         </div>
         <PulseHeroCard />
