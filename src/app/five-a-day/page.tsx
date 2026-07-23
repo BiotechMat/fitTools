@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
-import { SnakeOilGame } from "@/components/snakeoil/SnakeOilGame";
+import { FiveADayGame } from "@/components/fiveaday/FiveADayGame";
 
 export const metadata: Metadata = {
-  title: "Snake Oil: The Myth-Slicing Game",
+  title: "Five a Day: The Produce-Slicing Game",
   description:
-    "Fitness claims fly; slice the myths, spare the truths. Every busted myth is backed by a real cited source. Free browser arcade, no sign-up, just receipts.",
-  alternates: { canonical: "/snake-oil" },
+    "Fruit and veg fly. Swipe to slice them for portions, stack smoothie combos and plant-variety bonuses, and never touch the junk. Free browser arcade, no sign-up.",
+  alternates: { canonical: "/five-a-day" },
 };
 
-export default function SnakeOilPage() {
+export default function FiveADayPage() {
   const jsonLd = breadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Arcade", path: "/arcade" },
-    { name: "Snake Oil", path: "/snake-oil" },
+    { name: "Five a Day", path: "/five-a-day" },
   ]);
 
   return (
@@ -32,36 +32,43 @@ export default function SnakeOilPage() {
           Arcade
         </Link>
         <span aria-hidden="true"> / </span>
-        <span>Snake Oil</span>
+        <span>Five a Day</span>
       </nav>
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
-        Snake Oil
+        Five a Day
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        The wellness expo has lost control of its stock and the claims are
-        flying.{" "}
+        The market stall has lost control of its stock.{" "}
         <strong className="font-semibold text-foreground">
-          Slice the myths, spare the truths
-        </strong>,{" "}cut a true thing in half, or let a myth escape into the group chat,
-        and it costs you. Knowing your evidence IS the reflex.
+          Slice the produce, never the junk
+        </strong>
+        . Every fruit and veg is a portion, multi-slices blend into smoothie
+        bonuses, and trying a new plant pays extra. Drop three and
+        it&rsquo;s compost. The cigarette is not food. You know this.
       </p>
 
       <div className="mt-6">
-        <SnakeOilGame />
+        <FiveADayGame />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Snake Oil is a cartoon with receipts: every claim in it derives from a
-        vetted item in our games registry, and the card at the end cites the
-        real source behind whichever one got you. For the slower, weekly
-        version of this argument, play{" "}
+        Five a Day is a cartoon, not nutrition advice. No smoothie was ever
+        made with a sword. For what actually goes into a balanced plate, the{" "}
+        <Link
+          href="/nutrition/reference"
+          className="text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          food reference
+        </Link>{" "}
+        has the real numbers, and the myth-busting this game once tried to do
+        at swipe speed lives where reading has time:{" "}
         <Link
           href="/daily"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
           Myth or Fact?
         </Link>{" "}
-        on the dailies page. Rather lift than litigate? Its sibling{" "}
+        on the dailies page. Rather lift than chop? Its sibling{" "}
         <Link
           href="/max-out"
           className="text-primary underline underline-offset-2 hover:text-foreground"
