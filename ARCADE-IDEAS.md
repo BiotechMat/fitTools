@@ -50,7 +50,7 @@ can't tick every box doesn't belong in the arcade:
 
 Ordered by recommendation strength. All names proposed, not locked.
 
-### 3.1 Max Out — the one-rep-max timing game ⭐ recommended
+### 3.1 Max Out — the one-rep-max timing game ⭐ **BUILT (2026-07-23 — see MAXOUT.md)**
 
 - **Lineage:** the golf-swing / stop-the-needle meter. **Verb:** tap at the
   right moment.
@@ -70,7 +70,7 @@ Ordered by recommendation strength. All names proposed, not locked.
   world, pure timing; all the work is feel (thump, clang, near-miss wobble).
   Daily-seeded "daily bar" mode is natural.
 
-### 3.2 Snake Oil — the myth-slicing game ⭐ recommended
+### 3.2 Snake Oil — the myth-slicing game ⭐ **BUILT (2026-07-23 — see SNAKEOIL.md)**
 
 - **Lineage:** Fruit Ninja. **Verb:** swipe to slice.
 - **Loop:** claims fly up as bottles and cards with big 1–3 word Anton
@@ -184,6 +184,9 @@ Ordered by recommendation strength. All names proposed, not locked.
 ---
 
 ## 4. Recommendation
+
+*(Update 2026-07-23: both picks are now built — MAXOUT.md and SNAKEOIL.md
+are their spec docs; this section stands as the rationale of record.)*
 
 Next slot: **Max Out** and **Snake Oil**, in that order.
 
