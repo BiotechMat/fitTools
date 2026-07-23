@@ -28,8 +28,8 @@ in **content volume, instrumentation, and distribution**, not in the platform.
 | Longevity tools (METHODOLOGY L1) | Phenotypic Age, Heart Age (PREVENT), CGM metrics, lifestyle life-expectancy — **built**. Fitness Age **blocked** (paywalled Nes 2011 source) |
 | Composite indices (METHODOLOGY L2) | All three — Metabolic Fitness, Pace of Aging, Recovery Readiness — **built** |
 | Recovery/wellness content (CONTENT.md) | Both launch clusters **+ all six future clusters** built (cold-water, sauna, compression, red-light, foam-rolling, breathwork, sleep-environment, massage-guns) |
-| Reference layer (CONTENT-reference.md) | Exercises (16), supplements (13), food reference (4), glossary (23), reference tables (3), both-way calculator↔reference cross-links |
-| Peptides (CONTENT-peptides.md) | Pillar + 8 compound pages, no-dosing discipline |
+| Reference layer (CONTENT-reference.md) | Exercises (42), supplements (35), food reference (4), glossary (55), reference tables (3), both-way calculator↔reference cross-links |
+| Peptides (CONTENT-peptides.md) | Pillar + 16 compound pages, no-dosing discipline |
 | Glow-up (CONTENT-looksmaxxing.md) | §8 Step 1 — skin & sun cluster + debunk hub (pending Mat sign-off) |
 | Pulse (PULSE.md) | v1 feed + full fresh-cards pipeline **F0–F3** (harvest CLI, weekly Action, `/pulse/this-week` digest) |
 | Daily games (DAILY-GAMES.md) | Ballpark + Myth or Fact?, streaks, share, analytics |
