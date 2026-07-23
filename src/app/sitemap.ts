@@ -122,6 +122,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Daily games hub (DAILY-GAMES.md §9): a canonical page whose puzzle rotates
     // daily. Per-date archive pages feed the sitemap from the registry once built.
     { url: `${SITE_URL}/daily`, changeFrequency: "daily" as const },
+    // Blood-test product page (pre-launch; partner integration to come).
+    { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
     ...hubs,
     ...tools,
     ...staticPages,

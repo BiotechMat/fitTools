@@ -155,7 +155,31 @@ export default function HomePage() {
         </div>
       </div>
 
-      <section className="pt-8" aria-labelledby="daily-cta">
+      <section className="pt-8" aria-labelledby="bloodtest-cta">
+        <Link
+          href="/blood-test"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-good-soft p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+              New · coming soon
+            </p>
+            <h2 id="bloodtest-cta" className="mt-1 font-display text-2xl uppercase">
+              Know your numbers — at-home blood test
+            </h2>
+            <p className="mt-1 max-w-prose text-sm">
+              Test the biomarkers behind your heart, metabolic and biological age —
+              results flow straight into your dashboard and auto-fill the calculators
+              that use them.
+            </p>
+          </div>
+          <span className="shrink-0 self-start rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] sm:self-auto">
+            Explore the panel &rarr;
+          </span>
+        </Link>
+      </section>
+
+      <section className="pt-6" aria-labelledby="daily-cta">
         <Link
           href="/daily"
           className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
