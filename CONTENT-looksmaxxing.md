@@ -229,8 +229,10 @@ remain — both about safety, not architecture, and both binding:
 Built as a clearly-bounded, opt-in feature with **every** guardrail below:
 
 - **Ephemeral, no storage.** Photo is processed and discarded; never stored,
-  never logged, never added to `HistoryProvider`. No progress-photo feature —
-  ever. State this in-UI and in the privacy policy.
+  never logged, never added to `HistoryProvider` or the dashboard profile store
+  (`DASHBOARD.md` §5) — the photo and any appearance figure stay out of all
+  persistence, local or account. No progress-photo feature — ever. State this
+  in-UI and in the privacy policy.
 - **Consent + on-device gate.** Explicit per-use consent screen; an **18+**
   affirmation (this is the minor line from §1.5); a clear "your photo is sent
   to an AI service to estimate body composition and is not kept" notice **before**

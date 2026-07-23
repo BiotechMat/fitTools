@@ -95,7 +95,9 @@ event: `card_generated`, `card_shared`.
 ### Phase E0 — Engagement foundations *(build alongside E1)*
 **What:** lightweight accounts (email / social sign-in), a `HistoryProvider`
 promoted from local-only (per `SPEC.md` §10) to stored profiles, and full event
-instrumentation of the loop.
+instrumentation of the loop. The stored profile is the dashboard's
+`DashboardProfile` document (`DASHBOARD.md` §5), designed local-first now so
+this promotion is one central swap, not a caller sweep.
 **Why:** everything after E1 needs identity and saved state. Kept minimal so it
 doesn't delay the share loop.
 **Success metric:** signup rate from the card CTA; % of calculator users who save
@@ -104,7 +106,9 @@ a result.
 ### Phase E2 — The return loop *(the core stickiness engine)*
 **What:** **Trajectory** — longitudinal tracking of the open indices and key
 metrics, rendered as trend lines with milestones and "what moved this"
-annotations. Pure temporal, self-vs-self comparison.
+annotations. Pure temporal, self-vs-self comparison. It lives on the personal
+dashboard (`DASHBOARD.md` §3.5) — the surface that aggregates the metrics it
+charts.
 **Why:** progress visualisation is the proven anti-churn mechanic and the safest
 motivator. This is what converts a one-off calculator visit into a habit.
 **Key features:** re-run reminders (opt-in, non-nagging); milestone celebrations

@@ -8,6 +8,9 @@ off. Now building post-v1 work: METHODOLOGY.md Layer 1 tools (Phenotypic Age,
 Heart Age/PREVENT, CGM metrics, lifestyle life-expectancy done; Fitness Age
 blocked on paywalled source), Layer 2 composite indices (all three done), and
 CONTENT clusters (cold-water + sauna done), and Pulse (PULSE.md) in build.
+The /blood-test page is built (placeholder panel, pending partner); the personal
+dashboard that consumes it has its D0 local scaffold built (DASHBOARD.md; later
+phases D1–D4 gated behind accounts + the data-protection posture).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
@@ -48,6 +51,18 @@ and Mat has signed off.
   (2026-07-23, see §15): src/registry/daily.ts, src/lib/daily/*,
   src/lib/daily-store.ts, /daily, homepage banner + nav. "Ballpark" name
   LOCKED (Mat, 2026-07-23); "Myth or Fact?" name still proposed (§12.1).
+- DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
+  ("Your numbers"): the home base that aggregates vitals, saved calculations,
+  composite/biological-age scores and blood-test biomarkers, with longitudinal
+  Trajectory (ROADMAP E2, the keystone). An aggregator, NOT a new source of
+  truth — no new formulas or metrics. D0 BUILT (2026-07-23, see §11):
+  src/registry/metrics.ts (+ validateMetrics), src/lib/dashboard-store.ts (the
+  SPEC §10 HistoryProvider seam, extends src/lib/history.ts), the noindexed
+  /dashboard route, src/components/dashboard/DashboardView.tsx, nav link, and
+  metrics + dashboard-store unit tests. Later phases (D1 Trajectory, D2
+  accounts/sync, D3 biomarkers, D4 share cards) are gated: identified profiles
+  and real blood values need ROADMAP E0 accounts + the BUSINESS_PLAN §13 /
+  SPEC §17 data-protection posture (§8). Build sequence + gates in §11.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
