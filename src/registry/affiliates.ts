@@ -10,13 +10,14 @@
  *   recovery:<cluster>/<article>    recovery:sauna-therapy/best-home-saunas
  *   glowup:<cluster>/<article>      glowup:skin/sunscreen
  *
- * ACTIVATION: a pick renders only once `url` is a real https affiliate link.
- * Entries with url: "" are prepared placements — paste the link (and the
- * merchant name) to switch the card on for that page; nothing else to wire.
- * When the first link goes live, also update the "no live offers" line on
+ * ACTIVATION: every seeded pick renders its card now, as editorial content
+ * (name + why). The "View at <merchant>" button appears only once `url` is a
+ * real https affiliate link — paste the link (and the merchant name) into an
+ * entry and the placement is monetised; nothing else to wire. When the first
+ * link goes live, also update the "no live offers" line on
  * /legal/affiliate-disclosure.
  *
- * Every rendered card carries the disclosure line and rel="sponsored
+ * Cards with a live link carry the disclosure line and rel="sponsored
  * nofollow" (RecommendationCard), and clicks emit
  * affiliate_click { slug: <surface key>, offer: <offerId> }.
  *
@@ -38,7 +39,7 @@ export interface ProductPick {
   name: string;
   /** One honest line on why this is the pick, consistent with the page copy. */
   why: string;
-  /** Affiliate URL. "" = placement prepared, card hidden until pasted. */
+  /** Affiliate URL. "" = editorial-only card; button appears once pasted. */
   url: string;
   /** Where the link goes, shown on the button (e.g. "Amazon UK"). */
   merchant?: string;
@@ -223,17 +224,13 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
 /* Lookup helpers                                                         */
 /* ---------------------------------------------------------------------- */
 
-/** A pick is live (rendered) only once its affiliate URL has been pasted. */
+/** A pick is live (gets its buy button + disclosure) once its affiliate URL
+ *  has been pasted; until then the card shows the pick as editorial only. */
 export function isLivePick(pick: ProductPick): boolean {
   return pick.url.startsWith("https://");
 }
 
-/** Live picks for a surface key — what RecommendationCard renders. */
+/** Picks for a surface key — what RecommendationCard renders. */
 export function recommendationsFor(surface: string): ProductPick[] {
-  return (recommendationsBySurface[surface] ?? []).filter(isLivePick);
-}
-
-/** All picks (live or prepared) for a surface — for tests/tooling. */
-export function allPicksFor(surface: string): ProductPick[] {
   return recommendationsBySurface[surface] ?? [];
 }

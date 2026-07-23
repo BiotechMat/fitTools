@@ -15,6 +15,12 @@ two layers:
 > source. Where numeric coefficients appear, they are a *reference to verify* —
 > see §1. Do not ship a Layer 1 formula until its worked example (§7) passes.
 
+> **Build status (2026-07-23):** Layer 1 — Phenotypic Age, Heart Age, CGM
+> metrics and lifestyle life-expectancy are built; **Fitness Age (§3.2) is
+> blocked** on the paywalled Nes 2011 source (a Mat decision — `STATUS.md §4`
+> #2; it also carries 25% of the §5.1 Pace of Aging index). Layer 2 — all three
+> composite indices are built. Current state and sequencing live in `STATUS.md`.
+
 ---
 
 ## 1. Non-negotiable principles

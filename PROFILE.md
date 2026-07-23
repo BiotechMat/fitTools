@@ -13,6 +13,13 @@ on the data-protection posture in §7**, which is binding, not advisory. Metrics
 entry (anthropometrics/lifestyle) is the lighter first slice; biomarker storage
 and file upload are the resourced, sensitive step. Build order in §9.
 
+> **Where this sits in the plan (`STATUS.md §3`):** Phase 4, alongside the E0
+> accounts crossing. The manual profile + auto-populate slice (§2.1) is a strong,
+> honest retention hook — enter your numbers once, every tool pre-fills — and is
+> the lighter first step; bloodwork extraction (§4) and the body-composition
+> estimator (CONTENT-looksmaxxing §6) share the one new server surface and its
+> threat model, sequenced last.
+
 ---
 
 ## 1. What it is & why it belongs

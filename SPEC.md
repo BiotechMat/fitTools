@@ -1,5 +1,11 @@
 # SPEC.md — Fitness Tools Platform (working name: "FitTools")
 
+> **Build status: M0–M4 all complete and signed off (2026-07-23).** This spec
+> remains authoritative for *how* the platform is built; for *what is built now
+> and what's next*, see `STATUS.md`. Server-side calculation, AI APIs, accounts
+> and a pro tier are in scope where a feature needs them (see §2, §10, §17) — the
+> milestone sequence below is history, not a gate on the post-v1 work.
+
 ## 0. How to use this spec
 Work through milestones M0→M4 in order. Do not start a milestone until the previous
 one's acceptance criteria pass. Formula modules are test-first: write the test vectors,

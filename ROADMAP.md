@@ -6,6 +6,14 @@ return-driven**. Monetisation (ads + affiliates) is deliberately deferred: build
 the audience and the loops first, switch revenue on once traffic arrives. The ad
 and affiliate infrastructure is already stubbed behind flags in `SPEC.md` §10.
 
+> **Current build status & execution order live in `STATUS.md`.** This document
+> is the *conceptual* phase design (why each mechanic, in what order); several
+> phases have since shipped ahead of sequence at Mat's direction (Pulse and the
+> daily games as E5/E3 threads, the E1 share card, dashboard D0). Each phase
+> below now carries an as-built line; the current cross-cutting priority order
+> (fuel the banks → close the half-built loops → Trajectory → accounts →
+> monetise) is in `STATUS.md §3`.
+
 **Governing principle:** every mechanic runs on *positive* psychology — progress,
 flattering achievement, earned status, novelty. This is a product decision AND a strategic one:
 the site's moat is credibility, and shame-driven engagement burns out and
@@ -81,6 +89,12 @@ with nothing to return to just leaks users.
 > top.
 
 ### Phase E1 — The share loop *(highest ROI, lowest risk — do first)*
+> **As-built (2026-07-23): PARTIALLY BUILT.** The dynamic OG-image pipeline
+> exists — `/api/share-card` renders a branded 1200×630 card, `/share` hosts it,
+> and tool results carry a share button. It is **tool-only** (validated against
+> the tool registry). Remaining: generalise it so Pulse / Daily / Lifeline shares
+> reuse it, and add the 1080×1920 story format (`STATUS.md §3` Phase 2).
+
 **What:** a flattering, screenshot-ready **achievement card** generated at the end
 of any calculator or index — "Top 12% cardio fitness for men 30–34", fitness age,
 a composite score with percentile. Server-rendered OG image; one-tap share; a
@@ -93,6 +107,14 @@ event: `card_generated`, `card_shared`.
 **Success metric:** share rate per result; viral coefficient (K); referral traffic.
 
 ### Phase E0 — Engagement foundations *(build alongside E1)*
+> **As-built (2026-07-23): NOT STARTED — the gating milestone.** The
+> `HistoryProvider` seam exists local-first (`history.ts`, `pulse-store.ts`,
+> `daily-store.ts`, `dashboard-store.ts`), so the promotion to authed storage is
+> a central swap. Accounts, the consent flow and the published data-protection
+> posture are unbuilt; everything sensitive (Dashboard D2–D4, PROFILE.md, the
+> estimator, premium) waits here. This is `STATUS.md §3` Phase 4 — the deliberate
+> crossing (BUSINESS_PLAN §13, SPEC §17).
+
 **What:** lightweight accounts (email / social sign-in), a `HistoryProvider`
 promoted from local-only (per `SPEC.md` §10) to stored profiles, and full event
 instrumentation of the loop. The stored profile is the dashboard's
@@ -104,6 +126,13 @@ doesn't delay the share loop.
 a result.
 
 ### Phase E2 — The return loop *(the core stickiness engine)*
+> **As-built (2026-07-23): NOT STARTED — but the keystone, and buildable now.**
+> Dashboard **D0** (the local scaffold, metric registry and store) exists;
+> Trajectory itself is Dashboard **D1**. It needs no accounts — it charts the
+> local store — so it is `STATUS.md §3` Phase 3, gated only on wiring more tools
+> to `ResultHistory` (Phase 2) so there is data to plot. Keep it dependency-free
+> (the ~165 kB shared bundle sits under a 170 kB CI cap).
+
 **What:** **Trajectory** — longitudinal tracking of the open indices and key
 metrics, rendered as trend lines with milestones and "what moved this"
 annotations. Pure temporal, self-vs-self comparison. It lives on the personal
@@ -116,6 +145,12 @@ motivator. This is what converts a one-off calculator visit into a habit.
 **Success metric:** returning-user %, D7/D30 retention, re-runs per user.
 
 ### Phase E3 — Identity & gamification
+> **As-built (2026-07-23): PARTIALLY BUILT.** The daily games (DAILY-GAMES.md)
+> and Lifeline ship the day-1-win and played-streak *threads* — local streaks,
+> freezes, warm re-entry, a "first play" moment. The full badge/achievement
+> system, the Archetype quiz, and cross-surface behaviour streaks are unbuilt and
+> depend on E0 identity.
+
 **What:** (a) **Archetype** — a shareable health-identity quiz assigning a
 strengths-plus-growth type ("Recovery-Limited Hybrid — here's your edge and your
 next unlock"); (b) **behaviour streaks** (Zone-2 sessions, protein targets, sleep
@@ -130,6 +165,10 @@ meaningful action; streak freeze + rest-day logic; no loss-shaming copy.
 streak-active users.
 
 ### Phase E4 — Social & earned status
+> **As-built (2026-07-23): NOT STARTED.** Percentile pills are specced (DESIGN
+> §6) but leaderboards, challenges and cross-user status all need E0 accounts and
+> the anonymous-count API first.
+
 **What:** (a) **tightly-segmented leaderboards** on *behaviours and personal
 bests* (not bodies) — VO₂max/age band, sleep consistency, streak length —
 segmented so gaps are small and attainable; (b) **percentile benchmarking**
@@ -144,6 +183,14 @@ E1).
 **Success metric:** lapsed-user reactivation rate; opt-in %; sessions/user.
 
 ### Phase E5 — Novelty & content cadence
+> **As-built (2026-07-23): PARTIALLY BUILT — ahead of sequence.** Pulse
+> (PULSE.md) is the novelty surface, and its fresh-cards pipeline (F0–F3) is the
+> "Trend Radar": a weekly PubMed harvest Action opening a review PR, plus the
+> crawlable `/pulse/this-week` digest built as the newsletter unit. **Remaining:**
+> the pipeline runs in degraded mode until `ANTHROPIC_API_KEY` is set, the corpus
+> is far below its 60–100 target (`STATUS.md §2`), and no newsletter provider is
+> wired. The annual Longevity Index report is unbuilt.
+
 **What:** **Trend Radar** — a credibility-filtered weekly "what's new in longevity"
 feed (new research, biomarkers, interventions — signal over hype), plus a
 **newsletter**. Optionally the annual **Longevity Index** report from aggregate
@@ -154,6 +201,13 @@ asset. The Index compounds into authority and backlinks (SEO).
 **Success metric:** newsletter signups + open rate; weekly returning-visitor %.
 
 ### Phase E6 — Monetisation activation *(only once traffic arrives)*
+> **As-built (2026-07-23): NOT STARTED — infra stubbed, all flags OFF.** The ad
+> slots, CMP, affiliate registry and analytics all exist behind env flags
+> (SPEC §10). **The revenue *model* has shifted since this phase was written:**
+> the current direction is **premium-lean, subscription-led** (MONETISATION.md),
+> not ads-first — this phase owes reconciliation to that doc (`STATUS.md §6`), and
+> premium activation additionally waits on the model decision (MONETISATION §4).
+
 **What:** switch on the pre-built ad slots (Journey by Mediavine at ~1k
 sessions/mo → Raptive/Mediavine at threshold) and contextual affiliate placements
 (protein, CGMs, wearables, testing kits), and scaffold a premium tier
@@ -188,3 +242,10 @@ the loops while they're forming.
 
 Start with E1/E0. The keystone build is **E2 (Trajectory)** — it is the safest,
 strongest motivator and the thing that makes every other phase pay off.
+
+> **Note (2026-07-23):** the *conceptual* order above still holds, but because
+> E1/E3/E5 shipped ahead of E0, the current **execution** order differs — fuel
+> the content banks and turn on measurement first, then close the half-built
+> loops (extend the share card, SEO artefacts, history wiring), then build
+> Trajectory on the local store, and only then take the E0 accounts crossing.
+> The live, cross-cutting sequence is in **`STATUS.md §3`**.

@@ -406,6 +406,9 @@ export function LifelineGame() {
   };
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time URL +
+       localStorage hydration after mount; server render must stay
+       storage-free */
     const params = new URLSearchParams(window.location.search);
     const chSeed = Number(params.get("seed"));
     const chBeat = Number(params.get("beat"));
@@ -445,6 +448,7 @@ export function LifelineGame() {
     } catch {
       /* private mode — scores just live for the session */
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {
@@ -1140,7 +1144,6 @@ export function LifelineGame() {
       cancelAnimationFrame(raf);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time canvas setup; state flows via refs
   }, []);
 
   const flap = () => {
@@ -1210,6 +1213,9 @@ export function LifelineGame() {
   }, []);
 
   const medal = medalFor(finalAge);
+  /* Render-scope copy of the daily modifier (same pure expression as
+     modifierRef — refs must not be read during render). */
+  const todaysModifier = MODIFIERS[dailySeed(todayISO()) % MODIFIERS.length];
   const puzzleNo = dailyPuzzleNumber(todayISO());
   const fact = FACTS[finalAge % FACTS.length];
 
@@ -1355,7 +1361,7 @@ export function LifelineGame() {
           </div>
           <p className="max-w-[17rem] font-mono text-xs uppercase tracking-[0.12em] text-muted">
             {mode === "daily"
-              ? `Today: ${modifierRef.current.label.toLowerCase()}${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
+              ? `Today: ${todaysModifier.label.toLowerCase()}${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
               : mode === "calm"
                 ? "Slower, wider, no medals — just vibes"
                 : best > 0
