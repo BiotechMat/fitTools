@@ -24,12 +24,13 @@ export function BarbellWhip({ loadKg }: { loadKg: number }) {
   const raf = useRef(0);
 
   useEffect(() => {
+    cancelAnimationFrame(raf.current);
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       cur.current = target;
-      setBend(target);
-      return;
+      vel.current = 0;
+      raf.current = requestAnimationFrame(() => setBend(target));
+      return () => cancelAnimationFrame(raf.current);
     }
-    cancelAnimationFrame(raf.current);
     const step = () => {
       vel.current += (target - cur.current) * 0.09;
       vel.current *= 0.88;

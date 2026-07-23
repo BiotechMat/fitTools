@@ -103,3 +103,7 @@ v4 BUILT (2026-07-23) — the former deferred list, complete:
   30Hz and replayed as a translucent heart on retries — you race yourself,
   the ROADMAP "you vs you" motivator.
 Still open: streaks, /share holo-card hook, leaderboard (accounts-gated).
+
+Arcade (same day): now listed in the /arcade hub next to its sibling
+Powerhouse (POWERHOUSE.md), which also gave /lifeline a sitemap entry and
+an Arcade breadcrumb.

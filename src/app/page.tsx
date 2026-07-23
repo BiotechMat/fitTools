@@ -142,10 +142,10 @@ export default function HomePage() {
               Browse all tools
             </Link>
             <Link
-              href="/lifeline"
+              href="/arcade"
               className="rounded-full border-2 border-foreground bg-good px-5 py-2 font-bold text-background riso-press"
             >
-              Play Lifeline ♥
+              Play in the Arcade ⚡
             </Link>
           </div>
         </div>

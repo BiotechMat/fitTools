@@ -11,7 +11,9 @@ cold-water, sauna, compression, massage guns, red-light, sleep environment,
 breathwork, foam rolling), CONTENT-peptides.md, the CONTENT-reference.md
 first batch (glossary, supplement database, exercise library, food reference,
 reference tables, plus both-way calculator↔reference cross-links), the Pulse
-feed (PULSE.md), the daily games (DAILY-GAMES.md), the glow-up section first
+feed (PULSE.md), the daily games (DAILY-GAMES.md), the arcade (LIFELINE.md
+/lifeline flapper; POWERHOUSE.md /powerhouse side-scrolling mitochondria
+shooter; hub at /arcade — nav + homepage CTA point there), the glow-up section first
 step (CONTENT-looksmaxxing.md §8), the E1 share loop (/share achievement card),
 the /blood-test page (placeholder panel, pending partner), the dashboard D0
 local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the

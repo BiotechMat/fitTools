@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
-import { LifelineGame } from "@/components/lifeline/LifelineGame";
+import { PowerhouseGame } from "@/components/powerhouse/PowerhouseGame";
 
 export const metadata: Metadata = {
-  title: "Lifeline — The Heartbeat Arcade Game",
+  title: "Powerhouse — The Mitochondria Arcade Shooter",
   description:
-    "Tap to keep the heart beating, dodge the risk factors, and see what age you reach. One button, no sign-up — and when you're done, check your real heart age.",
-  alternates: { canonical: "/lifeline" },
+    "You are the mitochondrion — the powerhouse of the cell. Autofire at free radicals and sugar spikes, stack protein and caffeine power-ups, and climb the heart-rate zones to REDLINE. Free, no sign-up.",
+  alternates: { canonical: "/powerhouse" },
 };
 
-export default function LifelinePage() {
+export default function PowerhousePage() {
   const jsonLd = breadcrumbJsonLd([
     { name: "Home", path: "/" },
     { name: "Arcade", path: "/arcade" },
-    { name: "Lifeline", path: "/lifeline" },
+    { name: "Powerhouse", path: "/powerhouse" },
   ]);
 
   return (
@@ -32,46 +32,48 @@ export default function LifelinePage() {
           Arcade
         </Link>
         <span aria-hidden="true"> / </span>
-        <span>Lifeline</span>
+        <span>Powerhouse</span>
       </nav>
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">
-        Lifeline
+        Powerhouse
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        You are the heartbeat. Tap to flap, thread the gaps, dodge the risk
-        factors — <strong className="font-semibold text-foreground">your score is the age you reach</strong>.
-        Broccoli helps. The sofa does not.
+        The mitochondria is the powerhouse of the cell — and today,{" "}
+        <strong className="font-semibold text-foreground">that&rsquo;s you</strong>. Fly the
+        bloodstream, autofire at the junk, grab the good stuff, and climb the
+        training zones. Your score is ATP. Zone 5 is earned. REDLINE is
+        legend.
       </p>
 
       <div className="mt-6">
-        <LifelineGame />
+        <PowerhouseGame />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Lifeline is a cartoon, not a health prediction — no arcade heart was
-        consulted on your actual physiology. For the real number, built on the
-        AHA PREVENT equations with every source cited, try the{" "}
+        Powerhouse is a cartoon, not cell biology — no organelles were
+        consulted, and nothing here measures you. For your actual training
+        zones, built on real heart-rate maths with the sources cited, try the{" "}
         <Link
-          href="/heart-age-calculator"
+          href="/heart-rate-zone-calculator"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
-          Heart Age calculator
+          Heart Rate Zone calculator
         </Link>
-        . And if one game a day is more your pace,{" "}
+        . Prefer one heartbeat at a time? Its sibling{" "}
         <Link
-          href="/daily"
+          href="/lifeline"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
-          today&rsquo;s Ballpark
+          Lifeline
         </Link>{" "}
-        is waiting. Prefer shooting the junk to dodging it?{" "}
+        is next door, and the rest of the games live in the{" "}
         <Link
-          href="/powerhouse"
+          href="/arcade"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
-          Powerhouse
-        </Link>{" "}
-        hands the mitochondrion a blaster.
+          Arcade
+        </Link>
+        .
       </p>
     </div>
   );
