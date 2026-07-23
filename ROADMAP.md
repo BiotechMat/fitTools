@@ -2,9 +2,10 @@
 
 Companion to `SPEC.md` (the build) and `METHODOLOGY.md` (the scoring). This
 document sequences the features that make the site **sticky, shareable, and
-return-driven**. Monetisation (ads + affiliates) is deliberately deferred: build
-the audience and the loops first, switch revenue on once traffic arrives. The ad
-and affiliate infrastructure is already stubbed behind flags in `SPEC.md` §10.
+return-driven**. Monetisation (premium + blood test + affiliates; free-tier ads
+optional — `MONETISATION.md`) is deliberately deferred: build the audience and
+the loops first, switch revenue on once traffic arrives. The consent, ad and
+affiliate infrastructure is already stubbed behind flags in `SPEC.md` §10.
 
 > **Current build status & execution order live in `STATUS.md`.** This document
 > is the *conceptual* phase design (why each mechanic, in what order); several
@@ -60,8 +61,9 @@ generates backlash while progress-driven engagement compounds.
 5. **Metrics remain estimates.** All scoring obeys `METHODOLOGY.md` (open,
    versioned, non-diagnostic, no mortality figures, body-composition never
    dominant).
-6. **Monetisation deferred.** No ads until traffic thresholds (Phase E6). Keep the
-   experience clean while building the loops.
+6. **Monetisation deferred.** Nothing revenue-bearing switches on before Phase
+   E6 — and free-tier ads may never (`MONETISATION.md §4`). Keep the experience
+   clean while building the loops.
 
 ---
 
@@ -201,21 +203,29 @@ asset. The Index compounds into authority and backlinks (SEO).
 **Success metric:** newsletter signups + open rate; weekly returning-visitor %.
 
 ### Phase E6 — Monetisation activation *(only once traffic arrives)*
-> **As-built (2026-07-23): NOT STARTED — infra stubbed, all flags OFF.** The ad
-> slots, CMP, affiliate registry and analytics all exist behind env flags
-> (SPEC §10). **The revenue *model* has shifted since this phase was written:**
-> the current direction is **premium-lean, subscription-led** (MONETISATION.md),
-> not ads-first — this phase owes reconciliation to that doc (`STATUS.md §6`), and
-> premium activation additionally waits on the model decision (MONETISATION §4).
+> **As-built (2026-07-23): NOT STARTED — infra stubbed, all flags OFF.** The
+> CMP, ad slots, affiliate registry and analytics all exist behind env flags
+> (SPEC §10). **The revenue model is confirmed (2026-07-23, MONETISATION.md):
+> premium-led** — premium sign-ups first (low monthly amount or one-off lifetime
+> unlock), blood-test profit second, affiliates a small supporting line,
+> free-tier ads optional and undecided. Premium activation waits on the
+> remaining detail questions (price/mechanics, the free/paid line —
+> MONETISATION §4) and on E0 accounts; blood-test revenue waits on the partner
+> (`STATUS.md §4`).
 
-**What:** switch on the pre-built ad slots (Journey by Mediavine at ~1k
-sessions/mo → Raptive/Mediavine at threshold) and contextual affiliate placements
-(protein, CGMs, wearables, testing kits), and scaffold a premium tier
-(ad-free + deeper Trajectory + advanced cards).
-**Why:** monetising an engaged, returning, proud audience yields far better RPMs
-and affiliate conversion than monetising cold one-off traffic. Deferring protects
-the loops while they're forming.
-**Success metric:** session RPM, affiliate CTR, premium conversion.
+**What:** launch the premium tier (very low monthly price, or a one-off lifetime
+unlock — £10 lifetime is the working example) selling persistence and depth —
+saved history, Trajectory, advanced cards; activate the blood-test offer with
+the chosen partner (`/blood-test` is live and waiting); switch on contextual
+affiliate placements (protein, CGMs, wearables, testing kits) as the small
+supporting line. Optionally, if decided, light premium-lean ad space for free
+users via the pre-built slots.
+**Why:** monetising an engaged, returning, proud audience yields far better
+premium conversion, blood-test uptake and affiliate conversion than monetising
+cold one-off traffic. Deferring protects the loops while they're forming.
+**Success metric:** premium sign-ups + conversion %, blood-test orders +
+revenue per order, affiliate CTR (session RPM only if free-tier ads are
+enabled).
 
 ---
 
@@ -226,7 +236,8 @@ the loops while they're forming.
 - **Activation:** day-1 achievement completion %.
 - **Retention:** D1 / D7 / D30; returning-user %; sessions per user.
 - **Audience asset:** email/newsletter subscribers.
-- **Revenue (Phase E6+):** session RPM, affiliate CTR, premium conversion.
+- **Revenue (Phase E6+):** premium sign-ups + conversion %, blood-test orders,
+  affiliate CTR (session RPM only if free-tier ads are enabled).
 
 ---
 
@@ -238,7 +249,8 @@ the loops while they're forming.
 3. **E3** — identity, day-1 achievement, streaks.
 4. **E4** — segmented status, challenges, reactivation.
 5. **E5** — weekly content + newsletter (recurring habit + owned audience).
-6. **E6** — turn on ads, affiliates, premium.
+6. **E6** — turn on premium + the blood-test offer; affiliates supporting;
+   free-tier ads only if decided.
 
 Start with E1/E0. The keystone build is **E2 (Trajectory)** — it is the safest,
 strongest motivator and the thing that makes every other phase pay off.

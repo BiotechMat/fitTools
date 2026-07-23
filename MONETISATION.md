@@ -6,34 +6,45 @@ return engine, E6 monetisation activation). This is the **single working record*
 for where the site's revenue is heading, so the direction stops living scattered
 across those docs.
 
-**Status (2026-07-23): WORKING DIRECTION — not signed off.** The *shape* below
-is agreed in spirit (premium-lean, free-stays-free); the **model itself is not
-yet confirmed** — price, exactly what's gated, and whether the free tier carries
-ads at all are open questions (§4). Nothing here locks a decision; it records the
-intent and the principles that already bind, and flags what still needs Mat's
-call. When the model is confirmed, `BUSINESS_PLAN.md §7` and `ROADMAP.md E6` get
-reconciled to it (they currently pre-date this direction — §5).
+**Status (2026-07-23): MODEL CONFIRMED (Mat).** The revenue order is decided:
+**premium sign-ups are the main revenue line** (a very low amount a month, or
+possibly a one-off lifetime unlock — £10 lifetime is the working example),
+**blood-test profit is the second line**, and **affiliate marketing is a small
+supporting line**. Display ads are *optional and undecided* — the free tier may
+or may not carry some ad space (§4.2). `BUSINESS_PLAN.md §7/§11` and
+`ROADMAP.md E6` were reconciled to this model on 2026-07-23 (§5).
 
-> **This is a gating decision, not just a doc.** The §4 model choice blocks the
-> design of the accounts/premium tier (`STATUS.md §3` Phase 4) — build premium
-> around what it actually gates, so decide the model *before* that phase. Listed
+> **What still gates Phase 4 (accounts/premium tier design — `STATUS.md §3`):**
+> the §4 detail questions — the exact price and monthly-vs-lifetime mechanics,
+> the precise free/paid line, and the free-tier-ads call. Decide those before
+> building the tier, so premium is built around what it actually gates. Tracked
 > as blocking decision #1 in `STATUS.md §4`.
 
 ---
 
 ## 1. The direction
 
-**The eventual primary revenue line is a low-cost monthly subscription** that
-unlocks premium features — a "small amount a month" tier, not a paywall on the
-calculators. Ads and affiliates continue as *supporting* layers, never the thing
-the product is built around.
+**The primary revenue line is premium sign-ups** — a low-cost premium tier at
+"a very low amount a month", or possibly a one-off lifetime unlock (£10
+lifetime is the working example; mechanics open in §4.1). Not a paywall on the
+calculators.
 
-This is a deliberate move away from the original ads-first framing
-(`BUSINESS_PLAN.md §7`): monetising an engaged, returning, trusting audience via
-subscription yields better unit economics — and protects the credibility moat —
-far more than squeezing cold one-off traffic with ad density. `DESIGN.md §5`
-already commits the visual system to this ("premium-lean"); this doc makes it the
-headline revenue strategy rather than a late add-on.
+**The second revenue line is blood-test profit** — margin/commission on tests
+ordered through the site's `/blood-test` offering once the fulfilment partner
+is signed (`STATUS.md §4` decision #5). High revenue per conversion, exactly
+matched to the audience's intent, and it compounds the retention moat: results
+land in the dashboard and feed the biological-age tools.
+
+**Affiliate marketing continues as a small supporting line.** Display ads are
+*optional*: the free tier may or may not carry some ad space (§4.2) — the
+product is never built around them.
+
+This is a deliberate move away from the original ads-first framing: monetising
+an engaged, returning, trusting audience via premium and blood tests yields
+better unit economics — and protects the credibility moat — far more than
+squeezing cold one-off traffic with ad density. `DESIGN.md §5` already commits
+the visual system to this ("premium-lean"); `BUSINESS_PLAN.md §7` now leads
+with these lines.
 
 ---
 
@@ -84,40 +95,44 @@ the thing sold.
 
 ---
 
-## 4. Open questions (need Mat's decision — model not yet confirmed)
+## 4. Open questions (detail decisions — the model order itself is confirmed)
 
-1. **Price point.** "Small amount a month" — the actual number, and monthly vs
-   annual (and whether regional pricing applies).
-2. **The free/paid line.** Exactly which features are free vs premium — where does
+1. **Price point & mechanics.** The monthly number ("a very low amount"), and
+   whether the offer is monthly, annual, or a one-off lifetime unlock (£10
+   lifetime is the working example — early cash and a very easy yes, traded
+   against recurring revenue). Regional pricing TBD.
+2. **Ads in the free tier — or not at all?** Still genuinely open ("may or may
+   not"): (a) the free tier carries light, premium-lean ads and paying removes
+   them; or (b) the site is ad-free for everyone and premium sells depth only
+   (cleanest for the trust positioning, forgoes a small revenue line). The
+   infrastructure exists behind flags either way (`SPEC.md §10`).
+3. **The free/paid line.** Exactly which features are free vs premium — where does
    "saved results" sit (a teaser of N saves free?), how much Trajectory history is
    free before it's paid.
-3. **Ads in the free tier — or not at all?** Two coherent options:
-   (a) free tier carries light, premium-lean ads and paying removes them; or
-   (b) the site is ad-free for everyone and premium sells depth only (cleanest for
-   the trust positioning, forgoes ad revenue). This is the biggest open call.
 4. **Trial / freemium mechanics.** Free trial, or a permanent free tier with a
    paid upgrade (the `DESIGN.md §5` "30 days free, full history paid" note is a
-   candidate, not a decision).
-5. **Timing.** Premium is *monetised retention*, so it activates once accounts
+   candidate, not a decision). A lifetime unlock reshapes this question.
+5. **Blood-test commercials.** Partner choice, margin/commission per order, and
+   whether a test purchase bundles premium. Gated on the partner decision
+   (`STATUS.md §4` #5).
+6. **Timing.** Premium is *monetised retention*, so it activates once accounts
    (`ROADMAP.md E0`) and the return loop (`E2`) exist and traffic justifies it
-   (`E6`). Sequencing vs the ad switch-on is part of the model decision.
+   (`E6`).
 
 ---
 
-## 5. Reconciliation owed (coherence note)
+## 5. Reconciliation record (done 2026-07-23)
 
-Once the model is confirmed, these docs should be updated to match — they pre-date
-this direction and currently read ads-first:
+The model was confirmed on 2026-07-23 and the owed reconciliation is complete:
 
-- **`BUSINESS_PLAN.md §7` (revenue streams) & §11 (financial plan)** — reorder to
-  lead with subscription; ads/affiliates as supporting lines. `DESIGN.md §5`
-  already flags this doc as needing the update.
-- **`ROADMAP.md E6`** — elevate premium from "scaffold a tier once traffic
-  arrives" to a first-class outcome the earlier phases (especially E2) are built
-  toward.
-- **`claude.md` / `SPEC.md §10`** — state the "premium gates persistence & depth,
-  never the calculation" rule as a product principle, not only a design note.
+- **`BUSINESS_PLAN.md §7` (revenue streams) & §11 (financial plan)** — reordered
+  to lead with premium sign-ups, then blood-test profit; affiliates a small
+  supporting line; free-tier ads optional.
+- **`ROADMAP.md E6`** — rewritten around premium + blood-test activation, with
+  free-tier ads an optional extra.
+- **`SPEC.md §1/§10`** — revenue summary updated; "premium gates persistence &
+  depth, never the calculation" stated as a binding product principle.
 
-Until then, **this file is the source of truth for revenue direction**; where it
-and an older doc disagree, this file's principles (§2) win, and its open questions
-(§4) are genuinely open.
+**This file remains the source of truth for revenue direction**; where it and an
+older doc disagree, this file's principles (§2) win, and its open questions (§4)
+are genuinely open.
