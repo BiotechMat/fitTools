@@ -22,8 +22,8 @@ export const FIVEADAY = {
   newPlantBonus: 2,
   /** Seconds after the last slice that still count into a combo. */
   comboWindow: 0.35,
-  /** Blade-vs-item collision radius. */
-  sliceRadius: 24,
+  /** Blade-vs-item collision radius (matches the ~45 px sprite scale-up). */
+  sliceRadius: 30,
   /** Seconds per difficulty wave. */
   waveSeconds: 10,
 } as const;

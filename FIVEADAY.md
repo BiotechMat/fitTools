@@ -62,7 +62,7 @@ untouched is the correct play. The death card: "COMPOSTED · 87 portions ·
 
 - Logical canvas 420×560 (portrait, DPR-scaled). Pointer strokes queue
   into the frame loop; slicing is segment-vs-circle (`segmentHitsCircle`,
-  24 px radius) with a 6 px minimum segment so trembles don't slice.
+  30 px radius) with a 6 px minimum segment so trembles don't slice.
 - Rosters: 16 produce (`PRODUCE`, order = unlock order via
   `unlockedProduceCount`: 8 + 2/wave; fruit AND veg guaranteed in the
   opening eight) and 5 junk kinds (`JUNK`), all junk in play from wave
