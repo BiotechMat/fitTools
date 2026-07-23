@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { OG_SIZE, ogCard } from "@/lib/og-image";
+import { hubMeta } from "@/registry/hubs";
 import { getTool, standardTools } from "@/registry/tools";
 
 export const size = OG_SIZE;
@@ -18,5 +19,13 @@ export default async function Image({
   const { slug } = await params;
   const tool = getTool(slug);
   if (!tool) notFound();
-  return ogCard(tool.title, "Free calculator · sources cited · no sign-up");
+  // Short name shouted, the tool's own value line underneath — so each
+  // calculator unfurls as itself, not as an interchangeable brand card.
+  return ogCard(
+    tool.title.split("—")[0].trim(),
+    tool.valueLine ?? tool.metaDescription,
+    {
+      kicker: `${hubMeta[tool.hub].title} calculator · free · sources cited`,
+    },
+  );
 }

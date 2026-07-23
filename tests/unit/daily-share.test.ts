@@ -38,3 +38,14 @@ describe("mythShareText", () => {
     expect(mythShareText(1, 0, 5)).toContain("🖤🖤🖤🖤🖤");
   });
 });
+
+describe("share links", () => {
+  it("carry the score as bounded params so the URL unfurls as the result card", () => {
+    expect(ballparkShareText(203, ["cold", "warm", "hot", "bullseye"])).toContain(
+      "https://tools.fit/daily?g=bp&p=203&r=cwhb",
+    );
+    expect(mythShareText(30, 4, 5)).toContain(
+      "https://tools.fit/daily?g=mf&p=30&c=4&t=5",
+    );
+  });
+});

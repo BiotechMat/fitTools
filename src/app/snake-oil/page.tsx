@@ -2,13 +2,25 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { SnakeOilGame } from "@/components/snakeoil/SnakeOilGame";
+import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Snake Oil — The Myth-Slicing Game",
   description:
     "Fitness claims fly; slice the myths, spare the truths. Every busted myth is backed by a real cited source. Free browser arcade — no sign-up, just receipts.",
-  alternates: { canonical: "/snake-oil" },
-};
+  canonical: "/snake-oil",
+  hero: "snake-oil",
+} as const;
+
+// Shared results carry ?busted=&pts= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseArcadeResult("snake-oil", await searchParams));
+}
 
 export default function SnakeOilPage() {
   const jsonLd = breadcrumbJsonLd([

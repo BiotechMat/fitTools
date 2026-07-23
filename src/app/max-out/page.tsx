@@ -2,13 +2,25 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { MaxOutGame } from "@/components/maxout/MaxOutGame";
+import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Max Out — The One-Rep-Max Timing Game",
   description:
     "Tap when the needle crosses the green, lock the rep, load the bar. Chalk up, earn the belt, chase seven plates a side. Free browser lifting arcade — no sign-up.",
-  alternates: { canonical: "/max-out" },
-};
+  canonical: "/max-out",
+  hero: "max-out",
+} as const;
+
+// Shared results carry ?kg=&cause= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseArcadeResult("max-out", await searchParams));
+}
 
 export default function MaxOutPage() {
   const jsonLd = breadcrumbJsonLd([

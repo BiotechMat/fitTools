@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { mulberry32 } from "@/lib/lifeline";
+import { powerhouseSharePath } from "@/lib/arcade-share";
 import {
   BOSS,
   ENEMY_KINDS,
@@ -1349,7 +1350,9 @@ export function PowerhouseGame() {
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${shareText(finalAtp, finalZone)}\n${origin}/powerhouse`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = powerhouseSharePath({ atp: finalAtp, zone: finalZone });
+    const text = `${shareText(finalAtp, finalZone)}\n${origin}${path}`;
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });

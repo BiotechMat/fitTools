@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { mulberry32 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
+import { snakeOilSharePath } from "@/lib/arcade-share";
 import {
   type Claim,
   type Receipt,
@@ -809,7 +810,9 @@ export function SnakeOilGame() {
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${shareText(finalBusted, finalPoints, cause)}\n${origin}/snake-oil`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = snakeOilSharePath({ busted: finalBusted, points: finalPoints });
+    const text = `${shareText(finalBusted, finalPoints, cause)}\n${origin}${path}`;
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });

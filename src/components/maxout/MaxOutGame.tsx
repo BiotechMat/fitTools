@@ -6,6 +6,7 @@ import { mulberry32 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
 import {
   MAXOUT,
+  MISS_CAUSES,
   type RepJudgement,
   aidFor,
   causeFor,
@@ -21,6 +22,7 @@ import {
   windowCentreFor,
   windowWidthFor,
 } from "@/lib/maxout";
+import { maxOutSharePath } from "@/lib/arcade-share";
 
 /**
  * Max Out (MAXOUT.md): the one-rep-max timing game. One verb — tap when
@@ -849,7 +851,13 @@ export function MaxOutGame() {
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${shareText(finalKg, cause)}\n${origin}/max-out`;
+    // Result params make the pasted link unfurl as the score card.
+    const causeIndex = MISS_CAUSES.findIndex((gag) => gag === cause);
+    const path = maxOutSharePath({
+      kg: finalKg,
+      ...(causeIndex >= 0 ? { cause: causeIndex } : {}),
+    });
+    const text = `${shareText(finalKg, cause)}\n${origin}${path}`;
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });
