@@ -90,7 +90,10 @@ and Mat has signed off.
   never model-invented). v1 built (see §14): src/lib/pulse/*, src/registry/
   pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
   vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
-  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER. Fresh-cards extension (recent-
+  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER; cost is site-wide and bounded — one
+  corpus-wide phrasing pass per UTC day, claude-haiku-4-5 default, hard daily
+  call budget (src/lib/pulse/phrasings.ts, PULSE §14.1) — the request path
+  never calls the model. Fresh-cards extension (recent-
   discovery chunks via a PR-gated ingest pipeline, interleaved with a "New"
   chip) — §15. BUILT 2026-07-23: F0 schema/ranking/"New" chip + 3 verified
   fresh seeds (§15.8), F1 harvest pipeline `pnpm harvest` (src/lib/pulse/
