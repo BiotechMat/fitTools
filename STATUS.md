@@ -154,8 +154,10 @@ premium is built around what it actually gates.
 
 ### Phase 5 — Monetisation activation (ROADMAP E6) — *once traffic justifies it*
 
-Switch on ads/affiliates/premium per the **premium-lean, subscription-led**
-direction (MONETISATION.md). Deferred deliberately: an engaged, returning
+Switch on revenue per the **confirmed premium-led model** (MONETISATION.md,
+2026-07-23): premium sign-ups first (very low monthly amount or one-off lifetime
+unlock), blood-test profit second, affiliates a small supporting line, free-tier
+ads optional and undecided. Deferred deliberately: an engaged, returning
 audience monetises far better than cold traffic.
 
 ---
@@ -164,9 +166,12 @@ audience monetises far better than cold traffic.
 
 These gate the phases above and cannot be resolved from the code:
 
-1. **The monetisation model** (MONETISATION §4) — price, the free/paid line,
-   ads-in-free-tier vs ad-free-for-everyone, trial mechanics. Unblocks Phase 4's
-   tier design and the owed BUSINESS_PLAN/ROADMAP reconciliation (§6 here).
+1. **Monetisation model detail** (MONETISATION §4) — the model *shape* is
+   confirmed (2026-07-23: premium-led, blood test second, affiliates small, ads
+   optional; docs reconciled — §6 here). Still open, and still gating Phase 4's
+   tier design: the exact price and monthly-vs-lifetime mechanics (£10 lifetime
+   is the working example), the free/paid line, whether the free tier carries
+   ads, and trial mechanics.
 2. **Fitness Age** (METHODOLOGY §3.2) — blocked solely on obtaining the Nes 2011
    full text. Buy/request the paper, or drop the tool (it also carries 25% of the
    Pace of Aging index design).
@@ -191,25 +196,26 @@ These gate the phases above and cannot be resolved from the code:
   nothing enforces re-review. A CI warning when a config's `lastReviewed` passes
   ~12 months would fit the house style and protect the credibility moat.
 - **Doc drift.** claude.md doubles as a status ledger and is straining (this file
-  is the relief valve); BUSINESS_PLAN §7/§11 and ROADMAP E6 still read *ads-first*
-  and owe reconciliation to MONETISATION.md (§6). Keep build-status claims here,
-  not scattered.
+  is the relief valve). The ads-first drift is resolved — BUSINESS_PLAN §7/§11,
+  ROADMAP E6 and SPEC §1/§10 were reconciled to MONETISATION.md on 2026-07-23
+  (§6). Keep build-status claims here, not scattered.
 
 ---
 
-## 6. Reconciliation owed (tracked here until closed)
+## 6. Reconciliation record (closed 2026-07-23)
 
-Per MONETISATION §5 — once the model is confirmed (§4.1):
+The model was confirmed (Mat, 2026-07-23 — premium-led; blood test second;
+affiliates small; free-tier ads optional) and the owed reconciliation is done:
 
-- [ ] **BUSINESS_PLAN §7 / §11** — reorder revenue streams to lead with
-      subscription; ads/affiliates as supporting lines.
-- [ ] **ROADMAP E6** — elevate premium from "scaffold a tier" to the first-class
-      outcome the earlier phases build toward.
-- [~] **claude.md / SPEC §10** — the "premium gates persistence & depth, never
-      the calculation" rule is already a binding product principle in
-      MONETISATION §2 (the revenue source of truth), DESIGN §5 and DASHBOARD §1;
-      MONETISATION §5 still lists making it explicit in claude.md / SPEC §10 as a
-      loose end. Low-stakes; fold in when the model is confirmed.
+- [x] **BUSINESS_PLAN §7 / §11** — revenue streams and financial scenarios
+      reordered to lead with premium sign-ups, then blood-test profit;
+      affiliates small; ads optional (2026-07-23).
+- [x] **ROADMAP E6** — rewritten around premium + blood-test activation, with
+      free-tier ads an optional extra (2026-07-23).
+- [x] **SPEC §1 / §10** — revenue summary updated; the "premium gates
+      persistence & depth, never the calculation" rule stated as a binding
+      product principle in SPEC §10 (2026-07-23).
 
-Until then, MONETISATION.md is the source of truth for revenue direction and
-this file is the source of truth for build status and sequencing.
+MONETISATION.md remains the source of truth for revenue direction (its §4 detail
+questions are still open) and this file remains the source of truth for build
+status and sequencing.
