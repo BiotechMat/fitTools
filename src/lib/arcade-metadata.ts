@@ -34,6 +34,11 @@ export function gameMetadata(
     title,
     description,
     alternates: { canonical: copy.canonical },
+    // Add-to-home-screen identity: a per-page manifest with an explicit
+    // start_url (WebKit saves the site root without one — field-tested),
+    // and the iOS title so the saved icon is named after the game.
+    manifest: `/api/page-manifest?page=${copy.hero}`,
+    appleWebApp: { capable: true, title: copy.title.split(":")[0].trim() },
     // A shared result URL is an ephemeral permalink, not content to index.
     ...(result ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
