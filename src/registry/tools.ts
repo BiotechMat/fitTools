@@ -32,6 +32,13 @@ import { lifeExpectancyConfig } from "@/registry/configs/life-expectancy-calcula
 import { metabolicFitnessConfig } from "@/registry/configs/metabolic-fitness-index";
 import { paceOfAgingConfig } from "@/registry/configs/pace-of-aging-index";
 import { recoveryReadinessConfig } from "@/registry/configs/recovery-readiness-index";
+import { proteinIntakeConfig } from "@/registry/configs/protein-intake-calculator";
+import { vo2maxConfig } from "@/registry/configs/vo2max-calculator";
+import { whtrConfig } from "@/registry/configs/waist-to-height-ratio-calculator";
+import { whrConfig } from "@/registry/configs/waist-to-hip-ratio-calculator";
+import { verticalJumpConfig } from "@/registry/configs/vertical-jump-calculator";
+import { hrCaloriesConfig } from "@/registry/configs/calories-burned-by-heart-rate";
+import { ketoConfig } from "@/registry/configs/keto-calculator";
 
 /**
  * Single source of truth (SPEC §5). Every tool config is imported here once;
@@ -71,6 +78,13 @@ export const allTools: ToolConfig[] = [
   metabolicFitnessConfig,
   paceOfAgingConfig,
   recoveryReadinessConfig,
+  proteinIntakeConfig,
+  vo2maxConfig,
+  whtrConfig,
+  whrConfig,
+  verticalJumpConfig,
+  hrCaloriesConfig,
+  ketoConfig,
   peptideConfig,
 ];
 
