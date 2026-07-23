@@ -3,7 +3,11 @@
     "id": "fresh-creatine-timing-pre-workout",
     "claim": "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after, though this is early, exploratory evidence rather than a firm recommendation.",
     "category": "supplements",
-    "tags": ["creatine", "timing", "strength"],
+    "tags": [
+      "creatine",
+      "timing",
+      "strength"
+    ],
     "tier": "preliminary",
     "basis": "human",
     "source": {
@@ -26,7 +30,12 @@
     "id": "fresh-creatine-postmenopausal-muscle",
     "claim": "A 2026 meta-analysis in postmenopausal women found that creatine (around 5 g a day) alongside resistance training produced small but real gains in lean mass and leg strength, with no change in bone density and no safety signals.",
     "category": "longevity",
-    "tags": ["creatine", "menopause", "strength", "ageing"],
+    "tags": [
+      "creatine",
+      "menopause",
+      "strength",
+      "ageing"
+    ],
     "tier": "well-supported",
     "basis": "human",
     "source": {
@@ -49,7 +58,11 @@
     "id": "fresh-protein-supplement-women-body-comp",
     "claim": "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength, but made no difference to fat mass or body-fat percentage.",
     "category": "nutrition",
-    "tags": ["protein", "body-composition", "women"],
+    "tags": [
+      "protein",
+      "body-composition",
+      "women"
+    ],
     "tier": "preliminary",
     "basis": "human",
     "source": {
@@ -66,6 +79,152 @@
       "design": "Meta-analysis (9 RCTs)",
       "n": 408,
       "population": "healthy women 18 to 73"
+    }
+  },
+  {
+    "id": "fresh-week-french-contrast-training-lower-limb-18ccb5",
+    "claim": "Abstract unavailable.",
+    "category": "training",
+    "tags": [
+      "basketball",
+      "power",
+      "acceleration"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "Effects of 10-week French contrast training on lower-limb power, short-distance acceleration, and change-of-direction performance in female collegiate basketball players. Front Physiol 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42488611/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "No abstract provided; unable to assess evidence quality or design.",
+    "study": {
+      "doi": "10.3389/fphys.2026.1885685",
+      "journal": "Front Physiol",
+      "design": "Study"
+    }
+  },
+  {
+    "id": "fresh-lower-limb-blood-flow-restriction-training-18h7xz",
+    "claim": "Blood flow restriction training enhances post-activation potentiation in lower limbs, with larger effects for multi-joint movements like squats, longer rest intervals (>4 min), and moderate occlusion pressure (40–60% arterial occlusion pressure). It substantially increases perceived exertion, especially with knee flexion exercises, shorter rests, and high occlusion pressure.",
+    "category": "training",
+    "tags": [
+      "blood-flow-restriction",
+      "power",
+      "fatigue",
+      "resistance-training"
+    ],
+    "tier": "well-supported",
+    "basis": "human",
+    "source": {
+      "label": "The effects of lower limb blood flow restriction training on post-activation potentiation enhancement and fatigue: a meta-analysis. Front Physiol 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42488606/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "Systematic review and meta-analysis of 15 RCTs (n=244, aged 17–35). Many subgroups analysed had only 1–2 studies, limiting reliability of specific protocol recommendations. Results are acute effects; long-term training outcomes unclear.",
+    "study": {
+      "doi": "10.3389/fphys.2026.1834109",
+      "journal": "Front Physiol",
+      "design": "Systematic review"
+    }
+  },
+  {
+    "id": "fresh-two-way-ballistic-versus-jump-squat-1kmld2",
+    "claim": "Two-way ballistic and jump squat training both improve sprint and jumping performance in highly trained male sprinters, but via different pathways: two-way ballistic enhances early-phase force production and vastus lateralis activation during take-off, whilst jump squats preferentially boost reactive strength.",
+    "category": "training",
+    "tags": [
+      "sprinting",
+      "plyometrics",
+      "power",
+      "neuromuscular"
+    ],
+    "tier": "well-supported",
+    "basis": "human",
+    "source": {
+      "label": "Effects of Two-Way Ballistic Versus Jump Squat Training on Explosive Strength and Neuromuscular Adaptations in Highly Trained Sprinters. Scand J Med Sci Sports 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42487231/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "RCT, n=40 highly trained male sprinters (Tier 3), 6 weeks, 12 sessions. Findings may not generalise to less trained athletes or female sprinters. No long-term follow-up.",
+    "study": {
+      "doi": "10.1111/sms.70333",
+      "journal": "Scand J Med Sci Sports",
+      "design": "RCT"
+    }
+  },
+  {
+    "id": "fresh-impact-physical-activity-children-attention-math-7qdekz",
+    "claim": "Abstract unavailable.",
+    "category": "mind",
+    "tags": [
+      "children",
+      "cognition",
+      "attention"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "The impact of physical activity on children's attention and math performance: A meta-analysis. Eur J Pediatr 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42487009/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "No abstract provided; unable to assess evidence quality or design.",
+    "study": {
+      "doi": "10.1007/s00431-026-07229-2",
+      "journal": "Eur J Pediatr",
+      "design": "Meta-analysis"
+    }
+  },
+  {
+    "id": "fresh-free-weight-resistance-training-based-hexagonal-ll3nv3",
+    "claim": "Abstract unavailable.",
+    "category": "training",
+    "tags": [
+      "older-women",
+      "resistance-training",
+      "deadlift"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "Effects of free-weight resistance training based on hexagonal barbell deadlift in older women: A 24-week randomized controlled trial. Exp Gerontol 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42486377/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "No abstract provided; unable to assess evidence quality or design.",
+    "study": {
+      "doi": "10.1016/j.exger.2026.113246",
+      "journal": "Exp Gerontol",
+      "design": "Study"
+    }
+  },
+  {
+    "id": "fresh-comment-effectiveness-high-intensity-versus-low-66nkcd",
+    "claim": "A commentary on resistance training intensity and bone health in older adults; no primary findings presented.",
+    "category": "training",
+    "tags": [
+      "older-adults",
+      "bone-density",
+      "strength"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "Comment on: \"Effectiveness of High-Intensity Versus Low-To-Moderate-Intensity Resistance Training in Improving Muscle Strength and Bone Mineral Density in Older Adults: A Systematic Review and Meta-Analysis of Randomized Controlled Trials\". Geriatr Gerontol Int 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42484554/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "Letter to editor commenting on a prior meta-analysis; not a primary research finding. Unable to extract independent evidence claims.",
+    "study": {
+      "doi": "10.1111/ggi.70697",
+      "journal": "Geriatr Gerontol Int",
+      "design": "Study"
     }
   }
 ]
