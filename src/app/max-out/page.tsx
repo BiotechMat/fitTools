@@ -4,6 +4,7 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { MaxOutGame } from "@/components/maxout/MaxOutGame";
 import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
 import { gameMetadata } from "@/lib/arcade-metadata";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 const COPY = {
   title: "Max Out: The One-Rep-Max Timing Game",
@@ -61,6 +62,7 @@ export default function MaxOutPage() {
 
       <div className="mt-6">
         <MaxOutGame />
+        <AddToHomeScreen toolName="Max Out" />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
