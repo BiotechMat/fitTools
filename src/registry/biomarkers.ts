@@ -45,13 +45,13 @@ export const BIOMARKER_GROUPS: BiomarkerGroup[] = [
   {
     category: "metabolic",
     label: "Metabolic health",
-    blurb: "How your body handles sugar and stores energy — the base of long-term metabolic health.",
+    blurb: "How your body handles sugar and stores energy, the base of long-term metabolic health.",
     chip: "bg-good-soft text-foreground",
   },
   {
     category: "heart",
     label: "Heart & lipids",
-    blurb: "The particles and fats that drive cardiovascular risk — the numbers behind your heart age.",
+    blurb: "The particles and fats that drive cardiovascular risk, the numbers behind your heart age.",
     chip: "bg-primary-soft text-foreground",
   },
   {
@@ -63,13 +63,13 @@ export const BIOMARKER_GROUPS: BiomarkerGroup[] = [
   {
     category: "organ",
     label: "Liver & kidney",
-    blurb: "How your two main filtering organs are coping — quiet but important markers.",
+    blurb: "How your two main filtering organs are coping, quiet but important markers.",
     chip: "bg-surface-deep text-foreground",
   },
   {
     category: "blood-count",
     label: "Full blood count",
-    blurb: "The make-up of your blood cells — oxygen delivery, immune status and more.",
+    blurb: "The make-up of your blood cells, covering oxygen delivery, immune status and more.",
     chip: "bg-good-soft text-foreground",
   },
   {
@@ -138,7 +138,7 @@ export const biomarkers: Biomarker[] = [
     unit: "mIU/L",
     summary: "How hard your pancreas is working to keep sugar in check.",
     description:
-      "The amount of insulin circulating after a fast. Read alongside glucose, it flags insulin resistance early — often years before glucose itself starts to drift upward.",
+      "The amount of insulin circulating after a fast. Read alongside glucose, it flags insulin resistance early, often years before glucose itself starts to drift upward.",
     feedsTool: "metabolic-fitness-index",
     relatedContent: "/glossary/insulin-sensitivity",
   },
@@ -194,7 +194,7 @@ export const biomarkers: Biomarker[] = [
     unit: "g/L",
     summary: "A direct count of your artery-clogging particles.",
     description:
-      "There is one ApoB molecule on every atherogenic particle, so measuring it counts those particles directly — which can pin down cardiovascular risk more precisely than standard cholesterol alone.",
+      "There is one ApoB molecule on every atherogenic particle, so measuring it counts those particles directly, which can pin down cardiovascular risk more precisely than standard cholesterol alone.",
     feedsTool: "heart-age-calculator",
     relatedContent: "/glossary/apob",
   },
@@ -264,7 +264,7 @@ export const biomarkers: Biomarker[] = [
     unit: "U/L",
     summary: "A liver enzyme that flags liver stress.",
     description:
-      "An enzyme concentrated in the liver. When liver cells are under strain — from fatty liver, alcohol or other causes — more ALT leaks into the blood, making it a useful liver-health check.",
+      "An enzyme concentrated in the liver. When liver cells are under strain, whether from fatty liver, alcohol or other causes, more ALT leaks into the blood, making it a useful liver-health check.",
   },
   {
     id: "alkaline-phosphatase",
@@ -297,7 +297,7 @@ export const biomarkers: Biomarker[] = [
     unit: "%",
     summary: "The share of white cells that are lymphocytes.",
     description:
-      "The proportion of your white blood cells that are lymphocytes — the cells central to immune memory. The balance shifts with age, infection and immune health.",
+      "The proportion of your white blood cells that are lymphocytes, the cells central to immune memory. The balance shifts with age, infection and immune health.",
     feedsTool: "phenotypic-age-calculator",
   },
   {
@@ -360,7 +360,7 @@ export const biomarkers: Biomarker[] = [
     aka: ["25-hydroxyvitamin D"],
     category: "vitamins",
     unit: "nmol/L",
-    summary: "The sunshine vitamin — commonly low.",
+    summary: "The sunshine vitamin, commonly low.",
     description:
       "A vitamin (really a hormone) important for bone, immune and muscle health. Deficiency is very common, especially in winter, and is one of the more worthwhile things to know and correct.",
   },
@@ -380,7 +380,7 @@ export const biomarkers: Biomarker[] = [
     unit: "µg/L",
     summary: "Your iron stores.",
     description:
-      "A measure of stored iron. Low ferritin is a leading cause of tiredness and poor training performance — particularly in menstruating and endurance athletes — while very high levels warrant a look too.",
+      "A measure of stored iron. Low ferritin is a leading cause of tiredness and poor training performance, particularly in menstruating and endurance athletes, while very high levels warrant a look too.",
   },
   {
     id: "folate",

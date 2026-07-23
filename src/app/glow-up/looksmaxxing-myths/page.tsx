@@ -10,7 +10,7 @@ import { articleJsonLd, breadcrumbJsonLd } from "@/lib/schema-org";
 
 const TITLE = "Looksmaxxing Myths, Rated";
 const DESCRIPTION =
-  "The viral looksmaxxing trends — mewing, bone-smashing, tanmaxxing, mouth-taping, SARMs — rated honestly against the evidence, each with a link to what actually works. We rate the claim, never a person.";
+  "The viral looksmaxxing trends (mewing, bone-smashing, tanmaxxing, mouth-taping, SARMs) rated honestly against the evidence, each with a link to what actually works. We rate the claim, never a person.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -49,7 +49,7 @@ export default function LooksmaxxingMythsPage() {
         <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{TITLE}</h1>
         <p className="mt-2 max-w-prose text-muted">
           The looksmaxxing world is full of confident claims. Here they are,
-          rated against the evidence — with a route to what actually works next
+          rated against the evidence, with a route to what actually works next
           to each. Some of these are just unproven; some are dangerous, and we
           say so plainly rather than pretending there are two sides.
         </p>

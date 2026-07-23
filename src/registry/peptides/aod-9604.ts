@@ -5,11 +5,11 @@ export const aod9604Page: PeptidePage = {
   name: "AOD-9604",
   aka: ["Growth-hormone fragment analogue"],
   category: "metabolic",
-  title: "AOD-9604 — What It Is and What the Evidence Actually Shows",
+  title: "AOD-9604: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on AOD-9604: a growth-hormone fragment developed as an anti-obesity drug that failed to beat placebo for weight loss in human trials, now resold as a fat-loss peptide.",
   valueLine:
-    "Developed as an anti-obesity drug and tested in humans — where it failed to beat placebo for weight loss, despite being resold today as a fat-loss peptide.",
+    "Developed as an anti-obesity drug and tested in humans, where it failed to beat placebo for weight loss, despite being resold today as a fat-loss peptide.",
   headlineTier: "not-supported",
   headlineBasis: "human",
   wadaProhibited: true,
@@ -36,12 +36,12 @@ export const aod9604Page: PeptidePage = {
   sources: [
     {
       label:
-        "PubMed: AOD-9604 — growth-hormone fragment, obesity clinical trials and outcomes",
+        "PubMed: AOD-9604, growth-hormone fragment, obesity clinical trials and outcomes",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=AOD-9604+obesity+weight+loss",
     },
     {
       label:
-        "WADA Prohibited List — non-approved substances (S0) and growth factors (S2) prohibited at all times",
+        "WADA Prohibited List, non-approved substances (S0) and growth factors (S2) prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
   ],

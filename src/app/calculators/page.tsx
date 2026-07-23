@@ -6,9 +6,9 @@ import { ToolCardGrid } from "@/components/HubPage";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Calculators — every tool, by category",
+  title: "Calculators: every tool, by category",
   description:
-    "Every FitTools calculator in one place, grouped by category — nutrition, workout and recovery — each built on published, peer-reviewed formulas with the sources cited.",
+    "Every FitTools calculator in one place, grouped by category (nutrition, workout and recovery) each built on published, peer-reviewed formulas with the sources cited.",
   alternates: { canonical: "/calculators" },
 };
 
@@ -69,7 +69,7 @@ export default function CalculatorsIndexPage() {
           </Link>
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
-          Part of the evidence-tiered peptides reference — arithmetic only on
+          Part of the evidence-tiered peptides reference, arithmetic only on
           values you supply, with an enhanced disclaimer and no advertising.
         </p>
         <ToolCardGrid tools={peptideTools} />

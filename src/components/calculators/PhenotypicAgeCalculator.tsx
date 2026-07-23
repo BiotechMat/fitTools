@@ -206,7 +206,7 @@ export function PhenotypicAgeCalculator() {
             <p className="mt-3 max-w-prose text-sm text-muted">
               This is a population-level association from the published Levine
               PhenoAge model, not a prediction about you and not a medical
-              test. A single blood panel is a snapshot — recent illness or
+              test. A single blood panel is a snapshot. Recent illness or
               inflammation can move it. Discuss what your results mean with
               your doctor.
             </p>

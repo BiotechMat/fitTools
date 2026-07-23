@@ -149,7 +149,7 @@ function PulseFeed({ categories, freshOnly }: { categories: PulseCategory[]; fre
     // v1 share: native share / clipboard of the fact + link. The branded
     // OG-image card (PULSE.md §4, locked §11) is the E1-pipeline follow-on.
     const url = typeof window !== "undefined" ? `${window.location.origin}/pulse` : "/pulse";
-    const text = `${card.fact} — via FitTools`;
+    const text = `${card.fact}, via FitTools`;
     try {
       if (typeof navigator !== "undefined" && navigator.share) await navigator.share({ text, url });
       else if (typeof navigator !== "undefined" && navigator.clipboard) await navigator.clipboard.writeText(`${text} ${url}`);
@@ -222,7 +222,7 @@ function PulseFeed({ categories, freshOnly }: { categories: PulseCategory[]; fre
       {cards.length === 0 && !loading && !exhausted ? (
         <p className="mt-6 text-center text-sm text-muted" role="status">
           {freshOnly
-            ? "No fresh discoveries right now — check back soon."
+            ? "No fresh discoveries right now, check back soon."
             : "Nothing to show for this filter yet."}
         </p>
       ) : null}

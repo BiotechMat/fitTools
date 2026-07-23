@@ -5,11 +5,11 @@ export const tesamorelinPage: PeptidePage = {
   name: "Tesamorelin",
   aka: ["Egrifta", "TH9507"],
   category: "gh-secretagogue",
-  title: "Tesamorelin — What It Is and What the Evidence Shows",
+  title: "Tesamorelin: What It Is and What the Evidence Shows",
   metaDescription:
-    "An evidence-tiered, non-promotional explainer on tesamorelin (Egrifta): a GHRH analogue, the one GH-releasing peptide with FDA approval and robust trial data — for a specific medical use, not fitness.",
+    "An evidence-tiered, non-promotional explainer on tesamorelin (Egrifta): a GHRH analogue, the one GH-releasing peptide with FDA approval and robust trial data, for a specific medical use, not fitness.",
   valueLine:
-    "The GH-releasing peptide with the strongest evidence — because it was developed and approved as a medicine.",
+    "The GH-releasing peptide with the strongest evidence, because it was developed and approved as a medicine.",
   headlineTier: "well-supported",
   headlineBasis: "human",
   approvedUse:
@@ -18,7 +18,7 @@ export const tesamorelinPage: PeptidePage = {
   faq: [
     {
       q: "Is tesamorelin approved by regulators?",
-      a: "Yes — it is FDA-approved (as Egrifta) to reduce excess visceral abdominal fat in people with HIV-associated lipodystrophy. That is its only approved use; it is not approved for general fitness, physique or anti-ageing purposes.",
+      a: "Yes, it is FDA-approved (as Egrifta) to reduce excess visceral abdominal fat in people with HIV-associated lipodystrophy. That is its only approved use; it is not approved for general fitness, physique or anti-ageing purposes.",
     },
     {
       q: "Does tesamorelin build muscle?",
@@ -26,7 +26,7 @@ export const tesamorelinPage: PeptidePage = {
     },
     {
       q: "Why is tesamorelin the 'good evidence' example here?",
-      a: "Because it went through the full drug-development process — large randomised placebo-controlled trials with imaging endpoints — which almost none of the other compounds in this section have. It shows what real evidence looks like, and how far most 'research peptides' fall short of it.",
+      a: "Because it went through the full drug-development process, with large randomised placebo-controlled trials with imaging endpoints, which almost none of the other compounds in this section have. It shows what real evidence looks like, and how far most 'research peptides' fall short of it.",
     },
     {
       q: "Is tesamorelin allowed in sport?",
@@ -38,7 +38,7 @@ export const tesamorelinPage: PeptidePage = {
   sources: [
     {
       label:
-        "Falutz J, et al. Metabolic effects of a growth hormone–releasing factor in patients with HIV. N Engl J Med 2007;357:2359–2370 (pivotal RCT)",
+        "Falutz J, et al. Metabolic effects of a growth hormone-releasing factor in patients with HIV. N Engl J Med 2007;357:2359-2370 (pivotal RCT)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=Falutz+growth+hormone+releasing+factor+HIV+2007",
     },
     {
@@ -47,7 +47,7 @@ export const tesamorelinPage: PeptidePage = {
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3218714/",
     },
     {
-      label: "US FDA — Drugs@FDA record for Egrifta (tesamorelin)",
+      label: "US FDA: Drugs@FDA record for Egrifta (tesamorelin)",
       url: "https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&searchTerm=tesamorelin",
     },
   ],

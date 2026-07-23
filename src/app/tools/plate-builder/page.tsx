@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { PlateBuilder } from "@/components/tools/PlateBuilder";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Plate Builder — Stack Foods, Watch Protein Add Up",
+  title: "Plate Builder: Stack Foods, Watch Protein Add Up",
   description:
     "Build a meal from real reference foods and watch protein and calories total live against your targets. Typical portions, honest numbers, no sign-up.",
   alternates: { canonical: "/tools/plate-builder" },
@@ -38,8 +39,8 @@ export default function PlateBuilderPage() {
         Plate builder
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        Stack real foods onto a plate — typical portions from the food
-        reference — and watch protein and energy add up against your meal
+        Stack real foods onto a plate, typical portions from the food
+        reference, and watch protein and energy add up against your meal
         targets. The quickest way to see why the chicken-and-rice crowd hits
         their protein and the toast crowd doesn&rsquo;t.
       </p>
@@ -47,6 +48,7 @@ export default function PlateBuilderPage() {
       <div className="mt-6">
         <PlateBuilder />
       </div>
+      <AddToHomeScreen toolName="the plate builder" />
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         All numbers come from the{" "}
@@ -55,8 +57,8 @@ export default function PlateBuilderPage() {
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
           food reference
-        </Link>{" "}
-        — protein and calories per typical portion, the same figures behind the
+        </Link>,{" "}
+        protein and calories per typical portion, the same figures behind the
         protein tables.
       </p>
     </div>

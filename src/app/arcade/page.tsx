@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { BestChip } from "@/components/arcade/BestChip";
 
 export const metadata: Metadata = {
-  title: "Arcade — Quick Games With a Health-Nerd Twist",
+  title: "Arcade: Quick Games With a Health-Nerd Twist",
   description:
-    "Free browser arcade: Lifeline (the heartbeat flapper), Powerhouse (the mitochondria shooter), Max Out (the one-rep-max timer), Five a Day (the produce slicer) and the daily games. No sign-up, no lives to buy — just the retry loop, with the real calculators next door.",
+    "Free browser arcade: Lifeline (the heartbeat flapper), Powerhouse (the mitochondria shooter), Max Out (the one-rep-max timer), Five a Day (the produce slicer) and the daily games. No sign-up, no lives to buy, just the retry loop, with the real calculators next door.",
   alternates: { canonical: "/arcade" },
 };
 
@@ -20,7 +20,7 @@ const GAMES = [
     name: "Lifeline",
     tag: "One button",
     blurb:
-      "The heartbeat arcade. Tap to flap, thread the gaps, dodge the risk factors — your score is the age you reach.",
+      "The heartbeat arcade. Tap to flap, thread the gaps, dodge the risk factors, your score is the age you reach.",
     storageKey: "fittools.lifeline.best",
     unit: "",
     cta: "Play Lifeline",
@@ -44,7 +44,7 @@ const GAMES = [
     name: "Max Out",
     tag: "Timing",
     blurb:
-      "The one-rep-max game. Tap inside the green window to lock the rep and load the bar — chase seven plates a side. Score is kg.",
+      "The one-rep-max game. Tap inside the green window to lock the rep and load the bar, chase seven plates a side. Score is kg.",
     storageKey: "fittools.maxout.best",
     unit: "kg",
     cta: "Play Max Out",
@@ -56,7 +56,7 @@ const GAMES = [
     name: "Five a Day",
     tag: "Swipe",
     blurb:
-      "The produce slicer. Fruit and veg fly — chop them for portions, blend smoothie combos, chase plant variety, and never touch the junk.",
+      "The produce slicer. Fruit and veg fly, chop them for portions, blend smoothie combos, chase plant variety, and never touch the junk.",
     storageKey: "fittools.fiveaday.best",
     unit: "portions",
     cta: "Play Five a Day",
@@ -87,7 +87,7 @@ export default function ArcadePage() {
       </h1>
       <p className="mt-2 max-w-prose text-muted">
         Quick games with a health-nerd twist. No sign-up, no lives to buy,
-        nothing tracked beyond the best score saved on your device — just the
+        nothing tracked beyond the best score saved on your device, just the
         retry loop, with{" "}
         <strong className="font-semibold text-foreground">the real evidence next door</strong>{" "}
         when a run leaves you curious.
@@ -142,8 +142,8 @@ export default function ArcadePage() {
             </div>
           </div>
           <p className="mt-3 text-sm text-muted">
-            <strong className="font-semibold text-foreground">Ballpark</strong> — guess a real
-            fitness stat every day — and the weekly{" "}
+            <strong className="font-semibold text-foreground">Ballpark</strong>, guess a real
+            fitness stat every day, and the weekly{" "}
             <strong className="font-semibold text-foreground">Myth or Fact?</strong> quiz. Every
             answer cites a real study, and streaks are a matter of honour.
           </p>
@@ -166,8 +166,7 @@ export default function ArcadePage() {
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
           calculators
-        </Link>{" "}
-        — every formula cited.
+        </Link>,{" "}every formula cited.
       </p>
     </div>
   );

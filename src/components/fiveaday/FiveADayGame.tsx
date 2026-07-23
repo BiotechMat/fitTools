@@ -1124,7 +1124,7 @@ export function FiveADayGame() {
         onPointerCancel={() => {
           strokeActiveRef.current = false;
         }}
-        aria-label="Five a Day — swipe to slice the fruit and veg; never slice the junk"
+        aria-label="Five a Day, swipe to slice the fruit and veg; never slice the junk"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${FIVEADAY.width} / ${FIVEADAY.height}` }}
       />
@@ -1166,7 +1166,7 @@ export function FiveADayGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 

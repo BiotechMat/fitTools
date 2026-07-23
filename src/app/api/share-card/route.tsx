@@ -57,7 +57,7 @@ export function GET(request: Request): Response {
 
         {/* The result */}
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: "44px", opacity: 0.9 }}>{tool.title.split("—")[0].trim()}</div>
+          <div style={{ fontSize: "44px", opacity: 0.9 }}>{tool.title.split(":")[0].trim()}</div>
           <div style={{ display: "flex", alignItems: "flex-end", marginTop: "8px" }}>
             <div style={{ fontSize: "230px", fontWeight: 800, color: BLAZE, lineHeight: 1 }}>
               {params.value}

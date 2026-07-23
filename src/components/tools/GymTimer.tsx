@@ -135,7 +135,7 @@ export function GymTimer() {
       const s = timerStateAt(config, elapsed);
       document.title = `${formatClock(s.remainingSeconds)} · ${
         s.phase === "done" ? "done" : s.phase
-      } — FitTools`;
+      } | FitTools`;
       const ctx = audioRef.current;
       if (s.phase !== lastPhase.current) {
         if (s.phase === "work") beep(ctx, mutedRef.current, 880, 140, "square", 0.06);
@@ -396,7 +396,7 @@ export function GymTimer() {
       </div>
       <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
         Total session: {formatClock(totalSessionSeconds(config))} · settings live
-        in the URL — bookmark or share it
+        in the URL, so bookmark or share it
       </p>
     </div>
   );

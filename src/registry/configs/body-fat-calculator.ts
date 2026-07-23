@@ -23,11 +23,11 @@ export const bodyFatInputsSchema = z
 
 export const bodyFatConfig: ToolConfig = {
   slug: BODY_FAT_SLUG,
-  title: "Body Fat Calculator — US Navy Circumference Method",
+  title: "Body Fat Calculator: US Navy Circumference Method",
   valueLine:
     "Estimate your body-fat percentage from tape measurements using the published US Navy equations.",
   metaDescription:
-    "Free body fat calculator using the US Navy circumference method (Hodgdon & Beckett 1984). Tape-measure inputs, metric and imperial, with the ±3–4 point error band shown honestly.",
+    "Free body fat calculator using the US Navy circumference method (Hodgdon & Beckett 1984). Tape-measure inputs, metric and imperial, with the ±3 to 4 point error band shown honestly.",
   hub: "nutrition",
   tier: 1,
   inputsSchema: bodyFatInputsSchema,
@@ -35,7 +35,7 @@ export const bodyFatConfig: ToolConfig = {
   faq: [
     {
       q: "How accurate is the Navy body fat method?",
-      a: "In the original validation it correlated about r = 0.90 with underwater weighing, with a standard error of roughly 3 to 4 percentage points. Treat your result as the centre of a band, not an exact figure — we show that band with every estimate.",
+      a: "In the original validation it correlated about r = 0.90 with underwater weighing, with a standard error of roughly 3 to 4 percentage points. Treat your result as the centre of a band, not an exact figure, and we show that band with every estimate.",
     },
     {
       q: "How do I take the measurements?",
@@ -43,11 +43,11 @@ export const bodyFatConfig: ToolConfig = {
     },
     {
       q: "What is a healthy body-fat percentage?",
-      a: "Typical healthy ranges are roughly 10–20% for men and 18–28% for women, varying with age and athletic goals. Essential fat sits around 3–5% for men and 10–13% for women; going near those floors is neither necessary nor advisable for most people.",
+      a: "Typical healthy ranges are roughly 10 to 20% for men and 18 to 28% for women, varying with age and athletic goals. Essential fat sits around 3 to 5% for men and 10 to 13% for women; going near those floors is neither necessary nor advisable for most people.",
     },
     {
       q: "Why does the formula only use a few measurements?",
-      a: "The Navy method was designed to estimate body density from quick field measurements that anyone can take with a tape. It trades some accuracy for practicality — laboratory methods such as DEXA are more precise but far less accessible.",
+      a: "The Navy method was designed to estimate body density from quick field measurements that anyone can take with a tape. It trades some accuracy for practicality, since laboratory methods such as DEXA are more precise but far less accessible.",
     },
     {
       q: "Why does my result differ from my smart scale?",

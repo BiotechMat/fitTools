@@ -115,7 +115,7 @@ export const ENEMY_KINDS: EnemyKind[] = [
     atp: 30,
     speed: 195,
     radius: 10,
-    cause: "Glucose spike 1 — powerhouse 0.",
+    cause: "Glucose spike 1, powerhouse 0.",
   },
   {
     id: "cortisol",

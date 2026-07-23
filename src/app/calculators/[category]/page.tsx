@@ -72,7 +72,7 @@ export default async function CalculatorCategoryPage({ params }: CategoryParams)
         {meta.title} calculators
       </h1>
       <p className="mt-1 max-w-prose text-muted">
-        Every {meta.title.toLowerCase()} calculator — each built on a
+        Every {meta.title.toLowerCase()} calculator, each built on a
         published, peer-reviewed formula, with the sources cited on the page.
       </p>
       <ToolCardGrid tools={tools} />

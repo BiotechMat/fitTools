@@ -23,7 +23,7 @@ export const phenoAgeInputsSchema = z.object({
 
 export const phenoAgeConfig: ToolConfig = {
   slug: PHENOAGE_SLUG,
-  title: "Phenotypic Age Calculator — Biological Age from Blood Tests",
+  title: "Phenotypic Age Calculator: Biological Age from Blood Tests",
   valueLine:
     "Estimate your biological age from nine standard blood-panel markers, using the published Levine PhenoAge model.",
   metaDescription:
@@ -36,11 +36,11 @@ export const phenoAgeConfig: ToolConfig = {
   faq: [
     {
       q: "What is phenotypic age?",
-      a: "Phenotypic Age (PhenoAge) is an estimate of biological age derived from nine routine blood markers plus your chronological age. It was built to track differences in ageing and mortality risk across people of the same calendar age — a lower PhenoAge is associated, at population level, with better long-term outcomes.",
+      a: "Phenotypic Age (PhenoAge) is an estimate of biological age derived from nine routine blood markers plus your chronological age. It was built to track differences in ageing and mortality risk across people of the same calendar age, and a lower PhenoAge is associated, at population level, with better long-term outcomes.",
     },
     {
       q: "Which blood tests do I need?",
-      a: "Albumin, creatinine, fasting glucose, C-reactive protein (CRP), lymphocyte percentage, mean corpuscular volume (MCV), red cell distribution width (RDW), alkaline phosphatase (ALP) and white blood cell count — all from a standard metabolic panel plus a full blood count and hs-CRP.",
+      a: "Albumin, creatinine, fasting glucose, C-reactive protein (CRP), lymphocyte percentage, mean corpuscular volume (MCV), red cell distribution width (RDW), alkaline phosphatase (ALP) and white blood cell count, all from a standard metabolic panel plus a full blood count and hs-CRP.",
     },
     {
       q: "How accurate is PhenoAge?",
@@ -48,7 +48,7 @@ export const phenoAgeConfig: ToolConfig = {
     },
     {
       q: "What is a good phenotypic age?",
-      a: "A PhenoAge lower than your chronological age is generally the favourable direction. But the number is only as good as your blood results on the day — inflammation from a recent illness, for example, can raise CRP and WBC and push the estimate up temporarily.",
+      a: "A PhenoAge lower than your chronological age is generally the favourable direction. But the number is only as good as your blood results on the day, and inflammation from a recent illness, for example, can raise CRP and WBC and push the estimate up temporarily.",
     },
     {
       q: "Is my data private?",
@@ -65,17 +65,17 @@ export const phenoAgeConfig: ToolConfig = {
   sources: [
     {
       label:
-        "Levine ME, et al. An epigenetic biomarker of aging for lifespan and healthspan. Aging 2018;10:573–591 (clinical Phenotypic Age)",
+        "Levine ME, et al. An epigenetic biomarker of aging for lifespan and healthspan. Aging 2018;10:573-591 (clinical Phenotypic Age)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5940111/",
     },
     {
       label:
-        "Levine ME. Modeling the rate of senescence: can estimated biological age predict mortality? J Gerontol A 2013;68:667–674 (original derivation)",
+        "Levine ME. Modeling the rate of senescence: can estimated biological age predict mortality? J Gerontol A 2013;68:667-674 (original derivation)",
       url: "https://pubmed.ncbi.nlm.nih.gov/23213031/",
     },
     {
       label:
-        "Kwon D, Belsky DW. BioAge R package — phenoage_calc.R (authors' reference implementation; source of the exact coefficients used here)",
+        "Kwon D, Belsky DW. BioAge R package, phenoage_calc.R (authors' reference implementation; source of the exact coefficients used here)",
       url: "https://github.com/dayoonkwon/BioAge",
     },
   ],

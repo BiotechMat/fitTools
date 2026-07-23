@@ -28,9 +28,9 @@ export async function generateMetadata({ searchParams }: ShareParams): Promise<M
   if (!params || !tool) {
     return { title: "Share a result", robots: { index: false } };
   }
-  const name = tool.title.split("—")[0].trim();
+  const name = tool.title.split(":")[0].trim();
   const title = `${name}: ${params.value}${params.unit ? ` ${params.unit}` : ""}`;
-  const description = `${name} result from FitTools — evidence-based, every formula cited. Calculate yours.`;
+  const description = `${name} result from FitTools, evidence-based, every formula cited. Calculate yours.`;
   const image = shareImagePath(params);
   return {
     title,
@@ -52,7 +52,7 @@ export default async function SharePage({ searchParams }: ShareParams) {
   const tool = params ? getTool(params.tool) : undefined;
   if (!params || !tool) notFound();
 
-  const name = tool.title.split("—")[0].trim();
+  const name = tool.title.split(":")[0].trim();
   const href = toolHref(params.tool);
 
   return (
@@ -87,7 +87,7 @@ export default async function SharePage({ searchParams }: ShareParams) {
       <div className="text-center">
         <h1 className="font-display text-2xl uppercase">Calculate yours</h1>
         <p className="mt-1 text-muted">
-          This is a {name} result from FitTools. Run it yourself — free, in your
+          This is a {name} result from FitTools. Run it yourself, free, in your
           browser, with the full method shown.
         </p>
         <Link

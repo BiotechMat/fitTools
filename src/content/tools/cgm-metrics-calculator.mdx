@@ -3,19 +3,19 @@
 This tool computes the four standardised continuous-glucose-monitoring
 (CGM) metrics from the international consensus, entirely in your browser:
 
-- **Mean glucose** — the simple average of your readings.
-- **Glucose Management Indicator (GMI)** — an estimate of HbA1c from CGM
+- **Mean glucose**, the simple average of your readings.
+- **Glucose Management Indicator (GMI)**, an estimate of HbA1c from CGM
   data: `GMI(%) = 3.31 + 0.02392 × mean glucose (mg/dL)` (Bergenstal et
   al., *Diabetes Care* 2018). Readings in mmol/L are converted to mg/dL
   first (× 18.0182).
-- **Glucose variability (%CV)** — `standard deviation ÷ mean × 100`. The
+- **Glucose variability (%CV)**, `standard deviation ÷ mean × 100`. The
   consensus stability target is below 36%.
-- **Time in range (TIR)** — the percentage of readings between 3.9 and
-  10.0 mmol/L (70–180 mg/dL), the consensus target range (Battelino et
+- **Time in range (TIR)**, the percentage of readings between 3.9 and
+  10.0 mmol/L (70 to 180 mg/dL), the consensus target range (Battelino et
   al., *Diabetes Care* 2019). We also show time below and above range.
 
 Paste your readings (one per line, or comma-separated; rows like
-`timestamp, glucose` work too — we take the glucose value from each line).
+`timestamp, glucose` work too. We take the glucose value from each line).
 
 ## Interpreting your result
 
@@ -27,8 +27,8 @@ next to the mean.
 
 **If you don&rsquo;t have diabetes, read this carefully.** These metrics
 were developed for diabetes care. The popular idea that healthy people
-should chase a &ldquo;flat&rdquo; glucose line is not well supported —
-there is limited evidence that flattening normal post-meal rises in a
+should chase a &ldquo;flat&rdquo; glucose line is not well supported.
+There is limited evidence that flattening normal post-meal rises in a
 metabolically healthy person improves health outcomes. Minor spikes after
 meals are normal physiology. Use these numbers as interesting self-tracking
 data, not as a diagnosis or a target to optimise anxiously.
@@ -40,7 +40,7 @@ data, not as a diagnosis or a target to optimise anxiously.
 - Metrics are only as good as the data: short recording windows, sensor
   warm-up artefacts and compression lows can distort them.
 - Targets (time-in-range goals, acceptable variability) are individual and
-  set with a clinician — this tool reports the numbers, it does not
+  set with a clinician. This tool reports the numbers, it does not
   prescribe goals.
 - This is educational self-tracking, not a medical test. Anything
   concerning belongs with your doctor.

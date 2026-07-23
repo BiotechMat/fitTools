@@ -143,14 +143,14 @@ export function ResultHistory({
         break;
       case "level":
         chip = (
-          <span className={goodChipClass}>Level with your {date} number — consistency banked</span>
+          <span className={goodChipClass}>Level with your {date} number. Consistency banked</span>
         );
         break;
       case "behind":
         chip = (
           <span className={neutralChipClass}>
             {formatDelta(delta.deltaAbs)} {direction === "up" ? "below" : "above"} your {date}{" "}
-            number — day-to-day swings are normal
+            number. Day-to-day swings are normal
           </span>
         );
         break;
@@ -176,7 +176,7 @@ export function ResultHistory({
     );
   } else {
     content = (
-      <span className="text-muted">Results save to this device only — private, automatic.</span>
+      <span className="text-muted">Results save to this device only. Private, automatic.</span>
     );
   }
 

@@ -32,11 +32,11 @@ export async function generateMetadata({ params }: SupplementParams): Promise<Me
   const s = getSupplement(supplement);
   if (!s) return {};
   return {
-    title: `${s.name} — Benefits, Evidence and Safety`,
+    title: `${s.name}: Benefits, Evidence and Safety`,
     description: s.metaDescription,
     alternates: { canonical: `/supplements/${s.slug}` },
     openGraph: {
-      title: `${s.name} — what the evidence says`,
+      title: `${s.name}: what the evidence says`,
       description: s.metaDescription,
       type: "article",
       url: `/supplements/${s.slug}`,

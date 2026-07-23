@@ -106,17 +106,17 @@ export const foodReferencePages: FoodReferencePage[] = [
     title: "Protein Content of Common Foods",
     short: "How much protein is in everyday foods, per 100 g, ranked highest first.",
     intro:
-      "A quick-reference table of the protein in common foods, per 100 g, ranked from highest. Use it to build meals that hit your protein target — then work out that target with the calculators below.",
+      "A quick-reference table of the protein in common foods, per 100 g, ranked from highest. Use it to build meals that hit your protein target, then work out that target with the calculators below.",
     view: "protein",
     relatedTools: ["macro-calculator", "tdee-calculator"],
     faq: [
       {
         q: "How much protein do I need a day?",
-        a: "For people training for muscle, roughly 1.6–2.2 g per kg of bodyweight per day is well supported. Work out your figure with the macro calculator; total daily intake matters more than any single food.",
+        a: "For people training for muscle, roughly 1.6 to 2.2 g per kg of bodyweight per day is well supported. Work out your figure with the macro calculator; total daily intake matters more than any single food.",
       },
       {
         q: "Are these values exact?",
-        a: "No — they are rounded, approximate per-100 g reference figures from public food-composition data. Real foods vary by cut, brand and cooking, so treat them as a guide.",
+        a: "No, they are rounded, approximate per-100 g reference figures from public food-composition data. Real foods vary by cut, brand and cooking, so treat them as a guide.",
       },
     ],
   },
@@ -159,7 +159,7 @@ export const foodReferencePages: FoodReferencePage[] = [
     title: "Common Portion Sizes",
     short: "Typical serving sizes and the protein and calories they provide.",
     intro:
-      "What a normal portion of each food actually looks like, and the protein and calories it delivers — a more realistic view than per-100 g figures for planning meals.",
+      "What a normal portion of each food actually looks like, and the protein and calories it delivers, a more realistic view than per-100 g figures for planning meals.",
     view: "portion",
     relatedTools: ["macro-calculator", "tdee-calculator"],
     faq: [

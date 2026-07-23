@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { FiveADayGame } from "@/components/fiveaday/FiveADayGame";
 
 export const metadata: Metadata = {
-  title: "Five a Day — The Produce-Slicing Game",
+  title: "Five a Day: The Produce-Slicing Game",
   description:
-    "Fruit and veg fly — swipe to slice them for portions, stack smoothie combos and plant-variety bonuses, and never touch the junk. Free browser arcade, no sign-up.",
+    "Fruit and veg fly. Swipe to slice them for portions, stack smoothie combos and plant-variety bonuses, and never touch the junk. Free browser arcade, no sign-up.",
   alternates: { canonical: "/five-a-day" },
 };
 
@@ -41,8 +41,8 @@ export default function FiveADayPage() {
         The market stall has lost control of its stock.{" "}
         <strong className="font-semibold text-foreground">
           Slice the produce, never the junk
-        </strong>{" "}
-        — every fruit and veg is a portion, multi-slices blend into smoothie
+        </strong>
+        . Every fruit and veg is a portion, multi-slices blend into smoothie
         bonuses, and trying a new plant pays extra. Drop three and
         it&rsquo;s compost. The cigarette is not food. You know this.
       </p>
@@ -52,7 +52,7 @@ export default function FiveADayPage() {
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Five a Day is a cartoon, not nutrition advice — no smoothie was ever
+        Five a Day is a cartoon, not nutrition advice. No smoothie was ever
         made with a sword. For what actually goes into a balanced plate, the{" "}
         <Link
           href="/nutrition/reference"

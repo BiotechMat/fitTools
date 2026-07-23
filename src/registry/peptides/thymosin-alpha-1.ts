@@ -5,11 +5,11 @@ export const thymosinAlpha1Page: PeptidePage = {
   name: "Thymosin alpha-1",
   aka: ["Tα1", "Thymalfasin"],
   category: "healing",
-  title: "Thymosin alpha-1 — What It Is and What the Evidence Actually Shows",
+  title: "Thymosin alpha-1: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on thymosin alpha-1: an immune-modulating peptide with genuine approved medical uses in some countries, distinct from its unproven marketing as a fitness or general 'wellness' peptide.",
   valueLine:
-    "An immune-modulating peptide with real approved medical uses abroad — but no established role in fitness, recovery or general 'wellness' for healthy people.",
+    "An immune-modulating peptide with real approved medical uses abroad, but no established role in fitness, recovery or general 'wellness' for healthy people.",
   headlineTier: "marketing-claim",
   headlineBasis: "human",
   approvedUse:
@@ -18,7 +18,7 @@ export const thymosinAlpha1Page: PeptidePage = {
   faq: [
     {
       q: "What is thymosin alpha-1?",
-      a: "It is a naturally occurring peptide involved in regulating the immune system. As the drug thymalfasin it is approved in several countries for specific immune-related medical uses — which sets it apart from most compounds marketed to gym-goers.",
+      a: "It is a naturally occurring peptide involved in regulating the immune system. As the drug thymalfasin it is approved in several countries for specific immune-related medical uses, which sets it apart from most compounds marketed to gym-goers.",
     },
     {
       q: "Does it help with fitness, recovery or 'wellness'?",
@@ -30,7 +30,7 @@ export const thymosinAlpha1Page: PeptidePage = {
     },
     {
       q: "Is thymosin alpha-1 banned in sport?",
-      a: "Notably, WADA has clarified that thymosin alpha-1 is not prohibited — unlike thymosin beta-4 (TB-500), which is banned. This is a case where two similarly named peptides have very different anti-doping status, so athletes should not assume they are interchangeable.",
+      a: "Notably, WADA has clarified that thymosin alpha-1 is not prohibited, unlike thymosin beta-4 (TB-500), which is banned. This is a case where two similarly named peptides have very different anti-doping status, so athletes should not assume they are interchangeable.",
     },
   ],
   related: ["tb-500", "bpc-157"],
@@ -38,12 +38,12 @@ export const thymosinAlpha1Page: PeptidePage = {
   sources: [
     {
       label:
-        "PubMed: thymosin alpha-1 (thymalfasin) — immune modulation and clinical use (studies and reviews)",
+        "PubMed: thymosin alpha-1 (thymalfasin), immune modulation and clinical use (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=thymosin+alpha+1+thymalfasin+immune",
     },
     {
       label:
-        "WADA — clarification that thymosin alpha-1 is not prohibited (contrast with thymosin beta-4)",
+        "WADA clarification that thymosin alpha-1 is not prohibited (contrast with thymosin beta-4)",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
   ],

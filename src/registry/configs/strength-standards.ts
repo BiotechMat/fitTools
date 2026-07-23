@@ -17,7 +17,7 @@ export const standardsInputsSchema = z.object({
 
 export const standardsConfig: ToolConfig = {
   slug: STANDARDS_SLUG,
-  title: "Strength Standards — How Strong Are You?",
+  title: "Strength Standards: How Strong Are You?",
   valueLine:
     "See where your squat, bench or deadlift sits on published strength standards for your sex and bodyweight.",
   metaDescription:
@@ -29,19 +29,19 @@ export const standardsConfig: ToolConfig = {
   faq: [
     {
       q: "Where do these strength standards come from?",
-      a: "From Lon Kilgore's published performance standards tables (2023), built from scientific data, drug-tested classic/raw competition results and decades of coaching observation. We use the kilogram tables for the 20–29 age band.",
+      a: "From Lon Kilgore's published performance standards tables (2023), built from scientific data, drug-tested classic/raw competition results and decades of coaching observation. We use the kilogram tables for the 20 to 29 age band.",
     },
     {
       q: "What do the levels mean?",
-      a: "They mark stages of training progression — physically active, beginner, intermediate, advanced and elite — reasonable expectations at each stage, not averages of the general population.",
+      a: "They mark stages of training progression (physically active, beginner, intermediate, advanced and elite): reasonable expectations at each stage, not averages of the general population.",
     },
     {
-      q: "I'm older or younger than 20–29 — do these apply?",
-      a: "Kilgore's full tables span ages 15–89 and expectations fall with age; this page anchors on the 20–29 band. Treat your classification as slightly conservative if you're well outside it, and see the source PDF for your exact band.",
+      q: "I'm older or younger than 20 to 29: do these apply?",
+      a: "Kilgore's full tables span ages 15 to 89 and expectations fall with age; this page anchors on the 20 to 29 band. Treat your classification as slightly conservative if you're well outside it, and see the source PDF for your exact band.",
     },
     {
       q: "Why does my classification differ from other sites?",
-      a: "There is no single official standard — different sites derive bands from different data. We cite our source and its derivation openly so you know exactly what you're being compared against.",
+      a: "There is no single official standard, and different sites derive bands from different data. We cite our source and its derivation openly so you know exactly what you're being compared against.",
     },
   ],
   related: ["one-rep-max-calculator", "dots-calculator", "plate-calculator"],
@@ -53,7 +53,7 @@ export const standardsConfig: ToolConfig = {
       url: "https://lonkilgore.com/resources/Lon_Kilgore_Strength_Standard_Tables-Copyright-2023.pdf",
     },
     {
-      label: "Kilgore L. Resources page (full tables, ages 15–89, further lifts)",
+      label: "Kilgore L. Resources page (full tables, ages 15 to 89, further lifts)",
       url: "https://lonkilgore.com/resources/",
     },
   ],

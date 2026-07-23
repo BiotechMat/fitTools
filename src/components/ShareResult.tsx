@@ -25,7 +25,7 @@ export function ShareResult({
       shareUrl({ tool, value, unit, label });
     const shareData = {
       title: `${title}: ${value}${unit ? ` ${unit}` : ""}`,
-      text: `My ${title} result from FitTools — every formula cited.`,
+      text: `My ${title} result from FitTools, every formula cited.`,
       url,
     };
     try {

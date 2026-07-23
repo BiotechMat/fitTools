@@ -14,9 +14,9 @@ export const dotsInputsSchema = z.object({
 
 export const dotsConfig: ToolConfig = {
   slug: DOTS_SLUG,
-  title: "DOTS Calculator — Wilks & IPF GL Points",
+  title: "DOTS Calculator: Wilks & IPF GL Points",
   valueLine:
-    "Compare lifters across bodyweights with DOTS, Wilks and IPF GL points — using the official coefficients.",
+    "Compare lifters across bodyweights with DOTS, Wilks and IPF GL points, using the official coefficients.",
   metaDescription:
     "Free DOTS calculator with Wilks and IPF GL points, using official coefficients from the OpenPowerlifting codebase and regression-tested against real meet results.",
   hub: "strength",
@@ -30,15 +30,15 @@ export const dotsConfig: ToolConfig = {
     },
     {
       q: "What is a good DOTS score?",
-      a: "Roughly: 250–300 is a solid recreational lifter, 350–450 is competitive at local and national level, and 500+ is international class. The very best raw lifters in the world exceed 600.",
+      a: "Roughly: 250 to 300 is a solid recreational lifter, 350 to 450 is competitive at local and national level, and 500+ is international class. The very best raw lifters in the world exceed 600.",
     },
     {
-      q: "DOTS, Wilks or IPF GL — which should I use?",
-      a: "Whichever your federation and friends use — they all answer the same question with different fitted curves. IPF competitions use GL points; most raw meets and OpenPowerlifting rankings use DOTS; Wilks is the historical standard.",
+      q: "DOTS, Wilks or IPF GL: which should I use?",
+      a: "Whichever your federation and friends use; they all answer the same question with different fitted curves. IPF competitions use GL points; most raw meets and OpenPowerlifting rankings use DOTS; Wilks is the historical standard.",
     },
     {
       q: "Are these the official formulas?",
-      a: "Yes — the coefficients are taken verbatim from the OpenPowerlifting codebase and our implementation is regression-tested against OPL's own published scores for real meet entries.",
+      a: "Yes, the coefficients are taken verbatim from the OpenPowerlifting codebase and our implementation is regression-tested against OPL's own published scores for real meet entries.",
     },
   ],
   related: ["strength-standards", "one-rep-max-calculator"],
@@ -50,7 +50,7 @@ export const dotsConfig: ToolConfig = {
       url: "https://github.com/sstangl/openpowerlifting/tree/main/crates/coefficients/src",
     },
     {
-      label: "OpenPowerlifting — lifter database used for regression vectors",
+      label: "OpenPowerlifting: lifter database used for regression vectors",
       url: "https://www.openpowerlifting.org/",
     },
   ],

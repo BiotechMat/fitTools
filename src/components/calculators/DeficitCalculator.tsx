@@ -127,7 +127,7 @@ export function DeficitCalculator() {
               Your estimated timeline
             </h2>
             <p className="mt-1 text-4xl font-bold text-primary-strong" data-testid="deficit-weeks">
-              {Number.isFinite(result.weeks) ? formatNumber(result.weeks) : "—"}{" "}
+              {Number.isFinite(result.weeks) ? formatNumber(result.weeks) : "N/A"}{" "}
               <span className="text-lg font-medium text-muted">weeks</span>
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
@@ -142,12 +142,12 @@ export function DeficitCalculator() {
                 : `${formatNumber(result.targetLossKg, 1)} kg`}{" "}
               goal in roughly {formatNumber(result.weeks)} weeks. This uses the
               7,700 kcal ≈ 1 kg heuristic, which becomes optimistic over long
-              periods as your body adapts — treat later weeks as a best case
+              periods as your body adapts, treat later weeks as a best case
               and recalculate as you go.
             </p>
             {result.overCap ? (
               <p className={warningClass} role="alert">
-                This deficit is more than 25% of your TDEE — beyond what we
+                This deficit is more than 25% of your TDEE, beyond what we
                 recommend. Consider {formatNumber(result.cap)} kcal/day or
                 less: slower, but far more sustainable and muscle-sparing.
               </p>
@@ -155,7 +155,7 @@ export function DeficitCalculator() {
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter your TDEE, a daily deficit (100–2,000 kcal) and a goal to see
+            Enter your TDEE, a daily deficit (100 to 2,000 kcal) and a goal to see
             an estimated timeline. If you don&rsquo;t know your TDEE, start
             with our TDEE calculator.
           </p>

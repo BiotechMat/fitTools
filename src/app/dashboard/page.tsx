@@ -12,9 +12,9 @@ import { DashboardView } from "@/components/dashboard/DashboardView";
  * with accounts behind the §8 data-protection gate.
  */
 export const metadata: Metadata = {
-  title: "Your numbers — FitTools dashboard",
+  title: "Your numbers: FitTools dashboard",
   description:
-    "Your saved calculations, health scores and blood-test biomarkers in one private place — tracked over time, stored on your device.",
+    "Your saved calculations, health scores and blood-test biomarkers in one private place, tracked over time, stored on your device.",
   robots: { index: false, follow: false },
 };
 

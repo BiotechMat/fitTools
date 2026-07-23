@@ -20,7 +20,7 @@ export function ballparkShareText(puzzle: number, recentTiers: ClosenessTier[]):
 /** Myth-or-Fact share: puzzle number and score, no statements revealed. */
 export function mythShareText(puzzle: number, correct: number, total: number): string {
   const hearts = "💚".repeat(correct) + "🖤".repeat(Math.max(0, total - correct));
-  return `Myth or Fact? #${puzzle} — ${correct}/${total}\n${hearts}\n${SITE}`;
+  return `Myth or Fact? #${puzzle}: ${correct}/${total}\n${hearts}\n${SITE}`;
 }
 
 /** Fire the native share sheet, falling back to clipboard. Returns quietly. */

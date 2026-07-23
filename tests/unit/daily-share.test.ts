@@ -26,7 +26,7 @@ describe("ballparkShareText", () => {
 describe("mythShareText", () => {
   it("shows the score as hearts and the puzzle number, no statements", () => {
     const text = mythShareText(30, 4, 5);
-    expect(text).toContain("Myth or Fact? #30 — 4/5");
+    expect(text).toContain("Myth or Fact? #30: 4/5");
     expect(text).toContain("💚💚💚💚🖤");
     for (const item of mythItems) {
       expect(text).not.toContain(item.statement.slice(0, 20));

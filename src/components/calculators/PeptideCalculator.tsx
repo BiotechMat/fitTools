@@ -75,14 +75,14 @@ export function PeptideCalculator() {
               </span>
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
-              Arithmetic on the values you entered — nothing here is a dose
+              Arithmetic on the values you entered, nothing here is a dose
               recommendation. Verify every figure against your
               prescriber&rsquo;s instructions before drawing anything.
             </p>
           </div>
         ) : result?.overdraw ? (
           <p className="text-sm" role="alert">
-            That dose needs more volume than the vial contains — check the
+            That dose needs more volume than the vial contains. Check the
             dose units (mcg vs mg) and your entries.
           </p>
         ) : (

@@ -82,8 +82,8 @@ export function SleepCalculator() {
             </ul>
             <p className="mt-3 max-w-prose text-sm text-muted">
               Times include {LATENCY_MINUTES} minutes to fall asleep and
-              assume 90-minute cycles. Real cycles run roughly 70–120 minutes
-              and vary between people — treat these as starting points and
+              assume 90-minute cycles. Real cycles run roughly 70 to 120 minutes
+              and vary between people, treat these as starting points and
               adjust to how you feel on waking.
             </p>
           </div>

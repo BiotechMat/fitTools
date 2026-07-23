@@ -15,7 +15,7 @@ export function SourcesReceipt({ sources }: { sources: Source[] }) {
   return (
     <details className="receipt not-prose mt-2">
       <summary className="inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-good-soft px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.14em]">
-        Pull the receipts — {sources.length} cited{" "}
+        Pull the receipts, {sources.length} cited{" "}
         {sources.length === 1 ? "source" : "sources"}
       </summary>
       <div className="receipt-paper mt-3 max-w-xl rounded-t-xl p-4 text-sm">

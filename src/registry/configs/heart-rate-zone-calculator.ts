@@ -17,9 +17,9 @@ export const hrInputsSchema = z.object({
 
 export const hrConfig: ToolConfig = {
   slug: HR_SLUG,
-  title: "Heart Rate Zone Calculator — Tanaka & Karvonen",
+  title: "Heart Rate Zone Calculator: Tanaka & Karvonen",
   valueLine:
-    "Build your five training zones from a research-backed maximum heart rate — personalised further if you know your resting HR.",
+    "Build your five training zones from a research-backed maximum heart rate, personalised further if you know your resting HR.",
   metaDescription:
     "Free heart rate zone calculator using the Tanaka equation (208 − 0.7 × age) and the Karvonen heart-rate-reserve method, with a full five-zone training table.",
   hub: "recovery",
@@ -29,15 +29,15 @@ export const hrConfig: ToolConfig = {
   faq: [
     {
       q: "How do I calculate my maximum heart rate?",
-      a: "This tool uses the Tanaka equation (208 − 0.7 × age), which was derived from over 18,000 subjects and outperforms the older 220 − age rule, especially past age 40. Both are estimates — measured maxima vary by ten or more beats either side.",
+      a: "This tool uses the Tanaka equation (208 − 0.7 × age), which was derived from over 18,000 subjects and outperforms the older 220 − age rule, especially past age 40. Both are estimates, and measured maxima vary by ten or more beats either side.",
     },
     {
       q: "What are the five heart-rate zones?",
-      a: "Zones 1–5 span 50–100% of your maximum (or of heart-rate reserve if you enter a resting HR): very easy recovery, easy aerobic, steady aerobic, threshold, and maximal work. Most endurance training time belongs in zones 1–2.",
+      a: "Zones 1 to 5 span 50 to 100% of your maximum (or of heart-rate reserve if you enter a resting HR): very easy recovery, easy aerobic, steady aerobic, threshold, and maximal work. Most endurance training time belongs in zones 1 to 2.",
     },
     {
       q: "What is the Karvonen method?",
-      a: "Karvonen anchors zones to your heart-rate reserve — the span between resting and maximum — rather than raw percentages of max. Adding your resting heart rate makes zones noticeably better matched to your actual fitness.",
+      a: "Karvonen anchors zones to your heart-rate reserve, the span between resting and maximum, rather than raw percentages of max. Adding your resting heart rate makes zones noticeably better matched to your actual fitness.",
     },
     {
       q: "How do I find my resting heart rate?",
@@ -53,11 +53,11 @@ export const hrConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Tanaka H, Monahan KD, Seals DR. Age-predicted maximal heart rate revisited. J Am Coll Cardiol 2001;37:153–156",
+      label: "Tanaka H, Monahan KD, Seals DR. Age-predicted maximal heart rate revisited. J Am Coll Cardiol 2001;37:153-156",
       url: "https://pubmed.ncbi.nlm.nih.gov/11153730/",
     },
     {
-      label: "Karvonen MJ, Kentala E, Mustala O. The effects of training on heart rate: a longitudinal study. Ann Med Exp Biol Fenn 1957;35:307–315",
+      label: "Karvonen MJ, Kentala E, Mustala O. The effects of training on heart rate: a longitudinal study. Ann Med Exp Biol Fenn 1957;35:307-315",
       url: "https://pubmed.ncbi.nlm.nih.gov/13470504/",
     },
   ],

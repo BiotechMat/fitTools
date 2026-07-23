@@ -5,8 +5,8 @@
  * Sources (cited on-page in each tool's Methodology section):
  * - Mifflin MD, St Jeor ST, et al. Am J Clin Nutr 1990;51:241–247.
  * - Roza AM, Shizgal HM. Am J Clin Nutr 1984;40:168–182 (revised
- *   Harris–Benedict).
- * - Katch–McArdle: 370 + 21.6 × FFM(kg).
+ *   Harris-Benedict).
+ * - Katch-McArdle: 370 + 21.6 × FFM(kg).
  */
 
 export type Sex = "male" | "female";
@@ -19,7 +19,7 @@ export interface BmrInput {
 }
 
 /**
- * Mifflin–St Jeor resting metabolic rate (kcal/day), simplified form as
+ * Mifflin-St Jeor resting metabolic rate (kcal/day), simplified form as
  * proposed for practice in the 1990 paper:
  * men 10W + 6.25H − 5A + 5; women 10W + 6.25H − 5A − 161.
  */
@@ -28,7 +28,7 @@ export function mifflinStJeor({ sex, weightKg, heightCm, ageYears }: BmrInput): 
   return sex === "male" ? base + 5 : base - 161;
 }
 
-/** Katch–McArdle BMR (kcal/day) from fat-free mass in kg. */
+/** Katch-McArdle BMR (kcal/day) from fat-free mass in kg. */
 export function katchMcArdle(fatFreeMassKilograms: number): number {
   return 370 + 21.6 * fatFreeMassKilograms;
 }
@@ -39,7 +39,7 @@ export function fatFreeMassKg(weightKg: number, bodyFatPercent: number): number 
 }
 
 /**
- * Revised Harris–Benedict BMR (kcal/day), Roza & Shizgal 1984:
+ * Revised Harris-Benedict BMR (kcal/day), Roza & Shizgal 1984:
  * men 88.362 + 13.397W + 4.799H − 5.677A;
  * women 447.593 + 9.247W + 3.098H − 4.330A.
  */

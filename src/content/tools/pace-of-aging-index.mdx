@@ -1,11 +1,11 @@
 ## Methodology
 
-The Pace of Aging Index is an **open composite index** (v1.0.0) — a
-transparent 0–100 score summarising how favourable your current lifestyle
+The Pace of Aging Index is an **open composite index** (v1.0.0), a
+transparent 0 to 100 score summarising how favourable your current lifestyle
 trajectory looks. It is explicitly **not a biological age**; it's built
 from modifiable habits and simple measures, framed as levers you can move.
 
-Each input becomes a 0–100 sub-score (higher = more favourable) via a
+Each input becomes a 0 to 100 sub-score (higher = more favourable) via a
 documented clamped-linear mapping, then combined by weight:
 
 <table>
@@ -13,32 +13,32 @@ documented clamped-linear mapping, then combined by weight:
     <tr><th scope="col">Input</th><th scope="col">Weight</th><th scope="col">Tier</th></tr>
   </thead>
   <tbody>
-    <tr><td>Cardio fitness (VO₂max) — optional</td><td>25%</td><td>T1</td></tr>
+    <tr><td>Cardio fitness (VO₂max), optional</td><td>25%</td><td>T1</td></tr>
     <tr><td>Waist-to-height</td><td>12%</td><td>T1</td></tr>
-    <tr><td>Grip strength — optional</td><td>12%</td><td>T1</td></tr>
+    <tr><td>Grip strength, optional</td><td>12%</td><td>T1</td></tr>
     <tr><td>Activity volume (MVPA)</td><td>12%</td><td>T1</td></tr>
     <tr><td>Sleep</td><td>12%</td><td>T2</td></tr>
     <tr><td>Resting heart rate</td><td>10%</td><td>T2</td></tr>
-    <tr><td>HRV — optional</td><td>10%</td><td>T2</td></tr>
+    <tr><td>HRV, optional</td><td>10%</td><td>T2</td></tr>
     <tr><td>Smoking</td><td>5%</td><td>T1</td></tr>
     <tr><td>Alcohol</td><td>2%</td><td>T2</td></tr>
   </tbody>
 </table>
 
 Cardiorespiratory fitness carries the most weight in the design, but our
-dedicated fitness-age estimate is on hold pending a source we can verify —
+dedicated fitness-age estimate is on hold pending a source we can verify,
 so **VO₂max is optional here** (enter a known value, or skip it). Grip and
 HRV are optional too. Leave any optional input blank and the weights
 renormalise across what you provided, with a reduced-confidence flag. Full
 house methodology is on the [index methodology page](/learn/index-methodology).
 
 The **pace** number is a centred display of the same index (~0.8 favourable
-to ~1.2 less favourable) — a display transform, not a hidden model.
+to ~1.2 less favourable), a display transform, not a hidden model.
 
 ## Interpreting your result
 
 Look at the **radar and sub-scores**, not just the headline. They show which
-habits are lifting or dragging your trajectory — and every one of them is
+habits are lifting or dragging your trajectory, and every one of them is
 modifiable. A low sub-score is a next step, never a verdict. Body-composition
 (waist-to-height) is deliberately capped at 12% so the score can never be
 dominated by, or reward chasing, a single body measurement.
@@ -52,7 +52,7 @@ versioned, a change in your score reflects a real change in your habits.
   medical test**; it hasn't been validated against health outcomes.
 - The sub-score anchors are reasonable but chosen by us and published so you
   can judge them; different anchors would give different numbers.
-- Cardio fitness — the input with the strongest evidence — is optional
+- Cardio fitness, the input with the strongest evidence, is optional
   pending a verifiable source, which lowers confidence when it's omitted.
 - It describes lifestyle, not destiny: genetics and circumstance matter
   enormously and aren't captured here.

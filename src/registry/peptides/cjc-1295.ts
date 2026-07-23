@@ -5,11 +5,11 @@ export const cjc1295Page: PeptidePage = {
   name: "CJC-1295",
   aka: ["GHRH analogue", "Modified GRF (1-29)"],
   category: "gh-secretagogue",
-  title: "CJC-1295 — What It Is and What the Evidence Actually Shows",
+  title: "CJC-1295: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on CJC-1295: a long-acting growth-hormone-releasing hormone analogue marketed for muscle and anti-ageing, with only early pharmacology data and no proven fitness benefits.",
   valueLine:
-    "A long-acting GHRH analogue that raises growth-hormone output — but its marketed muscle and anti-ageing benefits are unproven in healthy people.",
+    "A long-acting GHRH analogue that raises growth-hormone output, but its marketed muscle and anti-ageing benefits are unproven in healthy people.",
   headlineTier: "marketing-claim",
   headlineBasis: "mixed",
   wadaProhibited: true,
@@ -36,12 +36,12 @@ export const cjc1295Page: PeptidePage = {
   sources: [
     {
       label:
-        "WADA Prohibited List — S2 Peptide Hormones, Growth Factors: GHRH and its analogues prohibited at all times",
+        "WADA Prohibited List, S2 Peptide Hormones, Growth Factors: GHRH and its analogues prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
     {
       label:
-        "PubMed: CJC-1295 — GHRH analogue, growth hormone and IGF-1 pharmacology (studies and reviews)",
+        "PubMed: CJC-1295, GHRH analogue, growth hormone and IGF-1 pharmacology (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=CJC-1295+GHRH+growth+hormone+IGF-1",
     },
   ],
