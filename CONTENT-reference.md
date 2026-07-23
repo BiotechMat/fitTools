@@ -21,7 +21,7 @@ involved, author box, last-reviewed date. No new engineering — this is the
 ## 1. Non-negotiable principles
 
 1. **Same evidence honesty.** Any health/performance claim is tiered
-   **Well-supported / Preliminary / Marketing claim**, cited, with human vs animal
+   **Well-supported / Preliminary / Unproven**, cited, with human vs animal
    vs in-vitro flagged. This is the differentiator versus the vendor-fluff that
    dominates these searches.
 2. **Cross-linking is a first-class requirement, not an afterthought.** Every

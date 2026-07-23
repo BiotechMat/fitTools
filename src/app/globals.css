@@ -18,6 +18,8 @@
   --primary-soft: #ffe1d3;
   --good: #1f5c3d; /* forest — evidence, health, positive deltas */
   --good-soft: #e4f2d2;
+  --gold: #c99700; /* gold — the top evidence tier only; ink text on the soft fill */
+  --gold-soft: #f2d571;
   --fresh: #8fbf3f; /* matcha — small accents only, never a ground */
   --lime: #a3e635; /* vibrant lime — blood-test CTA accent (ink text only) */
   --warning-bg: #fbeecb;
@@ -36,6 +38,8 @@
   --color-primary-soft: var(--primary-soft);
   --color-good: var(--good);
   --color-good-soft: var(--good-soft);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --color-fresh: var(--fresh);
   --color-lime: var(--lime);
   --color-warning-bg: var(--warning-bg);
@@ -193,11 +197,44 @@ body {
   animation-delay: -16s;
 }
 
+/* Gold-tier shine (DESIGN §3): a foil sheen sweeps the well-supported badge —
+   sweep, then rest. Decorative pseudo-element only: no layout, clipped by the
+   pill radius, and parked offscreen under reduced motion (the badge stays
+   plain gold; the tier is always spelled out, never colour or shine alone). */
+@keyframes tier-shine {
+  0% {
+    translate: -130% 0;
+  }
+  55%,
+  100% {
+    translate: 130% 0;
+  }
+}
+.tier-shine {
+  position: relative;
+  overflow: hidden;
+}
+.tier-shine::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 65%
+  );
+  translate: -130% 0;
+  animation: tier-shine 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heartbeat,
   .sticker-slap,
   .month-pop,
-  .ecg-rail {
+  .ecg-rail,
+  .tier-shine::after {
     animation: none;
   }
 }

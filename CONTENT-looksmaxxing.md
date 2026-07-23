@@ -33,7 +33,7 @@ skincare source**. Trends like **"tanmaxxing"** (deliberate UV exposure,
 Melanotan II nasal sprays) are actively dangerous and dermatologist-flagged.
 
 That gap is the opportunity. The site's existing house style — evidence tiers,
-myth chips, "Marketing claim" labels, cited sources — is *already* the perfect
+myth chips, "Unproven" labels, cited sources — is *already* the perfect
 instrument for this space. **We do not compete on hype; we counter-programme
 it.** The honest version of "looksmaxxing" is skin health, sleep, body
 composition, grooming, and consistency — which routes directly to tools and
@@ -74,7 +74,7 @@ grounded in body-image research:
 4. **Debunk with the same rigour as endorse.** Dangerous trends (tanmaxxing,
    bone-smashing, mewing-for-jawline, unregulated peptides/SARMs, Melanotan)
    get a factual, non-sensational, cited debunk and an explicit
-   `Marketing claim` / `Not supported` tier — never amplified, never
+   `Unproven` / `Not supported` tier — never amplified, never
    "both-sidesed".
 5. **Minor-aware.** This audience skews young. No content assumes adult
    supplement/pharma use; anything with an age dimension (retinoids, finasteride,
@@ -186,7 +186,7 @@ credible tools. A page that doesn't route is incomplete.
 
 ## 5. Section identity (DESIGN.md)
 
-Uses the v2 system as-is: evidence tiers (green→paper), myth chips
+Uses the v2 system as-is: evidence tiers (gold→ember), myth chips
 (`<s>Myth</s>`), Anton headers, sticker language. One addition to specify in
 DESIGN.md if built: a **"rated" verdict stamp** for the debunk hub
 (reuse the rotated evidence-tier stamp from the supplement page). British

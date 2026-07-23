@@ -56,7 +56,7 @@ Each compound page covers, in this order:
 4. **Claimed benefits** — what the community/vendors claim, clearly labelled as
    claims.
 5. **What the evidence shows** — evidence-tiered: **Well-supported / Preliminary /
-   Marketing claim** — with citations, and explicit note of whether evidence is
+   Unproven** — with citations, and explicit note of whether evidence is
    human, animal, or in-vitro only. For most of these, honestly: limited human data.
 6. **Legal & regulatory status** — approval status (usually not approved for these
    uses), research-chemical sale, WADA/sport-prohibition status.
@@ -110,7 +110,7 @@ The one-line notes below are orientation for the writer, **not** the page conten
   Their inclusion here is to *contrast* rigorously-evidenced, regulated peptides
   with the unregulated ones.
 - **Fragment 176-191** — a GH fragment; strong fat-loss claims vs weak human
-  evidence — a clear "marketing claim" tier example.
+  evidence — a clear "unproven" tier example.
 
 > The list is extensible. Prioritise pages by search volume. Lead the pillar +
 > the highest-interest compounds (BPC-157, the GH secretagogues, GLP-1 context).

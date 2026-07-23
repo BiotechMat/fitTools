@@ -12,10 +12,12 @@ import type { FaqEntry, Source } from "@/registry/types";
 
 /**
  * Evidence strength for a health claim (the site-wide house style, CONTENT.md
- * §1). `marketing-claim` = unproven/oversold; `not-supported` = actively
- * contradicted by evidence or a flagged-dangerous trend (CONTENT-looksmaxxing
- * §4 debunk tier). Used as the compound's headline tier here and inline by the
- * shared `EvidenceTier` component across content sections.
+ * §1). `marketing-claim` = unproven/oversold — displayed as "Unproven"
+ * (renamed 2026-07-23; the id is kept stable because registries, MDX and
+ * analytics key on it); `not-supported` = actively contradicted by evidence or
+ * a flagged-dangerous trend (CONTENT-looksmaxxing §4 debunk tier). Used as the
+ * compound's headline tier here and inline by the shared `EvidenceTier`
+ * component across content sections.
  */
 export type EvidenceTier =
   | "well-supported"
@@ -64,7 +66,7 @@ export const CATEGORY_LABELS: Record<PeptideCategory, string> = {
 export const TIER_LABELS: Record<EvidenceTier, string> = {
   "well-supported": "Well-supported",
   preliminary: "Preliminary",
-  "marketing-claim": "Marketing claim",
+  "marketing-claim": "Unproven",
   "not-supported": "Not supported",
 };
 

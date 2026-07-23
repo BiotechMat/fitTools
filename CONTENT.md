@@ -27,8 +27,9 @@ evidence-tiered pillar. Covered by `tests/e2e/recovery-content.spec.ts`.
 ## 1. Non-negotiable principles
 
 1. **Evidence-tiering is the house style.** Every health claim is labelled by
-   strength of evidence — **Well-supported / Promising but preliminary / Marketing
-   claim** — with citations. This is the differentiator: the wellness industry
+   strength of evidence — **Well-supported / Promising but preliminary /
+   Unproven** (display label renamed from "Marketing claim" 2026-07-23; the
+   internal `marketing-claim` id is unchanged) — with citations. This is the differentiator: the wellness industry
    overclaims, and honest separation out-ranks (Google's YMYL scrutiny rewards it)
    and out-converts (readers trust it enough to buy on your recommendation).
 2. **Own-product conflict is managed explicitly.** Where we sell our own product,
