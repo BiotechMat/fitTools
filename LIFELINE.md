@@ -86,5 +86,20 @@ shortage, headwind, deep sleep, recovery day), per-kind column behaviour
 last-five-lives line on the death card, typed analytics events
 (lifeline_run_started / lifeline_flatline in src/lib/analytics.ts), and
 the mobile fix: any tap on the game frame flaps/starts (controls
-excepted) — the ready overlay no longer swallows touches. Deferred:
-death-card PNG download, challenge links, skins, ghost replay.
+excepted) — the ready overlay no longer swallows touches.
+
+v4 BUILT (2026-07-23) — the former deferred list, complete:
+- **Death-card PNG** ("Save card"): 1080×1080 canvas render — pixel heart,
+  Anton age (family read from the --font-anton variable), cause, medal,
+  FitTools footer — downloaded client-side, no backend.
+- **Challenge links** ("Challenge a mate"): every death can copy
+  `/lifeline?seed=…&beat=…`; opening one replays that exact course with a
+  "beat N" banner, and the death card stamps CHALLENGE BEATEN ✓ or
+  "still standing". Seeds recorded for random runs too.
+- **Skins** (earned, never bought — §3): Classic; Gold at 100; Chalk at 80.
+  Palette-swapped sprite variants, unlocks + selection persisted, locked
+  states visible with their unlock hints.
+- **Ghost replay** (daily mode): your best daily run's flight is sampled at
+  30Hz and replayed as a translucent heart on retries — you race yourself,
+  the ROADMAP "you vs you" motivator.
+Still open: streaks, /share holo-card hook, leaderboard (accounts-gated).

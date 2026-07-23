@@ -293,10 +293,16 @@ interface World {
   slowT: number;
   nextShieldAge: number;
   bigToast: { text: string; ttl: number } | null;
+  /** Seed actually used (random ones included) — challenge links replay it. */
+  seed: number;
+  /** 30Hz y-position samples of this run, for the daily ghost. */
+  rec: number[];
+  recAcc: number;
   rng: () => number;
 }
 
 function freshWorld(seed: number | null): World {
+  const usedSeed = seed ?? Math.floor(Math.random() * 2 ** 31);
   return {
     y: LIFELINE.height / 2,
     vy: 0,
@@ -324,8 +330,27 @@ function freshWorld(seed: number | null): World {
     // First check-up gate arrives at 38 — screening starts in your late 30s.
     nextShieldAge: 38,
     bigToast: null,
-    rng: mulberry32(seed ?? Math.floor(Math.random() * 2 ** 31)),
+    seed: usedSeed,
+    rec: [],
+    recAcc: 0,
+    rng: mulberry32(usedSeed),
   };
+}
+
+/* Earned cosmetics (no currency, ever — LIFELINE.md §3). */
+const SKINS = [
+  { id: "classic", label: "Classic", hint: "The original ticker" },
+  { id: "gold", label: "Gold", hint: "Join the centenarian club (100)" },
+  { id: "chalk", label: "Chalk", hint: "Reach 80 — gold-medal territory" },
+] as const;
+type SkinId = (typeof SKINS)[number]["id"];
+
+const SKINS_KEY = "fittools.lifeline.skins";
+const SKIN_KEY = "fittools.lifeline.skin";
+const GHOST_KEY_PREFIX = "fittools.lifeline.ghost.";
+
+function swapPalette(rows: string[], map: Record<string, string>): string[] {
+  return rows.map((row) => [...row].map((ch) => map[ch] ?? ch).join(""));
 }
 
 type Phase = "ready" | "playing" | "dying" | "paused" | "dead";
@@ -346,6 +371,9 @@ export function LifelineGame() {
   const modifierRef = useRef<DailyModifier>(
     MODIFIERS[dailySeed(todayISO()) % MODIFIERS.length],
   );
+  const challengeRef = useRef<{ seed: number; beat: number } | null>(null);
+  const skinRef = useRef<SkinId>("classic");
+  const ghostRef = useRef<number[] | null>(null);
   const deadAtRef = useRef(0);
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
@@ -357,6 +385,13 @@ export function LifelineGame() {
   const [best, setBest] = useState(0);
   const [dailyBest, setDailyBest] = useState(0);
   const [lastRuns, setLastRuns] = useState<number[]>([]);
+  const [challenge, setChallenge] = useState<{ seed: number; beat: number } | null>(
+    null,
+  );
+  const [finalSeed, setFinalSeed] = useState(0);
+  const [skins, setSkins] = useState<SkinId[]>(["classic"]);
+  const [skin, setSkinState] = useState<SkinId>("classic");
+  const [newSkin, setNewSkin] = useState<SkinId | null>(null);
   const [newBest, setNewBest] = useState(false);
   const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -371,6 +406,14 @@ export function LifelineGame() {
   };
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const chSeed = Number(params.get("seed"));
+    const chBeat = Number(params.get("beat"));
+    if (chSeed > 0 && chBeat > 0 && Number.isFinite(chSeed + chBeat)) {
+      const ch = { seed: Math.floor(chSeed), beat: Math.floor(chBeat) };
+      challengeRef.current = ch;
+      setChallenge(ch);
+    }
     try {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
       setDailyBest(Number(localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0));
@@ -384,6 +427,20 @@ export function LifelineGame() {
         ) {
           setLastRuns(parsed.slice(-5));
         }
+      }
+      const skinsRaw = localStorage.getItem(SKINS_KEY);
+      if (skinsRaw) {
+        const parsed: unknown = JSON.parse(skinsRaw);
+        if (Array.isArray(parsed)) {
+          const valid = SKINS.map((s) => s.id).filter((id) => parsed.includes(id));
+          setSkins(["classic", ...valid.filter((id) => id !== "classic")]);
+        }
+      }
+      const savedSkin = localStorage.getItem(SKIN_KEY);
+      if (savedSkin && SKINS.some((s) => s.id === savedSkin)) {
+        // Restore only if it's genuinely unlocked; a narrow cast is safe here.
+        skinRef.current = savedSkin as SkinId;
+        setSkinState(savedSkin as SkinId);
       }
     } catch {
       /* private mode — scores just live for the session */
@@ -408,6 +465,10 @@ export function LifelineGame() {
     spritesRef.current = {
       heartUp: makeSprite(HEART_UP, 2),
       heartDown: makeSprite(HEART_DOWN, 2),
+      heartUpGold: makeSprite(swapPalette(HEART_UP, { B: "A", W: "P" }), 2),
+      heartDownGold: makeSprite(swapPalette(HEART_DOWN, { B: "A", W: "P" }), 2),
+      heartUpChalk: makeSprite(swapPalette(HEART_UP, { B: "W", W: "S" }), 2),
+      heartDownChalk: makeSprite(swapPalette(HEART_DOWN, { B: "W", W: "S" }), 2),
       sugar: makeSprite(SPRITE_MAPS.sugar, 4),
       smokes: makeSprite(SPRITE_MAPS.smokes, 4),
       allnighters: makeSprite(SPRITE_MAPS.allnighters, 3),
@@ -432,6 +493,43 @@ export function LifelineGame() {
       setCauseLabel(label);
       setCopied(false);
       setNewBest(false);
+      setNewSkin(null);
+      setFinalSeed(w.seed);
+      if (!calm) {
+        const earned: SkinId[] = [];
+        if (age >= 100) earned.push("gold");
+        if (age >= 80) earned.push("chalk");
+        if (earned.length > 0) {
+          setSkins((prev) => {
+            const fresh = earned.filter((s) => !prev.includes(s));
+            if (fresh.length === 0) return prev;
+            setNewSkin(fresh[0]);
+            const next = [...prev, ...fresh];
+            try {
+              localStorage.setItem(SKINS_KEY, JSON.stringify(next));
+            } catch {
+              /* fine */
+            }
+            return next;
+          });
+        }
+      }
+      if (modeRef.current === "daily") {
+        // Save the ghost BEFORE the best updates below write the same key.
+        try {
+          const prev = Number(
+            localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0,
+          );
+          if (age > prev) {
+            localStorage.setItem(
+              GHOST_KEY_PREFIX + todayISO(),
+              JSON.stringify(w.rec),
+            );
+          }
+        } catch {
+          /* fine */
+        }
+      }
       if (!calm) {
         setLastRuns((prev) => {
           const next = [...prev, age].slice(-5);
@@ -482,6 +580,11 @@ export function LifelineGame() {
       const dt = realDt * (w.slowT > 0 ? 0.55 : 1);
       w.invulnT = Math.max(0, w.invulnT - dt);
       w.t += dt;
+      w.recAcc += dt;
+      if (w.recAcc >= 1 / 30 && w.rec.length < 3600) {
+        w.recAcc = 0;
+        w.rec.push(Math.round(w.y));
+      }
       w.wingT = Math.max(0, w.wingT - dt);
       w.squashT = Math.max(0, w.squashT - dt);
       const age = ageAt(w.t, w.bonus);
@@ -920,6 +1023,20 @@ export function LifelineGame() {
         ctx.drawImage(sprite, p.x - sprite.width / 2, p.y - sprite.height / 2);
       }
 
+      /* Daily ghost: your best run today, racing you at 30Hz. */
+      if (phaseRef.current === "playing" && ghostRef.current) {
+        const gi = Math.floor(w.t * 30);
+        if (gi < ghostRef.current.length) {
+          ctx.globalAlpha = 0.3;
+          ctx.drawImage(
+            sprites.heartDown,
+            LIFELINE.playerX - sprites.heartDown.width / 2,
+            ghostRef.current[gi] - sprites.heartDown.height / 2,
+          );
+          ctx.globalAlpha = 1;
+        }
+      }
+
       /* ECG trace; on death it flatlines and sweeps across the monitor. */
       const traceY = dying ? w.deathY : w.y + 4;
       ctx.strokeStyle = "#c63d08";
@@ -934,7 +1051,9 @@ export function LifelineGame() {
       );
       ctx.stroke();
 
-      const heart = w.wingT > 0 ? sprites.heartUp : sprites.heartDown;
+      const suffix =
+        skinRef.current === "gold" ? "Gold" : skinRef.current === "chalk" ? "Chalk" : "";
+      const heart = w.wingT > 0 ? sprites[`heartUp${suffix}`] : sprites[`heartDown${suffix}`];
       ctx.save();
       ctx.translate(LIFELINE.playerX, w.y);
       ctx.rotate(
@@ -1040,9 +1159,27 @@ export function LifelineGame() {
       }
     }
     if (current === "dead" || current === "ready") {
+      const ch = challengeRef.current;
       world.current = freshWorld(
-        modeRef.current === "daily" ? dailySeed(todayISO()) : null,
+        ch ? ch.seed : modeRef.current === "daily" ? dailySeed(todayISO()) : null,
       );
+      ghostRef.current = null;
+      if (!ch && modeRef.current === "daily") {
+        try {
+          const raw = localStorage.getItem(GHOST_KEY_PREFIX + todayISO());
+          if (raw) {
+            const parsed: unknown = JSON.parse(raw);
+            if (
+              Array.isArray(parsed) &&
+              parsed.every((n): n is number => typeof n === "number")
+            ) {
+              ghostRef.current = parsed;
+            }
+          }
+        } catch {
+          /* no ghost today */
+        }
+      }
       trackEvent({
         name: "lifeline_run_started",
         params: { mode: modeRef.current },
@@ -1074,14 +1211,75 @@ export function LifelineGame() {
   const puzzleNo = dailyPuzzleNumber(todayISO());
   const fact = FACTS[finalAge % FACTS.length];
 
-  const shareText = `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
+  const shareText =
+    mode === "daily" && !challenge
+      ? `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`
+      : `Lifeline · flatlined at ${finalAge} · cause: ${causeLabel}`;
   const share = () => {
     try {
-      void navigator.clipboard.writeText(`${shareText}\n${window.location.href}`);
+      const url = `${window.location.origin}/lifeline?seed=${finalSeed}&beat=${finalAge}`;
+      void navigator.clipboard.writeText(`${shareText} · beat me: ${url}`);
       setCopied(true);
     } catch {
       /* clipboard unavailable — button just doesn't confirm */
     }
+  };
+
+  /* Screenshot-grade PNG of the death card — the card markets the game. */
+  const saveCard = () => {
+    const sprites = spritesRef.current;
+    const card = document.createElement("canvas");
+    card.width = 1080;
+    card.height = 1080;
+    const cctx = card.getContext("2d");
+    if (!cctx) return;
+    cctx.imageSmoothingEnabled = false;
+    cctx.fillStyle = "#fbf4ec";
+    cctx.fillRect(0, 0, 1080, 1080);
+    cctx.strokeStyle = "#1c130d";
+    cctx.lineWidth = 14;
+    cctx.strokeRect(24, 24, 1032, 1032);
+    const anton = getComputedStyle(document.documentElement)
+      .getPropertyValue("--font-anton")
+      .trim();
+    const display = anton ? `${anton}, monospace` : "monospace";
+    cctx.textAlign = "center";
+    cctx.fillStyle = "#1c130d";
+    cctx.font = "bold 44px monospace";
+    cctx.fillText("LIFELINE", 540, 120);
+    if (sprites) {
+      const h = sprites.heartDown;
+      cctx.drawImage(h, 540 - h.width * 4, 160, h.width * 8, h.height * 8);
+    }
+    cctx.fillStyle = "#c63d08";
+    cctx.font = "bold 36px monospace";
+    cctx.fillText(
+      mode === "daily" && !challenge ? `DAILY #${puzzleNo} · FLATLINED AT` : "FLATLINED AT",
+      540,
+      430,
+    );
+    cctx.fillStyle = "#ff531a";
+    cctx.font = `400 320px ${display}`;
+    cctx.fillText(String(finalAge), 540, 740);
+    cctx.fillStyle = "#1c130d";
+    cctx.font = "bold 28px monospace";
+    cctx.fillText(cause.toUpperCase().slice(0, 56), 540, 850);
+    if (mode !== "calm" && medal !== "none") {
+      cctx.fillStyle = "#1f5c3d";
+      cctx.font = "bold 30px monospace";
+      cctx.fillText(MEDAL_STYLE[medal].label, 540, 920);
+    }
+    cctx.fillStyle = "#6e5b4d";
+    cctx.font = "bold 24px monospace";
+    cctx.fillText("FITTOOLS · EVERY FORMULA CITED", 540, 1000);
+    card.toBlob((blob) => {
+      if (!blob) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `lifeline-${finalAge}.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    });
   };
 
   return (
@@ -1125,7 +1323,12 @@ export function LifelineGame() {
           <p className="max-w-[16rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
             Tap or press space to flap. Dodge the risk factors. Grow old.
           </p>
-          <div className="flex gap-2">
+          {challenge ? (
+            <p className="rounded-full border-2 border-foreground bg-warning-bg px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em]">
+              Challenge · beat {challenge.beat} on their course
+            </p>
+          ) : null}
+          <div className={`flex gap-2 ${challenge ? "hidden" : ""}`}>
             <button
               type="button"
               onClick={() => setMode("daily")}
@@ -1157,6 +1360,38 @@ export function LifelineGame() {
                   ? `Best: ${best}`
                   : "One button. That's it."}
           </p>
+          <div className="flex gap-2">
+            {SKINS.map((s) => {
+              const unlocked = skins.includes(s.id);
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  disabled={!unlocked}
+                  title={s.hint}
+                  onClick={() => {
+                    skinRef.current = s.id;
+                    setSkinState(s.id);
+                    try {
+                      localStorage.setItem(SKIN_KEY, s.id);
+                    } catch {
+                      /* fine */
+                    }
+                  }}
+                  className={`rounded-full border-2 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.12em] ${
+                    skin === s.id
+                      ? "border-foreground bg-foreground text-background"
+                      : unlocked
+                        ? "border-foreground bg-surface"
+                        : "border-border bg-surface text-muted opacity-60"
+                  }`}
+                >
+                  {s.label}
+                  {unlocked ? "" : " · locked"}
+                </button>
+              );
+            })}
+          </div>
           <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
             Tap anywhere to start
           </p>
@@ -1200,6 +1435,22 @@ export function LifelineGame() {
                   New best ✓
                 </span>
               ) : null}
+              {challenge ? (
+                finalAge > challenge.beat ? (
+                  <span className="sticker-slap inline-block rotate-2 rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
+                    Challenge beaten ✓
+                  </span>
+                ) : (
+                  <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
+                    Target: {challenge.beat} — still standing
+                  </span>
+                )
+              ) : null}
+              {newSkin ? (
+                <span className="sticker-slap inline-block -rotate-2 rounded-full border-2 border-foreground bg-warning-bg px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em]">
+                  Skin unlocked: {newSkin}
+                </span>
+              ) : null}
             </div>
             {lastRuns.length > 1 ? (
               <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
@@ -1223,15 +1474,20 @@ export function LifelineGame() {
               >
                 Go again
               </button>
-              {mode === "daily" ? (
-                <button
-                  type="button"
-                  onClick={share}
-                  className="riso-press rounded-full border-2 border-foreground bg-good px-5 py-2 text-sm font-bold text-background"
-                >
-                  {copied ? "Copied ✓" : "Share"}
-                </button>
-              ) : null}
+              <button
+                type="button"
+                onClick={share}
+                className="riso-press rounded-full border-2 border-foreground bg-good px-5 py-2 text-sm font-bold text-background"
+              >
+                {copied ? "Copied ✓" : "Challenge a mate"}
+              </button>
+              <button
+                type="button"
+                onClick={saveCard}
+                className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
+              >
+                Save card
+              </button>
               <Link
                 href="/heart-age-calculator"
                 className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
