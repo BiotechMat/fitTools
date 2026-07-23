@@ -60,7 +60,6 @@ const shortTitle = (title: string) => title.split("—")[0].trim();
 // top-level items carrying calculators plus the wider content of each domain.
 const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
-  { href: "/daily", label: "Daily", emphasis: true },
   { href: "/arcade", label: "Arcade", emphasis: true },
   { href: "/tools", label: "Tools", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },
