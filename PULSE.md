@@ -684,6 +684,20 @@ generation on:
       GitHub Actions secret** and enable "Allow GitHub Actions to create and
       approve pull requests" to switch on the weekly harvest (§15.10). Already
       bounded: ≤6 Haiku drafts per weekly run.
+
+**Key hygiene (2026-07-23 — do these when setting the key):** the key is
+server-only by construction (no `NEXT_PUBLIC_` prefix, read only in
+`generator.ts`/`draft.ts`; verified absent from the built client bundle — the
+browser only ever calls `/api/pulse` and receives finished cards). When
+providing it: (1) mint a **dedicated key** in the Anthropic Console in its own
+workspace (e.g. "fittools-pulse") — never reuse a personal/dev key — and set a
+**monthly spend limit on that workspace** (the £/$100 ceiling; expected spend
+is ~$2/mo) so even a leaked key is capped platform-side and revocable alone;
+(2) in Vercel mark the env var **Sensitive** and scope it **Production only**
+— previews stay degraded and cannot spend; (3) never commit it (`.env*` is
+gitignored) or paste it into chat/issues. The harvest workflow runs on
+schedule/dispatch only (no `pull_request` trigger), so fork PRs can never read
+the secret, and GitHub masks it in logs.
 - [x] ~~Set `NEXT_PUBLIC_SITE_URL` to lift `noindex`.~~ **Superseded
       (2026-07-23):** production is now indexable automatically (`tools.fit` is
       the built-in default, gated on `VERCEL_ENV === "production"` —
