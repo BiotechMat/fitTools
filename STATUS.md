@@ -50,7 +50,7 @@ Three imbalances, not code defects, are what actually gate growth:
 
    | Bank | Now | Doc target | Gap |
    |---|---|---|---|
-   | Pulse corpus | **12** (9 evergreen + 3 fresh) | 60–100 (PULSE §3.3) | thin: nutrition, supplements, sleep |
+   | Pulse corpus | **64** (61 evergreen + 3 fresh) | 60–100 (PULSE §3.3) | ✅ in band (2026-07-23 harvest) |
    | Ballpark items | **10** | ~90 (DAILY-GAMES §4) | ~10 days of dailies |
    | Myth or Fact? items | **9** | ~40 (DAILY-GAMES §4) | ~2 weeks |
 

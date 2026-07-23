@@ -13,13 +13,16 @@ pipeline, `/api/pulse`, ranking, local store and the core feed UI exist; saved
 view, share image (the E1 pipeline now exists but is tool-only — §4), per-chunk
 SEO pages and analytics wiring remain (§13).
 
-> **Top remaining priority (2026-07-23): grow the corpus.** It holds **12 chunks
-> (9 evergreen + 3 fresh)** against the v1 target of **60–100** (§3.3), so the
-> "endless" feed exhausts in under a minute. Growing it (nutrition, supplements
-> and sleep are the thin categories) is `STATUS.md §3` Phase 1 and the single
-> biggest lever on this feature's value — the pipeline is done; it needs fuel.
-> Pulse also runs in **degraded mode** in production until `ANTHROPIC_API_KEY` is
-> set (§14 PRODUCTION TODO).
+> **Corpus grown (2026-07-23): 64 chunks (61 evergreen + 3 fresh)**, into the v1
+> target band of **60–100** (§3.3) — up from 12. The previously thin categories
+> are now filled (supplements 20, nutrition 7, sleep 6), all harvested from
+> already-vetted repo content (the supplement database, the daily-games
+> registry's primary sources, the recovery clusters and the longevity tool
+> configs), each chunk carrying that source verbatim and cross-linking back to
+> the page it came from. Further growth is still welcome, but the feed no longer
+> exhausts in a minute. Pulse runs in **degraded mode** in production until
+> `ANTHROPIC_API_KEY` is set (§14 PRODUCTION TODO); with the §14.1 cost model
+> that switch is now cost-safe.
 
 **Extension "fresh cards" — F0 BUILT (2026-07-23):** recent-discovery
 (news-feel) chunks interleaved into the feed with a "New" chip. Decisions in
