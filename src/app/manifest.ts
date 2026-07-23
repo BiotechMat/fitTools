@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 
 /**
- * Web app manifest (MICROTOOLS.md follow-on): lets the micro-tools be saved
- * to a phone's home screen and open app-like (standalone, paper theme).
- * `start_url` is deliberately omitted — iOS then launches the page the user
- * actually saved (the timer, the breath coach…), which is the point of a
- * per-tool "add to home screen". Trade-off, documented: without start_url,
- * Chrome's install prompt may not fire on some versions; iPhone behaviour
- * is the one Mat asked for.
+ * Site-wide fallback web app manifest (MICROTOOLS.md follow-on). The original
+ * omit-start_url approach assumed iOS would launch the page the user saved;
+ * field-tested on an iPhone it does NOT — WebKit falls back to the site root,
+ * so every save landed on the homepage (Mat, 2026-07-23). Pages with an
+ * add-to-home-screen button (games, dailies, micro-tools) therefore link
+ * their own manifest from /api/page-manifest with an explicit start_url,
+ * name and icon; this root manifest only covers everything else.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {

@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "A clickable muscle map: pick any muscle group and see every exercise in the library that trains it, directly or along the way. Free, with full form guides one tap away.",
   alternates: { canonical: "/tools/muscle-map" },
+  // Per-page manifest so add-to-home-screen saves THIS page, not the root.
+  manifest: "/api/page-manifest?page=muscle-map",
+  appleWebApp: { capable: true, title: "Muscle Map" },
 };
 
 export default function MuscleMapPage() {

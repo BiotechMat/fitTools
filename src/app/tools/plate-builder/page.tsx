@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "Build a meal from real reference foods and watch protein and calories total live against your targets. Typical portions, honest numbers, no sign-up.",
   alternates: { canonical: "/tools/plate-builder" },
+  // Per-page manifest so add-to-home-screen saves THIS page, not the root.
+  manifest: "/api/page-manifest?page=plate-builder",
+  appleWebApp: { capable: true, title: "Plate Builder" },
 };
 
 export default function PlateBuilderPage() {

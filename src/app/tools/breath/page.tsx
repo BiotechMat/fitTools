@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "A free breathing pacer: box breathing, 4-7-8 and coherent breathing with a calm visual orb and gentle haptics. One to five minutes, in your browser, nothing stored.",
   alternates: { canonical: "/tools/breath" },
+  // Per-page manifest so add-to-home-screen saves THIS page, not the root.
+  manifest: "/api/page-manifest?page=breath",
+  appleWebApp: { capable: true, title: "Breath Coach" },
 };
 
 export default function BreathPage() {

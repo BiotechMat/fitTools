@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "Free gym timers with big digits and countdown beeps: rest timer presets, work/rest intervals with a Tabata preset, and EMOM rounds. Settings live in the URL, so bookmark your favourites.",
   alternates: { canonical: "/tools/timer" },
+  // Per-page manifest so add-to-home-screen saves THIS page, not the root.
+  manifest: "/api/page-manifest?page=timer",
+  appleWebApp: { capable: true, title: "Gym Timers" },
 };
 
 export default function TimerPage() {
