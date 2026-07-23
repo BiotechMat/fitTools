@@ -245,3 +245,14 @@ export function validateCorpus(chunks: GroundingChunk[] = groundingChunks): stri
 export const chunksById: ReadonlyMap<string, GroundingChunk> = new Map(
   groundingChunks.map((c) => [c.id, c]),
 );
+
+/**
+ * Fresh (recent-discovery) chunks, newest first (PULSE.md §15). Powers the
+ * weekly digest (§15.7 F3) — the durable, crawlable Pulse surface, rendered from
+ * the stable vetted `claim` (not the ephemeral generated phrasing, §8).
+ */
+export function freshChunksByRecency(): GroundingChunk[] {
+  return groundingChunks
+    .filter((c) => c.kind === "fresh" && typeof c.addedAt === "string")
+    .sort((a, b) => (b.addedAt ?? "").localeCompare(a.addedAt ?? ""));
+}

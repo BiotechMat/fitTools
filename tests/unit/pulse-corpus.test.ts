@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { groundingChunks, validateCorpus, chunksById } from "@/registry/pulse";
+import { groundingChunks, validateCorpus, chunksById, freshChunksByRecency } from "@/registry/pulse";
 import type { GroundingChunk } from "@/lib/pulse/types";
 
 /**
@@ -87,5 +87,20 @@ describe("pulse fresh chunks (PULSE.md §15)", () => {
   it("flags caveat/study set on a non-fresh chunk (mis-tagging)", () => {
     const problems = validateCorpus([base({ caveat: "oops" })]);
     expect(problems).toContain('x: caveat/study set but kind is not "fresh"');
+  });
+});
+
+describe("freshChunksByRecency (digest — PULSE.md §15.7 F3)", () => {
+  it("returns only fresh chunks, newest addedAt first", () => {
+    const result = freshChunksByRecency();
+    expect(result.length).toBe(groundingChunks.filter((c) => c.kind === "fresh").length);
+    expect(result.every((c) => c.kind === "fresh")).toBe(true);
+    for (let i = 1; i < result.length; i++) {
+      expect((result[i - 1].addedAt ?? "") >= (result[i].addedAt ?? "")).toBe(true);
+    }
+  });
+
+  it("excludes evergreen chunks", () => {
+    expect(freshChunksByRecency().some((c) => c.kind !== "fresh")).toBe(false);
   });
 });

@@ -778,12 +778,14 @@ in `study.design`.
   triage (allowlist + DOI/URL dedupe) → Haiku draft with mechanical citations
   → merge into the `pulse-fresh.json` sidecar → review report. No standing
   infrastructure; PRs remain ask-first (CLAUDE.md workflow).
-- **F2 — scheduled automation.** A weekly GitHub Action running the same
-  script (needs a repo token — ask first).
-- **F3 — the weekly digest.** "This week in the science": a crawlable page
-  built from the week's fresh chunks, doubling as the E5 newsletter unit.
-  Unlike generated phrasings, fresh chunks are **stable artefacts**, so this
-  becomes the durable Pulse SEO surface §8 currently lacks.
+- **F2 — scheduled automation. ✅ BUILT (2026-07-23, §15.10).** A weekly GitHub
+  Action (`.github/workflows/pulse-harvest.yml`) running `pnpm harvest` and
+  opening a review PR when it drafts new chunks. Safe no-op until the
+  `ANTHROPIC_API_KEY` secret is set; never auto-publishes (§15.1).
+- **F3 — the weekly digest. ✅ BUILT (2026-07-23, §15.10).** "This week in the
+  science" (`/pulse/this-week`): a crawlable page built from the fresh chunks,
+  doubling as the E5 newsletter unit. Unlike generated phrasings, fresh chunks
+  are **stable artefacts**, so this is the durable Pulse SEO surface §8 lacked.
 - **Cost bound:** triage ≤ ~50 items/run, ≤ ~6 drafts per PR; Haiku-class →
   pennies per run. Per-request runtime cost is untouched (the request path
   doesn't change).
@@ -865,3 +867,32 @@ What exists:
 an unfinished edit to `src/app/share/page.tsx` that broke the repo build; it was
 fixed by that session before F0's browser verification (above), and left
 otherwise untouched by this work.
+
+### 15.10 F2 + F3 implementation status (BUILT — 2026-07-23)
+
+- **F2 — scheduled Action** (`.github/workflows/pulse-harvest.yml`): weekly
+  cron (Mondays 06:00 UTC) + manual dispatch, least-privilege permissions
+  (`contents`/`pull-requests: write`). Runs `pnpm harvest`, re-validates the
+  drafted sidecar against `pulse-corpus` tests, and — only if
+  `pulse-fresh.json` changed — pushes a branch and opens a PR with the report
+  as the body (`gh pr create`). Degrades to a **no-op** without the
+  `ANTHROPIC_API_KEY` secret. Required one-time repo config is documented in
+  the workflow header (secret + the "Actions may create PRs" setting). Never
+  auto-publishes — the PR is the §15.1 gate.
+- **F3 — weekly digest** (`/pulse/this-week`, `src/app/pulse/this-week/
+  page.tsx`): a static, server-rendered, indexable page listing the fresh
+  chunks newest-first, rendered from the **stable vetted `claim`** (not the
+  ephemeral generated phrasing) so it's a real crawlable per-item artefact —
+  the durable Pulse SEO surface §8 lacked. Carries the "What it shows:" caveat
+  + study meta, evidence tier, source link and cross-links; emits
+  `BreadcrumbList` + `CollectionPage`/`ItemList` JSON-LD (each item citing the
+  real source URL + DOI). Fed by `freshChunksByRecency()` in the registry;
+  linked from the `/pulse` hub; both `/pulse` and `/pulse/this-week` added to
+  the sitemap (digest `lastModified` tracks the newest fresh chunk).
+  Browser-verified (build served on a spare port; screenshot + JSON-LD
+  confirmed, no console errors).
+
+**Sequence complete:** F0–F3 all built, tested (full suite green), and pushed
+to `main`. Later, optional: the harvest's secondary web-search channel (§15.2)
+is speced but the F1/F2 build uses the PubMed backbone only; add it behind the
+same allowlist when wanted.

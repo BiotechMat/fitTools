@@ -1,0 +1,89 @@
+# Pulse fresh-cards harvest (PULSE.md §15.7 F2).
+#
+# Runs the discovery pipeline weekly, and opens a PR when it drafts new fresh
+# chunks. NOTHING is auto-published — the PR is the human review gate (§15.1);
+# merging it is what publishes. Without the ANTHROPIC_API_KEY secret the harvest
+# degrades (discovers + reports but drafts nothing), so the sidecar doesn't
+# change and no PR is opened — the workflow is a safe no-op until the secret is set.
+#
+# Required repo config (one-time, by a maintainer):
+#   - Secret  ANTHROPIC_API_KEY   — enables drafting (else the run is a no-op).
+#   - Variable PULSE_NEWS_MODEL    — optional; defaults to claude-haiku-4-5.
+#   - Settings → Actions → General → Workflow permissions:
+#       enable "Allow GitHub Actions to create and approve pull requests".
+
+name: Pulse harvest
+
+on:
+  schedule:
+    # Mondays 06:00 UTC — a weekly "what's new in the science" cadence (§15.1).
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {} # allow manual runs
+
+# Least privilege: push the harvest branch and open a PR; nothing else.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pulse-harvest
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run harvest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PULSE_NEWS_MODEL: ${{ vars.PULSE_NEWS_MODEL }}
+        run: pnpm harvest
+
+      - name: Validate the harvested corpus
+        # The drafted sidecar must still pass every §15.4 invariant before it can
+        # even become a PR — a bad draft fails here, not in review.
+        run: pnpm test -- tests/unit/pulse-corpus.test.ts
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet -- src/registry/pulse-fresh.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new fresh chunks — nothing to propose."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open review PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          DATE="$(date -u +%Y-%m-%d)"
+          BRANCH="pulse-harvest/${DATE}-${GITHUB_RUN_ID}"
+          git config user.name "pulse-harvest[bot]"
+          git config user.email "pulse-harvest@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/registry/pulse-fresh.json
+          git commit -m "chore(pulse): harvested fresh chunks ${DATE}"
+          git push origin "$BRANCH"
+          BODY_FILE="harvest-report.md"
+          [ -f "$BODY_FILE" ] || echo "Harvested new fresh chunks (see diff)." > "$BODY_FILE"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Pulse harvest — ${DATE} (review before merge)" \
+            --body-file "$BODY_FILE"

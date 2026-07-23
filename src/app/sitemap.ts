@@ -10,6 +10,7 @@ import { SUPPLEMENTS_LAST_REVIEWED, supplements } from "@/registry/supplements";
 import { FOOD_REFERENCE_LAST_REVIEWED, foodReferencePages } from "@/registry/food-reference";
 import { EXERCISES_LAST_REVIEWED, allExercisePaths } from "@/registry/exercises";
 import { REFERENCE_TABLES_LAST_REVIEWED, referenceTablePages } from "@/registry/reference-tables";
+import { freshChunksByRecency } from "@/registry/pulse";
 
 const STATIC_PATHS = [
   AUTHOR.path,
@@ -124,6 +125,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/daily`, changeFrequency: "daily" as const },
     // Blood-test product page (pre-launch; partner integration to come).
     { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
+    // Pulse hub (endless feed) + the crawlable weekly digest (PULSE.md §15.7 F3),
+    // whose lastModified tracks the newest fresh chunk so crawlers see the cadence.
+    { url: `${SITE_URL}/pulse`, changeFrequency: "daily" as const },
+    {
+      url: `${SITE_URL}/pulse/this-week`,
+      changeFrequency: "weekly" as const,
+      lastModified: freshChunksByRecency()[0]?.addedAt,
+    },
     ...hubs,
     ...tools,
     ...staticPages,

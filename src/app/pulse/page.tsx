@@ -37,6 +37,12 @@ export default function PulsePage() {
         real study — like the ones that click, save the keepers, and filter to
         what you care about.
       </p>
+      <p className="mt-3 text-sm">
+        <Link href="/pulse/this-week" className="font-semibold text-primary underline underline-offset-2">
+          This week in the science →
+        </Link>{" "}
+        <span className="text-muted">the newest research, with the reality check.</span>
+      </p>
 
       <div className="mt-6">
         <PulseDaily />
