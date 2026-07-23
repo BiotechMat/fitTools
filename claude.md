@@ -149,7 +149,8 @@ and Mat has signed off.
 - ACCOUNTS.md — BLUEPRINT for ROADMAP E0 sign-in & accounts, the STATUS.md
   Phase 4 crossing. Stack decisions RESOLVED 2026-07-23 (delegated by Mat):
   magic link + Google + Apple via Better Auth, Neon Postgres (UK/EU region,
-  functions pinned), Resend, 16+ age line, sized for ~200k users at peak.
+  functions pinned), Resend, 13+ accounts tiered by age band (health-
+  flavoured sync 16+; Children's Code in A0), sized for ~200k users at peak.
   Scope (Mat, same day): EVERY savable surface syncs through the §6.2
   namespace registry — calculators/estimators (history), dashboard, dailies,
   Pulse, arcade bests/skins, the supplement stack, saved exercises, prefs;

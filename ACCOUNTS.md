@@ -270,7 +270,7 @@ surprises at setup.
 ### 5.2 Schema (small, deliberately)
 
 ```
-users / sessions / verification …    ← library-owned tables
+users / sessions / verification …    ← library-owned (+ age_band — §7.7)
 store_documents (
   user_id, namespace,                ← the §6.2 registry: "history" | "dashboard"
   version int, doc jsonb,            |   "daily" | "pulse" | "arcade" | "stack"
@@ -395,8 +395,9 @@ same pure parsers the client uses (never trust the wire); document size cap
 code**: the `bloodwork` namespace does not exist server-side until A4, and
 a `dashboard` document with a non-empty `biomarkers` array is rejected.
 Consent-gated namespaces (§6.2: `history`, `dashboard`, `stack`)
-additionally require an active `health-storage` consent row — no consent,
-no write, HTTP 403 (§7.2).
+additionally require an active `health-storage` consent row **and a 16+
+age band (§7.7)** — no consent, or an under-16 band, no write, HTTP 403
+(§7.2).
 
 ### 6.5 Adding a savable surface (the recipe)
 
@@ -429,7 +430,8 @@ exist **before** the first health-flavoured byte is stored server-side:
    text (`consents.policy_version`).
 2. **Granular consent UX.** Creating an account acknowledges Terms +
    Privacy (standard). The **health-storage consent is its own
-   plain-language step**, shown at first sync — not fine print, per the
+   plain-language step**, shown at first sync (and only to the 16+ bands —
+   §7.7) — not fine print, per the
    CONTENT-looksmaxxing §6.3 convention: what's stored (your saved results
    and the vitals you enter), where (named region), that it follows the
    account until deleted, and the one-click outs. Until granted: the
@@ -447,16 +449,31 @@ exist **before** the first health-flavoured byte is stored server-side:
 5. **Operational duties (Mat, at A0):** confirm/pay the **ICO registration
    fee** (UK controller); run a lightweight **DPIA** for the health-data
    store (required territory for special-category processing at scale, and
-   the right discipline regardless); records-of-processing entry.
+   the right discipline regardless); records-of-processing entry; and —
+   with 13+ accounts — the **Children's Code conformance check** folded
+   into the DPIA (§7.7).
 6. **PECR/cookies:** the session cookie is strictly necessary (exempt, but
    documented). No analytics or marketing attaches to account identity; the
    existing consent-mode gating is unchanged, and account events (§8.4)
    carry no health data.
-7. **Minors.** The audience skews young (CONTENT-looksmaxxing §1.5). UK
-   ISS consent floor is 13; given health-flavoured storage the cautious
-   line is **16+** (§9.5, Mat's call). Self-declared age gate at sign-up,
-   plainly worded; the 18+ affirmation for the estimator remains its own
-   separate, later gate.
+7. **Minors — 13+ accounts, tiered by age band** (Mat, 2026-07-23: floor
+   at the UK legal minimum so younger audiences can save the games).
+   Sign-up captures a **self-declared age band (13–15 / 16–17 / 18+) —
+   the band only, never a date of birth** (data minimisation; the optional
+   dashboard `birthDate` stays a separate, user-chosen profile field). The
+   fun namespaces (`daily`, `pulse`, `arcade`, `training`, `prefs`) sync
+   for every band — streaks, bests, skins: what a younger user actually
+   wants an account for. The **health-storage consent is offered from 16+
+   only**: under-16s never see it, their calculators keep working exactly
+   as today (client-side, local-first — free stays free), and the server
+   enforces the band alongside the consent row (§6.4). Bloodwork is
+   expected to sit at 18+ (settled at A4); the estimator's 18+ affirmation
+   is unchanged. Opening accounts to 13+ brings the **ICO Children's
+   Code** into scope deliberately: the A0 DPIA covers children's risks,
+   transparency is age-appropriate plain language, privacy defaults stay
+   high, and no nudge techniques — obligations the DESIGN §5
+   no-dark-patterns posture and ROADMAP §2 guardrails already meet in
+   spirit; A0 makes them explicit.
 8. **Hygiene rules:** account ids/emails never in URLs or query strings;
    no health values in logs or error reports; documents never sent to any
    third party or model; age derived, never stored (existing rule).
@@ -465,8 +482,9 @@ exist **before** the first health-flavoured byte is stored server-side:
 
 ## 8. Surfaces & UI (DESIGN.md language, no new vocabulary)
 
-1. **`/signin`** — one card: email field → "check your email" state; social
-   buttons if enabled. Own chunk; noindex.
+1. **`/signin`** — one card: email field → "check your email" state;
+   Google/Apple buttons; a first-ever sign-in confirms the age band
+   (§7.7). Own chunk; noindex.
 2. **`/account`** — signed-in only: email, sessions ("sign out
    everywhere"), consent state + toggle, export button, delete-everything
    (confirm by typing, honest copy), links to Privacy. This page IS the §7.3
@@ -529,10 +547,15 @@ deliberately left with Mat.
    mail now, the Phase 1 newsletter/double-opt-in broadcasts after; good
    deliverability, EU processing, ~$20–90/mo at peak. Documented fallback:
    transactional to Postmark, broadcasts stay (§5.3).
-5. **Age line → 16+.** Above the UK's 13 ISS floor deliberately (health-
-   flavoured storage, young audience), below 18 so the core audience can
-   still save calculator results. The estimator keeps its separate 18+
-   gate; bloodwork re-reviews the line at A4.
+5. **Age line → 13+ accounts (UK legal floor), tiered by band** — revised
+   2026-07-23 by Mat, superseding the earlier 16+ call: younger audiences
+   are exactly who the games serve, so the account floor drops to the
+   legal minimum. The tiering keeps the cautious line where it matters:
+   health-flavoured sync (`history`, `dashboard`, `stack`) is offered from
+   **16+**; bloodwork is expected 18+ (settled at A4); the estimator stays
+   18+. An under-16 account gets the full games/content layer and loses
+   nothing — calculators remain client-side and local for everyone. Brings
+   the ICO Children's Code into A0 scope (§7.7).
 6. **Retention → keep while active; 24-month inactivity expiry (warning
    at 22 months); erasure immediate on request.** Bloodwork sets its own,
    stricter retention at A4. Resolves DASHBOARD §13.4.
@@ -562,7 +585,8 @@ updated; providers provisioned (DB region verified, email domain
 authenticated). **Accept:** every §7 item has an owner and a draft.
 
 ### A1 — Auth foundation
-Library + DB wired; magic-link flow; `/signin`, `/account` (with working
+Library + DB wired; magic-link + Google/Apple flows; age-band capture
+(band only — §7.7); `/signin`, `/account` (with working
 **delete-all** and export from day one — they are simplest before there's
 data); nav probe; session e2e (Playwright, using a dev-mode mail catcher or
 provider test inbox). **Accept:** sign-up → sign-in → sign-out → delete-all
@@ -630,6 +654,11 @@ at this scale); SSO/2FA (fast-follow candidates with passkeys).
   would be the exact drift BUSINESS_PLAN §13 warns about. *Mitigation:* A0
   is a real phase with deliverables, and A2's consent gating is enforced
   server-side.
+- **Younger accounts near body metrics.** The 13+ floor exists for the
+  games; the body-image risk the docs already govern (CONTENT-looksmaxxing
+  §2.2) stays managed by the tier — health-flavoured storage 16+, bloodwork
+  expected 18+, the estimator 18+ — with every positive-frame guardrail
+  binding unchanged.
 - **Login depends on email delivery** (magic links). *Mitigation:* two
   OAuth alternatives on the same screen; authenticated sender domain from
   A1; deliverability monitored; the §9.4 Postmark fallback is a config

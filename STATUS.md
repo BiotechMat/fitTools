@@ -183,9 +183,11 @@ These gate the phases above and cannot be resolved from the code:
 6. **The accounts stack — RESOLVED (2026-07-23, delegated to Claude by
    Mat):** magic link + Google + Apple · Better Auth · Neon Postgres
    (London/Frankfurt, Vercel functions pinned) · Resend (doubles as the
-   Phase 1 newsletter provider) · 16+ age line · 24-month inactivity
-   retention · manual biomarker entry before the partner (resolves #4's
-   first question). Rationale + the ~200k-user sizing: ACCOUNTS.md §9/§5.4.
+   Phase 1 newsletter provider) · **13+ accounts tiered by age band**
+   (Mat, 2026-07-23: the games are for younger users too; health-flavoured
+   sync from 16+, bloodwork expected 18+, ICO Children's Code folded into
+   the A0 DPIA) · 24-month inactivity retention · manual biomarker entry
+   before the partner (resolves #4's first question). Rationale + the ~200k-user sizing: ACCOUNTS.md §9/§5.4.
    The monetisation model (#1 above) is now the only decision still gating
    Phase 4 — and only its tier design, not the free-account build.
 
