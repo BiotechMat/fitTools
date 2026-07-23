@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { AUTHOR, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
-import { allTools, toolsForHub } from "@/registry/tools";
+import { allTools, toolPath, toolsForHub } from "@/registry/tools";
 import { allPeptides } from "@/registry/peptides";
 import { recoveryClusters } from "@/registry/recovery-content";
 import { GLOWUP_LAST_REVIEWED, allGlowUpPaths } from "@/registry/glowup-content";
@@ -14,7 +14,6 @@ import { freshChunksByRecency } from "@/registry/pulse";
 
 const STATIC_PATHS = [
   AUTHOR.path,
-  "/labs",
   "/learn/peptides",
   "/learn/index-methodology",
   "/legal/privacy-policy",
@@ -26,15 +25,19 @@ const STATIC_PATHS = [
 
 /** Sitemap generated from the registry (SPEC §9). */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const hubs = Object.values(hubMeta)
-    .filter((meta) => toolsForHub(meta.hub).length > 0)
-    .map((meta) => ({
-      url: `${SITE_URL}${meta.path}`,
-      changeFrequency: "monthly" as const,
-    }));
+  const hubs = [
+    // The all-calculators index plus the topic section pages.
+    { url: `${SITE_URL}/calculators`, changeFrequency: "monthly" as const },
+    ...Object.values(hubMeta)
+      .filter((meta) => toolsForHub(meta.hub).length > 0)
+      .map((meta) => ({
+        url: `${SITE_URL}${meta.path}`,
+        changeFrequency: "monthly" as const,
+      })),
+  ];
 
   const tools = allTools.map((tool) => ({
-    url: `${SITE_URL}/${tool.tier === 4 ? `labs/${tool.slug}` : tool.slug}`,
+    url: `${SITE_URL}${toolPath(tool)}`,
     lastModified: tool.lastReviewed,
     changeFrequency: "monthly" as const,
   }));

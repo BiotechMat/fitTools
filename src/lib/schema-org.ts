@@ -1,4 +1,5 @@
 import type { FaqEntry, ToolConfig } from "@/registry/types";
+import { toolPath } from "@/registry/tools";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -27,7 +28,7 @@ export function webApplicationJsonLd(tool: ToolConfig): WebApplicationJsonLd {
     "@type": "WebApplication",
     name: tool.title,
     description: tool.metaDescription,
-    url: `${SITE_URL}/${tool.slug}`,
+    url: `${SITE_URL}${toolPath(tool)}`,
     applicationCategory: "HealthApplication",
     operatingSystem: "Any",
     offers: {

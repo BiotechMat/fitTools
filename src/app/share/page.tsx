@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getTool } from "@/registry/tools";
+import { getTool, toolPath } from "@/registry/tools";
 import { parseShareCardParams, shareImagePath } from "@/lib/share-card";
 import { HoloTilt } from "@/components/effects/HoloTilt";
 
@@ -19,7 +19,7 @@ interface ShareParams {
 function toolHref(slug: string): string {
   const tool = getTool(slug);
   if (!tool) return "/";
-  return tool.tier === 4 ? `/labs/${slug}` : `/${slug}`;
+  return toolPath(tool);
 }
 
 export async function generateMetadata({ searchParams }: ShareParams): Promise<Metadata> {

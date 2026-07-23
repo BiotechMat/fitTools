@@ -47,14 +47,16 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const xml = await response.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
-  // Home + daily hub + 3 hubs + 32 standard tools + labs tool + labs index +
-  // author + 5 legal + peptides pillar + 8 peptide pages + index-methodology +
-  // 8 recovery pillars + 4 recovery satellites + glossary hub + 23 glossary
-  // terms + supplements hub + 13 supplement pages + exercises hub + 3 pattern
-  // hubs + 13 exercise pages + food-reference hub + 4 food-reference pages +
+  // Home + daily hub + arcade hub + lifeline + powerhouse + blood-test +
+  // pulse hub + pulse/this-week + calculators index + 3 section hubs +
+  // 32 standard tools + reconstitution calculator (in the peptides section) +
+  // author + 5 legal + peptides pillar + 16 peptide pages + index-methodology +
+  // 8 recovery pillars + 4 recovery satellites + glossary hub + 55 glossary
+  // terms + supplements hub + 35 supplement pages + exercises hub + 3 pattern
+  // hubs + 39 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
   // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(140);
+  expect(locs.length).toBe(234);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
@@ -68,8 +70,8 @@ test("robots.txt serves and references the sitemap", async ({ request }) => {
   expect(await response.text()).toContain("sitemap.xml");
 });
 
-test("all three hubs list their tools", async ({ page }) => {
-  for (const hub of ["nutrition", "strength", "recovery"]) {
+test("all three topic sections list their tools", async ({ page }) => {
+  for (const hub of ["nutrition", "workout", "recovery"]) {
     await page.goto(`/${hub}`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       new RegExp(hub, "i"),
@@ -77,4 +79,63 @@ test("all three hubs list their tools", async ({ page }) => {
     const toolLinks = page.locator('ul a[href^="/"]');
     expect(await toolLinks.count()).toBeGreaterThanOrEqual(2);
   }
+});
+
+test("topic sections carry more than calculators", async ({ page }) => {
+  await page.goto("/nutrition");
+  await expect(page.getByRole("heading", { name: "Food reference" })).toBeVisible();
+  await page.goto("/workout");
+  await expect(page.getByRole("heading", { name: "Exercise library" })).toBeVisible();
+  await page.goto("/recovery");
+  await expect(
+    page.getByRole("heading", { name: /Recovery & wellness guides/ }),
+  ).toBeVisible();
+});
+
+test("old /strength hub URL redirects permanently to /workout", async ({ request }) => {
+  const response = await request.get("/strength", { maxRedirects: 0 });
+  expect(response.status()).toBe(308);
+  expect(response.headers()["location"]).toContain("/workout");
+});
+
+test("calculators index groups every category under stable anchors", async ({ page }) => {
+  await page.goto("/calculators");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Calculators");
+  for (const anchor of ["nutrition", "workout", "recovery", "peptides"]) {
+    await expect(page.locator(`section[id="${anchor}"]`)).toHaveCount(1);
+  }
+  // Every registered tool is listed (32 standard + the reconstitution tool).
+  const toolLinks = page.locator('section ul a[href^="/"]');
+  expect(await toolLinks.count()).toBeGreaterThanOrEqual(33);
+});
+
+test("Calculators menu reaches the index (dropdown on desktop, grouped list on mobile)", async ({ page }) => {
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Main" });
+  const hamburger = nav.getByRole("button", { name: "Open menu" });
+  if (await hamburger.isVisible()) {
+    // Mobile: the group renders as a labelled sub-list inside the panel.
+    await hamburger.click();
+    const menu = page.locator("#mobile-menu");
+    await expect(menu.getByText("Calculators", { exact: true })).toBeVisible();
+    for (const anchor of ["nutrition", "workout", "recovery"]) {
+      await expect(menu.locator(`a[href="/calculators#${anchor}"]`)).toBeVisible();
+    }
+    await menu.locator('a[href="/calculators"]').click();
+  } else {
+    // Desktop: an accessible disclosure dropdown.
+    const trigger = nav.getByRole("button", { name: "Calculators" });
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await trigger.click();
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    // Scope to the dropdown panel: the category labels also exist as
+    // top-level topic links in the same nav.
+    const panel = nav.locator("#nav-group-calculators");
+    for (const label of ["All calculators", "Nutrition", "Workout", "Recovery", "Peptide reconstitution"]) {
+      await expect(panel.getByRole("link", { name: label, exact: true })).toBeVisible();
+    }
+    await panel.getByRole("link", { name: "All calculators" }).click();
+  }
+  await expect(page).toHaveURL(/\/calculators$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Calculators");
 });

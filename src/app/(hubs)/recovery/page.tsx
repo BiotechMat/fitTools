@@ -7,15 +7,14 @@ import { recoveryClusters } from "@/registry/recovery-content";
 const meta = hubMeta.recovery;
 
 export const metadata: Metadata = {
-  title: `${meta.title} calculators`,
+  title: `${meta.title} — calculators & guides`,
   description: meta.description,
   alternates: { canonical: meta.path },
 };
 
 export default function RecoveryHubPage() {
   return (
-    <div className="space-y-12">
-      <HubPage hub="recovery" />
+    <HubPage hub="recovery">
       <section aria-labelledby="recovery-guides">
         <h2 id="recovery-guides" className="font-display text-xl uppercase">
           Recovery &amp; wellness guides
@@ -38,6 +37,6 @@ export default function RecoveryHubPage() {
           ))}
         </ul>
       </section>
-    </div>
+    </HubPage>
   );
 }

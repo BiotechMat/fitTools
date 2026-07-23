@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { allTools, getTool, relatedTools, toolsForHub } from "@/registry/tools";
+import { allTools, getTool, relatedTools, toolPath, toolsForHub } from "@/registry/tools";
 import { tdeeInputsSchema } from "@/registry/configs/tdee";
 
 /** Registry invariants + Zod range validation (SPEC §5, §14). */
@@ -32,6 +32,13 @@ describe("registry invariants", () => {
     for (const tool of allTools.filter((t) => t.tier === 4)) {
       expect(tool.monetization.ads).toBe(false);
     }
+  });
+
+  it("toolPath routes tier 4 into the peptides section, everything else to the root slug", () => {
+    const peptide = getTool("peptide-reconstitution");
+    const tdee = getTool("tdee-calculator");
+    expect(peptide && toolPath(peptide)).toBe("/learn/peptides/peptide-reconstitution");
+    expect(tdee && toolPath(tdee)).toBe("/tdee-calculator");
   });
 
   it("defaults parse against the tool's own input schema", () => {

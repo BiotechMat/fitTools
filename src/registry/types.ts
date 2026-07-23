@@ -3,7 +3,11 @@ import type { ZodType } from "zod";
 /** Hub landing pages (SPEC §4). */
 export type Hub = "nutrition" | "strength" | "recovery";
 
-/** Tool tiers; tier 4 lives under /labs/ with ads disabled (SPEC §2). */
+/**
+ * Tool tiers; tier 4 carries the enhanced disclaimer with ads disabled
+ * (SPEC §2) and renders inside the peptides learn section (the /labs route
+ * was retired 2026-07-23).
+ */
 export type Tier = 1 | 2 | 3 | 4;
 
 export interface FaqEntry {
@@ -25,9 +29,9 @@ export interface Monetization {
  * Disclaimer strength (METHODOLOGY.md §6). `standard` is the default
  * medical disclaimer; `clinical-input` adds a "discuss with your clinician"
  * framing for tools taking blood-panel or blood-pressure values (§1.5);
- * `labs` is the enhanced /labs/ disclaimer.
+ * `enhanced` is the tier-4 arithmetic-only disclaimer.
  */
-export type DisclaimerLevel = "standard" | "clinical-input" | "labs";
+export type DisclaimerLevel = "standard" | "clinical-input" | "enhanced";
 
 /**
  * Single source of truth for a tool (SPEC §5). The registry drives routing,

@@ -3,7 +3,7 @@ import { ThrowableTicker } from "@/components/effects/ThrowableTicker";
 import { PulseHeroCard } from "@/components/pulse/PulseHeroCard";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
-import { labsTools, toolsForHub } from "@/registry/tools";
+import { tier4Tools, toolPath, toolsForHub } from "@/registry/tools";
 import { ACTIVITY_FACTORS, mifflinStJeor, tdee } from "@/lib/formulas/energy";
 import { oneRepMax } from "@/lib/formulas/one-rep-max";
 import { hrMaxTanaka, hrZones } from "@/lib/formulas/heart-rate";
@@ -45,7 +45,7 @@ function startHereCards() {
     },
     {
       slug: "one-rep-max-calculator",
-      hub: "Strength",
+      hub: "Workout",
       chip: "bg-primary-soft text-foreground",
       stat: oneRm.toFixed(1).replace(/\.0$/, ""),
       unit: "kg",
@@ -63,7 +63,7 @@ function startHereCards() {
     },
     {
       slug: "heart-rate-zone-calculator",
-      hub: "Strength",
+      hub: "Workout",
       chip: "bg-primary-soft text-foreground",
       stat: `Z2 ${fmt(zone2.lowerBpm)}–${fmt(zone2.upperBpm)}`,
       unit: "bpm",
@@ -105,9 +105,10 @@ export default function HomePage() {
   const hubsWithTools = Object.values(hubMeta)
     .map((meta) => ({ meta, tools: toolsForHub(meta.hub) }))
     .filter(({ tools }) => tools.length > 0);
-  const labs = labsTools();
+  const peptideTools = tier4Tools();
   const toolCount =
-    hubsWithTools.reduce((sum, { tools }) => sum + tools.length, 0) + labs.length;
+    hubsWithTools.reduce((sum, { tools }) => sum + tools.length, 0) +
+    peptideTools.length;
   const cards = startHereCards();
 
   return (
@@ -273,12 +274,12 @@ export default function HomePage() {
           })}
           <li>
             <Link
-              href="/labs"
+              href="/calculators"
               className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-good p-4 text-background riso-press"
             >
-              <span className="font-display text-xl uppercase">Labs</span>
+              <span className="font-display text-xl uppercase">All calculators</span>
               <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
-                {labs.length} {labs.length === 1 ? "tool" : "tools"}
+                {toolCount} tools, one index
               </span>
             </Link>
           </li>
@@ -323,24 +324,25 @@ export default function HomePage() {
             </ul>
           </section>
         ))}
-        <section className="py-4" aria-labelledby="hub-labs">
-          <h2 id="hub-labs" className="font-display text-2xl uppercase">
-            <Link href="/labs" className="hover:text-primary">
-              Labs
+        <section className="py-4" aria-labelledby="hub-peptides">
+          <h2 id="hub-peptides" className="font-display text-2xl uppercase">
+            <Link href="/learn/peptides" className="hover:text-primary">
+              Peptides
             </Link>
           </h2>
           <p className="mt-1 max-w-prose text-sm text-muted">
-            Advanced tools with enhanced disclaimers — arithmetic only on
-            values you supply, and no advertising.
+            The evidence-tiered peptides reference, plus its calculator —
+            arithmetic only on values you supply, with an enhanced disclaimer
+            and no advertising.
           </p>
           <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-            {labs.map((tool) => (
+            {peptideTools.map((tool) => (
               <li
                 key={tool.slug}
                 className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
               >
                 <Link
-                  href={`/labs/${tool.slug}`}
+                  href={toolPath(tool)}
                   className="font-semibold text-primary underline underline-offset-2"
                 >
                   {tool.title}

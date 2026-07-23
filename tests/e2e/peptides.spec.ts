@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { allPeptides } from "../../src/registry/peptides";
+import { openMainNav } from "./helpers";
 
 /**
  * Peptides educational cluster (CONTENT-peptides.md §6 Definition of Done):
@@ -36,6 +37,7 @@ test("pillar page: safety box, no-dosing framing, lists compounds", async ({ pag
 
 test("header navigation includes a Peptides tab", async ({ page }) => {
   await page.goto("/");
+  await openMainNav(page);
   const nav = page.getByRole("navigation", { name: "Main" });
   await expect(nav.getByRole("link", { name: "Peptides" })).toHaveAttribute(
     "href",
