@@ -21,8 +21,7 @@ export function ClinicalDisclaimer() {
         result is a population-level association, not a prediction about you,
         and it should never be used to start, stop or change any treatment.
         Discuss your blood results and what they mean with your GP or another
-        qualified health professional. Your values are processed entirely in
-        your browser and are never transmitted or stored.
+        qualified health professional.
       </p>
     </aside>
   );

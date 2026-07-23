@@ -4,6 +4,7 @@ import { hubMeta } from "@/registry/hubs";
 import { allTools, toolsForHub } from "@/registry/tools";
 import { allPeptides } from "@/registry/peptides";
 import { recoveryClusters } from "@/registry/recovery-content";
+import { GLOWUP_LAST_REVIEWED, allGlowUpPaths } from "@/registry/glowup-content";
 import { GLOSSARY_LAST_REVIEWED, glossaryEntries } from "@/registry/glossary";
 import { SUPPLEMENTS_LAST_REVIEWED, supplements } from "@/registry/supplements";
 import { FOOD_REFERENCE_LAST_REVIEWED, foodReferencePages } from "@/registry/food-reference";
@@ -106,8 +107,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
+  const glowUp = [
+    { url: `${SITE_URL}/glow-up`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/glow-up/looksmaxxing-myths`, lastModified: GLOWUP_LAST_REVIEWED, changeFrequency: "monthly" as const },
+    ...allGlowUpPaths().map((path) => ({
+      url: `${SITE_URL}/glow-up/${path.cluster}${path.article ? `/${path.article}` : ""}`,
+      lastModified: GLOWUP_LAST_REVIEWED,
+      changeFrequency: "monthly" as const,
+    })),
+  ];
+
   return [
     { url: SITE_URL, changeFrequency: "weekly" as const },
+    // Daily games hub (DAILY-GAMES.md §9): a canonical page whose puzzle rotates
+    // daily. Per-date archive pages feed the sitemap from the registry once built.
+    { url: `${SITE_URL}/daily`, changeFrequency: "daily" as const },
+    // Blood-test product page (pre-launch; partner integration to come).
+    { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
     ...hubs,
     ...tools,
     ...staticPages,
@@ -118,5 +134,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...exercisePages,
     ...foodReference,
     ...referenceTables,
+    ...glowUp,
   ];
 }

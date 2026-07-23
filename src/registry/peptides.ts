@@ -10,8 +10,18 @@
 
 import type { FaqEntry, Source } from "@/registry/types";
 
-/** Headline evidence strength for the compound's fitness claims. */
-export type EvidenceTier = "well-supported" | "preliminary" | "marketing-claim";
+/**
+ * Evidence strength for a health claim (the site-wide house style, CONTENT.md
+ * §1). `marketing-claim` = unproven/oversold; `not-supported` = actively
+ * contradicted by evidence or a flagged-dangerous trend (CONTENT-looksmaxxing
+ * §4 debunk tier). Used as the compound's headline tier here and inline by the
+ * shared `EvidenceTier` component across content sections.
+ */
+export type EvidenceTier =
+  | "well-supported"
+  | "preliminary"
+  | "marketing-claim"
+  | "not-supported";
 
 /** Where the evidence comes from. */
 export type EvidenceBasis = "human" | "animal" | "in-vitro" | "mixed";
@@ -55,6 +65,7 @@ export const TIER_LABELS: Record<EvidenceTier, string> = {
   "well-supported": "Well-supported",
   preliminary: "Preliminary",
   "marketing-claim": "Marketing claim",
+  "not-supported": "Not supported",
 };
 
 import { tesamorelinPage } from "@/registry/peptides/tesamorelin";

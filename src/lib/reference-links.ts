@@ -11,6 +11,7 @@ import { supplements } from "@/registry/supplements";
 import { exercises } from "@/registry/exercises";
 import { foodReferencePages } from "@/registry/food-reference";
 import { referenceTablePages } from "@/registry/reference-tables";
+import { allGlowUpArticles, glowUpClusters } from "@/registry/glowup-content";
 
 export interface ReferenceLink {
   href: string;
@@ -57,6 +58,21 @@ export function referencesForTool(toolSlug: string): ReferenceLinkGroup[] {
       items: referenceTablePages
         .filter((p) => p.relatedTools.includes(toolSlug))
         .map((p) => ({ href: `/reference/${p.slug}`, title: p.title })),
+    },
+    {
+      // CONTENT-looksmaxxing §4: the glow-up section is the front door that
+      // routes insecurity-driven search into the credible tools, so the tools
+      // must route back out to it. Both pillars and satellites can declare a
+      // related tool; we surface whichever point back at this one.
+      section: "Glow-up guides",
+      items: [
+        ...glowUpClusters
+          .filter((c) => c.relatedTools.includes(toolSlug))
+          .map((c) => ({ href: `/glow-up/${c.slug}`, title: c.title })),
+        ...allGlowUpArticles()
+          .filter((a) => a.relatedTools.includes(toolSlug))
+          .map((a) => ({ href: `/glow-up/${a.clusterSlug}/${a.slug}`, title: a.title })),
+      ],
     },
   ];
 

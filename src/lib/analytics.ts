@@ -18,7 +18,13 @@ export type AnalyticsEvent =
   | { name: "pulse_card_shared"; params: { id: string } }
   | { name: "pulse_source_click"; params: { id: string } }
   | { name: "pulse_filter_applied"; params: { categories: string } }
-  | { name: "pulse_related_click"; params: { id: string; target: string } };
+  | { name: "pulse_related_click"; params: { id: string; target: string } }
+  // Daily ritual games (DAILY-GAMES.md §10). No timing signals, and no guess
+  // values — a guess is the player's own business; `result` is a tier or "n/m".
+  | { name: "daily_game_played"; params: { game: "ballpark" | "myth"; result: string } }
+  | { name: "daily_game_shared"; params: { game: "ballpark" | "myth" } }
+  | { name: "daily_streak_freeze_used"; params: Record<string, never> }
+  | { name: "daily_related_click"; params: { id: string; target: string } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

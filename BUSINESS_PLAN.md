@@ -360,8 +360,7 @@ allows; keep the core lean.
   step with proper data architecture and consent — not something to drift across.
 - **Wellbeing risk in engagement mechanics.** Comparison and gamification can harm
   vulnerable users. *Mitigation:* positive-frame-only design, flattering/segmented
-  comparison, graceful streaks, harm-signal nudges, and no appearance-based
-  features (see `ROADMAP.md` guardrails).
+  comparison, and graceful streaks (see `ROADMAP.md` §2 guardrails).
 - **Platform dependence** (ad networks, Google algorithm). *Mitigation:* build an
   owned audience (email, returning users) and diversified revenue so no single
   platform is existential.

@@ -579,6 +579,9 @@ const TIER_ORDER: Record<EvidenceTier, number> = {
   "well-supported": 0,
   preliminary: 1,
   "marketing-claim": 2,
+  // No supplement is tiered `not-supported`, but the map stays exhaustive over
+  // the shared EvidenceTier union so it sorts last if one ever is.
+  "not-supported": 3,
 };
 
 export function supplementsByTier(): [EvidenceTier, SupplementEntry[]][] {

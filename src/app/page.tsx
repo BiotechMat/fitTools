@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PulseHeroCard } from "@/components/pulse/PulseHeroCard";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
 import { labsTools, toolsForHub } from "@/registry/tools";
@@ -110,36 +111,38 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="py-8">
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
-          {toolCount} calculators · every formula cited · free, no sign-up
-        </p>
-        <h1 className="mt-3 font-display text-4xl uppercase sm:text-5xl">
-          Evidence-based{" "}
-          <span className="inline-block -rotate-1 rounded-lg bg-primary-strong px-2 text-background">
-            fitness
-          </span>{" "}
-          calculators
-        </h1>
-        <p className="mt-3 max-w-prose text-lg text-muted">
-          {SITE_NAME} builds every calculator on published, peer-reviewed
-          formulas — with the sources cited on the page, so you can check our
-          working.
-        </p>
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <Link
-            href="/heart-age-calculator"
-            className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
-          >
-            Find your heart age
-          </Link>
-          <Link
-            href="#all-tools"
-            className="rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
-          >
-            Browse all tools
-          </Link>
+      <section className="grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
+        <div>
+          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
+            {toolCount} calculators · every formula cited · free, no sign-up
+          </p>
+          <h1 className="mt-3 font-display text-4xl uppercase sm:text-5xl">
+            Evidence-based{" "}
+            <span className="inline-block -rotate-1 rounded-lg bg-primary-strong px-2 text-background">
+              fitness
+            </span>
+          </h1>
+          <p className="mt-3 max-w-prose text-lg text-muted">
+            {SITE_NAME} builds every calculator on published, peer-reviewed
+            formulas — with the sources cited on the page, so you can check our
+            working.
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link
+              href="/heart-age-calculator"
+              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+            >
+              Find your heart age
+            </Link>
+            <Link
+              href="#all-tools"
+              className="rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+            >
+              Browse all tools
+            </Link>
+          </div>
         </div>
+        <PulseHeroCard />
       </section>
 
       <div
@@ -151,6 +154,53 @@ export default function HomePage() {
           <TickerCopy toolCount={toolCount} />
         </div>
       </div>
+
+      <section className="pt-8" aria-labelledby="bloodtest-cta">
+        <Link
+          href="/blood-test"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-lime p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+              New · coming soon
+            </p>
+            <h2 id="bloodtest-cta" className="mt-1 font-display text-2xl uppercase">
+              Know your numbers — at-home blood test
+            </h2>
+            <p className="mt-1 max-w-prose text-sm">
+              Test the biomarkers behind your heart, metabolic and biological age —
+              results flow straight into your dashboard and auto-fill the calculators
+              that use them.
+            </p>
+          </div>
+          <span className="shrink-0 self-start rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] sm:self-auto">
+            Explore the panel &rarr;
+          </span>
+        </Link>
+      </section>
+
+      <section className="pt-6" aria-labelledby="daily-cta">
+        <Link
+          href="/daily"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+              New · a fresh one every day
+            </p>
+            <h2 id="daily-cta" className="mt-1 font-display text-2xl uppercase">
+              Play today&rsquo;s Ballpark
+            </h2>
+            <p className="mt-1 max-w-prose text-sm">
+              Guess a real, cited fitness stat in one move — then test yourself on the
+              weekly myth-buster quiz. Build a streak, learn the numbers.
+            </p>
+          </div>
+          <span className="shrink-0 self-start rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] sm:self-auto">
+            Play today &rarr;
+          </span>
+        </Link>
+      </section>
 
       <section className="py-8" aria-labelledby="start-here">
         <div className="flex items-baseline justify-between gap-4">
@@ -193,7 +243,7 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <section aria-label="Tool categories" className="pb-4">
+      <section aria-label="Browse categories" className="pb-4">
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {HUB_STRIP.map(({ key, classes }) => {
             const entry = hubsWithTools.find(({ meta }) => meta.hub === key);
@@ -222,6 +272,17 @@ export default function HomePage() {
               <span className="font-display text-xl uppercase">Labs</span>
               <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
                 {labs.length} {labs.length === 1 ? "tool" : "tools"}
+              </span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/glow-up"
+              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-primary-soft p-4 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+            >
+              <span className="font-display text-xl uppercase">Glow-up</span>
+              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
+                Skin · sun · myths, rated
               </span>
             </Link>
           </li>

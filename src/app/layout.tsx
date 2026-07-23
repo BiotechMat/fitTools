@@ -75,13 +75,21 @@ export default function RootLayout({
                 SITE_NAME
               )}
             </Link>
-            <ul className="flex gap-4 text-sm">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
               <li>
                 <Link
                   href="/pulse"
                   className="font-semibold text-foreground hover:text-primary"
                 >
                   Pulse
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/daily"
+                  className="font-semibold text-foreground hover:text-primary"
+                >
+                  Daily
                 </Link>
               </li>
               {liveHubs.map((meta) => (
@@ -110,6 +118,11 @@ export default function RootLayout({
                 </Link>
               </li>
               <li>
+                <Link href="/glow-up" className="text-muted hover:text-foreground">
+                  Glow-up
+                </Link>
+              </li>
+              <li>
                 <Link href="/learn/peptides" className="text-muted hover:text-foreground">
                   Peptides
                 </Link>
@@ -121,10 +134,10 @@ export default function RootLayout({
               </li>
             </ul>
             <Link
-              href="/heart-age-calculator"
-              className="ml-auto hidden rounded-full border-2 border-foreground bg-primary-strong px-4 py-1.5 text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] lg:inline-block"
+              href="/blood-test"
+              className="ml-auto hidden rounded-full border-2 border-foreground bg-lime px-4 py-1.5 text-sm font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] lg:inline-block"
             >
-              Check your heart age
+              Order blood test
             </Link>
           </nav>
         </header>
