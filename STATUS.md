@@ -89,8 +89,10 @@ The features exist; give them content and turn on measurement.
   supplement/tool sources); fresh Pulse chunks already have `pnpm harvest` + the
   PR gate. Every new item brings its own primary source (CLAUDE.md).
 - **Flip the recorded activation switches** (all documented, all code-complete):
-  - `ANTHROPIC_API_KEY` + `PULSE_LLM_MODEL=claude-haiku-4-5` in Vercel → Pulse
-    leaves degraded mode (PULSE §14 "PRODUCTION TODO").
+  - `ANTHROPIC_API_KEY` in Vercel → Pulse leaves degraded mode (PULSE §14
+    "PRODUCTION TODO"). Cost-safe to flip: generation is site-wide, one pass
+    per UTC day on the `claude-haiku-4-5` default with a hard daily call
+    budget (PULSE §14.1); `PULSE_LLM_MODEL` is now only an optional override.
   - Same key as a GitHub Actions secret + "Actions may create PRs" → the weekly
     harvest Action goes live (PULSE §15.10).
 - **Activate measurement.** CMP + GA4 (consent-gated loaders built and

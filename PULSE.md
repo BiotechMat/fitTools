@@ -161,10 +161,12 @@ export interface PulseCard {
 
 **Identity rule (locked §11):** generated phrasings vary, so the card `id` is
 ephemeral. Everything durable — likes, saves, the seen-set, analytics — keys
-on the stable **`chunkId`** (share/SEO surfaces per §8). The in-memory cache
-(`src/lib/pulse/cache.ts`, 30-min TTL, keyed by chunk) keeps phrasing stable
-within a session and bounds LLM cost; a shared KV cache is a later swap behind
-the same module surface.
+on the stable **`chunkId`** (share/SEO surfaces per §8). Phrasings are
+**day-keyed and site-wide** (`src/lib/pulse/phrasings.ts`, locked §11.12): one
+generation pass per UTC day covers the whole corpus and every visitor is
+served from it, so phrasing is stable all day (identical across visitors) and
+rotates daily — the phrasing store, not the request path, is what bounds LLM
+cost (§14.1).
 
 ### 3.2 Validation (build-time + runtime)
 
@@ -526,11 +528,31 @@ Recorded so the rationale survives; changing any of these is a spec change.
     reserved slots in the existing feed; no separate route in v1 (the weekly
     digest page is the later F3 artefact, §15.7).
 
+**Resolved 2026-07-23 (cost posture — Mat's "site-wide, not per-user" call):**
+
+12. **Generation is site-wide and day-keyed; Haiku by default.** One batched
+    generation pass per UTC day covers the whole corpus
+    (`src/lib/pulse/phrasings.ts`); every visitor is served from that shared
+    store (per-instance memo + Next's data cache, which is shared across
+    serverless instances on Vercel), and **nothing in a request body can
+    trigger a model call** — LLM cost scales with corpus size, never with
+    traffic or abuse of the open `/api/pulse` endpoint. A hard per-instance
+    daily call budget (`MAX_GENERATION_CALLS_PER_DAY`) is the circuit
+    breaker; on budget exhaustion or API failure the feed degrades to vetted
+    claims, exactly like the no-key path. The default model is locked to
+    `claude-haiku-4-5` (~5× cheaper per token than Opus; rephrasing vetted
+    one-liners doesn't need Opus), with `PULSE_LLM_MODEL` as the override.
+    Supersedes v1's per-request generation + 30-min per-instance cache
+    (`cache.ts`, removed), whose worst-case cost scaled with traffic ×
+    serverless instance churn on an Opus default. Trade-off accepted:
+    phrasing varies by day rather than by session — endless-novelty comes
+    from corpus growth + ordering (§1.1) — and per-user phrasing variety is
+    explicitly deferred.
+
 **Still genuinely open (minor, decide during build):** the tuning constants —
-affinity cap (0.6), novelty fraction (0.3), `maxRun` (2), cache TTL (30 min),
-engagement steps (§6) — to settle empirically against the grown corpus; and
-the generation model (default Opus 4.8; consider Haiku 4.5 for this
-high-volume, low-complexity workload — §14).
+affinity cap (0.6), novelty fraction (0.3), `maxRun` (2), engagement steps
+(§6), and the §14.1 phrasing constants (batch 25, budget 40/day, backoff
+60 s) — to settle empirically against the grown corpus.
 
 ---
 
@@ -594,10 +616,12 @@ A working retrieval-grounded vertical slice is built and verified (typecheck +
   structured output, and the **chunkId-only anti-hallucination contract** (§2.1):
   `buildCardsFromDrafts` drops any draft whose `chunkId` we didn't supply and
   attaches the real source server-side. Unit-tested.
-- **API** — `src/app/api/pulse/route.ts` (POST): selection → cache → single
-  batched generation → **vetted-claim fallback**, so the feature works with **no
-  API key** (serves claims verbatim, `degraded: true`) and upgrades to generated
-  phrasings when a key is set. In-memory TTL cache (`cache.ts`) bounds cost.
+- **API** — `src/app/api/pulse/route.ts` (POST): selection → **site-wide day
+  phrasings** (§14.1) → **vetted-claim fallback**, so the feature works with
+  **no API key** (serves claims verbatim, `degraded: true`) and upgrades to
+  generated phrasings when a key is set. The request path never calls the
+  model; `src/lib/pulse/phrasings.ts` (one corpus-wide pass per UTC day +
+  daily call budget, unit-tested) replaced the v1 per-request `cache.ts`.
 - **Local store** — `src/lib/pulse-store.ts`: likes/saves/seen/affinity, guarded
   + `useSyncExternalStore`-friendly, sync-ready. The dwell privacy contract
   (§5.1) is enforced — `applyEngagement` folds dwell into affinity; raw timings
@@ -609,10 +633,36 @@ A working retrieval-grounded vertical slice is built and verified (typecheck +
 - **Analytics** — Pulse events added to the typed union; **no dwell event**.
 
 **Configuration (env):** `ANTHROPIC_API_KEY` (or `PULSE_LLM_API_KEY`) enables
-generation; `PULSE_LLM_MODEL` overrides the model (default `claude-opus-4-8` —
-consider `claude-haiku-4-5` for this high-volume, low-complexity workload);
-`PULSE_LLM_PROVIDER=none` forces degraded mode. No key set → the site serves
-vetted claims and never breaks.
+generation; `PULSE_LLM_MODEL` overrides the model (default
+`claude-haiku-4-5`, locked §11.12 — set `claude-opus-4-8` for richer phrasing
+at ~5× the token price); `PULSE_LLM_PROVIDER=none` forces degraded mode. No
+key set → the site serves vetted claims and never breaks.
+
+### 14.1 Cost model — site-wide daily phrasing (2026-07-23, §11.12)
+
+Generation runs as **one corpus-wide pass per UTC day** in
+`src/lib/pulse/phrasings.ts`: `PHRASING_BATCH_SIZE` (25) chunks per Messages
+API call, batches in parallel, shared through two layers — a per-instance
+memo (with in-flight dedup) and Next's data cache, which Vercel shares across
+serverless instances, so the pass runs once **site-wide** and every visitor
+sees the same phrasing on a given day. The request path only reads the store:
+client input (`seen` / `seed` / `count` / filters) can never trigger a model
+call, so a bot hammering `/api/pulse` adds **zero** LLM spend.
+
+- **Expected cost** (Haiku 4.5, $1 in / $5 out per MTok): today's 12 chunks ≈
+  1 call and well under a cent a day; the 100-chunk v1 target ≈ 4 calls/day ≈
+  **$0.05/day (~$1.50/month)**. The Opus override is ~5× that.
+- **Circuit breaker:** `MAX_GENERATION_CALLS_PER_DAY` (40) per instance per
+  UTC day — ~10× normal headroom. Even a pathological failure loop or shared-
+  cache outage is capped at well under $1/instance/day on Haiku; beyond the
+  budget (or after an API failure, with a 60 s retry backoff) the feed
+  degrades to vetted claims and never breaks.
+- **Correctness:** the store key includes a corpus fingerprint (ids +
+  claims), so a deploy that adds or corrects a chunk regenerates that day's
+  phrasings immediately. A failed pass is never cached; a partial pass is —
+  chunks it missed serve their vetted claims verbatim for the day.
+- The harvest pipeline (§15.7) was already bounded the same way: weekly, ≤54
+  triaged items, ≤6 drafts, one Haiku call per run — pennies per run.
 
 ### ⚠️ PRODUCTION TODO — revisit after launch (2026-07-23)
 
@@ -622,9 +672,18 @@ generation on:
 
 - [ ] **Set `ANTHROPIC_API_KEY`** in the Vercel project env (Production scope),
       then redeploy. *(Credential/settings step — must be done in the Vercel
-      dashboard; cannot be done from the repo.)*
-- [ ] *(Recommended)* **Set `PULSE_LLM_MODEL=claude-haiku-4-5`** — far cheaper
-      and faster than the Opus default for this high-volume rephrasing workload.
+      dashboard; cannot be done from the repo.)* With the §14.1 cost model this
+      is now the only required step, and it is safe to flip without cost
+      anxiety: spend is bounded by corpus size (~pennies/month on the Haiku
+      default), never by traffic.
+- [x] ~~Set `PULSE_LLM_MODEL=claude-haiku-4-5`.~~ **Superseded (2026-07-23):**
+      `claude-haiku-4-5` is now the code default (locked §11.12) — no env var
+      needed. `PULSE_LLM_MODEL` remains an override (e.g. `claude-opus-4-8`
+      for richer phrasing at ~5× the token price).
+- [ ] *(Same key, second home — the news side.)* **Add `ANTHROPIC_API_KEY` as a
+      GitHub Actions secret** and enable "Allow GitHub Actions to create and
+      approve pull requests" to switch on the weekly harvest (§15.10). Already
+      bounded: ≤6 Haiku drafts per weekly run.
 - [x] ~~Set `NEXT_PUBLIC_SITE_URL` to lift `noindex`.~~ **Superseded
       (2026-07-23):** production is now indexable automatically (`tools.fit` is
       the built-in default, gated on `VERCEL_ENV === "production"` —
@@ -639,16 +698,18 @@ redeploy beyond picking up the env var):
   facts directly" banner disappears.
 - Cards become **LLM-generated rephrasings** of the vetted claims (varied,
   punchy) instead of the raw claim text; `card.generated` flips `false → true`,
-  and the same chunk yields different wording over time (the endless-novelty
-  feel). The 30-min per-chunk cache keeps phrasing stable within a session and
-  bounds cost.
+  and the same chunk yields different wording **each day** (the endless-novelty
+  feel). The §14.1 day store keeps phrasing stable within a day — identical
+  for every visitor — and is what bounds cost.
 - **Credibility is unchanged**: every card still carries the same real,
   pre-vetted source — the `chunkId → source` mapping is untouched; only the
   wording is generated. The chunkId-only anti-hallucination contract (§1.1)
   still holds, and any failed/invalid generation still falls back per-card to
   the vetted claim.
-- Cost/latency appears: one Messages API call per cache-miss batch (and for the
-  daily hero). This is why Haiku is recommended above.
+- Cost appears, bounded: one corpus-wide generation pass per UTC day (§14.1),
+  ~pennies a month at the current corpus on the Haiku default. The first
+  request of a day pays the pass's latency (a few seconds, `maxDuration: 30`);
+  everyone after reads the shared store.
 
 **Deliberately deferred (flagged to Mat):**
 - **Branded OG-image share card** (§4, locked §11). **Update 2026-07-23:** the E1
