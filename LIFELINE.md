@@ -65,3 +65,13 @@ flap blip, pickup ding, decade tick, flatline tone.
 v1 BUILT (2026-07-23): src/lib/lifeline.ts (+ unit tests),
 src/components/lifeline/LifelineGame.tsx, /lifeline page, linked from
 /daily. Name "Lifeline" proposed, not locked.
+
+v2 feel + loops BUILT (same day): death sequence (freeze-frame, shake,
+tumble with X-eyes, flatline sweep, restart guard), grace runway + 2px
+hitbox forgiveness, flap squash, near-miss "CLOSE ONE" rewards, bass
+heartbeat that tracks age, the aging heart (blink/panic face; glasses 40+,
+grey brows 60+, flat cap 80+), the daily-seeded mode (dailySeed/
+dailyPuzzleNumber, per-day best, copy-to-clipboard share text), and a
+repo-vetted fact with link on every death card (§3 sourcing rule: only
+claims already cited by the site's tools). Still open from §6: /share
+card hook, streaks, leaderboard.

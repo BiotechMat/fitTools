@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   LIFELINE,
   ageAt,
+  dailyPuzzleNumber,
+  dailySeed,
   gapAt,
   hitsColumn,
   medalFor,
@@ -54,6 +56,17 @@ describe("collision", () => {
   it("hits the top and bottom pipe edges", () => {
     expect(hitsColumn(280 - 50, 9, 200, column)).toBe(true);
     expect(hitsColumn(280 + 50, 9, 200, column)).toBe(true);
+  });
+});
+
+describe("daily run", () => {
+  it("numbers puzzles from the launch date and seeds deterministically", () => {
+    expect(dailyPuzzleNumber("2026-07-23")).toBe(1);
+    expect(dailyPuzzleNumber("2026-08-01")).toBe(10);
+    expect(dailySeed("2026-07-23")).toBe(20260723);
+    expect(mulberry32(dailySeed("2026-07-23"))()).toBe(
+      mulberry32(dailySeed("2026-07-23"))(),
+    );
   });
 });
 

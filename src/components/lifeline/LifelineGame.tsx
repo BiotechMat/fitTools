@@ -9,6 +9,8 @@ import {
   OBSTACLE_KINDS,
   type ObstacleKind,
   ageAt,
+  dailyPuzzleNumber,
+  dailySeed,
   gapAt,
   hitsColumn,
   medalFor,
@@ -19,26 +21,61 @@ import {
 
 /**
  * Lifeline (LIFELINE.md): tap-to-flap heartbeat arcade. All rendering is
- * canvas (DPR-scaled, nearest-neighbour pixel sprites drawn from pixel
- * maps below); React state only handles phase transitions and overlays.
- * Audio is a tiny WebAudio synth, created on first input, mute persisted.
+ * canvas (DPR-scaled, nearest-neighbour pixel sprites); React state only
+ * handles phase transitions and overlays. Audio is a WebAudio synth created
+ * on first input, mute persisted.
+ *
+ * v2 feel rules (LIFELINE.md §2): death is a sequence (freeze → tumble →
+ * flatline sweep → card), the first seconds are a grace runway, the hitbox
+ * is 2px forgiving, near-misses are rewarded, and the soundtrack is a bass
+ * heartbeat that tracks your age. The heart itself ages: glasses at 40,
+ * grey brows at 60, a flat cap at 80.
  */
 
 const BEST_KEY = "fittools.lifeline.best";
 const MUTE_KEY = "fittools.lifeline.muted";
+const DAILY_KEY_PREFIX = "fittools.lifeline.daily.";
+const RESTART_GUARD_MS = 350;
+
+/* Facts shown on the death card — only claims already vetted in this repo's
+   formula modules (CLAUDE.md: never invent numbers or citations). */
+const FACTS: { text: string; href: string; label: string }[] = [
+  {
+    text: "In the Li 2018 cohort, five lifestyle factors were associated with 12–14 extra years of life expectancy at age 50.",
+    href: "/lifestyle-life-expectancy",
+    label: "See the study",
+  },
+  {
+    text: "Your modelled heart age usually moves most with systolic blood pressure — the calculator shows what moves your needle.",
+    href: "/heart-age-calculator",
+    label: "Check your heart age",
+  },
+  {
+    text: "One real, cited fitness number a day: that's Ballpark.",
+    href: "/daily",
+    label: "Play today's",
+  },
+];
+
+function todayISO(): string {
+  const d = new Date();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${d.getFullYear()}-${month}-${day}`;
+}
 
 /* ---------------------------------------------------------------- sprites */
 
 const PALETTE: Record<string, string> = {
-  K: "#1c130d", // ink
-  B: "#ff531a", // blaze
-  E: "#c63d08", // ember
-  P: "#fbf4ec", // paper
-  W: "#fffdf9", // white
-  M: "#8fbf3f", // matcha
-  F: "#1f5c3d", // forest
-  A: "#e8c33c", // amber
-  S: "#f3e7d8", // soft
+  K: "#1c130d",
+  B: "#ff531a",
+  E: "#c63d08",
+  P: "#fbf4ec",
+  W: "#fffdf9",
+  M: "#8fbf3f",
+  F: "#1f5c3d",
+  A: "#e8c33c",
+  S: "#f3e7d8",
 };
 
 function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
@@ -58,7 +95,6 @@ function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
   return canvas;
 }
 
-/* The hero: a Blaze heart with a paper wing. Two frames = the flap. */
 const HEART_UP = [
   "..KK....KK..",
   ".KBBK..KBBK.",
@@ -97,11 +133,7 @@ const SPRITE_MAPS: Record<ObstacleKind["id"] | "veg" | "zed", string[]> = {
     "KEEEEEK",
     ".KKKKK.",
   ],
-  smokes: [
-    "KKKKKKKKKK",
-    "KWWWWWWEAK",
-    "KKKKKKKKKK",
-  ],
+  smokes: ["KKKKKKKKKK", "KWWWWWWEAK", "KKKKKKKKKK"],
   allnighters: [
     "...KKKK...",
     "..KAAAAK..",
@@ -141,13 +173,7 @@ const SPRITE_MAPS: Record<ObstacleKind["id"] | "veg" | "zed", string[]> = {
     "..KFFK..",
     "...KK...",
   ],
-  zed: [
-    "KKKKKK",
-    "...KK.",
-    "..KK..",
-    ".KK...",
-    "KKKKKK",
-  ],
+  zed: ["KKKKKK", "...KK.", "..KK..", ".KK...", "KKKKKK"],
 };
 
 /* ------------------------------------------------------------------ audio */
@@ -210,13 +236,21 @@ interface World {
   pickups: Pickup[];
   toasts: Toast[];
   spawnIn: number;
+  spawned: number;
   lastDecade: number;
   wingT: number;
+  squashT: number;
+  beatIn: number;
+  blinkIn: number;
+  blinkT: number;
   groundX: number;
+  deathT: number;
+  deathY: number;
+  spin: number;
   rng: () => number;
 }
 
-function freshWorld(): World {
+function freshWorld(seed: number | null): World {
   return {
     y: LIFELINE.height / 2,
     vy: 0,
@@ -225,15 +259,25 @@ function freshWorld(): World {
     columns: [],
     pickups: [],
     toasts: [],
-    spawnIn: 0.9,
+    // Grace runway: the first column arrives late (LIFELINE.md §2).
+    spawnIn: 2.2,
+    spawned: 0,
     lastDecade: 1,
     wingT: 0,
+    squashT: 0,
+    beatIn: 0.4,
+    blinkIn: 2.5,
+    blinkT: 0,
     groundX: 0,
-    rng: mulberry32(Math.floor(Math.random() * 2 ** 31)),
+    deathT: 0,
+    deathY: LIFELINE.height / 2,
+    spin: 0,
+    rng: mulberry32(seed ?? Math.floor(Math.random() * 2 ** 31)),
   };
 }
 
-type Phase = "ready" | "playing" | "paused" | "dead";
+type Phase = "ready" | "playing" | "dying" | "paused" | "dead";
+type Mode = "free" | "daily";
 
 const MEDAL_STYLE: Record<Exclude<Medal, "none">, { label: string; bg: string }> = {
   bronze: { label: "BRONZE · 40+", bg: "bg-primary-soft" },
@@ -244,28 +288,39 @@ const MEDAL_STYLE: Record<Exclude<Medal, "none">, { label: string; bg: string }>
 
 export function LifelineGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const world = useRef<World>(freshWorld());
+  const world = useRef<World>(freshWorld(null));
   const phaseRef = useRef<Phase>("ready");
+  const modeRef = useRef<Mode>("free");
+  const deadAtRef = useRef(0);
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
   const [phase, setPhase] = useState<Phase>("ready");
+  const [mode, setModeState] = useState<Mode>("free");
   const [finalAge, setFinalAge] = useState(0);
   const [cause, setCause] = useState("");
+  const [causeLabel, setCauseLabel] = useState("");
   const [best, setBest] = useState(0);
+  const [dailyBest, setDailyBest] = useState(0);
   const [newBest, setNewBest] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(false);
 
   const setPhaseBoth = (p: Phase) => {
     phaseRef.current = p;
     setPhase(p);
   };
+  const setMode = (m: Mode) => {
+    modeRef.current = m;
+    setModeState(m);
+  };
 
   useEffect(() => {
     try {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
+      setDailyBest(Number(localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0));
       setMuted(localStorage.getItem(MUTE_KEY) === "1");
     } catch {
-      /* private mode — best score just lives for the session */
+      /* private mode — scores just live for the session */
     }
   }, []);
 
@@ -296,11 +351,13 @@ export function LifelineGame() {
       zed: makeSprite(SPRITE_MAPS.zed, 3),
     };
 
-    const die = (deathCause: string) => {
+    const die = (deathCause: string, label: string) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
       setFinalAge(age);
       setCause(deathCause);
+      setCauseLabel(label);
+      setCopied(false);
       setNewBest(false);
       setBest((prev) => {
         if (age > prev) {
@@ -314,18 +371,49 @@ export function LifelineGame() {
         }
         return prev;
       });
-      setPhaseBoth("dead");
-      beep(synthRef.current, 660, 80, "sawtooth", 0.06);
-      setTimeout(() => beep(synthRef.current, 880, 700, "sine", 0.05), 90);
+      if (modeRef.current === "daily") {
+        setDailyBest((prev) => {
+          const next = Math.max(prev, age);
+          try {
+            localStorage.setItem(DAILY_KEY_PREFIX + todayISO(), String(next));
+          } catch {
+            /* fine */
+          }
+          return next;
+        });
+      }
+      w.deathT = 0;
+      w.deathY = w.y;
+      w.vy = -220;
+      w.spin = 0;
+      setPhaseBoth("dying");
+      beep(synthRef.current, 220, 90, "sawtooth", 0.07);
     };
 
     const step = (dt: number) => {
       const w = world.current;
       w.t += dt;
       w.wingT = Math.max(0, w.wingT - dt);
+      w.squashT = Math.max(0, w.squashT - dt);
       const age = ageAt(w.t, w.bonus);
       const speed = speedAt(age);
       w.groundX = (w.groundX + speed * dt) % 32;
+
+      w.blinkT = Math.max(0, w.blinkT - dt);
+      w.blinkIn -= dt;
+      if (w.blinkIn <= 0) {
+        w.blinkIn = 2 + w.rng() * 3;
+        w.blinkT = 0.12;
+      }
+
+      // The soundtrack is a heartbeat that tracks your age.
+      w.beatIn -= dt;
+      if (w.beatIn <= 0) {
+        const bpm = 55 + (age - LIFELINE.startAge) * 0.55;
+        w.beatIn = 60 / bpm;
+        beep(synthRef.current, 95, 70, "sine", 0.045);
+        setTimeout(() => beep(synthRef.current, 76, 60, "sine", 0.035), 120);
+      }
 
       const decade = Math.floor(age / 10);
       if (decade > w.lastDecade) {
@@ -337,18 +425,22 @@ export function LifelineGame() {
       w.vy = Math.min(LIFELINE.terminalFall, w.vy + LIFELINE.gravity * dt);
       w.y += w.vy * dt;
       const floor = LIFELINE.height - LIFELINE.groundHeight;
-      if (w.y < LIFELINE.playerRadius + 2 || w.y > floor - LIFELINE.playerRadius) {
-        die(EDGE_CAUSE);
+      if (
+        w.y < LIFELINE.playerRadius + 2 ||
+        w.y > floor - LIFELINE.playerRadius
+      ) {
+        die(EDGE_CAUSE, "GRAVITY");
         return;
       }
 
       w.spawnIn -= dt;
       if (w.spawnIn <= 0) {
         w.spawnIn = spawnIntervalAt(age);
-        const gapH = gapAt(age);
+        // First three gaps run wider — deaths at 20 feel like the game's fault.
+        const gapH = gapAt(age) + Math.max(0, 3 - w.spawned) * 10;
+        w.spawned += 1;
         const margin = 60;
-        const gapY =
-          margin + gapH / 2 + w.rng() * (floor - margin * 2 - gapH);
+        const gapY = margin + gapH / 2 + w.rng() * (floor - margin * 2 - gapH);
         const kind = OBSTACLE_KINDS[Math.floor(w.rng() * OBSTACLE_KINDS.length)];
         w.columns.push({ x: LIFELINE.width + 40, gapY, gapH, kind, passed: false });
         if (w.rng() < 0.35) {
@@ -368,9 +460,25 @@ export function LifelineGame() {
           w.columns.splice(i, 1);
           continue;
         }
-        if (hitsColumn(w.y, LIFELINE.playerRadius, LIFELINE.playerX, c)) {
-          die(c.kind.cause);
+        if (hitsColumn(w.y, LIFELINE.hitboxRadius, LIFELINE.playerX, c)) {
+          die(c.kind.cause, c.kind.label);
           return;
+        }
+        if (!c.passed && c.x + LIFELINE.columnHalfWidth < LIFELINE.playerX - LIFELINE.playerRadius) {
+          c.passed = true;
+          const edgeDist = Math.min(
+            Math.abs(w.y - (c.gapY - c.gapH / 2)),
+            Math.abs(w.y - (c.gapY + c.gapH / 2)),
+          );
+          if (edgeDist < 16) {
+            w.toasts.push({
+              x: LIFELINE.playerX + 8,
+              y: w.y - 22,
+              text: "CLOSE ONE",
+              ttl: 0.7,
+            });
+            beep(synthRef.current, 990, 60, "triangle", 0.04);
+          }
         }
       }
 
@@ -395,7 +503,8 @@ export function LifelineGame() {
           });
           beep(synthRef.current, p.type === "veg" ? 660 : 540, 90, "triangle", 0.06);
           setTimeout(
-            () => beep(synthRef.current, p.type === "veg" ? 880 : 720, 110, "triangle", 0.05),
+            () =>
+              beep(synthRef.current, p.type === "veg" ? 880 : 720, 110, "triangle", 0.05),
             80,
           );
           w.pickups.splice(i, 1);
@@ -410,16 +519,115 @@ export function LifelineGame() {
       }
     };
 
+    /* Death beat: 80ms freeze → tumble with spin → card (LIFELINE.md §2). */
+    const stepDying = (dt: number) => {
+      const w = world.current;
+      w.deathT += dt;
+      if (w.deathT < 0.08) return;
+      if (w.deathT < 0.2 && w.deathT - dt < 0.08) {
+        beep(synthRef.current, 880, 900, "sine", 0.05);
+      }
+      w.vy = Math.min(LIFELINE.terminalFall * 1.4, w.vy + LIFELINE.gravity * 1.2 * dt);
+      w.y += w.vy * dt;
+      w.spin += 7 * dt;
+      if (w.deathT >= 1.0) {
+        deadAtRef.current = performance.now();
+        setPhaseBoth("dead");
+      }
+    };
+
+    const drawFace = (age: number, dying: boolean) => {
+      const w = world.current;
+      const eyeL = { x: -2, y: -4 };
+      const eyeR = { x: 6, y: -4 };
+      const panic =
+        !dying &&
+        w.columns.some(
+          (c) => c.x - LIFELINE.playerX > -20 && c.x - LIFELINE.playerX < 70,
+        );
+      ctx.strokeStyle = "#1c130d";
+      ctx.fillStyle = "#1c130d";
+      ctx.lineWidth = 1.5;
+      if (dying) {
+        for (const e of [eyeL, eyeR]) {
+          ctx.beginPath();
+          ctx.moveTo(e.x - 2.5, e.y - 2.5);
+          ctx.lineTo(e.x + 2.5, e.y + 2.5);
+          ctx.moveTo(e.x + 2.5, e.y - 2.5);
+          ctx.lineTo(e.x - 2.5, e.y + 2.5);
+          ctx.stroke();
+        }
+      } else if (w.blinkT > 0) {
+        for (const e of [eyeL, eyeR]) {
+          ctx.beginPath();
+          ctx.moveTo(e.x - 2, e.y);
+          ctx.lineTo(e.x + 2, e.y);
+          ctx.stroke();
+        }
+      } else {
+        for (const e of [eyeL, eyeR]) {
+          if (panic) {
+            ctx.fillStyle = "#fffdf9";
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#1c130d";
+          }
+          ctx.beginPath();
+          ctx.arc(e.x, e.y, panic ? 1.6 : 1.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      if (age >= 40) {
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(eyeL.x, eyeL.y, 4.4, 0, Math.PI * 2);
+        ctx.moveTo(eyeR.x + 4.4, eyeR.y);
+        ctx.arc(eyeR.x, eyeR.y, 4.4, 0, Math.PI * 2);
+        ctx.moveTo(eyeL.x + 4.4, eyeL.y);
+        ctx.lineTo(eyeR.x - 4.4, eyeR.y);
+        ctx.stroke();
+      }
+      if (age >= 60) {
+        ctx.strokeStyle = "#8a7a6c";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(eyeL.x - 3, eyeL.y - 6);
+        ctx.lineTo(eyeL.x + 2, eyeL.y - 7);
+        ctx.moveTo(eyeR.x - 2, eyeR.y - 7);
+        ctx.lineTo(eyeR.x + 3, eyeR.y - 6);
+        ctx.stroke();
+      }
+      if (age >= 80) {
+        ctx.fillStyle = "#1f5c3d";
+        ctx.strokeStyle = "#1c130d";
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.roundRect(-9, -14.5, 19, 5, 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.roundRect(-13, -11, 9, 3, 1.5);
+        ctx.fill();
+        ctx.stroke();
+      }
+    };
+
     const draw = () => {
       const w = world.current;
       const sprites = spritesRef.current;
       if (!sprites) return;
       const floor = LIFELINE.height - LIFELINE.groundHeight;
       const age = Math.floor(ageAt(w.t, w.bonus));
+      const dying = phaseRef.current === "dying" || phaseRef.current === "dead";
 
-      /* Sky scene (parallax, brand palette): sun, clouds, skyline, hills. */
+      ctx.save();
+      if (phaseRef.current === "dying" && w.deathT < 0.28) {
+        ctx.translate((Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7);
+      }
+
       ctx.fillStyle = "#fbf4ec";
-      ctx.fillRect(0, 0, LIFELINE.width, LIFELINE.height);
+      ctx.fillRect(-8, -8, LIFELINE.width + 16, LIFELINE.height + 16);
       ctx.fillStyle = "#e8c33c";
       ctx.strokeStyle = "#1c130d";
       ctx.lineWidth = 2;
@@ -466,7 +674,6 @@ export function LifelineGame() {
         const top = c.gapY - c.gapH / 2;
         const bottom = c.gapY + c.gapH / 2;
         const halfW = LIFELINE.columnHalfWidth;
-        /* Columns are themed objects, not pipes (LIFELINE.md §5). */
         const COLUMN_FILL: Record<ObstacleKind["id"], string> = {
           sugar: "#c63d08",
           smokes: "#fffdf9",
@@ -496,7 +703,12 @@ export function LifelineGame() {
           ctx.fillStyle = "#fbf4ec";
           if (top > 70) ctx.fillRect(c.x - halfW + 2, top / 2 - 14, halfW * 2 - 4, 28);
           if (floor - bottom > 70) {
-            ctx.fillRect(c.x - halfW + 2, bottom + (floor - bottom) / 2 - 14, halfW * 2 - 4, 28);
+            ctx.fillRect(
+              c.x - halfW + 2,
+              bottom + (floor - bottom) / 2 - 14,
+              halfW * 2 - 4,
+              28,
+            );
           }
         } else if (c.kind.id === "sofa") {
           ctx.strokeStyle = "#1c130d";
@@ -523,11 +735,7 @@ export function LifelineGame() {
             ctx.fillRect(c.x - 8 + ((sy * 7) % 14), sy, 3, 3);
           }
         }
-        ctx.drawImage(
-          sprite,
-          c.x - sprite.width / 2,
-          top - sprite.height - 4,
-        );
+        ctx.drawImage(sprite, c.x - sprite.width / 2, top - sprite.height - 4);
         ctx.drawImage(sprite, c.x - sprite.width / 2, bottom + 4);
         ctx.save();
         ctx.translate(c.x + 4, Math.max(26, top - sprite.height - 12));
@@ -544,23 +752,34 @@ export function LifelineGame() {
         ctx.drawImage(sprite, p.x - sprite.width / 2, p.y - sprite.height / 2);
       }
 
+      /* ECG trace; on death it flatlines and sweeps across the monitor. */
+      const traceY = dying ? w.deathY : w.y + 4;
       ctx.strokeStyle = "#c63d08";
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(0, phaseRef.current === "dead" ? w.y : w.y + 4);
-      ctx.lineTo(LIFELINE.playerX - 14, w.y + 4);
+      ctx.moveTo(0, traceY);
+      ctx.lineTo(
+        dying
+          ? Math.min(LIFELINE.width, LIFELINE.playerX + w.deathT * 700)
+          : LIFELINE.playerX - 14,
+        traceY,
+      );
       ctx.stroke();
 
       const heart = w.wingT > 0 ? sprites.heartUp : sprites.heartDown;
       ctx.save();
       ctx.translate(LIFELINE.playerX, w.y);
       ctx.rotate(
-        Math.max(-0.45, Math.min(0.9, (w.vy / LIFELINE.terminalFall) * 1.1)),
+        dying
+          ? w.spin
+          : Math.max(-0.45, Math.min(0.9, (w.vy / LIFELINE.terminalFall) * 1.1)),
       );
+      const squash = w.squashT * 1.6;
+      ctx.scale(1 + squash, 1 - squash);
       ctx.drawImage(heart, -heart.width / 2, -heart.height / 2);
+      drawFace(age, dying);
       ctx.restore();
 
-      /* Ground: a blaze running track with scrolling lane dashes. */
       ctx.fillStyle = "#ff531a";
       ctx.fillRect(0, floor, LIFELINE.width, LIFELINE.groundHeight);
       ctx.fillStyle = "#1c130d";
@@ -587,6 +806,7 @@ export function LifelineGame() {
         ctx.textAlign = "right";
         ctx.fillText(`AGE ${age}`, LIFELINE.width - 14, 44);
       }
+      ctx.restore();
     };
 
     let last = performance.now();
@@ -595,6 +815,7 @@ export function LifelineGame() {
       const dt = Math.min((now - last) / 1000, 0.033);
       last = now;
       if (phaseRef.current === "playing") step(dt);
+      else if (phaseRef.current === "dying") stepDying(dt);
       draw();
       raf = requestAnimationFrame(frame);
     };
@@ -610,10 +831,18 @@ export function LifelineGame() {
       cancelAnimationFrame(raf);
       document.removeEventListener("visibilitychange", onVisibility);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time canvas setup; state flows via refs
   }, []);
 
   const flap = () => {
     const current = phaseRef.current;
+    if (current === "dying") return;
+    if (
+      current === "dead" &&
+      performance.now() - deadAtRef.current < RESTART_GUARD_MS
+    ) {
+      return;
+    }
     if (!synthRef.current && typeof AudioContext !== "undefined") {
       try {
         synthRef.current = { ctx: new AudioContext(), muted };
@@ -622,7 +851,9 @@ export function LifelineGame() {
       }
     }
     if (current === "dead" || current === "ready") {
-      world.current = freshWorld();
+      world.current = freshWorld(
+        modeRef.current === "daily" ? dailySeed(todayISO()) : null,
+      );
       setPhaseBoth("playing");
     } else if (current === "paused") {
       setPhaseBoth("playing");
@@ -630,6 +861,7 @@ export function LifelineGame() {
     const w = world.current;
     w.vy = LIFELINE.flapImpulse;
     w.wingT = 0.18;
+    w.squashT = 0.1;
     beep(synthRef.current, 300, 45, "square", 0.04);
   };
 
@@ -642,10 +874,22 @@ export function LifelineGame() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- flap is stable enough (refs)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- flap reads refs only
   }, []);
 
   const medal = medalFor(finalAge);
+  const puzzleNo = dailyPuzzleNumber(todayISO());
+  const fact = FACTS[finalAge % FACTS.length];
+
+  const shareText = `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
+  const share = () => {
+    try {
+      void navigator.clipboard.writeText(`${shareText}\n${window.location.href}`);
+      setCopied(true);
+    } catch {
+      /* clipboard unavailable — button just doesn't confirm */
+    }
+  };
 
   return (
     <div className="relative mx-auto w-full max-w-[420px] select-none">
@@ -678,16 +922,34 @@ export function LifelineGame() {
       </button>
 
       {phase === "ready" ? (
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 text-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
           <p className="font-display text-4xl uppercase">Lifeline</p>
           <p className="max-w-[16rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
             Tap or press space to flap. Dodge the risk factors. Grow old.
           </p>
-          {best > 0 ? (
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
-              Best: {best}
-            </p>
-          ) : null}
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setMode("daily")}
+              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "daily" ? "bg-good text-background" : "bg-surface"}`}
+            >
+              Daily #{puzzleNo}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("free")}
+              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "free" ? "bg-good text-background" : "bg-surface"}`}
+            >
+              Free play
+            </button>
+          </div>
+          <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
+            {mode === "daily"
+              ? `Same course for everyone today${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
+              : best > 0
+                ? `Best: ${best}`
+                : "One button. That's it."}
+          </p>
         </div>
       ) : null}
 
@@ -701,7 +963,7 @@ export function LifelineGame() {
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div className="sticker-slap w-full rounded-2xl border-2 border-foreground bg-surface p-5 text-center shadow-[4px_4px_0_0_var(--color-foreground)]">
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-              Flatlined at
+              {mode === "daily" ? `Daily #${puzzleNo} · flatlined at` : "Flatlined at"}
             </p>
             <p className="font-display text-7xl uppercase text-primary-strong">
               {finalAge}
@@ -724,6 +986,15 @@ export function LifelineGame() {
                 </span>
               ) : null}
             </div>
+            <p className="mt-3 border-t border-dashed border-border pt-3 text-xs text-muted">
+              {fact.text}{" "}
+              <Link
+                href={fact.href}
+                className="font-semibold text-primary underline underline-offset-2 hover:text-foreground"
+              >
+                {fact.label} →
+              </Link>
+            </p>
             <div className="mt-4 flex flex-wrap justify-center gap-2">
               <button
                 type="button"
@@ -732,11 +1003,20 @@ export function LifelineGame() {
               >
                 Go again
               </button>
+              {mode === "daily" ? (
+                <button
+                  type="button"
+                  onClick={share}
+                  className="riso-press rounded-full border-2 border-foreground bg-good px-5 py-2 text-sm font-bold text-background"
+                >
+                  {copied ? "Copied ✓" : "Share"}
+                </button>
+              ) : null}
               <Link
                 href="/heart-age-calculator"
                 className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
               >
-                Your real heart age →
+                Real heart age →
               </Link>
             </div>
           </div>
