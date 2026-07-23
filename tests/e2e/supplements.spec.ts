@@ -53,6 +53,27 @@ test("a safety-flagged supplement renders its SafetyCallout", async ({ page }) =
   await expect(page.getByTestId("safety-callout")).toBeVisible();
 });
 
+test("our-recommendation card rails right on desktop, stacks below content on mobile", async ({ page }) => {
+  // creatine-monohydrate has a registry pick, so the card always renders.
+  await page.goto("/supplements/creatine-monohydrate");
+  const card = page.getByTestId("recommendation-card");
+  await expect(card).toBeVisible();
+  const cardBox = await card.boundingBox();
+  const proseBox = await page.locator("div.prose").first().boundingBox();
+  if (!cardBox || !proseBox) throw new Error("expected bounding boxes");
+
+  const hamburger = page.getByRole("button", { name: "Open menu" });
+  if (await hamburger.isVisible()) {
+    // Mobile: single column — the card follows the article content.
+    expect(cardBox.y).toBeGreaterThan(proseBox.y + proseBox.height);
+  } else {
+    // Desktop: its own column — entirely right of the content, starting
+    // alongside it rather than under it.
+    expect(cardBox.x).toBeGreaterThanOrEqual(proseBox.x + proseBox.width);
+    expect(cardBox.y).toBeLessThan(proseBox.y + proseBox.height);
+  }
+});
+
 test("every supplement page serves with an evidence tier and disclaimer", async ({ page }) => {
   for (const s of supplements) {
     await page.goto(`/supplements/${s.slug}`);
