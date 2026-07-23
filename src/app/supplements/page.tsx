@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { supplementsByGrade } from "@/registry/supplements";
+import {
+  supplementCatalogue,
+  supplementCatalogueCount,
+} from "@/registry/supplementCatalogue";
 import { GRADE_LABELS } from "@/registry/peptides";
 import { CardSearch } from "@/components/CardSearch";
 import { EvidenceTier } from "@/components/EvidenceTier";
@@ -13,6 +17,14 @@ export const metadata: Metadata = {
     "An honest, evidence-tiered supplement reference: what each one is, what's claimed, and what the human research actually shows, sorted by strength of evidence, with citations.",
   alternates: { canonical: "/supplements" },
 };
+
+/** Turn a category name into a stable id for aria-labelledby / anchors. */
+function categoryId(category: string): string {
+  return category
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
 export default function SupplementsHubPage() {
   const grouped = supplementsByGrade();
@@ -36,9 +48,11 @@ export default function SupplementsHubPage() {
         <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Supplement database</h1>
         <p className="mt-2 max-w-prose text-muted">
           The supplement aisle runs on overclaiming. These pages do the opposite:
-          each one separates what&rsquo;s <em>claimed</em> from what the human
-          evidence actually <em>shows</em>, labelled by strength and cited.
-          They&rsquo;re grouped below by how good that evidence really is.
+          each in-depth review separates what&rsquo;s <em>claimed</em> from what
+          the human evidence actually <em>shows</em>, labelled by strength and
+          cited &mdash; grouped first by how good that evidence really is. Below
+          them, a neutral A&ndash;Z reference covers {supplementCatalogueCount}{" "}
+          supplements in all.
         </p>
       </div>
 
@@ -72,6 +86,51 @@ export default function SupplementsHubPage() {
           </section>
         ))}
       </CardSearch>
+
+      <section aria-labelledby="full-reference" className="space-y-8">
+        <div>
+          <h2 id="full-reference" className="font-display text-2xl uppercase">The full list</h2>
+          <p className="mt-1 max-w-prose text-sm text-muted">
+            A neutral reference to {supplementCatalogueCount} widely used
+            supplements, grouped by category, with a one-line note on what each is
+            typically taken for. This is descriptive, not an endorsement or dosing
+            guide &mdash; evidence strength varies enormously, and several entries
+            are popular without strong support. Always check interactions and
+            regulatory status before use. Entries with a full evidence review link
+            through to it.
+          </p>
+        </div>
+
+        {supplementCatalogue.map((group) => (
+          <section key={group.category} aria-labelledby={`cat-${categoryId(group.category)}`}>
+            <h3
+              id={`cat-${categoryId(group.category)}`}
+              className="font-display text-lg uppercase text-muted"
+            >
+              {group.category}
+            </h3>
+            <dl className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+              {group.items.map((item) => (
+                <div key={`${group.category}-${item.name}`}>
+                  <dt className="font-semibold">
+                    {item.slug ? (
+                      <Link
+                        href={`/supplements/${item.slug}`}
+                        className="text-primary underline underline-offset-2"
+                      >
+                        {item.name}
+                      </Link>
+                    ) : (
+                      item.name
+                    )}
+                  </dt>
+                  <dd className="text-sm text-muted">{item.note}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </section>
 
       <DisclaimerBanner />
     </div>
