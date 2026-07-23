@@ -68,11 +68,13 @@ describe("supplement catalogue", () => {
     expect(new Set(names).size).toBe(names.length);
   });
 
-  it("every linked slug resolves to a real supplement review", () => {
+  it("every supplement links to a real, evidence-rated page", () => {
     for (const s of supplementCatalogueItems) {
-      if (s.slug) {
-        expect(supplementsBySlug.has(s.slug), `${s.name} → unknown supplement ${s.slug}`).toBe(true);
-      }
+      expect(s.slug.length, `${s.name} has no page slug`).toBeGreaterThan(0);
+      const page = supplementsBySlug.get(s.slug);
+      expect(page, `${s.name} → unknown supplement ${s.slug}`).toBeDefined();
+      // Every page carries a headline evidence rating.
+      expect(page?.headlineTier).toBeTruthy();
     }
   });
 
