@@ -9,6 +9,9 @@ test("all internal links reachable from the homepage resolve", async ({
   page,
   request,
 }) => {
+  // The reference-library expansion roughly doubled the crawl surface;
+  // under parallel workers this legitimately exceeds the default 30s.
+  test.slow();
   await page.goto("/");
   const hrefs = await page
     .locator('a[href^="/"]')
@@ -109,33 +112,35 @@ test("calculators index groups every category under stable anchors", async ({ pa
   expect(await toolLinks.count()).toBeGreaterThanOrEqual(33);
 });
 
-test("Calculators menu reaches the index (dropdown on desktop, grouped list on mobile)", async ({ page }) => {
+test("Calculators menu expands on click and lists the calculators by category", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Main" });
   const hamburger = nav.getByRole("button", { name: "Open menu" });
-  if (await hamburger.isVisible()) {
-    // Mobile: the group renders as a labelled sub-list inside the panel.
-    await hamburger.click();
-    const menu = page.locator("#mobile-menu");
-    await expect(menu.getByText("Calculators", { exact: true })).toBeVisible();
-    for (const anchor of ["nutrition", "workout", "recovery"]) {
-      await expect(menu.locator(`a[href="/calculators#${anchor}"]`)).toBeVisible();
-    }
-    await menu.locator('a[href="/calculators"]').click();
-  } else {
-    // Desktop: an accessible disclosure dropdown.
-    const trigger = nav.getByRole("button", { name: "Calculators" });
-    await expect(trigger).toHaveAttribute("aria-expanded", "false");
-    await trigger.click();
-    await expect(trigger).toHaveAttribute("aria-expanded", "true");
-    // Scope to the dropdown panel: the category labels also exist as
-    // top-level topic links in the same nav.
-    const panel = nav.locator("#nav-group-calculators");
-    for (const label of ["All calculators", "Nutrition", "Workout", "Recovery", "Peptide reconstitution"]) {
-      await expect(panel.getByRole("link", { name: label, exact: true })).toBeVisible();
-    }
-    await panel.getByRole("link", { name: "All calculators" }).click();
+  const onMobile = await hamburger.isVisible();
+  if (onMobile) await hamburger.click();
+
+  // Collapsed until clicked, on both the desktop bar and the mobile panel.
+  const trigger = nav.getByRole("button", { name: "Calculators" });
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+  const panel = nav.locator(
+    onMobile ? "#mobile-group-calculators" : "#nav-group-calculators",
+  );
+  // The menu holds the calculators themselves, grouped by category.
+  for (const category of ["Nutrition", "Workout", "Recovery", "Peptides"]) {
+    await expect(panel.getByText(category, { exact: true })).toBeVisible();
   }
+  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveAttribute(
+    "href",
+    "/tdee-calculator",
+  );
+  await expect(
+    panel.getByRole("link", { name: /Peptide Reconstitution/ }),
+  ).toHaveAttribute("href", "/learn/peptides/peptide-reconstitution");
+
+  await panel.getByRole("link", { name: "All calculators" }).click();
   await expect(page).toHaveURL(/\/calculators$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Calculators");
 });
