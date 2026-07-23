@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { ResultTitle } from "@/components/effects/ResultTitle";
 import { RollingNumber } from "@/components/effects/RollingNumber";
 
 /**
@@ -42,7 +43,8 @@ export function ScoreCard({
   children,
 }: ScoreCardProps) {
   return (
-    <div className="rounded-xl bg-foreground p-5 text-background shadow-[4px_4px_0_0_rgba(28,19,13,0.35)]">
+    <div className="scorecard rounded-xl bg-foreground p-5 text-background shadow-[4px_4px_0_0_rgba(28,19,13,0.35)]">
+      <ResultTitle text={`${value}${unit ? ` ${unit}` : ""} · ${label}`} />
       <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-background/70">
         {label}
       </p>

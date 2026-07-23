@@ -16,6 +16,7 @@ import {
 } from "@/registry/configs/one-rep-max-calculator.shared";
 import { inRange } from "@/registry/configs/tdee.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
+import { BarbellWhip } from "@/components/effects/BarbellWhip";
 import { ResultHistory } from "@/components/ResultHistory";
 import { ResultsPanel } from "@/components/ResultsPanel";
 import { ScoreCard } from "@/components/ScoreCard";
@@ -131,6 +132,7 @@ export function OneRmCalculator() {
               value={display(result.maxKg)}
               valueTestId="one-rm-value"
             />
+            <BarbellWhip loadKg={result.maxKg} />
             {result.reps > REP_VALIDITY_LIMIT ? (
               <p className={warningClass} role="alert">
                 Estimates lose accuracy beyond {REP_VALIDITY_LIMIT} reps —

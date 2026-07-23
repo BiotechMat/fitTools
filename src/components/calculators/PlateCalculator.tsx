@@ -9,6 +9,7 @@ import {
 } from "@/registry/configs/plate-calculator.shared";
 import { inRange } from "@/registry/configs/tdee.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
+import { BarbellLoad } from "@/components/effects/BarbellLoad";
 import { ResultsPanel } from "@/components/ResultsPanel";
 import { formatNumber, inputClass, labelClass } from "@/components/calculators/styles";
 
@@ -180,6 +181,10 @@ export function PlateCalculator() {
                 : "Empty bar"}
               {result.perSide.length > 0 ? " kg" : ""}
             </p>
+            <BarbellLoad
+              key={result.perSide.join("+")}
+              perSide={result.perSide}
+            />
             <p className="mt-2 text-lg" data-testid="plate-total">
               Total: <span className="font-semibold">{formatNumber(result.achievedKg, 1)} kg</span>
               {result.exact ? "" : ` (nearest to your ${targetText} kg target)`}

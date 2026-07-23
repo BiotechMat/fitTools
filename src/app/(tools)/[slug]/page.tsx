@@ -14,6 +14,7 @@ import { EmbedCode } from "@/components/EmbedCode";
 import { FAQ } from "@/components/FAQ";
 import { RelatedTools } from "@/components/RelatedTools";
 import { RelatedReference } from "@/components/RelatedReference";
+import { SourcesReceipt } from "@/components/SourcesReceipt";
 import {
   breadcrumbJsonLd,
   faqPageJsonLd,
@@ -127,15 +128,7 @@ export default async function ToolPage({ params }: ToolPageParams) {
       <div className="prose">
         <Editorial />
         <h2>Sources</h2>
-        <ul>
-          {tool.sources.map((source) => (
-            <li key={source.url}>
-              <a href={source.url} rel="noopener noreferrer">
-                {source.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <SourcesReceipt sources={tool.sources} />
       </div>
 
       <FAQ entries={tool.faq} />

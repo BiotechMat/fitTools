@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import {
   HEART_AGE_REFERENCE,
   type PreventInput,
@@ -100,6 +100,16 @@ export function HeartAgeCalculator() {
     cholUnit === "mg" ? display / MG_PER_MMOL : display;
   const cholStep = cholUnit === "mg" ? 1 : 0.1;
   const cholUnitLabel = cholUnit === "mg" ? "mg/dL" : "mmol/L";
+
+  // One lub-dub through the phone when a result lands (mobile only; no-op
+  // where the Vibration API is missing, and skipped under reduced motion).
+  const heartAgeValue = result?.heartAge;
+  useEffect(() => {
+    if (heartAgeValue === undefined) return;
+    if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    navigator.vibrate([30, 90, 45]);
+  }, [heartAgeValue]);
 
   const older = result ? result.deltaYears > 0 : false;
   const lpa = s.lpaNmol != null ? lpaBand(s.lpaNmol) : null;
@@ -292,7 +302,7 @@ export function HeartAgeCalculator() {
                 type="checkbox"
                 checked={s[t.key]}
                 onChange={(e) => set(t.key, e.target.checked)}
-                className="size-4 rounded border-border"
+                className="tick-box"
               />
               {t.label}
             </label>

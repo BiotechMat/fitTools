@@ -193,6 +193,227 @@ body {
   }
 }
 
+/* Branded text selection + keyboard focus (DESIGN §7: ember focus). */
+::selection {
+  background: var(--primary-strong);
+  color: var(--background);
+}
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Sticker peel: hovering a stamp lifts a corner; pressing flattens it. */
+@media (prefers-reduced-motion: no-preference) {
+  .sticker-peel {
+    transition: transform 160ms ease-out;
+    transform-origin: 20% 85%;
+  }
+  .sticker-peel:hover {
+    transform: perspective(400px) rotateX(-14deg) rotate(3deg) scale(1.04);
+  }
+  .sticker-peel:active {
+    transform: rotate(2deg) scale(0.96);
+  }
+}
+
+/* Draw-in checkbox: the tick wipes in left-to-right (forest on matcha). */
+.tick-box {
+  appearance: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
+  border: 2px solid var(--foreground);
+  border-radius: 0.3rem;
+  background: var(--surface);
+  position: relative;
+  cursor: pointer;
+}
+.tick-box:checked {
+  background: var(--good-soft);
+  border-color: var(--good);
+}
+.tick-box:checked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5 6.5 12 13 4.5' fill='none' stroke='%231F5C3D' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 80% no-repeat;
+}
+@keyframes tick-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tick-box:checked::before {
+    animation: tick-wipe 200ms ease-out both;
+  }
+}
+
+/* Split-flap flip for the metric/imperial toggle labels. */
+@keyframes unit-flap {
+  from {
+    transform: rotateX(-85deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .unit-flap {
+    animation: unit-flap 240ms ease-out;
+    transform-origin: 50% 100%;
+  }
+}
+
+/* Plate-load + barbell physics. */
+@keyframes plate-slide {
+  from {
+    transform: translateX(48px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-3px);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.plate-slide {
+  animation: plate-slide 340ms cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate-slide {
+    animation: none;
+  }
+}
+
+/* Receipt citations: sources unroll like a till receipt. */
+.receipt summary {
+  cursor: pointer;
+  list-style: none;
+}
+.receipt summary::-webkit-details-marker {
+  display: none;
+}
+.receipt-paper {
+  border: 2px solid var(--foreground);
+  border-bottom-style: dashed;
+  background: var(--surface);
+  font-family: var(--font-space-mono), monospace;
+}
+@keyframes receipt-unroll {
+  from {
+    transform: scaleY(0.2);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  details.receipt[open] .receipt-paper {
+    animation: receipt-unroll 260ms ease-out both;
+    transform-origin: top;
+  }
+}
+
+/* Holo share card sheen (position driven by --sheen-x from HoloTilt). */
+.holo-tilt {
+  position: relative;
+}
+.holo-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.16) 48%,
+    rgba(255, 255, 255, 0.03) 56%,
+    transparent 66%
+  );
+  background-size: 220% 220%;
+  background-position: var(--sheen-x, 120%) 0;
+  mix-blend-mode: screen;
+}
+
+/* 404 failed lift: the bar strains, tips, and the plates roll off. */
+@keyframes bar-tip {
+  0%,
+  35% {
+    rotate: 0deg;
+  }
+  45% {
+    rotate: -1.5deg;
+  }
+  60%,
+  100% {
+    rotate: 7deg;
+  }
+}
+@keyframes plate-fall {
+  to {
+    transform: translate(34px, 130px) rotate(78deg);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lift-bar {
+    animation: bar-tip 2s ease-in-out 400ms both;
+  }
+  .plate-fall {
+    animation: plate-fall 700ms ease-in 1.5s both;
+  }
+  .plate-fall-late {
+    animation-delay: 1.75s;
+  }
+}
+
+/* Print: any result page becomes a lab report. */
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .scorecard {
+    background: #fff !important;
+    color: var(--ink, #1c130d) !important;
+    border: 2px solid #1c130d;
+  }
+  .scorecard * {
+    color: #1c130d !important;
+  }
+  .prose a::after {
+    content: " (" attr(href) ")";
+    font-family: var(--font-space-mono), monospace;
+    font-size: 0.75em;
+    word-break: break-all;
+  }
+  main::after {
+    content: "Printed from FitTools — evidence-based, every formula cited.";
+    display: block;
+    margin-top: 2rem;
+    font-family: var(--font-space-mono), monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+}
+
 /* Editorial (MDX) typography — hand-rolled to avoid a plugin dependency. */
 .prose {
   max-width: 65ch;

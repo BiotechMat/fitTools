@@ -252,3 +252,36 @@ animation libraries — CSS keyframes and small client components only.
 Tuning knobs: ECG stroke opacities are props in `HeroEcg.tsx`; drift speeds
 are the `.ecg-rail` durations; roll feel is the constants at the top of
 `RollingNumber.tsx`.
+
+### Batch 2 (2026-07-23)
+
+- **Print-world details:** `::selection` in Blaze; global ember
+  `:focus-visible` ring; `.sticker-peel` hover-lift on stamps; a
+  `@media print` lab-report stylesheet (chrome hidden, ScoreCard inverts to
+  ink-on-white, link URLs printed, mono footer stamp).
+- **`.tick-box`** — draw-in checkbox: forest tick wipes in on matcha soft
+  fill (life-expectancy factors, heart-age history).
+- **`ThrowableTicker`** — the marquee can be grabbed and flung; drag drives
+  the CSS animation's playbackRate, friction settles it back to cruise.
+- **`ResultTitle`** — the browser tab carries the current result
+  (`163.3 kg · Your estimated one-rep max · …`); original title restored on
+  unmount. Rendered by ScoreCard.
+- **Heart-age haptics** — one lub-dub via `navigator.vibrate` when a result
+  lands (mobile only, reduced-motion aware).
+- **`BarbellLoad`** — plate calculator loads the per-side stack onto a
+  sleeve with staggered slide-and-settle (decorative; text stack stays the
+  accessible result).
+- **`BarbellWhip`** — the 1RM bar bends in proportion to the number and
+  settles with a damped spring; clamped mapping, not a physical model.
+- **`HoloTilt`** — the /share achievement card tilts in perspective with a
+  foil sheen under the cursor (trading-card physics; pointer-driven only).
+- **`SourcesReceipt`** — tool sources unroll as a till receipt
+  (details/summary, zero JS; links stay real anchors for crawlers/print).
+- **`/not-found`** — the 404 is a failed lift: bar strains, tips, plates
+  roll off. The site's one easter egg, deliberately.
+- **`DailyFavicon`** — /daily's favicon gains a matcha done-dot once
+  today's Ballpark is played; defensive (any failure keeps the original).
+- **Unit flap** — metric/imperial toggle labels flip split-flap style.
+
+All batch-2 effects follow the same binding principles above
+(reduced-motion, zero-CLS, aria-hidden decoration, no dependencies).

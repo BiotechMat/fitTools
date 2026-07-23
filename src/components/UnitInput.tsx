@@ -92,7 +92,12 @@ export function UnitSystemToggle({
             onChange={() => onChange(option)}
             className="sr-only"
           />
-          {option === "metric" ? "Metric" : "Imperial"}
+          <span
+            key={`${option}-${system === option}`}
+            className="unit-flap inline-block"
+          >
+            {option === "metric" ? "Metric" : "Imperial"}
+          </span>
         </label>
       ))}
     </fieldset>

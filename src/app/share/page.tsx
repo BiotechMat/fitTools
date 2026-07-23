@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getTool } from "@/registry/tools";
 import { parseShareCardParams, shareImagePath } from "@/lib/share-card";
+import { HoloTilt } from "@/components/effects/HoloTilt";
 
 /**
  * Share landing page (ROADMAP.md E1). A shared result URL lands here: the page
@@ -56,6 +57,7 @@ export default async function SharePage({ searchParams }: ShareParams) {
 
   return (
     <div className="mx-auto max-w-xl space-y-8 py-6">
+      <HoloTilt>
       <div
         data-testid="share-card"
         className="flex flex-col justify-between rounded-2xl border-2 border-foreground bg-foreground p-8 text-background shadow-[4px_4px_0_0_var(--color-foreground)]"
@@ -80,6 +82,7 @@ export default async function SharePage({ searchParams }: ShareParams) {
           Evidence-based · every formula cited
         </p>
       </div>
+      </HoloTilt>
 
       <div className="text-center">
         <h1 className="font-display text-2xl uppercase">Calculate yours</h1>

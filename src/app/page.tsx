@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThrowableTicker } from "@/components/effects/ThrowableTicker";
 import { PulseHeroCard } from "@/components/pulse/PulseHeroCard";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
@@ -149,10 +150,10 @@ export default function HomePage() {
         className="overflow-hidden rounded-xl border-2 border-foreground bg-foreground py-2 text-background"
         aria-label={`${TICKER_ITEMS.join(". ")}. ${toolCount} tools and counting.`}
       >
-        <div className="ticker-rail" aria-hidden="true">
+        <ThrowableTicker>
           <TickerCopy toolCount={toolCount} />
           <TickerCopy toolCount={toolCount} />
-        </div>
+        </ThrowableTicker>
       </div>
 
       <section className="pt-8" aria-labelledby="bloodtest-cta">

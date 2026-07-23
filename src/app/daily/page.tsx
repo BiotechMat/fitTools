@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { DailyHub } from "@/components/daily/DailyHub";
+import { DailyFavicon } from "@/components/effects/DailyFavicon";
 
 export const metadata: Metadata = {
   title: "Daily — Ballpark & Myth or Fact, Cited Fitness Games",
@@ -38,6 +39,7 @@ export default function DailyPage() {
       <div className="mt-6">
         <DailyHub />
       </div>
+      <DailyFavicon />
     </div>
   );
 }

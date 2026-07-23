@@ -57,7 +57,7 @@ function EcgLine({
         d={PATH}
         stroke={stroke}
         strokeOpacity={opacity}
-        strokeWidth={2.5}
+        strokeWidth={2}
         strokeLinejoin="round"
         strokeLinecap="round"
       />
@@ -72,13 +72,13 @@ export function HeroEcg() {
       className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
     >
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
-        <EcgLine className="ecg-rail" stroke="var(--primary)" opacity={0.3} />
+        <EcgLine className="ecg-rail" stroke="var(--primary)" opacity={0.14} />
       </div>
       <div className="absolute inset-x-0 top-1/2 mt-7 -translate-y-1/2">
         <EcgLine
           className="ecg-rail ecg-rail-slow"
           stroke="var(--good)"
-          opacity={0.22}
+          opacity={0.1}
         />
       </div>
     </div>

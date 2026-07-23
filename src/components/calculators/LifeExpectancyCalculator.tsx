@@ -63,7 +63,7 @@ export function LifeExpectancyCalculator() {
                     onChange={(e) =>
                       setSelections((s) => ({ ...s, [key]: e.target.checked }))
                     }
-                    className="mt-0.5 accent-[var(--primary)]"
+                    className="tick-box mt-0.5"
                   />
                   <span>
                     <span className="font-medium">{def.label}</span>
