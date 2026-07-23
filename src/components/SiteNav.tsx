@@ -108,7 +108,7 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => (open ? closeMobileMenu() : setOpen(true))}
-        className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-foreground bg-surface shadow-[2px_2px_0_0_var(--color-foreground)] active:translate-x-0.5 active:translate-y-0.5 lg:hidden"
+        className="mr-auto inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-foreground bg-surface shadow-[2px_2px_0_0_var(--color-foreground)] active:translate-x-0.5 active:translate-y-0.5 lg:hidden"
       >
         {open ? <CloseIcon /> : <MenuIcon />}
       </button>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { exercisePatterns, exercisesForPattern } from "@/registry/exercises";
+import { CardSearch } from "@/components/CardSearch";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
@@ -36,29 +37,35 @@ export default function ExercisesHubPage() {
         </p>
       </div>
 
-      {exercisePatterns.map((p) => (
-        <section key={p.slug} aria-labelledby={`pattern-${p.slug}`}>
-          <h2 id={`pattern-${p.slug}`} className="font-display text-2xl uppercase">
-            <Link href={`/exercises/${p.slug}`} className="text-primary underline underline-offset-2">
-              {p.title}
-            </Link>
-          </h2>
-          <p className="mt-1 max-w-prose text-sm text-muted">{p.description}</p>
-          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-            {exercisesForPattern(p.slug).map((e) => (
-              <li key={e.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
-                <Link
-                  href={`/exercises/${p.slug}/${e.slug}`}
-                  className="font-semibold text-primary underline underline-offset-2"
+      <CardSearch label="Search exercises" className="space-y-8">
+        {exercisePatterns.map((p) => (
+          <section key={p.slug} aria-labelledby={`pattern-${p.slug}`} data-search-group>
+            <h2 id={`pattern-${p.slug}`} className="font-display text-2xl uppercase">
+              <Link href={`/exercises/${p.slug}`} className="text-primary underline underline-offset-2">
+                {p.title}
+              </Link>
+            </h2>
+            <p className="mt-1 max-w-prose text-sm text-muted">{p.description}</p>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {exercisesForPattern(p.slug).map((e) => (
+                <li
+                  key={e.slug}
+                  data-search-item={e.name}
+                  className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
                 >
-                  {e.name}
-                </Link>
-                <p className="mt-1 text-sm text-muted">{e.short}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+                  <Link
+                    href={`/exercises/${p.slug}/${e.slug}`}
+                    className="font-semibold text-primary underline underline-offset-2"
+                  >
+                    {e.name}
+                  </Link>
+                  <p className="mt-1 text-sm text-muted">{e.short}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </CardSearch>
     </div>
   );
 }
