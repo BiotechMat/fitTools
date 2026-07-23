@@ -146,12 +146,16 @@ and Mat has signed off.
   accounts/sync, D3 biomarkers, D4 share cards) are gated: identified profiles
   and real blood values need ROADMAP E0 accounts + the BUSINESS_PLAN §13 /
   SPEC §17 data-protection posture (§8). Build sequence + gates in §11.
-- ACCOUNTS.md — BLUEPRINT (not signed off) for ROADMAP E0 sign-in & accounts,
-  the STATUS.md Phase 4 crossing: auth approach (magic-link-first, self-hosted
-  library), the per-store sync promotion over the SPEC §10 HistoryProvider
-  seam, the binding consent/data-protection posture, build sequence A0–A3,
-  and the §9 Mat-only stack decisions. Plan from this when Phase 4 is
-  scheduled; nothing in it is built.
+- ACCOUNTS.md — BLUEPRINT for ROADMAP E0 sign-in & accounts, the STATUS.md
+  Phase 4 crossing. Stack decisions RESOLVED 2026-07-23 (delegated by Mat):
+  magic link + Google + Apple via Better Auth, Neon Postgres (UK/EU region,
+  functions pinned), Resend, 16+ age line, sized for ~200k users at peak.
+  Scope (Mat, same day): EVERY savable surface syncs through the §6.2
+  namespace registry — calculators/estimators (history), dashboard, dailies,
+  Pulse, arcade bests/skins, the supplement stack, saved exercises, prefs;
+  bloodwork is its own gated namespace at A4 (manual entry first). Build
+  sequence A0–A4; nothing built yet — build when Phase 4 is scheduled. The
+  monetisation model (MONETISATION §4) remains the one open Mat decision.
 - PROFILE.md — BLUEPRINT (not built, not signed off) for the health profile +
   bloodwork auto-populate that accounts unlock (STATUS.md Phase 4, after
   ACCOUNTS.md's E0 foundation). Manual profile + auto-populate is the lighter

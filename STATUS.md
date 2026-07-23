@@ -135,9 +135,12 @@ charting library would blow the budget (README JS-budget history).
 
 The next real engineering milestone and the gate everything sensitive waits on.
 **Planning blueprint: `ACCOUNTS.md` (2026-07-23)** — architecture, the binding
-consent/data-protection posture, build sequence A0–A3, and the stack decisions
-(§4 #6 below). Build as a deliberate, resourced step (BUSINESS_PLAN §13;
-SPEC §17):
+consent/data-protection posture, build sequence A0–A4, and the stack decisions
+(§4 #6 below — **resolved 2026-07-23**, sized for ~200k users at peak; scope
+widened the same day at Mat's direction to every savable surface: calculators,
+dashboard, dailies, Pulse, arcade, supplement stack, saved exercises, prefs,
+with bloodwork gated at A4). Build as a deliberate, resourced step
+(BUSINESS_PLAN §13; SPEC §17):
 
 1. Lawful-basis + explicit consent flow for health data; published
    data-protection posture; view / export / **delete-all** controls.
@@ -177,12 +180,14 @@ These gate the phases above and cannot be resolved from the code:
    retention window?
 5. **The blood-test partner** — `/blood-test` is live and makes promises that
    depend on it.
-6. **The accounts stack** (ACCOUNTS.md §9) — auth methods (magic link +
-   which social), auth library (Better Auth vs Auth.js — a new dependency
-   either way), database + region (Neon/Supabase, London/Frankfurt), the
-   transactional-email provider (can double as the Phase 1 newsletter
-   provider), the account age line (13/16/18), and the retention window.
-   Gates Phase 4's A1 build start; recommendations are in the doc.
+6. **The accounts stack — RESOLVED (2026-07-23, delegated to Claude by
+   Mat):** magic link + Google + Apple · Better Auth · Neon Postgres
+   (London/Frankfurt, Vercel functions pinned) · Resend (doubles as the
+   Phase 1 newsletter provider) · 16+ age line · 24-month inactivity
+   retention · manual biomarker entry before the partner (resolves #4's
+   first question). Rationale + the ~200k-user sizing: ACCOUNTS.md §9/§5.4.
+   The monetisation model (#1 above) is now the only decision still gating
+   Phase 4 — and only its tier design, not the free-account build.
 
 ---
 
