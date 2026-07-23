@@ -7,7 +7,7 @@ export const alt = "FitTools Arcade: quick games with a health-nerd twist";
 export default function Image() {
   return ogCard(
     "Quick games with a health-nerd twist",
-    "Lifeline · Powerhouse · Max Out · Snake Oil · the dailies. Free in the browser, no sign-up, receipts included.",
+    "Lifeline · Powerhouse · Max Out · Five a Day · the dailies. Free in the browser, no sign-up, receipts included.",
     { kicker: "The arcade" },
   );
 }

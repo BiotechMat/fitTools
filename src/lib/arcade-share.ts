@@ -71,10 +71,12 @@ export interface MaxOutResult {
   cause?: number;
 }
 
-export interface SnakeOilResult {
-  game: "snake-oil";
-  busted: number;
-  points: number;
+export interface FiveADayResult {
+  game: "five-a-day";
+  /** Produce portions sliced. */
+  portions: number;
+  /** Different plants in the run (the variety bonus). */
+  plants: number;
 }
 
 export interface PowerhouseResult {
@@ -100,7 +102,7 @@ export interface MythResult {
 export type ArcadeResult =
   | LifelineResult
   | MaxOutResult
-  | SnakeOilResult
+  | FiveADayResult
   | PowerhouseResult;
 
 export type DailyResult = BallparkResult | MythResult;
@@ -111,7 +113,7 @@ export type ShareResultPayload = ArcadeResult | DailyResult;
 export type HeroCard =
   | "lifeline"
   | "max-out"
-  | "snake-oil"
+  | "five-a-day"
   | "powerhouse"
   | "daily";
 
@@ -125,8 +127,8 @@ const BOUNDS = {
   beat: { min: 1, max: 199 },
   seed: { min: 1, max: 99_999_999 },
   kg: { min: 20, max: 1000 },
-  busted: { min: 0, max: 999 },
-  points: { min: 0, max: 9_999_999 },
+  portions: { min: 0, max: 999 },
+  plants: { min: 0, max: 99 },
   atp: { min: 0, max: 9_999_999 },
   zone: { min: 0, max: 19 },
   puzzle: { min: 1, max: 99_999 },
@@ -177,12 +179,12 @@ export function maxOutSharePath(r: Omit<MaxOutResult, "game">): string {
   return `/max-out?${q.toString()}`;
 }
 
-export function snakeOilSharePath(r: Omit<SnakeOilResult, "game">): string {
+export function fiveADaySharePath(r: Omit<FiveADayResult, "game">): string {
   const q = new URLSearchParams({
-    busted: String(r.busted),
-    pts: String(r.points),
+    portions: String(r.portions),
+    plants: String(r.plants),
   });
-  return `/snake-oil?${q.toString()}`;
+  return `/five-a-day?${q.toString()}`;
 }
 
 export function powerhouseSharePath(r: Omit<PowerhouseResult, "game">): string {
@@ -236,11 +238,11 @@ export function parseArcadeResult(
       const cause = intIn(sp.cause, { min: 0, max: MISS_CAUSES.length - 1 });
       return { game, kg, ...(cause !== undefined ? { cause } : {}) };
     }
-    case "snake-oil": {
-      const busted = intIn(sp.busted, BOUNDS.busted);
-      const points = intIn(sp.pts, BOUNDS.points);
-      if (busted === undefined || points === undefined) return null;
-      return { game, busted, points };
+    case "five-a-day": {
+      const portions = intIn(sp.portions, BOUNDS.portions);
+      const plants = intIn(sp.plants, BOUNDS.plants);
+      if (portions === undefined || plants === undefined) return null;
+      return { game, portions, plants };
     }
     case "powerhouse": {
       const atp = intIn(sp.atp, BOUNDS.atp);
@@ -292,9 +294,9 @@ export function arcadeCardPath(payload: ArcadeCardPayload): string {
       q.set("kg", String(r.kg));
       if (r.cause !== undefined) q.set("cause", String(r.cause));
       break;
-    case "snake-oil":
-      q.set("busted", String(r.busted));
-      q.set("pts", String(r.points));
+    case "five-a-day":
+      q.set("portions", String(r.portions));
+      q.set("plants", String(r.plants));
       break;
     case "powerhouse":
       q.set("atp", String(r.atp));
@@ -332,14 +334,14 @@ export function parseCardParams(sp: SearchParams): ArcadeCardPayload | null {
   if (
     game === "lifeline" ||
     game === "max-out" ||
-    game === "snake-oil" ||
+    game === "five-a-day" ||
     game === "powerhouse"
   ) {
     // A bare game id is the page's hero card; result params make a score card.
     const hasResultParams =
       sp.beat !== undefined ||
       sp.kg !== undefined ||
-      sp.busted !== undefined ||
+      sp.portions !== undefined ||
       sp.atp !== undefined;
     if (!hasResultParams) return { kind: "hero", game };
     const result = parseArcadeResult(game, {
@@ -365,8 +367,8 @@ export function resultTitle(result: ShareResultPayload): string {
         : `Lifeline: flatlined at ${result.beat}`;
     case "max-out":
       return `Max Out: ${formatNumber(result.kg)} kg on the bar`;
-    case "snake-oil":
-      return `Snake Oil: ${result.busted} myth${result.busted === 1 ? "" : "s"} busted`;
+    case "five-a-day":
+      return `Five a Day: ${result.portions} portion${result.portions === 1 ? "" : "s"}`;
     case "powerhouse":
       return `Powerhouse: ${formatNumber(result.atp)} ATP`;
     case "ballpark":
@@ -389,8 +391,8 @@ export function resultDescription(result: ShareResultPayload): string {
     }
     case "max-out":
       return "Stop the needle in the green, load the bar, chase plates. How much can you lock out?";
-    case "snake-oil":
-      return `${formatNumber(result.points)} pts slicing fitness myths. Every busted myth cites a real source. Beat it.`;
+    case "five-a-day":
+      return `${result.portions} portions sliced, ${result.plants} different plant${result.plants === 1 ? "" : "s"}. Slice the produce, never the junk. Beat it.`;
     case "powerhouse":
       return `Bonked in ${titleCase(powerhouseZonePhrase(result.zone))}. You are the mitochondrion. Make more ATP than them.`;
     case "ballpark":

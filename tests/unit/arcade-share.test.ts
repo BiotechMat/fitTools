@@ -9,11 +9,11 @@ import {
   parseArcadeResult,
   parseCardParams,
   parseDailyResult,
+  fiveADaySharePath,
   powerhouseSharePath,
   powerhouseZonePhrase,
   resultDescription,
   resultTitle,
-  snakeOilSharePath,
 } from "@/lib/arcade-share";
 import { OBSTACLE_KINDS } from "@/lib/lifeline";
 import { MISS_CAUSES } from "@/lib/maxout";
@@ -83,13 +83,13 @@ describe("max-out share", () => {
   });
 });
 
-describe("snake-oil and powerhouse shares", () => {
+describe("five-a-day and powerhouse shares", () => {
   it("round-trip their scores", () => {
-    const snake = snakeOilSharePath({ busted: 12, points: 3400 });
-    expect(parseArcadeResult("snake-oil", query(snake))).toEqual({
-      game: "snake-oil",
-      busted: 12,
-      points: 3400,
+    const five = fiveADaySharePath({ portions: 12, plants: 7 });
+    expect(parseArcadeResult("five-a-day", query(five))).toEqual({
+      game: "five-a-day",
+      portions: 12,
+      plants: 7,
     });
     const power = powerhouseSharePath({ atp: 5400, zone: 3 });
     expect(parseArcadeResult("powerhouse", query(power))).toEqual({
@@ -100,7 +100,7 @@ describe("snake-oil and powerhouse shares", () => {
   });
 
   it("requires both numbers", () => {
-    expect(parseArcadeResult("snake-oil", { busted: "12" })).toBeNull();
+    expect(parseArcadeResult("five-a-day", { portions: "12" })).toBeNull();
     expect(parseArcadeResult("powerhouse", { atp: "5400" })).toBeNull();
   });
 
@@ -171,7 +171,7 @@ describe("card image params", () => {
   it("round-trips every result kind through the card URL", () => {
     const results = [
       { game: "max-out", kg: 180, cause: 1 },
-      { game: "snake-oil", busted: 9, points: 2100 },
+      { game: "five-a-day", portions: 9, plants: 5 },
       { game: "powerhouse", atp: 12000, zone: 6 },
       { game: "ballpark", puzzle: 7, tiers: ["bullseye"] },
       { game: "myth", puzzle: 2, correct: 0, total: 5 },

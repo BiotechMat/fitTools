@@ -22,10 +22,10 @@ import {
   BALLPARK_TARGET,
   LIFELINE_HEART,
   MAXOUT_LIFTER,
+  FIVEADAY_APPLE,
   MINI_HEART_EMPTY,
   MINI_HEART_FULL,
   POWERHOUSE_MITO,
-  SNAKEOIL_BOTTLE,
 } from "@/lib/pixel-art";
 import { SITE_URL } from "@/lib/site";
 
@@ -61,12 +61,12 @@ const GAME_META: Record<
     sprite: MAXOUT_LIFTER,
     cell: 7,
   },
-  "snake-oil": {
-    name: "SNAKE OIL",
-    strap: "SLICE THE MYTHS, SPARE THE TRUTHS · EVERY BUST CITES ITS SOURCE",
-    path: "/SNAKE-OIL",
-    sprite: SNAKEOIL_BOTTLE,
-    cell: 7,
+  "five-a-day": {
+    name: "FIVE A DAY",
+    strap: "SLICE THE PRODUCE, NEVER THE JUNK · STACK THE PLANT VARIETY",
+    path: "/FIVE-A-DAY",
+    sprite: FIVEADAY_APPLE,
+    cell: 8,
   },
   powerhouse: {
     name: "POWERHOUSE",
@@ -297,22 +297,22 @@ function resultSpec(result: ShareResultPayload): CardSpec {
         footer: `BEAT IT AT ${HOST}/MAX-OUT`,
       };
     }
-    case "snake-oil":
+    case "five-a-day":
       return {
-        title: "SNAKE OIL",
+        title: "FIVE A DAY",
         middle: (
           <div style={MIDDLE_COL}>
-            <PixelSprite rows={SNAKEOIL_BOTTLE} cell={5} />
-            <Kicker text="MYTHS BUSTED" />
+            <PixelSprite rows={FIVEADAY_APPLE} cell={6} />
+            <Kicker text="PORTIONS SLICED" />
             <Score
-              value={String(result.busted)}
-              unit={`· ${result.points.toLocaleString("en-GB")} PTS`}
+              value={String(result.portions)}
+              unit={`· ${result.plants} PLANT${result.plants === 1 ? "" : "S"}`}
               size={180}
             />
-            <Gag text="SLICE THE MYTHS. SPARE THE TRUTH." />
+            <Gag text="SLICE THE PRODUCE. NEVER THE JUNK." />
           </div>
         ),
-        footer: `BEAT IT AT ${HOST}/SNAKE-OIL`,
+        footer: `BEAT IT AT ${HOST}/FIVE-A-DAY`,
       };
     case "powerhouse":
       return {

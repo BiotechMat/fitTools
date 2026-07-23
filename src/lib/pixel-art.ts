@@ -2,7 +2,7 @@
  * Pixel-art sprites for the share/OG cards, in the arcade games' house style:
  * uppercase letter = palette colour, "." = transparent. The emblems mirror the
  * in-game sprites (LifelineGame HEART_REST, PowerhouseGame MITO_A,
- * SnakeOilGame BOTTLE, MaxOutGame LIFTER_LOCKOUT) — the games keep their own
+ * the games' own frames, MaxOutGame LIFTER_LOCKOUT) — the games keep their own
  * copies next to their animation frames, same as the little UI hearts that
  * already repeat per game; update together if a sprite is redrawn.
  */
@@ -48,21 +48,17 @@ export const POWERHOUSE_MITO = [
   "...KKKKKKKK...",
 ];
 
-/** Snake Oil's corked tonic bottle. */
-export const SNAKEOIL_BOTTLE = [
-  "....KK....",
-  "...KAAK...",
-  "...KAAK...",
-  "..KKKKKK..",
-  ".KEEEEEEK.",
-  ".KEWEEEEK.",
-  ".KEEEEEEK.",
-  ".KPPPPPPK.",
-  ".KPKPPKPK.",
-  ".KPPPPPPK.",
-  ".KEEEEEEK.",
-  ".KEEEEEEK.",
-  "..KKKKKK..",
+/** Five a Day's apple (FiveADayGame PRODUCE_MAPS.apple). */
+export const FIVEADAY_APPLE = [
+  "....K.....",
+  "....K.FF..",
+  "..KKKKK...",
+  ".KBBWBBK..",
+  "KBBBWBBBK.",
+  "KBBBBBBBK.",
+  "KEBBBBBEK.",
+  ".KEBBBEK..",
+  "..KKKKK...",
 ];
 
 /** Max Out's lifter at lockout. */

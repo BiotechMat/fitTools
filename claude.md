@@ -23,7 +23,8 @@ reference tables, plus both-way calculator↔reference cross-links), the Pulse
 feed + fresh-cards pipeline F0–F3 (PULSE.md), the daily games (DAILY-GAMES.md),
 the arcade (LIFELINE.md /lifeline heartbeat flapper; POWERHOUSE.md /powerhouse
 side-scrolling mitochondria shooter; MAXOUT.md /max-out one-rep-max timing
-game; SNAKEOIL.md /snake-oil myth slicer; ARCADE-IDEAS.md is the candidate
+game; FIVEADAY.md /five-a-day produce slicer — pivoted same-day from the
+Snake Oil myth slicer, /snake-oil redirects; ARCADE-IDEAS.md is the candidate
 bench; hub at /arcade — nav + homepage CTA point there), the glow-up section first step (CONTENT-looksmaxxing.md §8), the E1 share
 loop (/share achievement card — tool-only for now; extending it to Pulse/Daily/
 arcade is STATUS.md Phase 2),
@@ -123,20 +124,24 @@ and Mat has signed off.
   proposed, not locked.
 - ARCADE-IDEAS.md — the arcade candidate bench: the house formula distilled,
   eight game pitches, guardrail-rejected anti-ideas. Proposals, not build
-  instructions; the two ⭐ picks are now built (MAXOUT.md, SNAKEOIL.md).
+  instructions; the two ⭐ picks are built (MAXOUT.md; the Snake Oil pick
+  shipped then pivoted to FIVEADAY.md — its §3.2 post-mortem records why).
 - MAXOUT.md — spec + build for "Max Out", the one-rep-max timing game at
   `/max-out` (stop-the-needle lineage; score = kg on the bar, flex = plates a
   side). The arcade's strength entry. v1 BUILT (2026-07-23): src/lib/maxout.ts
   (+ tests), src/components/maxout/*, /max-out; in the /arcade hub. A funnel to
   the One-Rep Max calculator + strength standards; cartoon, not a training
   plan (§3). Name "Max Out" proposed, not locked.
-- SNAKEOIL.md — spec + build for "Snake Oil", the myth-slicing game at
-  `/snake-oil` (Fruit Ninja lineage; slice the myths, spare the truths; every
-  claim derives from the vetted daily-games registry and the death card cites
-  the real source). v1 BUILT (2026-07-23): src/lib/snakeoil.ts (+ tests incl.
-  roster validation), src/components/snakeoil/*, /snake-oil; in the /arcade
-  hub. A funnel to Myth or Fact? and the debunk content; claims are about the
-  world, never the player (§3). Name "Snake Oil" proposed, not locked.
+- FIVEADAY.md — spec + build for "Five a Day", the produce-slicing game at
+  `/five-a-day` (Fruit Ninja lineage; slice the fruit and veg for portions
+  with smoothie combos + plant-variety bonuses, never the junk — the sibling
+  games' villains end the run on contact). Pivoted same-day from "Snake Oil"
+  (myth slogans — unreadable at toss speed; §1 records the lesson);
+  /snake-oil permanently redirects. v1 BUILT (2026-07-23):
+  src/lib/fiveaday.ts (+ tests incl. roster validation),
+  src/components/fiveaday/*, /five-a-day; in the /arcade hub. A funnel to
+  the food reference; cartoon, not nutrition advice (§4). Name "Five a Day"
+  chosen by Mat (2026-07-23).
 - DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
   ("Your numbers"): the home base that aggregates vitals, saved calculations,
   composite/biological-age scores and blood-test biomarkers, with longitudinal

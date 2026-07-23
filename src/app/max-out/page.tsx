@@ -80,12 +80,12 @@ export default function MaxOutPage() {
         >
           strength standards
         </Link>
-        . Prefer slicing misinformation to lifting it? Its sibling{" "}
+        . Prefer chopping to lifting? Its sibling{" "}
         <Link
-          href="/snake-oil"
+          href="/five-a-day"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
-          Snake Oil
+          Five a Day
         </Link>{" "}
         is next door, and the rest of the games live in the{" "}
         <Link
