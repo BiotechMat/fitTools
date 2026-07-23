@@ -24,12 +24,14 @@ export function BarbellWhip({ loadKg }: { loadKg: number }) {
   const raf = useRef(0);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      cur.current = target;
-      setBend(target);
-      return;
-    }
     cancelAnimationFrame(raf.current);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // Snap straight to target — scheduled a frame out, same as the spring
+      // path, because the repo lint bans synchronous setState in effects.
+      cur.current = target;
+      raf.current = requestAnimationFrame(() => setBend(target));
+      return () => cancelAnimationFrame(raf.current);
+    }
     const step = () => {
       vel.current += (target - cur.current) * 0.09;
       vel.current *= 0.88;

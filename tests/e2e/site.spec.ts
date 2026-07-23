@@ -53,8 +53,9 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   // terms + supplements hub + 13 supplement pages + exercises hub + 3 pattern
   // hubs + 13 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
-  // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(140);
+  // looksmaxxing-myths + skin pillar + 6 skin satellites + blood-test.
+  // (/today and /dashboard are personal surfaces — noindexed, never listed.)
+  expect(locs.length).toBe(141);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
