@@ -1,5 +1,5 @@
 /**
- * Peptide reconstitution arithmetic (SPEC §7, Tier 4 /labs/). Operates on
+ * Peptide reconstitution arithmetic (SPEC §7, Tier 4). Operates on
  * user-supplied values ONLY: no compound presets, no dosing suggestions —
  * the tool does arithmetic on numbers the user already has from their
  * prescriber. All values SI (mg, ml).

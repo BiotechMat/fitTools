@@ -4,11 +4,12 @@ import Link from "next/link";
 import "./globals.css";
 import { SITE_CONFIGURED, SITE_NAME, SITE_URL } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
-import { toolsForHub } from "@/registry/tools";
+import { toolPath, toolsForHub } from "@/registry/tools";
+import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { ConsentBanner } from "@/components/ConsentBanner";
 import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { ThirdPartyScripts } from "@/components/ThirdPartyScripts";
-import { SiteNav, type NavItem } from "@/components/SiteNav";
+import { SiteNav, type NavItem, type NavLink } from "@/components/SiteNav";
 
 // v2 type roles (DESIGN.md §2): Anton shouts, Figtree explains, Space Mono
 // handles the receipts. Self-hosted via next/font — zero CLS (SPEC §13).
@@ -46,21 +47,34 @@ const liveHubs = Object.values(hubMeta).filter(
 );
 
 // Main nav, rendered responsively by <SiteNav /> (horizontal on desktop,
-// hamburger dropdown below lg). Emphasised links are the primary destinations.
+// hamburger dropdown below lg). Emphasised links are the primary
+// destinations. The calculator categories sit under one "Calculators"
+// submenu (deep-linking into the /calculators index), while the topic
+// sections — Nutrition, Workout, Recovery — keep their own top-level items
+// carrying calculators plus the wider content of each domain.
 const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
   { href: "/daily", label: "Daily", emphasis: true },
   { href: "/arcade", label: "Arcade", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },
+  {
+    label: "Calculators",
+    items: [
+      { href: "/calculators", label: "All calculators" },
+      ...liveHubs.map((meta) => ({
+        href: `/calculators#${meta.path.slice(1)}`,
+        label: meta.title,
+      })),
+      { href: toolPath(peptideConfig), label: "Peptide reconstitution" },
+    ],
+  },
   ...liveHubs.map((meta) => ({ href: meta.path, label: meta.title })),
-  { href: "/labs", label: "Labs" },
-  { href: "/exercises", label: "Exercises" },
   { href: "/supplements", label: "Supplements" },
   { href: "/glow-up", label: "Glow-up" },
   { href: "/learn/peptides", label: "Peptides" },
   { href: "/glossary", label: "Glossary" },
 ];
-const bloodTestCta: NavItem = { href: "/blood-test", label: "Order blood test" };
+const bloodTestCta: NavLink = { href: "/blood-test", label: "Order blood test" };
 
 export default function RootLayout({
   children,
@@ -109,7 +123,8 @@ export default function RootLayout({
                 <li><Link href="/legal/affiliate-disclosure" className="hover:text-foreground">Affiliate disclosure</Link></li>
                 <li><Link href="/legal/medical-disclaimer" className="hover:text-foreground">Medical disclaimer</Link></li>
                 <li><Link href="/author/mathew-beale" className="hover:text-foreground">About the author</Link></li>
-                <li><Link href="/labs" className="hover:text-foreground">Labs</Link></li>
+                <li><Link href="/calculators" className="hover:text-foreground">All calculators</Link></li>
+                <li><Link href="/exercises" className="hover:text-foreground">Exercise library</Link></li>
                 <li><Link href="/nutrition/reference" className="hover:text-foreground">Food reference</Link></li>
                 <li><Link href="/reference" className="hover:text-foreground">Reference tables</Link></li>
                 <li><CookieSettingsButton /></li>

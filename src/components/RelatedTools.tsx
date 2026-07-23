@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ToolConfig } from "@/registry/types";
-import { relatedTools } from "@/registry/tools";
+import { relatedTools, toolPath } from "@/registry/tools";
 
 /** Related-tool links from the registry (SPEC §8) — only live tools render. */
 export function RelatedTools({ tool }: { tool: ToolConfig }) {
@@ -18,7 +18,7 @@ export function RelatedTools({ tool }: { tool: ToolConfig }) {
             className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
           >
             <Link
-              href={`/${relatedTool.slug}`}
+              href={toolPath(relatedTool)}
               className="font-semibold text-primary underline underline-offset-2"
             >
               {relatedTool.title}

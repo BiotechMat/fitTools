@@ -8,10 +8,12 @@ import { exercises, exercisePatterns } from "../../src/registry/exercises";
  * schema, the medical disclaimer, and cross-links to the strength calculators.
  */
 
-test("exercises is in the nav and the hub lists every pattern and exercise", async ({ page }) => {
-  await page.goto("/");
+test("exercise library is linked from the workout section and lists every pattern and exercise", async ({ page }) => {
+  // 2026-07-23 restructure: the Exercises nav item moved inside the Workout
+  // topic section (plus a footer link) rather than sitting at the top level.
+  await page.goto("/workout");
   await expect(
-    page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Exercises" }),
+    page.getByRole("link", { name: /Browse the full exercise library/ }),
   ).toHaveAttribute("href", "/exercises");
 
   await page.goto("/exercises");

@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { supplements } from "../../src/registry/supplements";
+import { openMainNav } from "./helpers";
 
 /**
  * Supplement database (CONTENT-reference.md §4, §9): the hub groups entries by
@@ -11,6 +12,7 @@ import { supplements } from "../../src/registry/supplements";
 
 test("supplements is in the nav and the hub lists every entry", async ({ page }) => {
   await page.goto("/");
+  await openMainNav(page);
   await expect(
     page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Supplements" }),
   ).toHaveAttribute("href", "/supplements");

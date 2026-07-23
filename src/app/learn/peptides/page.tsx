@@ -5,6 +5,8 @@ import {
   CATEGORY_LABELS,
   peptidesByCategory,
 } from "@/registry/peptides";
+import { toolPath } from "@/registry/tools";
+import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
@@ -135,6 +137,27 @@ export default function PeptidesPillarPage() {
           conversation for a qualified clinician who knows your history.
         </p>
       </div>
+
+      <section aria-labelledby="peptide-tools">
+        <h2 id="peptide-tools" className="font-display text-2xl uppercase">
+          Calculator
+        </h2>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+          <li className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
+            <Link
+              href={toolPath(peptideConfig)}
+              className="font-semibold text-primary underline underline-offset-2"
+            >
+              {peptideConfig.title}
+            </Link>
+            <p className="mt-1 text-sm text-muted">
+              Arithmetic only, on values you supply — concentration, draw
+              volume and U-100 syringe units. Enhanced disclaimer; no dosing
+              guidance, ever.
+            </p>
+          </li>
+        </ul>
+      </section>
 
       {grouped.map(([category, pages]) => (
         <section key={category} aria-labelledby={`cat-${category}`}>

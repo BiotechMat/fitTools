@@ -8,7 +8,7 @@ import {
   resolveRelatedSupplements,
   supplements,
 } from "@/registry/supplements";
-import { getTool } from "@/registry/tools";
+import { getTool, toolPath } from "@/registry/tools";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: SupplementParams): Promise<Me
 function toolLink(slug: string): { href: string; title: string } | null {
   const tool = getTool(slug);
   if (!tool) return null;
-  return { href: tool.tier === 4 ? `/labs/${tool.slug}` : `/${tool.slug}`, title: tool.title };
+  return { href: toolPath(tool), title: tool.title };
 }
 
 export default async function SupplementPage({ params }: SupplementParams) {

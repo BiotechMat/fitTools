@@ -7,15 +7,14 @@ import { foodReferencePages } from "@/registry/food-reference";
 const meta = hubMeta.nutrition;
 
 export const metadata: Metadata = {
-  title: `${meta.title} calculators`,
+  title: `${meta.title} — calculators & food reference`,
   description: meta.description,
   alternates: { canonical: meta.path },
 };
 
 export default function NutritionHubPage() {
   return (
-    <div className="space-y-12">
-      <HubPage hub="nutrition" />
+    <HubPage hub="nutrition">
       <section aria-labelledby="food-reference">
         <h2 id="food-reference" className="font-display text-xl uppercase">
           Food reference
@@ -41,6 +40,6 @@ export default function NutritionHubPage() {
           ))}
         </ul>
       </section>
-    </div>
+    </HubPage>
   );
 }

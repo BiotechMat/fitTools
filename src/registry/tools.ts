@@ -82,18 +82,27 @@ export function getTool(slug: string): ToolConfig | undefined {
   return toolsBySlug.get(slug);
 }
 
-/** Tools rendered under /(tools)/[slug] — everything except tier 4 (/labs/). */
+/** Tools rendered under /(tools)/[slug] — everything except tier 4. */
 export function standardTools(): ToolConfig[] {
   return allTools.filter((tool) => tool.tier !== 4);
 }
 
-/** Tier 4 tools rendered under /labs/[slug] with ads disabled. */
-export function labsTools(): ToolConfig[] {
+/** Tier 4 tools — enhanced disclaimer, no ads — rendered inside the peptides section. */
+export function tier4Tools(): ToolConfig[] {
   return allTools.filter((tool) => tool.tier === 4);
 }
 
+/**
+ * Canonical path for a tool page. Tier 4 tools live inside the peptides
+ * learn section (moved from the retired /labs route, 2026-07-23); everything
+ * else renders at the root slug. Single source of truth for every tool link.
+ */
+export function toolPath(tool: ToolConfig): string {
+  return tool.tier === 4 ? `/learn/peptides/${tool.slug}` : `/${tool.slug}`;
+}
+
 export function toolsForHub(hub: Hub): ToolConfig[] {
-  // Tier 4 tools live under /labs and never appear in hub listings.
+  // Tier 4 tools live in the peptides section and never appear in hub listings.
   return allTools.filter((tool) => tool.hub === hub && tool.tier !== 4);
 }
 

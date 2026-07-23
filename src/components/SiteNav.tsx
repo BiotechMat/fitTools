@@ -1,22 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-export interface NavItem {
+export interface NavLink {
   href: string;
   label: string;
   /** Emphasised primary destinations (ink) vs secondary links (muted). */
   emphasis?: boolean;
 }
 
+/** A labelled dropdown of links (e.g. Calculators → its categories). */
+export interface NavGroup {
+  label: string;
+  items: NavLink[];
+}
+
+export type NavItem = NavLink | NavGroup;
+
+function isGroup(item: NavItem): item is NavGroup {
+  return "items" in item;
+}
+
 /**
  * Main-nav renderer. Desktop (lg+) shows the horizontal link row and the CTA;
- * below lg it collapses to a hamburger that opens a full-width dropdown, so the
- * ~12 nav items never overflow the viewport on mobile. Driven by a single
- * `items` array (no desktop/mobile duplication).
+ * below lg it collapses to a hamburger that opens a full-width dropdown, so
+ * the nav items never overflow the viewport on mobile. Driven by a single
+ * `items` array (no desktop/mobile duplication). Groups render as an
+ * accessible disclosure dropdown on desktop and as a labelled sub-list
+ * inside the mobile panel.
  */
-export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
+export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavLink }) {
   const [open, setOpen] = useState(false);
 
   // Close the mobile menu on Escape.
@@ -32,21 +46,25 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
   return (
     <>
       {/* Desktop: horizontal links + CTA (lg and up). */}
-      <ul className="hidden flex-wrap gap-x-4 gap-y-1 text-sm lg:flex">
-        {items.map((item) => (
-          <li key={item.href}>
-            <Link
-              href={item.href}
-              className={
-                item.emphasis
-                  ? "font-semibold text-foreground hover:text-primary"
-                  : "text-muted hover:text-foreground"
-              }
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
+      <ul className="hidden flex-wrap items-center gap-x-4 gap-y-1 text-sm lg:flex">
+        {items.map((item) =>
+          isGroup(item) ? (
+            <NavDropdown key={item.label} group={item} />
+          ) : (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={
+                  item.emphasis
+                    ? "font-semibold text-foreground hover:text-primary"
+                    : "text-muted hover:text-foreground"
+                }
+              >
+                {item.label}
+              </Link>
+            </li>
+          ),
+        )}
       </ul>
       <Link
         href={cta.href}
@@ -74,19 +92,40 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
           className="absolute left-0 right-0 top-full z-40 border-b-2 border-foreground bg-background shadow-[0_6px_0_0_rgba(0,0,0,0.06)] lg:hidden"
         >
           <ul className="mx-auto flex max-w-5xl flex-col gap-1 px-4 py-3">
-            {items.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className={`block rounded-lg px-3 py-2.5 text-base hover:bg-surface-deep ${
-                    item.emphasis ? "font-semibold text-foreground" : "text-muted"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {items.map((item) =>
+              isGroup(item) ? (
+                <li key={item.label}>
+                  <p className="px-3 pt-2 font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                    {item.label}
+                  </p>
+                  <ul>
+                    {item.items.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          onClick={() => setOpen(false)}
+                          className="block rounded-lg px-3 py-2.5 pl-6 text-base text-muted hover:bg-surface-deep"
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className={`block rounded-lg px-3 py-2.5 text-base hover:bg-surface-deep ${
+                      item.emphasis ? "font-semibold text-foreground" : "text-muted"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ),
+            )}
             <li className="mt-2">
               <Link
                 href={cta.href}
@@ -100,6 +139,83 @@ export function SiteNav({ items, cta }: { items: NavItem[]; cta: NavItem }) {
         </div>
       ) : null}
     </>
+  );
+}
+
+/** Desktop disclosure dropdown for a nav group — click to toggle, closes on Escape, outside click or item click. */
+function NavDropdown({ group }: { group: NavGroup }) {
+  const [open, setOpen] = useState(false);
+  const container = useRef<HTMLLIElement>(null);
+  const panelId = `nav-group-${group.label.toLowerCase().replace(/\s+/g, "-")}`;
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const onClick = (e: MouseEvent) => {
+      if (container.current && !container.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("click", onClick);
+    };
+  }, [open]);
+
+  return (
+    <li ref={container} className="relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-1 text-muted hover:text-foreground"
+      >
+        {group.label}
+        <ChevronIcon open={open} />
+      </button>
+      {open ? (
+        <ul
+          id={panelId}
+          className="absolute left-0 top-full z-40 mt-2 w-52 rounded-xl border-2 border-foreground bg-background p-1.5 shadow-[3px_3px_0_0_var(--color-foreground)]"
+        >
+          {group.items.map((child) => (
+            <li key={child.href}>
+              <Link
+                href={child.href}
+                onClick={() => setOpen(false)}
+                className="block rounded-lg px-3 py-2 text-muted hover:bg-surface-deep hover:text-foreground"
+              >
+                {child.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </li>
+  );
+}
+
+function ChevronIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={open ? "rotate-180 transition-transform" : "transition-transform"}
+    >
+      <polyline points="5 9 12 16 19 9" />
+    </svg>
   );
 }
 
