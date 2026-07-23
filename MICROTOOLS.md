@@ -103,7 +103,11 @@ elsewhere); pause/resume/reset; document.title carries the countdown.
 
 ## 7. Build order & status
 
-1. ✅ Plan (this doc), `/tools` hub, Tools nav item.
-2. Gym timers. 3. Breath coach. 4. Muscle map. 5. Plate builder.
-6. Supplement explorer. Each lands as its own commit with lib tests;
-typecheck + tests + build gate before every commit (house rule).
+ALL BUILT (2026-07-23), one commit each, gated (tests + build) per
+commit: hub + nav → timers → breath coach → muscle map → plate builder →
+supplement explorer. Libs live in src/lib/tools/ (timer, breath, muscles,
+plate) with unit suites; components in src/components/tools/. Browser-
+verified: hub cards, muscle-map figures/selection. Possible next steps:
+cross-links FROM the related hubs into these tools (§1 lists them), a
+tap-tempo heart-rate micro-tool, and dashboard tiles for timer/breath
+usage (local-first).
