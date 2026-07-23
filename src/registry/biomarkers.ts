@@ -116,7 +116,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "Your blood-sugar level after not eating overnight. A persistently raised fasting glucose is one of the earliest signs that the body is struggling to manage sugar, well before type-2 diabetes develops.",
     feedsTool: "metabolic-fitness-index",
-    relatedContent: "/glossary/insulin-sensitivity",
+    relatedContent: "/glossary/fasting-glucose",
   },
   {
     id: "hba1c",
@@ -128,7 +128,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "A single number that reflects your average blood sugar over the previous two to three months, so it smooths out day-to-day spikes. It's the standard marker for tracking long-term glucose control.",
     feedsTool: "metabolic-fitness-index",
-    relatedContent: "/glossary/insulin-sensitivity",
+    relatedContent: "/glossary/hba1c",
   },
   {
     id: "fasting-insulin",
@@ -140,7 +140,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The amount of insulin circulating after a fast. Read alongside glucose, it flags insulin resistance early — often years before glucose itself starts to drift upward.",
     feedsTool: "metabolic-fitness-index",
-    relatedContent: "/glossary/insulin-sensitivity",
+    relatedContent: "/glossary/fasting-insulin",
   },
   {
     id: "triglycerides",
@@ -151,6 +151,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The main form of fat circulating in your blood. Raised triglycerides often travel with insulin resistance and are part of the wider picture of metabolic and heart health.",
     feedsTool: "metabolic-fitness-index",
+    relatedContent: "/glossary/triglycerides",
   },
 
   // ---- Heart & lipids ----
@@ -163,6 +164,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The sum of the cholesterol carried across all your lipoprotein particles. It's a useful headline number, but the balance between the types below matters far more than the total alone.",
     feedsTool: "heart-age-calculator",
+    relatedContent: "/glossary/total-cholesterol",
   },
   {
     id: "ldl-cholesterol",
@@ -174,6 +176,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The cholesterol carried on low-density lipoproteins, the particles most associated with fatty build-up in artery walls. Lowering it is one of the best-evidenced ways to reduce cardiovascular risk.",
     feedsTool: "heart-age-calculator",
+    relatedContent: "/glossary/ldl-cholesterol",
   },
   {
     id: "hdl-cholesterol",
@@ -185,6 +188,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "Cholesterol carried on high-density lipoproteins, which help move cholesterol back to the liver. Higher levels are generally more favourable, though the relationship is more nuanced than 'more is always better'.",
     feedsTool: "heart-age-calculator",
+    relatedContent: "/glossary/hdl-cholesterol",
   },
   {
     id: "apob",
@@ -222,6 +226,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "A protein that rises with inflammation in the body. The high-sensitivity version picks up the low, chronic levels linked to cardiovascular and metabolic risk, rather than the big spikes of an acute infection.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/hs-crp",
   },
   {
     id: "homocysteine",
@@ -231,7 +236,7 @@ export const biomarkers: Biomarker[] = [
     summary: "An amino acid tied to B-vitamin status and heart risk.",
     description:
       "An amino acid that builds up when B-vitamin metabolism isn't working well. Raised levels are associated with cardiovascular risk and are often modifiable with folate and B12.",
-    relatedContent: "/glossary/apob",
+    relatedContent: "/glossary/homocysteine",
   },
 
   // ---- Liver & kidney ----
@@ -244,6 +249,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The most abundant protein in blood, produced by the liver. It reflects liver function and overall nutritional status, and tends to decline with age and ill health.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/albumin",
   },
   {
     id: "creatinine",
@@ -255,6 +261,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "A muscle waste product cleared by the kidneys, so its level (and the eGFR estimated from it) is the standard way to check how well your kidneys are filtering.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/creatinine",
   },
   {
     id: "alt",
@@ -265,6 +272,7 @@ export const biomarkers: Biomarker[] = [
     summary: "A liver enzyme that flags liver stress.",
     description:
       "An enzyme concentrated in the liver. When liver cells are under strain — from fatty liver, alcohol or other causes — more ALT leaks into the blood, making it a useful liver-health check.",
+    relatedContent: "/glossary/alt",
   },
   {
     id: "alkaline-phosphatase",
@@ -276,6 +284,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "An enzyme found mainly in the liver and bones. It's used alongside the other liver markers to build a picture of liver and bone health.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/alkaline-phosphatase",
   },
 
   // ---- Full blood count ----
@@ -289,6 +298,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The total number of infection-fighting cells in your blood. Both high and low counts are informative, and the level is one of the markers used in biological-age scoring.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/white-blood-cells",
   },
   {
     id: "lymphocyte-percentage",
@@ -299,6 +309,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The proportion of your white blood cells that are lymphocytes — the cells central to immune memory. The balance shifts with age, infection and immune health.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/lymphocyte-percentage",
   },
   {
     id: "mcv",
@@ -310,6 +321,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "The average size of your red blood cells. Cells that are unusually large or small can point to nutrient deficiencies (such as B12 or iron) and feed into biological-age estimates.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/mcv",
   },
   {
     id: "rdw",
@@ -321,6 +333,7 @@ export const biomarkers: Biomarker[] = [
     description:
       "A measure of how much your red blood cells vary in size. A wider spread has emerged as a surprisingly strong marker of overall health and biological ageing.",
     feedsTool: "phenotypic-age-calculator",
+    relatedContent: "/glossary/rdw",
   },
 
   // ---- Hormones ----
@@ -332,6 +345,7 @@ export const biomarkers: Biomarker[] = [
     summary: "A key hormone for muscle, energy and libido.",
     description:
       "A hormone that influences muscle, bone, mood, energy and libido in all sexes (at different levels). It's commonly checked when energy, recovery or body composition aren't responding to training.",
+    relatedContent: "/glossary/testosterone",
   },
   {
     id: "tsh",
@@ -342,6 +356,7 @@ export const biomarkers: Biomarker[] = [
     summary: "The master dial for your thyroid.",
     description:
       "The signal your brain sends to control the thyroid, which sets your metabolic rate. It's the first-line check for an under- or over-active thyroid, a common cause of fatigue and weight change.",
+    relatedContent: "/glossary/tsh",
   },
   {
     id: "cortisol",
@@ -351,6 +366,7 @@ export const biomarkers: Biomarker[] = [
     summary: "Your main stress hormone.",
     description:
       "The body's principal stress hormone, which also follows a daily rhythm. Measured in the morning, it gives a snapshot of your stress-response and adrenal signalling.",
+    relatedContent: "/glossary/cortisol",
   },
 
   // ---- Vitamins & minerals ----
@@ -363,6 +379,7 @@ export const biomarkers: Biomarker[] = [
     summary: "The sunshine vitamin — commonly low.",
     description:
       "A vitamin (really a hormone) important for bone, immune and muscle health. Deficiency is very common, especially in winter, and is one of the more worthwhile things to know and correct.",
+    relatedContent: "/glossary/vitamin-d",
   },
   {
     id: "vitamin-b12",
@@ -372,6 +389,7 @@ export const biomarkers: Biomarker[] = [
     summary: "Essential for nerves and red blood cells.",
     description:
       "A vitamin needed for healthy nerves and red blood cells. Low levels cause fatigue and can be more common in plant-based diets and with age.",
+    relatedContent: "/glossary/vitamin-b12",
   },
   {
     id: "ferritin",
@@ -381,6 +399,7 @@ export const biomarkers: Biomarker[] = [
     summary: "Your iron stores.",
     description:
       "A measure of stored iron. Low ferritin is a leading cause of tiredness and poor training performance — particularly in menstruating and endurance athletes — while very high levels warrant a look too.",
+    relatedContent: "/glossary/ferritin",
   },
   {
     id: "folate",
@@ -391,6 +410,7 @@ export const biomarkers: Biomarker[] = [
     summary: "Works with B12 for blood and nerve health.",
     description:
       "A B-vitamin that partners with B12 to make red blood cells and support nerve function. It also helps keep homocysteine in check.",
+    relatedContent: "/glossary/folate",
   },
 ];
 

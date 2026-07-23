@@ -28,7 +28,7 @@ export interface GlossaryEntry {
   sources?: Source[];
 }
 
-export const GLOSSARY_LAST_REVIEWED = "2026-07-22";
+export const GLOSSARY_LAST_REVIEWED = "2026-07-23";
 
 export const glossaryEntries: GlossaryEntry[] = [
   {
@@ -241,7 +241,7 @@ export const glossaryEntries: GlossaryEntry[] = [
       "It matters because the number of atherogenic particles can be a more precise indicator of cardiovascular risk than standard LDL cholesterol alone, particularly when LDL looks reassuring but particle number is high.",
       "In practice, ApoB is a simple blood test increasingly recommended for refining risk; a lower level is generally more favourable, with targets set by overall risk.",
     ],
-    relatedTerms: ["lp-a", "insulin-sensitivity"],
+    relatedTerms: ["lp-a", "ldl-cholesterol", "insulin-sensitivity"],
     relatedTools: ["heart-age-calculator", "phenotypic-age-calculator"],
     sources: [
       {
@@ -261,7 +261,7 @@ export const glossaryEntries: GlossaryEntry[] = [
       "It matters because a high Lp(a) is an independent, causal risk factor for heart attack and stroke — and because it is inherited, one measurement can flag lifelong elevated risk that standard cholesterol testing misses.",
       "In practice, guidelines increasingly recommend measuring Lp(a) at least once in adulthood; levels at or above about 125 nmol/L (≈50 mg/dL) are considered high risk.",
     ],
-    relatedTerms: ["apob"],
+    relatedTerms: ["apob", "ldl-cholesterol"],
     relatedTools: ["heart-age-calculator"],
     sources: [
       {
@@ -292,7 +292,7 @@ export const glossaryEntries: GlossaryEntry[] = [
       "It matters because insulin resistance is an early step toward type 2 diabetes and is linked to broader metabolic and cardiovascular risk. Improving sensitivity is one of the most valuable metabolic health goals.",
       "In practice, regular exercise, muscle mass, good sleep and avoiding chronic energy surplus all tend to improve insulin sensitivity; markers include fasting glucose and continuous glucose patterns.",
     ],
-    relatedTerms: ["hrv", "apob", "autophagy"],
+    relatedTerms: ["hrv", "apob", "autophagy", "fasting-glucose", "hba1c"],
     relatedTools: ["cgm-metrics-calculator", "metabolic-fitness-index"],
   },
   {
@@ -724,7 +724,7 @@ export const glossaryEntries: GlossaryEntry[] = [
       "It matters because cortisol is often demonised, but it isn't 'bad' — it's essential, and rises normally with exercise. The concern is chronically elevated cortisol from persistent stress, poor sleep or excessive training, which can impair recovery, sleep and body composition.",
       "In practice, the useful levers are managing overall stress load, sleeping well, and not endlessly overreaching in training — rather than chasing supplements that claim to 'lower cortisol'.",
     ],
-    relatedTerms: ["hrv", "insulin-sensitivity", "deload"],
+    relatedTerms: ["hrv", "insulin-sensitivity", "deload", "testosterone", "tsh"],
     relatedTools: ["recovery-readiness-index"],
   },
   {
@@ -738,6 +738,304 @@ export const glossaryEntries: GlossaryEntry[] = [
       "In practice, you don't manage mTOR directly; training hard and eating enough protein activates it for muscle building, while periods without constant feeding allow the opposing maintenance processes their turn.",
     ],
     relatedTerms: ["protein-synthesis", "leucine", "autophagy"],
+    relatedTools: [],
+  },
+
+  // ---- Blood-test biomarkers (one entry per marker in the /blood-test panel,
+  // src/registry/biomarkers.ts). Educational and non-diagnostic: definitions and
+  // context only, deliberately no reference ranges or "optimal" values. ----
+  {
+    slug: "fasting-glucose",
+    term: "Fasting glucose",
+    aka: ["Fasting blood glucose", "FBG"],
+    short: "Your blood-sugar level after an overnight fast — a first-line metabolic marker.",
+    body: [
+      "Fasting glucose is the concentration of sugar in your blood measured after not eating for several hours, usually overnight. Taken away from the influence of a recent meal, it reflects how well your body holds blood sugar in a tight range at baseline.",
+      "It matters because a persistently raised fasting glucose is one of the earliest routine signs that the body is struggling to manage sugar — often appearing on the road toward prediabetes and type 2 diabetes, well before any symptoms. It sits near the centre of the wider metabolic-health picture.",
+      "In practice, fasting glucose is read alongside HbA1c and fasting insulin rather than in isolation, since a single reading can be nudged by stress, illness or a short fast. Regular exercise, muscle mass and avoiding a chronic energy surplus tend to keep it steady.",
+    ],
+    relatedTerms: ["insulin-sensitivity", "hba1c", "fasting-insulin", "glycaemic-index", "metabolic-syndrome"],
+    relatedTools: ["metabolic-fitness-index", "cgm-metrics-calculator"],
+  },
+  {
+    slug: "hba1c",
+    term: "HbA1c",
+    aka: ["Glycated haemoglobin", "Haemoglobin A1c"],
+    short: "A marker of your average blood sugar over roughly the past three months.",
+    body: [
+      "HbA1c (glycated haemoglobin) reflects the proportion of your haemoglobin — the oxygen-carrying protein in red blood cells — that has sugar stuck to it. Because red cells live for around three months, it acts as a running average of your blood sugar over that period.",
+      "It matters because, unlike a single glucose reading, HbA1c smooths out day-to-day spikes and dips, which makes it the standard marker for tracking longer-term glucose control and for screening for prediabetes and diabetes.",
+      "In practice, HbA1c is read together with fasting glucose; conditions that change red-cell lifespan (such as anaemia) can distort it, so it is interpreted in context rather than as a lone number.",
+    ],
+    relatedTerms: ["insulin-sensitivity", "fasting-glucose", "fasting-insulin", "glycaemic-index", "metabolic-syndrome"],
+    relatedTools: ["metabolic-fitness-index", "cgm-metrics-calculator"],
+  },
+  {
+    slug: "fasting-insulin",
+    term: "Fasting insulin",
+    aka: ["HOMA-IR"],
+    short: "How much insulin your body needs at rest to keep blood sugar in check.",
+    body: [
+      "Fasting insulin is the amount of the hormone insulin circulating in your blood after an overnight fast. Insulin is what moves sugar out of the blood and into cells, so the level shows how hard the pancreas is working to keep glucose normal.",
+      "It matters because a high fasting insulin — especially alongside still-normal glucose — is a classic early sign of insulin resistance, often flagging a metabolic problem years before glucose itself starts to rise. Combined with glucose it gives the HOMA-IR estimate of insulin resistance.",
+      "In practice, fasting insulin adds depth to glucose and HbA1c: someone can keep 'normal' glucose only by pumping out lots of insulin, which fasting insulin exposes. It responds to the same levers — activity, muscle, sleep and avoiding chronic surplus.",
+    ],
+    relatedTerms: ["insulin-sensitivity", "fasting-glucose", "hba1c", "metabolic-syndrome"],
+    relatedTools: ["metabolic-fitness-index", "cgm-metrics-calculator"],
+  },
+  {
+    slug: "triglycerides",
+    term: "Triglycerides",
+    aka: ["TG"],
+    short: "The main form of fat carried in your blood.",
+    body: [
+      "Triglycerides are the most common type of fat in the body and in the bloodstream. They come both from the fat in food and from the liver, which turns excess energy — particularly from refined carbohydrate and alcohol — into triglycerides for storage.",
+      "They matter because raised blood triglycerides often travel with insulin resistance and low HDL cholesterol, forming part of the cluster behind metabolic syndrome and adding to cardiovascular risk. They are one of the more diet-responsive blood markers.",
+      "In practice, triglycerides are measured as part of a standard lipid panel and read alongside HDL and LDL; they tend to fall with fewer excess calories, less refined carbohydrate and alcohol, and more regular exercise.",
+    ],
+    relatedTerms: ["hdl-cholesterol", "ldl-cholesterol", "insulin-sensitivity", "metabolic-syndrome", "apob"],
+    relatedTools: ["metabolic-fitness-index", "heart-age-calculator"],
+  },
+  {
+    slug: "total-cholesterol",
+    term: "Total cholesterol",
+    short: "All the cholesterol carried in your blood, added together.",
+    body: [
+      "Total cholesterol is the combined amount of cholesterol carried across all the lipoprotein particles in your blood — chiefly LDL and HDL. Cholesterol itself is an essential fatty substance the body uses to build cell membranes and hormones.",
+      "It matters as a quick headline number, but on its own it can mislead: a high total can be driven by protective HDL, and a reassuring total can hide an unfavourable balance. The split between the types, and the particle number, matter far more than the sum.",
+      "In practice, total cholesterol is always read together with HDL, LDL and triglycerides, and increasingly with ApoB, to judge cardiovascular risk properly rather than from the total alone.",
+    ],
+    relatedTerms: ["ldl-cholesterol", "hdl-cholesterol", "triglycerides", "apob"],
+    relatedTools: ["heart-age-calculator"],
+  },
+  {
+    slug: "ldl-cholesterol",
+    term: "LDL cholesterol",
+    aka: ["LDL-C", "'Bad' cholesterol"],
+    short: "Cholesterol carried on the particles most linked to clogged arteries.",
+    body: [
+      "LDL cholesterol is the cholesterol carried by low-density lipoproteins (LDL). These particles ferry cholesterol to the body's tissues, and when there are too many of them they can lodge in artery walls and drive the fatty build-up behind heart disease.",
+      "It matters because LDL cholesterol is one of the best-evidenced causal factors in cardiovascular disease, and lowering it is among the most reliable ways to reduce that risk. That is why it is often called the 'bad' cholesterol — though the reality is more about particle number than a simple good/bad split.",
+      "In practice, LDL is read alongside HDL, triglycerides and ideally ApoB, which counts the atherogenic particles directly and can refine risk when LDL alone looks reassuring.",
+    ],
+    relatedTerms: ["hdl-cholesterol", "total-cholesterol", "apob", "lp-a", "triglycerides"],
+    relatedTools: ["heart-age-calculator"],
+  },
+  {
+    slug: "hdl-cholesterol",
+    term: "HDL cholesterol",
+    aka: ["HDL-C", "'Good' cholesterol"],
+    short: "Cholesterol on the particles that help clear it from the arteries.",
+    body: [
+      "HDL cholesterol is the cholesterol carried by high-density lipoproteins (HDL), which help move cholesterol away from the tissues and back to the liver for recycling or disposal — a process linked to protecting the arteries.",
+      "It matters because higher HDL is generally associated with lower cardiovascular risk, earning it the 'good' cholesterol label. But the relationship is more nuanced than 'more is always better': very high HDL stops adding benefit, and simply forcing it up with drugs has not reliably reduced risk.",
+      "In practice, HDL is read alongside triglycerides — a low HDL with high triglycerides is a common fingerprint of insulin resistance — and tends to improve with exercise, not smoking and better metabolic health.",
+    ],
+    relatedTerms: ["ldl-cholesterol", "total-cholesterol", "triglycerides", "insulin-sensitivity", "apob"],
+    relatedTools: ["heart-age-calculator"],
+  },
+  {
+    slug: "hs-crp",
+    term: "hs-CRP",
+    aka: ["High-sensitivity C-reactive protein"],
+    short: "A sensitive blood marker of low-grade inflammation in the body.",
+    body: [
+      "C-reactive protein (CRP) is made by the liver and rises when there is inflammation in the body. The high-sensitivity assay (hs-CRP) can detect the low, chronic levels that ordinary CRP tests miss, rather than only the large spikes of an acute infection.",
+      "It matters because chronic low-grade inflammation is linked to cardiovascular and metabolic risk and to biological ageing, so hs-CRP is used as one input into heart-risk and biological-age assessments. It is non-specific, though — any recent infection, injury or hard training session can raise it temporarily.",
+      "In practice, hs-CRP is best measured when you are well and not freshly trained, and is read as part of a wider picture rather than on its own.",
+    ],
+    relatedTerms: ["biological-age", "metabolic-syndrome", "apob", "homocysteine"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "homocysteine",
+    term: "Homocysteine",
+    short: "An amino acid tied to B-vitamin status and cardiovascular risk.",
+    body: [
+      "Homocysteine is an amino acid produced as a normal by-product of the body's metabolism. It is cleared with the help of B vitamins — folate, B12 and B6 — so when those run low, homocysteine tends to build up in the blood.",
+      "It matters because raised homocysteine is associated with cardiovascular risk and has been studied in relation to cognitive decline. Usefully, it is often modifiable: correcting a genuine B-vitamin shortfall can bring it down.",
+      "In practice, homocysteine is read alongside folate and B12 status; whether lowering it with supplements changes hard outcomes is still debated, so it is treated as one informative marker rather than a target to chase blindly.",
+    ],
+    relatedTerms: ["folate", "vitamin-b12", "apob", "biological-age"],
+    relatedTools: [],
+  },
+  {
+    slug: "albumin",
+    term: "Albumin",
+    short: "The most abundant protein in blood, made by the liver.",
+    body: [
+      "Albumin is the main protein circulating in your blood, produced by the liver. It helps hold fluid inside the blood vessels and transports hormones, vitamins and other substances around the body.",
+      "It matters because albumin reflects both liver function and overall nutritional and general health, and it tends to fall with age, chronic illness and inflammation. That link to overall condition is why it features in blood-based biological-age scores.",
+      "In practice, albumin is read as part of a liver panel and interpreted alongside the other markers; a low level is a non-specific signal that prompts a wider look rather than a diagnosis in itself.",
+    ],
+    relatedTerms: ["biological-age", "creatinine", "alt"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "creatinine",
+    term: "Creatinine",
+    aka: ["eGFR"],
+    short: "A muscle waste product used to gauge how well the kidneys filter.",
+    body: [
+      "Creatinine is a waste product made steadily as muscles use energy. The kidneys filter it out of the blood into the urine, so the amount left in the blood reflects how well the kidneys are clearing it.",
+      "It matters because creatinine — and the eGFR (estimated glomerular filtration rate) worked out from it — is the standard everyday check of kidney function, and kidney health is one component of overall biological ageing. Because it comes from muscle, very muscular people can read a little higher without any kidney problem.",
+      "In practice, creatinine is interpreted as an eGFR adjusted for age and sex and read alongside other markers; a single value tells you less than the trend over time.",
+    ],
+    relatedTerms: ["biological-age", "albumin"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "alt",
+    term: "ALT",
+    aka: ["Alanine aminotransferase", "SGPT"],
+    short: "A liver enzyme that leaks into the blood when liver cells are stressed.",
+    body: [
+      "ALT (alanine aminotransferase) is an enzyme concentrated inside liver cells. When those cells are damaged or under strain, ALT leaks into the bloodstream, so a raised level points toward the liver.",
+      "It matters because ALT is a sensitive, everyday flag for liver stress — most commonly from non-alcoholic fatty liver disease, which tracks with metabolic health, but also from alcohol, medication and viral causes. It is one of the more actionable liver markers.",
+      "In practice, ALT is read alongside other liver enzymes such as alkaline phosphatase; a mildly raised value is common and usually followed up in the context of weight, alcohol and metabolic health rather than treated in isolation.",
+    ],
+    relatedTerms: ["alkaline-phosphatase", "albumin", "insulin-sensitivity", "metabolic-syndrome"],
+    relatedTools: [],
+  },
+  {
+    slug: "alkaline-phosphatase",
+    term: "Alkaline phosphatase",
+    aka: ["ALP"],
+    short: "An enzyme from the liver and bones, read as part of a liver panel.",
+    body: [
+      "Alkaline phosphatase (ALP) is an enzyme found mainly in the liver and bones, with smaller amounts elsewhere. Levels rise when there is activity or obstruction in the bile ducts of the liver, or increased bone turnover.",
+      "It matters because ALP helps tell different kinds of liver issue apart from the other enzymes, and because it also reflects bone activity — which is why it can be naturally higher in growing adolescents and in pregnancy. It contributes to blood-based biological-age scoring.",
+      "In practice, ALP is interpreted alongside ALT and the rest of the liver panel; whether a raised level points to liver or bone is usually clarified by the pattern of the other markers.",
+    ],
+    relatedTerms: ["alt", "albumin", "biological-age"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "white-blood-cells",
+    term: "White blood cell count",
+    aka: ["WBC", "Leukocytes"],
+    short: "The number of infection-fighting cells in your blood.",
+    body: [
+      "The white blood cell count (WBC) is the total number of immune cells circulating in a volume of blood. These cells are the body's front line against infection, and their number rises and falls with what the immune system is dealing with.",
+      "It matters because both unusually high and unusually low counts are informative — a high count often signals infection or inflammation, a low count can reflect certain illnesses or treatments — and the baseline level is one of the markers used in biological-age scoring.",
+      "In practice, WBC is read as part of the full blood count, and the differential (the mix of white-cell types, including lymphocytes) adds far more meaning than the total alone.",
+    ],
+    relatedTerms: ["lymphocyte-percentage", "biological-age", "hs-crp"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "lymphocyte-percentage",
+    term: "Lymphocyte percentage",
+    aka: ["Lymphocyte %"],
+    short: "The share of your white blood cells that are lymphocytes.",
+    body: [
+      "Lymphocytes are the white blood cells at the heart of the immune system's memory and targeted defence — the T cells and B cells behind long-term immunity. The lymphocyte percentage is the proportion of your total white cells that are lymphocytes.",
+      "It matters because the balance between lymphocytes and the other white cells shifts with infection, stress and age, and a relatively lower lymphocyte percentage has emerged as a marker used in biological-age estimates.",
+      "In practice, the percentage is read alongside the total white cell count and the rest of the differential; like most single blood markers it is best interpreted in context and over time rather than from one reading.",
+    ],
+    relatedTerms: ["white-blood-cells", "biological-age"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "mcv",
+    term: "Mean corpuscular volume",
+    aka: ["MCV"],
+    short: "The average size of your red blood cells.",
+    body: [
+      "Mean corpuscular volume (MCV) is the average size of your red blood cells. It is reported automatically as part of the full blood count and sorts anaemias into useful categories by whether the cells are small, normal or large.",
+      "It matters because cell size points toward causes: unusually small red cells often suggest iron deficiency, while unusually large ones can point to low B12 or folate, or to alcohol. MCV also feeds into blood-based biological-age scores.",
+      "In practice, MCV is read together with markers like ferritin, B12 and folate to pin down why the cells are the size they are, rather than interpreted on its own.",
+    ],
+    relatedTerms: ["rdw", "ferritin", "vitamin-b12", "folate", "biological-age"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "rdw",
+    term: "Red cell distribution width",
+    aka: ["RDW"],
+    short: "A measure of how varied your red blood cells are in size.",
+    body: [
+      "Red cell distribution width (RDW) measures how much your red blood cells vary in size. Where MCV gives the average size, RDW captures the spread — how uniform or mixed the population of cells is.",
+      "It matters because a wider distribution has turned out to be a surprisingly strong, general marker of health: a higher RDW is associated with a range of conditions and with biological ageing, even when the other counts look normal, which is why it appears in biological-age scoring.",
+      "In practice, RDW is read alongside MCV — the combination helps narrow down causes of anaemia — and is followed as part of the wider blood picture rather than acted on alone.",
+    ],
+    relatedTerms: ["mcv", "ferritin", "biological-age"],
+    relatedTools: ["phenotypic-age-calculator"],
+  },
+  {
+    slug: "testosterone",
+    term: "Testosterone",
+    short: "A key sex hormone for muscle, bone, mood, energy and libido.",
+    body: [
+      "Testosterone is a hormone present in everyone, at much higher levels in men than in women. It influences muscle and bone mass, red-blood-cell production, mood, energy and libido, and in men is made mainly by the testes under signals from the brain.",
+      "It matters because low testosterone can show up as fatigue, low mood, reduced libido and difficulty building or keeping muscle — but levels vary widely, swing through the day, and dip temporarily with poor sleep, illness and heavy training, so one low reading is not a diagnosis.",
+      "In practice, testosterone is best measured in the morning when it peaks, and interpreted alongside symptoms and repeat testing; sleep, body composition and a sensible training load are the everyday levers that most influence it.",
+    ],
+    relatedTerms: ["cortisol", "sarcopenia", "hypertrophy"],
+    relatedTools: [],
+  },
+  {
+    slug: "tsh",
+    term: "TSH",
+    aka: ["Thyroid-stimulating hormone"],
+    short: "The brain's signal that controls the thyroid — the first-line thyroid check.",
+    body: [
+      "TSH (thyroid-stimulating hormone) is released by the pituitary gland in the brain to tell the thyroid how much thyroid hormone to make. The thyroid, in turn, sets much of the body's metabolic rate.",
+      "It matters because TSH is the first-line screen for thyroid problems, and it works by feedback: a high TSH usually means the thyroid is underactive (the brain is shouting for more), while a low TSH suggests an overactive thyroid. Thyroid dysfunction is a common, treatable cause of fatigue, weight change and low mood.",
+      "In practice, an abnormal TSH is followed up with thyroid hormone levels (such as free T4) to confirm the picture, since TSH alone does not tell the whole story.",
+    ],
+    relatedTerms: ["bmr", "cortisol"],
+    relatedTools: [],
+  },
+  {
+    slug: "vitamin-d",
+    term: "Vitamin D",
+    aka: ["25-hydroxyvitamin D", "25(OH)D"],
+    short: "The 'sunshine vitamin' — really a hormone — and a very common deficiency.",
+    body: [
+      "Vitamin D is a fat-soluble nutrient that behaves more like a hormone in the body. Most of it is made in the skin on exposure to sunlight, with a smaller amount from food; the blood test measures 25-hydroxyvitamin D, the stored form.",
+      "It matters because vitamin D is important for bone health, immune function and muscle, and deficiency is genuinely common — especially in winter, at higher latitudes and with darker skin or little sun exposure. It is one of the more worthwhile deficiencies to find and correct.",
+      "In practice, a low level is usually corrected with supplementation and sensible sun exposure; because it is stored in fat, it is checked periodically rather than day to day.",
+    ],
+    relatedTerms: ["micronutrient", "ferritin", "vitamin-b12"],
+    relatedTools: [],
+  },
+  {
+    slug: "vitamin-b12",
+    term: "Vitamin B12",
+    aka: ["Cobalamin"],
+    short: "A vitamin essential for healthy nerves and red blood cells.",
+    body: [
+      "Vitamin B12 (cobalamin) is an essential vitamin the body cannot make, obtained almost entirely from animal foods or supplements. It is needed to build healthy red blood cells and to keep the nervous system working.",
+      "It matters because a shortfall causes fatigue, a particular type of anaemia and, if prolonged, nerve problems. Deficiency is more common in people eating little or no animal produce, in older adults and where absorption is impaired.",
+      "In practice, B12 is read alongside folate and the full blood count — a shortfall of either can enlarge red cells (raising MCV) — and is corrected with diet, supplements or, where absorption is the problem, injections.",
+    ],
+    relatedTerms: ["folate", "micronutrient", "mcv", "homocysteine"],
+    relatedTools: [],
+  },
+  {
+    slug: "ferritin",
+    term: "Ferritin",
+    short: "A measure of the body's stored iron.",
+    body: [
+      "Ferritin is the protein that stores iron in the body, and the blood level is used as a proxy for how much iron you have in reserve. Iron is essential for carrying oxygen in the blood and for producing energy in cells.",
+      "It matters because low ferritin is one of the most common and most missed causes of fatigue and poor training performance — particularly in menstruating women and endurance athletes — often before full anaemia appears. Very high ferritin warrants attention too, as it can reflect iron overload or inflammation.",
+      "In practice, ferritin is read with the full blood count and, because it also rises with inflammation, is interpreted in context; low iron is corrected through diet or supplements, ideally guided by testing rather than guesswork.",
+    ],
+    relatedTerms: ["micronutrient", "mcv", "rdw", "vitamin-b12"],
+    relatedTools: [],
+  },
+  {
+    slug: "folate",
+    term: "Folate",
+    aka: ["Vitamin B9", "Folic acid"],
+    short: "A B-vitamin that partners with B12 for healthy blood and nerves.",
+    body: [
+      "Folate (vitamin B9) is an essential B-vitamin found in leafy greens, legumes and fortified foods; folic acid is its synthetic form used in supplements. It is needed to make and repair DNA and to build red blood cells.",
+      "It matters because folate works hand in hand with B12: a shortfall of either causes a similar large-cell anaemia and pushes up homocysteine. Adequate folate is especially important before and during early pregnancy, when it lowers the risk of neural-tube defects.",
+      "In practice, folate is read alongside B12 and the full blood count, since treating one without checking the other can mask a B12 problem; most people meet their needs from a varied diet.",
+    ],
+    relatedTerms: ["vitamin-b12", "micronutrient", "homocysteine", "mcv"],
     relatedTools: [],
   },
 ];
