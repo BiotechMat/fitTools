@@ -5,9 +5,9 @@ import { GymTimer } from "@/components/tools/GymTimer";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Gym Timers — Rest, Intervals & EMOM",
+  title: "Gym Timers: Rest, Intervals & EMOM",
   description:
-    "Free gym timers with big digits and countdown beeps: rest timer presets, work/rest intervals with a Tabata preset, and EMOM rounds. Settings live in the URL — bookmark your favourites.",
+    "Free gym timers with big digits and countdown beeps: rest timer presets, work/rest intervals with a Tabata preset, and EMOM rounds. Settings live in the URL, so bookmark your favourites.",
   alternates: { canonical: "/tools/timer" },
 };
 
@@ -39,7 +39,7 @@ export default function TimerPage() {
         Gym timers
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        Rest between sets, run intervals, or hold yourself to the minute — big
+        Rest between sets, run intervals, or hold yourself to the minute, with big
         digits, countdown beeps, and settings that live in the URL so your
         favourite protocol is one bookmark away.
       </p>

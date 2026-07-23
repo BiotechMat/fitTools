@@ -15,7 +15,7 @@ import { EvidenceTier } from "@/components/EvidenceTier";
 
 const TIER_BLURBS: Record<Tier, string> = {
   "well-supported": "Meaningful human evidence behind the headline claim.",
-  preliminary: "Some signal, not settled — promising but thin.",
+  preliminary: "Some signal, not settled. Promising but thin.",
   "marketing-claim": "Sold hard, shown little.",
   "not-supported": "The evidence actively points the other way.",
 };

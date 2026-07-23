@@ -5,7 +5,7 @@ import { SupplementExplorer } from "@/components/tools/SupplementExplorer";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Supplement Evidence Explorer — Every Tier, Every Receipt",
+  title: "Supplement Evidence Explorer: Every Tier, Every Receipt",
   description:
     "Every supplement we cover, laid out by evidence tier: well-supported, preliminary, or marketing claim. Search the shelf, read the honest one-liner, pull the full cited review.",
   alternates: { canonical: "/tools/supplement-explorer" },
@@ -40,7 +40,7 @@ export default function SupplementExplorerPage() {
       </h1>
       <p className="mt-2 max-w-prose text-muted">
         The whole shelf at a glance, sorted by what the evidence actually
-        supports — not by what the label promises. Tap anything for the honest
+        supports, not by what the label promises. Tap anything for the honest
         one-liner, safety flags and the fully cited review. Tiers are the
         point: we grade evidence, we don&rsquo;t invent effect sizes.
       </p>

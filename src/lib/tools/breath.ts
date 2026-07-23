@@ -22,7 +22,7 @@ export const BREATH_PATTERNS: BreathPattern[] = [
   {
     id: "box",
     name: "Box 4-4-4-4",
-    description: "In, hold, out, hold — four counts each. The steady classic.",
+    description: "In, hold, out, hold: four counts each. The steady classic.",
     phases: [
       { name: "Breathe in", seconds: 4, orb: 1 },
       { name: "Hold", seconds: 4, orb: 1 },
@@ -43,7 +43,7 @@ export const BREATH_PATTERNS: BreathPattern[] = [
   {
     id: "coherent",
     name: "Coherent 5.5",
-    description: "Even 5.5s in, 5.5s out — about five and a half breaths a minute.",
+    description: "Even 5.5s in, 5.5s out, about five and a half breaths a minute.",
     phases: [
       { name: "Breathe in", seconds: 5.5, orb: 1 },
       { name: "Breathe out", seconds: 5.5, orb: 0 },
