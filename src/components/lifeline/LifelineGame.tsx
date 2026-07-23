@@ -261,12 +261,15 @@ export function LifelineGame() {
   };
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time localStorage
+       hydration after mount; server render must stay storage-free */
     try {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
       setMuted(localStorage.getItem(MUTE_KEY) === "1");
     } catch {
       /* private mode — best score just lives for the session */
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {

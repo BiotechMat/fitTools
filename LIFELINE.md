@@ -64,4 +64,6 @@ flap blip, pickup ding, decade tick, flatline tone.
 
 v1 BUILT (2026-07-23): src/lib/lifeline.ts (+ unit tests),
 src/components/lifeline/LifelineGame.tsx, /lifeline page, linked from
-/daily. Name "Lifeline" proposed, not locked.
+/daily. Name "Lifeline" proposed, not locked. Now listed in the /arcade
+hub next to its sibling Powerhouse (POWERHOUSE.md), which also gave it a
+sitemap entry and an Arcade breadcrumb.
