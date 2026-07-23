@@ -51,7 +51,8 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
   // Home + daily hub + arcade hub + lifeline + powerhouse + blood-test +
-  // pulse hub + pulse/this-week + calculators index + 3 section hubs +
+  // pulse hub + pulse/this-week + calculators index + 3 calculator category
+  // pages + 3 section hubs +
   // 32 standard tools + reconstitution calculator (in the peptides section) +
   // author + 5 legal + peptides pillar + 16 peptide pages + index-methodology +
   // 8 recovery pillars + 4 recovery satellites + glossary hub + 55 glossary
@@ -59,7 +60,7 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   // hubs + 39 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
   // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(234);
+  expect(locs.length).toBe(237);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
@@ -73,11 +74,22 @@ test("robots.txt serves and references the sitemap", async ({ request }) => {
   expect(await response.text()).toContain("sitemap.xml");
 });
 
-test("all three topic sections list their tools", async ({ page }) => {
+test("topic sections carry a single calculators card into their category page", async ({ page }) => {
   for (const hub of ["nutrition", "workout", "recovery"]) {
     await page.goto(`/${hub}`);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       new RegExp(hub, "i"),
+    );
+    // One card, not the full grid — no direct tool links on the section page.
+    const card = page.getByRole("link", {
+      name: new RegExp(`^${hub} calculators$`, "i"),
+    });
+    await expect(card).toHaveAttribute("href", `/calculators/${hub}`);
+
+    // The category page behind the card lists the tools themselves.
+    await card.click();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      new RegExp(`${hub} calculators`, "i"),
     );
     const toolLinks = page.locator('ul a[href^="/"]');
     expect(await toolLinks.count()).toBeGreaterThanOrEqual(2);
@@ -112,14 +124,14 @@ test("calculators index groups every category under stable anchors", async ({ pa
   expect(await toolLinks.count()).toBeGreaterThanOrEqual(33);
 });
 
-test("Calculators menu expands on click and lists the calculators by category", async ({ page }) => {
+test("Calculators menu nests: menu → categories → each category's calculators", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Main" });
   const hamburger = nav.getByRole("button", { name: "Open menu" });
   const onMobile = await hamburger.isVisible();
   if (onMobile) await hamburger.click();
 
-  // Collapsed until clicked, on both the desktop bar and the mobile panel.
+  // Level 1: collapsed until clicked, on desktop bar and mobile panel alike.
   const trigger = nav.getByRole("button", { name: "Calculators" });
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
   await trigger.click();
@@ -128,17 +140,25 @@ test("Calculators menu expands on click and lists the calculators by category", 
   const panel = nav.locator(
     onMobile ? "#mobile-group-calculators" : "#nav-group-calculators",
   );
-  // The menu holds the calculators themselves, grouped by category.
+  // Level 2: the categories, as expandable rows — no tool links yet.
   for (const category of ["Nutrition", "Workout", "Recovery", "Peptides"]) {
-    await expect(panel.getByText(category, { exact: true })).toBeVisible();
+    await expect(panel.getByRole("button", { name: category })).toBeVisible();
   }
+  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
+
+  // Level 3: expanding a category reveals its calculators.
+  await panel.getByRole("button", { name: "Nutrition" }).click();
   await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveAttribute(
     "href",
     "/tdee-calculator",
   );
+
+  // One category open at a time: switching swaps the list.
+  await panel.getByRole("button", { name: "Peptides" }).click();
   await expect(
     panel.getByRole("link", { name: /Peptide Reconstitution/ }),
   ).toHaveAttribute("href", "/learn/peptides/peptide-reconstitution");
+  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
 
   await panel.getByRole("link", { name: "All calculators" }).click();
   await expect(page).toHaveURL(/\/calculators$/);

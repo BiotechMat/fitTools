@@ -53,7 +53,7 @@ export default function CalculatorsIndexPage() {
           className="scroll-mt-6"
         >
           <h2 id={`calculators-${meta.hub}`} className="font-display text-2xl uppercase">
-            <Link href={meta.path} className="hover:text-primary">
+            <Link href={`/calculators${meta.path}`} className="hover:text-primary">
               {meta.title}
             </Link>
           </h2>
