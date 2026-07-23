@@ -125,6 +125,9 @@ caller sweep — the promise those modules were built to keep.
     dosing fields — §6.2 note).
   - `training` — **new** store: exercises saved from the library (exercise
     ids; a structured set/rep workout log is a later surface — §11).
+  - `favourites` — **new** store: bookmarked tools/pages (registry slugs)
+    — the "bookmark tools" surface (a premium-candidate for *depth*, per
+    §9.9's additive-gating rule).
   - `prefs` — **new**: unit preference, so metric/imperial follows the
     account across devices.
 - **Consent flow**: the §7.2 granular health-data consent, separate from
@@ -274,7 +277,8 @@ users / sessions / verification …    ← library-owned (+ age_band — §7.7)
 store_documents (
   user_id, namespace,                ← the §6.2 registry: "history" | "dashboard"
   version int, doc jsonb,            |   "daily" | "pulse" | "arcade" | "stack"
-  updated_at timestamptz,            |   "training" | "prefs" (+ "bloodwork" at A4)
+  updated_at timestamptz,            |   "training" | "favourites" | "prefs"
+                                     |   (+ "bloodwork" at A4)
   PRIMARY KEY (user_id, namespace)
 )
 consents (
@@ -360,6 +364,7 @@ they extend.
 | `arcade` | per-game bests, Lifeline skins/unlocks, per-day bests (consolidates `fittools.*.best`) | no | `max` per numeric key; union unlocks |
 | `stack` | supplements the user takes: registry id, `addedAt`, optional note | **yes** | union by id, latest note wins |
 | `training` | saved exercises: registry ids, `addedAt` | no | union by id |
+| `favourites` | bookmarked tools/pages: registry slugs, `addedAt` | no | union by slug |
 | `prefs` | unit preference | no | last-write-wins |
 | `bloodwork` *(A4 — gated)* | dated biomarker readings | **yes — own consent kind** | union by (marker, takenAt); rejected entirely pre-A4 |
 
@@ -368,10 +373,10 @@ health conditions (finasteride, ashwagandha…), so it sits on the cautious
 side of the line; `training` saves are bookmark-grade and are not. No
 dosing fields exist on `stack` — it records *what*, never *how much*; the
 no-dosing editorial discipline (CONTENT-peptides §0) stays intact.
-`arcade`, `stack`, `training` and `prefs` are **new local-first store
-modules** built at A2 in the established pattern (pure core + guarded
-wrapper + change event + tests); they work signed-out from day one, like
-everything else.
+`arcade`, `stack`, `training`, `favourites` and `prefs` are **new
+local-first store modules** built at A2 in the established pattern (pure
+core + guarded wrapper + change event + tests); they work signed-out from
+day one, like everything else.
 
 ### 6.3 The engine
 
@@ -435,8 +440,8 @@ exist **before** the first health-flavoured byte is stored server-side:
    CONTENT-looksmaxxing §6.3 convention: what's stored (your saved results
    and the vitals you enter), where (named region), that it follows the
    account until deleted, and the one-click outs. Until granted: the
-   account works; `daily`, `pulse`, `arcade`, `training` and `prefs` sync;
-   `history`, `dashboard` and `stack` stay local-only. Revoking deletes the
+   account works; `daily`, `pulse`, `arcade`, `training`, `favourites` and
+   `prefs` sync; `history`, `dashboard` and `stack` stay local-only. Revoking deletes the
    gated server copies and keeps local ones.
 3. **User controls, first-class on `/account`**: view what's held, export
    (portability, one JSON), revoke consent, **delete everything** (erasure —
@@ -461,9 +466,9 @@ exist **before** the first health-flavoured byte is stored server-side:
    Sign-up captures a **self-declared age band (13–15 / 16–17 / 18+) —
    the band only, never a date of birth** (data minimisation; the optional
    dashboard `birthDate` stays a separate, user-chosen profile field). The
-   fun namespaces (`daily`, `pulse`, `arcade`, `training`, `prefs`) sync
-   for every band — streaks, bests, skins: what a younger user actually
-   wants an account for. The **health-storage consent is offered from 16+
+   fun namespaces (`daily`, `pulse`, `arcade`, `training`, `favourites`,
+   `prefs`) sync for every band — streaks, bests, skins: what a younger
+   user actually wants an account for. The **health-storage consent is offered from 16+
    only**: under-16s never see it, their calculators keep working exactly
    as today (client-side, local-first — free stays free), and the server
    enforces the band alongside the consent row (§6.4). Bloodwork is
@@ -566,11 +571,18 @@ deliberately left with Mat.
    (§6.5).
 8. **Sessions → 60-day rolling + ~5-min signed cookie cache** (§4.3):
    fewer login emails, no per-request DB read, bounded revocation window.
-9. **Monetisation model — OPEN, Mat only** (MONETISATION §4; `STATUS.md
-   §4` #1). It gates the premium tier design, not this build: free
-   accounts ship regardless, and the account page copy stays tier-neutral
-   until the model is decided — ideally before A3 so the long-term framing
-   is right first time.
+9. **Monetisation model — PARTIALLY RESOLVED (Mat, 2026-07-23).**
+   Decided: the free tier will carry light, premium-lean ads and premium
+   removes them (MONETISATION §4.3); the arcade is monetised through
+   **extras, never play-limits** (MONETISATION §2.6). Still open, still
+   Mat's: the exact free/paid feature line ("save calculators, bookmark
+   tools" are named candidates; the line itself is undecided) and the
+   price point (deferred to the premium build). Consequences for this
+   build: v1 accounts stay free-only and tier-neutral, and because
+   **nothing may launch free and be walled later**, gating must be
+   additive — so A2 ships free sync with modest, honest caps (e.g. a
+   history window) that premium later *lifts*, and premium-candidate
+   surfaces (favourites depth, arcade extras) launch with the tier.
 
 ---
 
@@ -596,7 +608,8 @@ static; zero third-party requests signed-out; JS budget passes; axe clean.
 ### A2 — Sync engine, consent & the new stores
 `store_documents` API + `account-sync.ts` + the §6.2 namespace registry;
 the **new store modules** (`arcade` consolidation, `stack`, `training`,
-`prefs`) in the established pure-core pattern; merge functions for every
+`favourites`, `prefs`) in the established pure-core pattern; merge
+functions for every
 namespace (pure, ≥3 vectors each, incl. the documented daily/pulse
 strategies); the health-storage consent step gating the flagged namespaces
 (403 without it); the bloodwork rejection guard; export covers every

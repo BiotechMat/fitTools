@@ -156,7 +156,9 @@ and Mat has signed off.
   Pulse, arcade bests/skins, the supplement stack, saved exercises, prefs;
   bloodwork is its own gated namespace at A4 (manual entry first). Build
   sequence A0–A4; nothing built yet — build when Phase 4 is scheduled. The
-  monetisation model (MONETISATION §4) remains the one open Mat decision.
+  monetisation model is partially resolved (2026-07-23: light ads in the
+  free tier, premium removes them; arcade extras never play-limits); the
+  exact free/paid line and price remain Mat's open calls (MONETISATION §4).
 - PROFILE.md — BLUEPRINT (not built, not signed off) for the health profile +
   bloodwork auto-populate that accounts unlock (STATUS.md Phase 4, after
   ACCOUNTS.md's E0 foundation). Manual profile + auto-populate is the lighter

@@ -6,13 +6,16 @@ return engine, E6 monetisation activation). This is the **single working record*
 for where the site's revenue is heading, so the direction stops living scattered
 across those docs.
 
-**Status (2026-07-23): WORKING DIRECTION — not signed off.** The *shape* below
-is agreed in spirit (premium-lean, free-stays-free); the **model itself is not
-yet confirmed** — price, exactly what's gated, and whether the free tier carries
-ads at all are open questions (§4). Nothing here locks a decision; it records the
-intent and the principles that already bind, and flags what still needs Mat's
-call. When the model is confirmed, `BUSINESS_PLAN.md §7` and `ROADMAP.md E6` get
-reconciled to it (they currently pre-date this direction — §5).
+**Status (2026-07-23, updated same day): WORKING DIRECTION — partially
+resolved.** The *shape* is agreed (premium-lean, free-stays-free), and two of
+the §4 opens are now **decided by Mat (2026-07-23)**: the free tier will carry
+**light, premium-lean ads and paying removes them** (§4.3), and the arcade is
+monetised through **extras, never play-limits** (§2.6 — a binding principle).
+Still open, still Mat's: the exact free/paid feature line (§4.2 — "save
+calculators, bookmark tools" are named candidates; the line itself is
+explicitly not decided yet) and the price point (§4.1 — deliberately deferred
+to the premium build). Reconciliation of `BUSINESS_PLAN.md §7` /
+`ROADMAP.md E6` still waits for the full model (§5).
 
 > **This is a gating decision, not just a doc.** The §4 model choice blocks the
 > design of the accounts/premium tier (`STATUS.md §3` Phase 4) — build premium
@@ -60,6 +63,13 @@ question:
 5. **Never monetise insecurity.** Appearance outputs — including the
    `CONTENT-looksmaxxing.md §6` body-composition estimator — stay free by design;
    charging for an appearance number is exactly the model the strategy rejects.
+6. **The arcade is monetised through extras, never limits** (Mat,
+   2026-07-23). Free play stays unlimited for everyone; premium may sell
+   arcade *depth* — exclusive skins, ghost-run archives, extra modes/stats
+   — but never lives, energy, play caps or paid retries. This keeps the
+   games' own guardrails (LIFELINE §3 "nothing bought"), their
+   acquisition-funnel role, and the Children's Code posture now accounts
+   open at 13+ (ACCOUNTS.md §7.7).
 
 ---
 
@@ -73,8 +83,12 @@ product being charged for:
 - **Trajectory** — longitudinal tracking of the open indices and key metrics,
   trend lines, "what moved this" annotations (`ROADMAP.md E2` — the keystone).
 - **Advanced / branded share cards** (the E1 OG-image pipeline, richer formats).
-- **Ad-free** — the clean-surface benefit, only meaningful if the free tier ever
-  carries ads (see §4).
+- **Ad-free** — now a confirmed benefit: the free tier will carry light ads
+  (§4.3 resolved), so paying removes them.
+- **Arcade extras** — exclusive skins, ghost-run archive, extra modes/stats
+  (§2.6: extras, never play-limits).
+- **Bookmark/favourites depth** — "bookmark tools" is on Mat's candidate
+  gated list (§4.2); the surface itself is designed in ACCOUNTS.md §6.2.
 - Deeper cuts of features that ship free in a lighter form (e.g. longer history
   windows, more detail in breakdowns).
 
@@ -87,14 +101,27 @@ the thing sold.
 ## 4. Open questions (need Mat's decision — model not yet confirmed)
 
 1. **Price point.** "Small amount a month" — the actual number, and monthly vs
-   annual (and whether regional pricing applies).
+   annual (and whether regional pricing applies). *(2026-07-23: deliberately
+   deferred by Mat — set at the premium build/E6; not needed for the E0
+   accounts build.)*
 2. **The free/paid line.** Exactly which features are free vs premium — where does
    "saved results" sit (a teaser of N saves free?), how much Trajectory history is
-   free before it's paid.
-3. **Ads in the free tier — or not at all?** Two coherent options:
-   (a) free tier carries light, premium-lean ads and paying removes them; or
-   (b) the site is ad-free for everyone and premium sells depth only (cleanest for
-   the trust positioning, forgoes ad revenue). This is the biggest open call.
+   free before it's paid. *(2026-07-23: Mat's sketch recorded — the gated set
+   will be "stuff like save calculators, bookmark tools" plus arcade extras
+   (§2.6) — but the exact line is explicitly not decided yet. Candidate
+   shapes on the table: (a) fun layer syncs free, the numbers archive is
+   premium; (b) everything syncs free with a capped history window and
+   premium lifts the caps; (c) depth-only premium. Binding consequence
+   whichever is chosen: **nothing launches free and is walled later** —
+   gating is additive (caps lifted, extras added), so any surface that might
+   be gated ships capped or ships with the tier — see ACCOUNTS.md §9.9.)*
+3. **Ads in the free tier — or not at all?** ***RESOLVED (Mat, 2026-07-23):
+   option (a)*** — the free tier carries light, premium-lean ads and paying
+   removes them. The SPEC §10–§11 rules bind unchanged (consent-gated,
+   reserved dimensions, lazy, never above the calculator, no layout depends
+   on an ad); with accounts open at 13+ (ACCOUNTS.md §7.7), under-18 users
+   get **non-personalised serving only**, per the Children's Code posture.
+   "Ad-free" is thereby a confirmed premium benefit (§3).
 4. **Trial / freemium mechanics.** Free trial, or a permanent free tier with a
    paid upgrade (the `DESIGN.md §5` "30 days free, full history paid" note is a
    candidate, not a decision).

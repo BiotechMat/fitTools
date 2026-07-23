@@ -167,9 +167,16 @@ audience monetises far better than cold traffic.
 
 These gate the phases above and cannot be resolved from the code:
 
-1. **The monetisation model** (MONETISATION §4) — price, the free/paid line,
-   ads-in-free-tier vs ad-free-for-everyone, trial mechanics. Unblocks Phase 4's
-   tier design and the owed BUSINESS_PLAN/ROADMAP reconciliation (§6 here).
+1. **The monetisation model** (MONETISATION §4) — **partially resolved
+   2026-07-23**: the free tier will carry light, premium-lean ads and premium
+   removes them (§4.3 resolved); the arcade is monetised through extras,
+   never play-limits (now MONETISATION §2.6, binding). Still open: the exact
+   free/paid feature line ("save calculators, bookmark tools" named as
+   candidates; gating must be additive — nothing launches free then gets
+   walled) and the price point (deferred to the premium build). The
+   remaining opens gate Phase 4's *tier design* and the owed
+   BUSINESS_PLAN/ROADMAP reconciliation (§6 here); the free-account build
+   (ACCOUNTS.md) is not blocked.
 2. **Fitness Age** (METHODOLOGY §3.2) — blocked solely on obtaining the Nes 2011
    full text. Buy/request the paper, or drop the tool (it also carries 25% of the
    Pace of Aging index design).
