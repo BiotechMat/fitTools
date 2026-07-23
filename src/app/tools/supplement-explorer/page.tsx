@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   description:
     "Every supplement we cover, graded like medals: Gold for strong human evidence, Silver for some, Bronze for early or animal-only, plus the Unproven shelf for the oversold. Search the shelf, read the honest one-liner, pull the full cited review.",
   alternates: { canonical: "/tools/supplement-explorer" },
+  // Per-page manifest so add-to-home-screen saves THIS page, not the root.
+  manifest: "/api/page-manifest?page=supplement-explorer",
+  appleWebApp: { capable: true, title: "Supplements" },
 };
 
 export default function SupplementExplorerPage() {
