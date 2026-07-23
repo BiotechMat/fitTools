@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { hubMeta } from "@/registry/hubs";
 import { tier4Tools, toolsForHub } from "@/registry/tools";
+import { CardSearch } from "@/components/CardSearch";
 import { ToolCardGrid } from "@/components/HubPage";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
@@ -45,35 +46,43 @@ export default function CalculatorsIndexPage() {
         </p>
       </div>
 
-      {groups.map(({ meta, tools }) => (
+      <CardSearch label="Search calculators" className="space-y-10">
+        {groups.map(({ meta, tools }) => (
+          <section
+            key={meta.hub}
+            id={meta.path.slice(1)}
+            aria-labelledby={`calculators-${meta.hub}`}
+            data-search-group
+            className="scroll-mt-6"
+          >
+            <h2 id={`calculators-${meta.hub}`} className="font-display text-2xl uppercase">
+              <Link href={`/calculators${meta.path}`} className="hover:text-primary">
+                {meta.title}
+              </Link>
+            </h2>
+            <p className="mt-1 max-w-prose text-sm text-muted">{meta.description}</p>
+            <ToolCardGrid tools={tools} />
+          </section>
+        ))}
+
         <section
-          key={meta.hub}
-          id={meta.path.slice(1)}
-          aria-labelledby={`calculators-${meta.hub}`}
+          id="peptides"
+          aria-labelledby="calculators-peptides"
+          data-search-group
           className="scroll-mt-6"
         >
-          <h2 id={`calculators-${meta.hub}`} className="font-display text-2xl uppercase">
-            <Link href={`/calculators${meta.path}`} className="hover:text-primary">
-              {meta.title}
+          <h2 id="calculators-peptides" className="font-display text-2xl uppercase">
+            <Link href="/learn/peptides" className="hover:text-primary">
+              Peptides
             </Link>
           </h2>
-          <p className="mt-1 max-w-prose text-sm text-muted">{meta.description}</p>
-          <ToolCardGrid tools={tools} />
+          <p className="mt-1 max-w-prose text-sm text-muted">
+            Part of the evidence-tiered peptides reference, arithmetic only on
+            values you supply, with an enhanced disclaimer and no advertising.
+          </p>
+          <ToolCardGrid tools={peptideTools} />
         </section>
-      ))}
-
-      <section id="peptides" aria-labelledby="calculators-peptides" className="scroll-mt-6">
-        <h2 id="calculators-peptides" className="font-display text-2xl uppercase">
-          <Link href="/learn/peptides" className="hover:text-primary">
-            Peptides
-          </Link>
-        </h2>
-        <p className="mt-1 max-w-prose text-sm text-muted">
-          Part of the evidence-tiered peptides reference, arithmetic only on
-          values you supply, with an enhanced disclaimer and no advertising.
-        </p>
-        <ToolCardGrid tools={peptideTools} />
-      </section>
+      </CardSearch>
     </div>
   );
 }

@@ -12,6 +12,7 @@ export function ToolCardGrid({ tools }: { tools: ToolConfig[] }) {
       {tools.map((tool) => (
         <li
           key={tool.slug}
+          data-search-item={tool.title}
           className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
         >
           <Link
