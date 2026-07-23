@@ -50,7 +50,7 @@ export function CaloriesBurnedCalculator() {
             >
               {mets.activities.map((a) => (
                 <option key={a.code} value={a.code}>
-                  {a.label} — {a.met} MET
+                  {a.label}: {a.met} MET
                 </option>
               ))}
             </select>
@@ -85,7 +85,7 @@ export function CaloriesBurnedCalculator() {
               {activity.label} (Compendium code {activity.code}, {activity.met}{" "}
               MET) for {formatNumber(result.minutes)} minutes at your weight.
               This includes resting metabolism and describes the average
-              person — treat it as an estimate, not a measurement.
+              person. Treat it as an estimate, not a measurement.
             </p>
           </div>
         ) : (

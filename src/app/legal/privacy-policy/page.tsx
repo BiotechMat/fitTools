@@ -22,8 +22,8 @@ export default function PrivacyPolicyPage() {
       </p>
       <h2>Calculator inputs</h2>
       <p>
-        All calculations run entirely in your browser. Your inputs — weight,
-        height, measurements and the rest — are not transmitted to us or to
+        All calculations run entirely in your browser. Your inputs (weight,
+        height, measurements and the rest) are not transmitted to us or to
         anyone else, and we could not read them if we wanted to.
       </p>
       <h2>Preferences stored on your device</h2>
@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
       <p>
         Under UK GDPR you have rights of access, rectification, erasure,
         restriction, portability and objection. Because we hold no personal
-        data about visitors today, most requests will have a short answer —
+        data about visitors today, most requests will have a short answer,
         but you can exercise these rights, or raise any privacy question,
         via the site&rsquo;s contact details. You also have the right to
         complain to the Information Commissioner&rsquo;s Office

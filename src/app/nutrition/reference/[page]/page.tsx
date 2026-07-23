@@ -209,7 +209,7 @@ export default async function FoodReferencePage({ params }: PageParams) {
       <p className="text-xs text-muted">
         Values are approximate per-100 g reference figures from public
         food-composition data (USDA FoodData Central), rounded and for general
-        guidance only — real foods vary by cut, brand and preparation.
+        guidance only, real foods vary by cut, brand and preparation.
       </p>
 
       {relatedTools.length > 0 ? (

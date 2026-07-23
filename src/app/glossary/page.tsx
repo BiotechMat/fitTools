@@ -4,9 +4,9 @@ import { glossaryAlphabetical } from "@/registry/glossary";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Fitness & Longevity Glossary — Plain-English Definitions",
+  title: "Fitness & Longevity Glossary: Plain-English Definitions",
   description:
-    "A plain-English glossary of the training, nutrition and longevity terms used across the site — hypertrophy, TDEE, VO₂max, ApoB, HRV and more — each linked to the tools that use them.",
+    "A plain-English glossary of the training, nutrition and longevity terms used across the site (hypertrophy, TDEE, VO₂max, ApoB, HRV and more) each linked to the tools that use them.",
   alternates: { canonical: "/glossary" },
 };
 

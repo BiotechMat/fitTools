@@ -9,9 +9,9 @@ export const bmiInputsSchema = z.object({
 
 export const bmiConfig: ToolConfig = {
   slug: BMI_SLUG,
-  title: "BMI Calculator — Body Mass Index & WHO Category",
+  title: "BMI Calculator: Body Mass Index & WHO Category",
   valueLine:
-    "Check your body mass index against the WHO adult categories — and understand where the number falls short.",
+    "Check your body mass index against the WHO adult categories, and understand where the number falls short.",
   metaDescription:
     "Free BMI calculator with WHO categories (underweight to obesity class III), metric and imperial inputs, and an honest explanation of BMI's limits for muscular and athletic builds.",
   hub: "nutrition",
@@ -21,7 +21,7 @@ export const bmiConfig: ToolConfig = {
   faq: [
     {
       q: "What is a healthy BMI?",
-      a: "For adults, the WHO classifies a BMI of 18.5 to 24.9 as the healthy-weight range, 25 to 29.9 as overweight, and 30 or above as obesity, split into classes I–III. These are population screening bands rather than individual diagnoses.",
+      a: "For adults, the WHO classifies a BMI of 18.5 to 24.9 as the healthy-weight range, 25 to 29.9 as overweight, and 30 or above as obesity, split into classes I-III. These are population screening bands rather than individual diagnoses.",
     },
     {
       q: "How is BMI calculated?",
@@ -29,7 +29,7 @@ export const bmiConfig: ToolConfig = {
     },
     {
       q: "Is BMI accurate for muscular people?",
-      a: "No — this is BMI's best-known weakness. It cannot tell muscle from fat, so muscular athletes are routinely classed as overweight or even obese despite low body fat. If you carry meaningful muscle, a body-fat estimate is a far better guide.",
+      a: "No, this is BMI's best-known weakness. It cannot tell muscle from fat, so muscular athletes are routinely classed as overweight or even obese despite low body fat. If you carry meaningful muscle, a body-fat estimate is a far better guide.",
     },
     {
       q: "Does BMI apply to children or during pregnancy?",
@@ -46,11 +46,11 @@ export const bmiConfig: ToolConfig = {
   sources: [
     {
       label:
-        "WHO Expert Consultation. Appropriate body-mass index for Asian populations and its implications for policy and intervention strategies. Lancet 2004;363:157–163",
+        "WHO Expert Consultation. Appropriate body-mass index for Asian populations and its implications for policy and intervention strategies. Lancet 2004;363:157-163",
       url: "https://pubmed.ncbi.nlm.nih.gov/14726171/",
     },
     {
-      label: "World Health Organization. Obesity and overweight — fact sheet",
+      label: "World Health Organization. Obesity and overweight: fact sheet",
       url: "https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight",
     },
   ],

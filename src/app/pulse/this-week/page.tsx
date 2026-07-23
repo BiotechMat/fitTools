@@ -16,9 +16,9 @@ import type { GroundingChunk, PulseStudy } from "@/lib/pulse/types";
  */
 
 export const metadata: Metadata = {
-  title: "This Week in the Science — Recent Fitness & Longevity Research | Pulse",
+  title: "This Week in the Science: Recent Fitness & Longevity Research | Pulse",
   description:
-    "The latest fitness, nutrition, recovery and longevity studies, each with a plain-English reality check on what the evidence actually shows — and a link to the source.",
+    "The latest fitness, nutrition, recovery and longevity studies, each with a plain-English reality check on what the evidence actually shows, and a link to the source.",
   alternates: { canonical: "/pulse/this-week" },
 };
 
@@ -95,7 +95,7 @@ export default function PulseThisWeekPage() {
 
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">This week in the science</h1>
       <p className="mt-2 max-w-prose text-muted">
-        The newest research we&rsquo;ve added to Pulse — each with a plain-English
+        The newest research we&rsquo;ve added to Pulse, each with a plain-English
         reality check on what the study actually shows, and a link to the source.
         We lead with the finding <em>and</em> its limits, so a single new trial is
         never dressed up as settled science.
@@ -103,7 +103,7 @@ export default function PulseThisWeekPage() {
 
       {fresh.length === 0 ? (
         <p className="mt-8 rounded-lg border border-border bg-surface p-6 text-center text-muted">
-          No new discoveries just yet — check back soon, or browse the{" "}
+          No new discoveries just yet, check back soon, or browse the{" "}
           <Link href="/pulse" className="text-primary underline underline-offset-2">
             full Pulse feed
           </Link>

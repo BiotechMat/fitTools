@@ -41,7 +41,7 @@ function startHereCards() {
       stat: fmt(tdeeKcal),
       unit: "kcal",
       name: "TDEE Calculator",
-      blurb: "How much fuel you actually burn — before you cut, bulk or panic.",
+      blurb: "How much fuel you actually burn, before you cut, bulk or panic.",
     },
     {
       slug: "one-rep-max-calculator",
@@ -65,10 +65,10 @@ function startHereCards() {
       slug: "heart-rate-zone-calculator",
       hub: "Workout",
       chip: "bg-primary-soft text-foreground",
-      stat: `Z2 ${fmt(zone2.lowerBpm)}–${fmt(zone2.upperBpm)}`,
+      stat: `Z2 ${fmt(zone2.lowerBpm)} to ${fmt(zone2.upperBpm)}`,
       unit: "bpm",
       name: "Heart-Rate Zones",
-      blurb: "Five zones, one chart, zero guessing — Zone 2 included.",
+      blurb: "Five zones, one chart, zero guessing, Zone 2 included.",
     },
   ];
 }
@@ -126,7 +126,7 @@ export default function HomePage() {
           </h1>
           <p className="mt-3 max-w-prose text-lg text-muted">
             {SITE_NAME} builds every calculator on published, peer-reviewed
-            formulas — with the sources cited on the page, so you can check our
+            formulas, with the sources cited on the page, so you can check our
             working.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -173,11 +173,11 @@ export default function HomePage() {
               New · coming soon
             </p>
             <h2 id="bloodtest-cta" className="mt-1 font-display text-2xl uppercase">
-              Know your numbers — at-home blood test
+              Know your numbers, at-home blood test
             </h2>
             <p className="mt-1 max-w-prose text-sm">
-              Test the biomarkers behind your heart, metabolic and biological age —
-              results flow straight into your dashboard and auto-fill the calculators
+              Test the biomarkers behind your heart, metabolic and biological age.
+              Results flow straight into your dashboard and auto-fill the calculators
               that use them.
             </p>
           </div>
@@ -200,7 +200,7 @@ export default function HomePage() {
               Play today&rsquo;s Ballpark
             </h2>
             <p className="mt-1 max-w-prose text-sm">
-              Guess a real, cited fitness stat in one move — then test yourself on the
+              Guess a real, cited fitness stat in one move, then test yourself on the
               weekly myth-buster quiz. Build a streak, learn the numbers.
             </p>
           </div>
@@ -331,7 +331,7 @@ export default function HomePage() {
             </Link>
           </h2>
           <p className="mt-1 max-w-prose text-sm text-muted">
-            The evidence-tiered peptides reference, plus its calculator —
+            The evidence-tiered peptides reference, plus its calculator,
             arithmetic only on values you supply, with an enhanced disclaimer
             and no advertising.
           </p>

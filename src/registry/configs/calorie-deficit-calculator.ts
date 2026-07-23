@@ -17,9 +17,9 @@ export const deficitInputsSchema = z.object({
 
 export const deficitConfig: ToolConfig = {
   slug: DEFICIT_SLUG,
-  title: "Calorie Deficit Calculator — Weight-Loss Timeline",
+  title: "Calorie Deficit Calculator: Weight-Loss Timeline",
   valueLine:
-    "Estimate how long a weight-loss goal could take at a given daily calorie deficit — with the caveats made clear.",
+    "Estimate how long a weight-loss goal could take at a given daily calorie deficit, with the caveats made clear.",
   metaDescription:
     "Free calorie deficit calculator: estimate weekly weight loss and a timeline to your goal using the 7,700 kcal/kg heuristic, with a safety cap at 25% of your TDEE.",
   hub: "nutrition",
@@ -37,11 +37,11 @@ export const deficitConfig: ToolConfig = {
     },
     {
       q: "Why am I losing weight slower than the calculator predicted?",
-      a: "The 7,700 kcal heuristic assumes your energy expenditure stays constant, but it falls as you lose weight — both because a smaller body burns less and because of adaptive thermogenesis. Expect the estimate to be optimistic over longer timelines and recalculate as your weight changes.",
+      a: "The 7,700 kcal heuristic assumes your energy expenditure stays constant, but it falls as you lose weight, both because a smaller body burns less and because of adaptive thermogenesis. Expect the estimate to be optimistic over longer timelines and recalculate as your weight changes.",
     },
     {
       q: "Should I eat back exercise calories?",
-      a: "If your TDEE estimate already includes your activity level, no — counting exercise again would double-count it. Keep the deficit against your all-in daily expenditure and judge progress by the scale trend over two to four weeks.",
+      a: "If your TDEE estimate already includes your activity level, no, because counting exercise again would double-count it. Keep the deficit against your all-in daily expenditure and judge progress by the scale trend over two to four weeks.",
     },
     {
       q: "Is a bigger deficit always faster?",
@@ -53,15 +53,15 @@ export const deficitConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Wishnofsky M. Caloric equivalents of gained or lost weight. Am J Clin Nutr 1958;6:542–546",
+      label: "Wishnofsky M. Caloric equivalents of gained or lost weight. Am J Clin Nutr 1958;6:542-546",
       url: "https://pubmed.ncbi.nlm.nih.gov/13594881/",
     },
     {
-      label: "Hall KD. What is the required energy deficit per unit weight loss? Int J Obes 2008;32:573–576",
+      label: "Hall KD. What is the required energy deficit per unit weight loss? Int J Obes 2008;32:573-576",
       url: "https://pubmed.ncbi.nlm.nih.gov/17848938/",
     },
     {
-      label: "Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. Int J Obes 2010;34:S47–S55",
+      label: "Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. Int J Obes 2010;34:S47-S55",
       url: "https://pubmed.ncbi.nlm.nih.gov/20935667/",
     },
   ],

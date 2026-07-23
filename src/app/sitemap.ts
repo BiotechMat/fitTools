@@ -134,12 +134,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // daily. Per-date archive pages feed the sitemap from the registry once built.
     { url: `${SITE_URL}/daily`, changeFrequency: "daily" as const },
     // Arcade hub + game pages (LIFELINE.md, POWERHOUSE.md, MAXOUT.md,
-    // SNAKEOIL.md): static, indexable.
+    // FIVEADAY.md): static, indexable.
     { url: `${SITE_URL}/arcade`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/lifeline`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/powerhouse`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/max-out`, changeFrequency: "monthly" as const },
-    { url: `${SITE_URL}/snake-oil`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/five-a-day`, changeFrequency: "monthly" as const },
     // Blood-test product page (pre-launch; partner integration to come).
     { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
     // Pulse hub (endless feed) + the crawlable weekly digest (PULSE.md §15.7 F3),

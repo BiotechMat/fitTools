@@ -33,11 +33,11 @@ export function renderReport(args: {
 }): string {
   const { discovered, additions, skipped, degraded, addedAt } = args;
   const lines: string[] = [];
-  lines.push(`# Pulse harvest — ${addedAt}`, "");
+  lines.push(`# Pulse harvest: ${addedAt}`, "");
   lines.push(
     `Discovered **${discovered}** candidates → **${additions.length}** new fresh ${
       additions.length === 1 ? "chunk" : "chunks"
-    } proposed` + (degraded ? " _(degraded: no drafting model — review candidates manually)_" : "") + ".",
+    } proposed` + (degraded ? " _(degraded: no drafting model, review candidates manually)_" : "") + ".",
     "",
   );
 
@@ -60,7 +60,7 @@ export function renderReport(args: {
   if (skipped.length > 0) {
     lines.push("## Skipped", "");
     for (const s of skipped.slice(0, 40)) {
-      lines.push(`- \`${s.reason}\` — ${s.candidate.title} (${s.candidate.url})`);
+      lines.push(`- \`${s.reason}\`: ${s.candidate.title} (${s.candidate.url})`);
     }
     if (skipped.length > 40) lines.push(`- …and ${skipped.length - 40} more`);
     lines.push("");

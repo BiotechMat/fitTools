@@ -13,7 +13,7 @@ import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { FAQ } from "@/components/FAQ";
-import { RecommendationCard } from "@/components/RecommendationCard";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -32,11 +32,11 @@ export async function generateMetadata({ params }: SupplementParams): Promise<Me
   const s = getSupplement(supplement);
   if (!s) return {};
   return {
-    title: `${s.name} — Benefits, Evidence and Safety`,
+    title: `${s.name}: Benefits, Evidence and Safety`,
     description: s.metaDescription,
     alternates: { canonical: `/supplements/${s.slug}` },
     openGraph: {
-      title: `${s.name} — what the evidence says`,
+      title: `${s.name}: what the evidence says`,
       description: s.metaDescription,
       type: "article",
       url: `/supplements/${s.slug}`,
@@ -83,6 +83,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
+      <RecommendationRail surface={`supplement:${s.slug}`}>
       <div>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -122,8 +123,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
       </div>
 
       {s.faq.length > 0 ? <FAQ entries={s.faq} /> : null}
-
-      <RecommendationCard surface={`supplement:${s.slug}`} />
+      </RecommendationRail>
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">

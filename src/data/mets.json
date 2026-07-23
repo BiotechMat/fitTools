@@ -10,11 +10,11 @@
     { "code": "12070", "label": "Running, 7 mph (8.5 min/mile)", "met": 11.0 },
     { "code": "12090", "label": "Running, 8 mph (7.5 min/mile)", "met": 12.0 },
     { "code": "12120", "label": "Running, 10 mph (6 min/mile)", "met": 14.8 },
-    { "code": "01020", "label": "Cycling, 10–11.9 mph, light", "met": 4.3 },
-    { "code": "01030", "label": "Cycling, 12–13.9 mph, moderate", "met": 8.0 },
-    { "code": "01040", "label": "Cycling, 14–15.9 mph, vigorous", "met": 10.0 },
-    { "code": "01220", "label": "Stationary cycling, 90–100 W, moderate", "met": 6.0 },
-    { "code": "02054", "label": "Resistance training, multiple exercises, 8–15 reps", "met": 3.5 },
+    { "code": "01020", "label": "Cycling, 10 to 11.9 mph, light", "met": 4.3 },
+    { "code": "01030", "label": "Cycling, 12 to 13.9 mph, moderate", "met": 8.0 },
+    { "code": "01040", "label": "Cycling, 14 to 15.9 mph, vigorous", "met": 10.0 },
+    { "code": "01220", "label": "Stationary cycling, 90 to 100 W, moderate", "met": 6.0 },
+    { "code": "02054", "label": "Resistance training, multiple exercises, 8 to 15 reps", "met": 3.5 },
     { "code": "02035", "label": "Circuit training, moderate effort", "met": 5.0 },
     { "code": "02040", "label": "Circuit training incl. kettlebells, vigorous", "met": 7.5 },
     { "code": "02020", "label": "Calisthenics (press-ups, burpees), vigorous", "met": 7.5 },
@@ -37,7 +37,7 @@
       "url": "https://pacompendium.com/"
     },
     {
-      "label": "Ainsworth BE, et al. 2011 Compendium of Physical Activities: a second update of codes and MET values. Med Sci Sports Exerc 2011;43:1575–1581",
+      "label": "Ainsworth BE, et al. 2011 Compendium of Physical Activities: a second update of codes and MET values. Med Sci Sports Exerc 2011;43:1575-1581",
       "url": "https://pubmed.ncbi.nlm.nih.gov/21681120/"
     }
   ]

@@ -36,9 +36,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Hypertrophy",
     short: "The growth of muscle fibres in size, the goal of most physique training.",
     body: [
-      "Hypertrophy is the increase in the cross-sectional size of muscle fibres in response to training. It is distinct from gaining strength (a largely neural adaptation) or gaining weight generally — it specifically means bigger muscle tissue.",
+      "Hypertrophy is the increase in the cross-sectional size of muscle fibres in response to training. It is distinct from gaining strength (a largely neural adaptation) or gaining weight generally, because it specifically means bigger muscle tissue.",
       "It matters because muscle size underpins a lean, strong physique and supports metabolic health and healthy ageing. Training for it is driven mainly by mechanical tension, sufficient training volume applied through progressive overload, and adequate protein and energy to build new tissue.",
-      "In practice, hypertrophy training usually means moderate-to-higher rep sets (often ~6–15) taken close to failure, enough weekly sets per muscle, and gradual load or rep increases over time.",
+      "In practice, hypertrophy training usually means moderate-to-higher rep sets (often ~6 to 15) taken close to failure, enough weekly sets per muscle, and gradual load or rep increases over time.",
     ],
     relatedTerms: ["mechanical-tension", "progressive-overload", "volume", "protein-synthesis"],
     relatedTools: ["training-volume-calculator", "one-rep-max-calculator"],
@@ -48,9 +48,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Progressive overload",
     short: "Gradually increasing the demand on a muscle over time so it keeps adapting.",
     body: [
-      "Progressive overload is the principle that, to keep improving, you must gradually increase the stress placed on the body — most commonly by adding weight or reps, but also through more sets, better range of motion, or reduced rest.",
+      "Progressive overload is the principle that, to keep improving, you must gradually increase the stress placed on the body, most commonly by adding weight or reps, but also through more sets, better range of motion, or reduced rest.",
       "It matters because the body adapts to a given stimulus and then stops changing; without a progressive increase, progress stalls. It is the single most important principle behind getting stronger or bigger.",
-      "In practice, it is applied by tracking your lifts and beating a previous session — an extra rep, a little more load — in a structured way rather than adding weight randomly.",
+      "In practice, it is applied by tracking your lifts and beating a previous session, whether that is an extra rep or a little more load, in a structured way rather than adding weight randomly.",
     ],
     relatedTerms: ["hypertrophy", "volume", "deload", "periodisation", "one-rep-max"],
     relatedTools: ["double-progression-planner", "training-volume-calculator"],
@@ -59,9 +59,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "rpe",
     term: "RPE",
     aka: ["Rate of Perceived Exertion"],
-    short: "A 1–10 scale for how hard a set felt, used to regulate training intensity.",
+    short: "A 1 to 10 scale for how hard a set felt, used to regulate training intensity.",
     body: [
-      "RPE (Rate of Perceived Exertion) rates how hard an effort felt on a scale, most commonly 1–10 in lifting. An RPE of 10 means maximal — no more reps possible; an RPE of 8 means roughly two reps were left in reserve.",
+      "RPE (Rate of Perceived Exertion) rates how hard an effort felt on a scale, most commonly 1 to 10 in lifting. An RPE of 10 means maximal, with no more reps possible, while an RPE of 8 means roughly two reps were left in reserve.",
       "It matters because it lets you regulate intensity by feel on the day, accounting for fatigue, sleep and stress, rather than rigidly chasing a fixed number when your body isn't up to it.",
       "In lifting, RPE is closely related to reps in reserve (RIR): RPE 10 ≈ 0 RIR, RPE 9 ≈ 1 RIR, and so on.",
     ],
@@ -72,10 +72,10 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "rir",
     term: "RIR",
     aka: ["Reps in Reserve"],
-    short: "How many more reps you could have done — a way to gauge proximity to failure.",
+    short: "How many more reps you could have done, a way to gauge proximity to failure.",
     body: [
       "RIR (Reps in Reserve) is the number of additional reps you could have completed at the end of a set before hitting failure. Stopping a set at 2 RIR means you could have done two more.",
-      "It matters because training close to — but not always at — failure is effective for growth while managing fatigue. RIR gives a practical target for how hard to push each set.",
+      "It matters because training close to failure, though not always at it, is effective for growth while managing fatigue. RIR gives a practical target for how hard to push each set.",
       "It is the mirror image of RPE: 0 RIR corresponds to RPE 10 (true failure), 2 RIR to RPE 8, and so on.",
     ],
     relatedTerms: ["rpe", "progressive-overload", "volume"],
@@ -88,7 +88,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "The most weight you can lift for a single rep of an exercise.",
     body: [
       "Your one-rep max (1RM) is the heaviest load you can lift once with good form on a given exercise. It is the standard reference point for strength and for setting training loads as a percentage.",
-      "It matters because many programmes prescribe intensity as a percentage of 1RM, and it lets you compare strength over time or against standards. You rarely need to test it directly — it can be estimated from a set taken close to failure.",
+      "It matters because many programmes prescribe intensity as a percentage of 1RM, and it lets you compare strength over time or against standards. You rarely need to test it directly, because it can be estimated from a set taken close to failure.",
       "In practice, an estimated 1RM from a submaximal set (using a formula such as Epley or Brzycki) is safer and nearly as useful as a true max attempt.",
     ],
     relatedTerms: ["rpe", "progressive-overload", "hypertrophy"],
@@ -101,7 +101,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     body: [
       "Training volume is the total quantity of work performed. It can be measured as tonnage (sets × reps × load), but for muscle growth it is most usefully counted as the number of hard sets per muscle group per week.",
       "It matters because volume is a primary driver of hypertrophy: within a sensible range, more hard sets tend to produce more growth, up to a point of diminishing returns and recoverability.",
-      "In practice, many lifters grow well on roughly 10–20 hard sets per muscle per week, adjusted to individual recovery.",
+      "In practice, many lifters grow well on roughly 10 to 20 hard sets per muscle per week, adjusted to individual recovery.",
     ],
     relatedTerms: ["hypertrophy", "progressive-overload", "mechanical-tension", "deload"],
     relatedTools: ["training-volume-calculator"],
@@ -109,7 +109,7 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     slug: "mechanical-tension",
     term: "Mechanical tension",
-    short: "The force a muscle produces under load — the primary driver of muscle growth.",
+    short: "The force a muscle produces under load, the primary driver of muscle growth.",
     body: [
       "Mechanical tension is the force generated within a muscle as it contracts against resistance. Sensed by the muscle's mechanoreceptors, it is considered the principal stimulus that triggers the signalling for muscle growth.",
       "It matters because it reframes what makes training effective: not simply feeling a pump or fatigue, but producing high tension through challenging loads and full range of motion across enough hard sets.",
@@ -137,9 +137,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Basal Metabolic Rate"],
     short: "The calories your body burns at complete rest just to stay alive.",
     body: [
-      "BMR (Basal Metabolic Rate) is the energy your body uses at complete rest to maintain vital functions — breathing, circulation, cell repair and organ function. It is the largest single component of most people's daily energy use.",
+      "BMR (Basal Metabolic Rate) is the energy your body uses at complete rest to maintain vital functions such as breathing, circulation, cell repair and organ function. It is the largest single component of most people's daily energy use.",
       "It matters because it forms the base of your TDEE and explains why larger and more muscular people burn more calories at rest. Crash dieting can lower it, which is one reason very aggressive cuts backfire.",
-      "In practice, BMR is estimated from equations such as Mifflin–St Jeor using your age, sex, height and weight.",
+      "In practice, BMR is estimated from equations such as Mifflin-St Jeor using your age, sex, height and weight.",
     ],
     relatedTerms: ["tdee", "neat", "energy-balance"],
     relatedTools: ["bmr-calculator", "tdee-calculator"],
@@ -150,7 +150,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Non-Exercise Activity Thermogenesis"],
     short: "Calories burned through everyday movement outside of formal exercise.",
     body: [
-      "NEAT (Non-Exercise Activity Thermogenesis) is the energy you spend on all movement that isn't deliberate exercise — walking, fidgeting, standing, household tasks and general daily activity.",
+      "NEAT (Non-Exercise Activity Thermogenesis) is the energy you spend on all movement that isn't deliberate exercise, such as walking, fidgeting, standing, household tasks and general daily activity.",
       "It matters because NEAT varies enormously between people and can change a lot during dieting: the body often unconsciously reduces spontaneous movement when calories are low, blunting fat loss. It is often larger than the calories burned in the gym.",
       "In practice, keeping daily steps up is the simplest lever for maintaining NEAT during a diet.",
     ],
@@ -185,7 +185,7 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     slug: "vo2max",
     term: "VO₂max",
-    short: "The maximum rate at which your body can use oxygen — a key marker of aerobic fitness.",
+    short: "The maximum rate at which your body can use oxygen, a key marker of aerobic fitness.",
     body: [
       "VO₂max is the maximum volume of oxygen your body can take in and use per minute during intense exercise, usually expressed relative to body weight (mL/kg/min). It reflects the capacity of your heart, lungs and muscles to deliver and use oxygen.",
       "It matters because it is one of the strongest single markers of cardiorespiratory fitness, and higher values are robustly associated with lower mortality and better healthspan.",
@@ -201,7 +201,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "The variation in time between heartbeats, used as a readiness and recovery signal.",
     body: [
       "HRV (Heart Rate Variability) is the natural variation in the time interval between consecutive heartbeats. Higher variability generally reflects a well-recovered, parasympathetically-dominant state; a sharp drop can signal stress, illness or incomplete recovery.",
-      "It matters because tracked against your own baseline, HRV is a useful daily readiness signal — but it is highly individual, so absolute values are best compared only to yourself.",
+      "It matters because tracked against your own baseline, HRV is a useful daily readiness signal, but it is highly individual, so absolute values are best compared only to yourself.",
       "In practice, HRV is measured overnight or on waking by wearables and chest straps, and interpreted as a trend rather than a single number.",
     ],
     relatedTerms: ["vo2max", "insulin-sensitivity"],
@@ -212,7 +212,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Zone 2",
     short: "A moderate aerobic intensity you can sustain while holding a conversation.",
     body: [
-      "Zone 2 is a training intensity roughly corresponding to the second of five heart-rate zones — comfortably aerobic, at an effort where you can still hold a conversation, below the point where lactate begins to accumulate rapidly.",
+      "Zone 2 is a training intensity roughly corresponding to the second of five heart-rate zones, comfortably aerobic, at an effort where you can still hold a conversation, below the point where lactate begins to accumulate rapidly.",
       "It matters because large volumes of Zone 2 work build aerobic base, improve fat oxidation and mitochondrial function, and can be recovered from easily, making it a cornerstone of endurance training.",
       "In practice, Zone 2 is estimated from heart-rate zones or the talk test, and forms the bulk of most well-structured endurance programmes.",
     ],
@@ -225,7 +225,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "The intensity above which lactate accumulates faster than the body can clear it.",
     body: [
       "The lactate threshold is the exercise intensity at which blood lactate begins to rise sharply, because production outpaces clearance. Above it, effort becomes unsustainable relatively quickly.",
-      "It matters because it is a strong predictor of endurance performance — often more so than VO₂max among trained athletes — and marks the boundary between comfortably-hard and unsustainable pacing.",
+      "It matters because it is a strong predictor of endurance performance, often more so than VO₂max among trained athletes, and marks the boundary between comfortably-hard and unsustainable pacing.",
       "In practice, threshold pace or heart rate anchors interval and tempo training, and improving it lets you hold a faster pace for longer.",
     ],
     relatedTerms: ["zone-2", "vo2max"],
@@ -237,7 +237,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Apolipoprotein B"],
     short: "A marker of the number of atherogenic particles in your blood.",
     body: [
-      "ApoB (apolipoprotein B) is a protein found on the potentially artery-clogging (atherogenic) lipoprotein particles in your blood — chiefly LDL. Because there is one ApoB molecule per particle, measuring it counts those particles directly.",
+      "ApoB (apolipoprotein B) is a protein found on the potentially artery-clogging (atherogenic) lipoprotein particles in your blood, chiefly LDL. Because there is one ApoB molecule per particle, measuring it counts those particles directly.",
       "It matters because the number of atherogenic particles can be a more precise indicator of cardiovascular risk than standard LDL cholesterol alone, particularly when LDL looks reassuring but particle number is high.",
       "In practice, ApoB is a simple blood test increasingly recommended for refining risk; a lower level is generally more favourable, with targets set by overall risk.",
     ],
@@ -257,8 +257,8 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Lipoprotein(a)"],
     short: "A largely genetic, independent risk factor for cardiovascular disease.",
     body: [
-      "Lipoprotein(a), or Lp(a), is an LDL-like particle with an extra protein attached. Its level is roughly 80–90% genetically determined and stays fairly stable through life, largely unaffected by diet or lifestyle.",
-      "It matters because a high Lp(a) is an independent, causal risk factor for heart attack and stroke — and because it is inherited, one measurement can flag lifelong elevated risk that standard cholesterol testing misses.",
+      "Lipoprotein(a), or Lp(a), is an LDL-like particle with an extra protein attached. Its level is roughly 80 to 90% genetically determined and stays fairly stable through life, largely unaffected by diet or lifestyle.",
+      "It matters because a high Lp(a) is an independent, causal risk factor for heart attack and stroke, and because it is inherited, one measurement can flag lifelong elevated risk that standard cholesterol testing misses.",
       "In practice, guidelines increasingly recommend measuring Lp(a) at least once in adulthood; levels at or above about 125 nmol/L (≈50 mg/dL) are considered high risk.",
     ],
     relatedTerms: ["apob", "ldl-cholesterol"],
@@ -286,7 +286,7 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     slug: "insulin-sensitivity",
     term: "Insulin sensitivity",
-    short: "How responsive your cells are to insulin — central to metabolic health.",
+    short: "How responsive your cells are to insulin, central to metabolic health.",
     body: [
       "Insulin sensitivity describes how effectively your cells respond to insulin to take up glucose from the blood. High sensitivity means less insulin is needed to manage blood sugar; low sensitivity (insulin resistance) is the opposite.",
       "It matters because insulin resistance is an early step toward type 2 diabetes and is linked to broader metabolic and cardiovascular risk. Improving sensitivity is one of the most valuable metabolic health goals.",
@@ -301,7 +301,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Delayed-Onset Muscle Soreness"],
     short: "The muscle soreness that appears a day or two after unfamiliar or hard exercise.",
     body: [
-      "DOMS (Delayed-Onset Muscle Soreness) is the muscle pain and stiffness that peaks roughly 24–72 hours after exercise, especially after unaccustomed training or a lot of lengthening (eccentric) work.",
+      "DOMS (Delayed-Onset Muscle Soreness) is the muscle pain and stiffness that peaks roughly 24 to 72 hours after exercise, especially after unaccustomed training or a lot of lengthening (eccentric) work.",
       "It matters mainly as a point of confusion: DOMS is not a reliable measure of a workout's effectiveness, and its absence does not mean a session was wasted. Soreness reflects novelty and damage more than growth stimulus.",
       "In practice, DOMS fades as you adapt to a movement; managing it is about sensible progression rather than chasing or avoiding soreness.",
     ],
@@ -313,7 +313,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Deload",
     short: "A planned easier period to shed fatigue and allow recovery.",
     body: [
-      "A deload is a short, deliberate reduction in training stress — lighter loads, fewer sets, or lower intensity — usually lasting about a week, taken to let accumulated fatigue dissipate.",
+      "A deload is a short, deliberate reduction in training stress, such as lighter loads, fewer sets, or lower intensity, usually lasting about a week, taken to let accumulated fatigue dissipate.",
       "It matters because training hard indefinitely accumulates fatigue that masks fitness and raises injury risk; a well-timed deload lets adaptations surface and keeps long-term progress on track.",
       "In practice, deloads are scheduled periodically or taken when performance, sleep or motivation dip, and are a normal part of structured programming.",
     ],
@@ -325,9 +325,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Periodisation",
     short: "Structuring training into phases to manage fatigue and peak performance.",
     body: [
-      "Periodisation is the planned variation of training variables — volume, intensity and focus — across weeks and months, organised into phases so that fatigue is managed and progress is directed toward a goal.",
+      "Periodisation is the planned variation of training variables such as volume, intensity and focus across weeks and months, organised into phases so that fatigue is managed and progress is directed toward a goal.",
       "It matters because it turns training from random hard sessions into a coherent plan: building work capacity, then intensity, then recovering and peaking, rather than grinding at one setting until you stall.",
-      "In practice, even simple periodisation — alternating harder and easier blocks and including deloads — outperforms doing the same thing every week indefinitely.",
+      "In practice, even simple periodisation, such as alternating harder and easier blocks and including deloads, outperforms doing the same thing every week indefinitely.",
     ],
     relatedTerms: ["deload", "progressive-overload", "volume"],
     relatedTools: ["double-progression-planner", "training-volume-calculator"],
@@ -336,11 +336,11 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "concentric",
     term: "Concentric",
     aka: ["Concentric phase", "Lifting phase"],
-    short: "The phase of a lift where the muscle shortens under load — the 'lifting' part.",
+    short: "The phase of a lift where the muscle shortens under load, the 'lifting' part.",
     body: [
-      "The concentric phase is the part of a rep where the working muscle shortens as it overcomes the load — standing up out of a squat, pressing a bar up, or curling a dumbbell toward you.",
+      "The concentric phase is the part of a rep where the working muscle shortens as it overcomes the load, such as standing up out of a squat, pressing a bar up, or curling a dumbbell toward you.",
       "It matters because it is the phase most people think of as 'the lift', and it is typically where a rep fails: you can lower far more weight than you can raise. Understanding it helps you set loads and interpret why the sticking point of a lift is where it is.",
-      "In practice, driving the concentric with intent — moving the load quickly even when it feels slow under heavy weight — is a common cue for strength and power, paired with a controlled lowering phase.",
+      "In practice, driving the concentric with intent, moving the load quickly even when it feels slow under heavy weight, is a common cue for strength and power, paired with a controlled lowering phase.",
     ],
     relatedTerms: ["eccentric", "isometric", "mechanical-tension"],
     relatedTools: ["one-rep-max-calculator"],
@@ -349,9 +349,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "eccentric",
     term: "Eccentric",
     aka: ["Eccentric phase", "Negative"],
-    short: "The phase of a lift where the muscle lengthens under load — the 'lowering' part.",
+    short: "The phase of a lift where the muscle lengthens under load, the 'lowering' part.",
     body: [
-      "The eccentric phase is the part of a rep where the muscle produces force while lengthening — lowering into a squat, letting a bar down to your chest, or the descent of a curl. It is often called the 'negative'.",
+      "The eccentric phase is the part of a rep where the muscle produces force while lengthening, such as lowering into a squat, letting a bar down to your chest, or the descent of a curl. It is often called the 'negative'.",
       "It matters because muscles are strongest eccentrically, the eccentric contributes heavily to the growth stimulus, and it is the main driver of the muscle damage behind next-day soreness. Controlling it rather than dropping the weight is where much of a set's value lies.",
       "In practice, lifters emphasise the eccentric by lowering under control over a couple of seconds; deliberately slow or overloaded eccentrics are a common tool for hypertrophy and tendon work.",
     ],
@@ -364,7 +364,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Isometric hold", "Static hold"],
     short: "A contraction where the muscle produces force without changing length.",
     body: [
-      "An isometric contraction is one where the muscle generates tension but its length — and the joint angle — stays the same. Holding a plank, pausing at the bottom of a squat, or pushing against an immovable object are all isometrics.",
+      "An isometric contraction is one where the muscle generates tension but its length, and the joint angle, stays the same. Holding a plank, pausing at the bottom of a squat, or pushing against an immovable object are all isometrics.",
       "It matters because isometrics build strength strongly at the specific joint angle trained, are gentle on joints, and are useful for rehab, breaking through sticking points, and building positional strength and tendon stiffness.",
       "In practice, isometrics appear as paused reps, static holds, and 'overcoming' pushes against pins, and are often used where controlled loading is needed without movement.",
     ],
@@ -377,9 +377,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["ROM"],
     short: "How far a joint or lift travels through its full available movement.",
     body: [
-      "Range of motion (ROM) is the extent of movement around a joint, or the distance a load travels during an exercise — from a full deep squat to a shallow partial, for example.",
+      "Range of motion (ROM) is the extent of movement around a joint, or the distance a load travels during an exercise, from a full deep squat to a shallow partial, for example.",
       "It matters because training through a full range, especially the lengthened (stretched) portion of a movement, tends to produce more muscle growth than short partial reps, while also maintaining mobility. There are specific cases for partials, but full ROM is the sensible default.",
-      "In practice, using a controlled full range you can actually stabilise — rather than bouncing through a range you can't own — is a reliable way to get more from each rep.",
+      "In practice, using a controlled full range you can actually stabilise, rather than bouncing through a range you can't own, is a reliable way to get more from each rep.",
     ],
     relatedTerms: ["hypertrophy", "mechanical-tension", "eccentric"],
     relatedTools: [],
@@ -390,7 +390,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["TUT"],
     short: "The total time a muscle is loaded during a set.",
     body: [
-      "Time under tension (TUT) is the cumulative time a muscle spends working during a set — a function of how many reps you do and how fast each phase moves.",
+      "Time under tension (TUT) is the cumulative time a muscle spends working during a set, a function of how many reps you do and how fast each phase moves.",
       "It matters as one way of thinking about the growth stimulus, but it is easy to overstate: deliberately grinding out super-slow reps increases TUT while forcing you to use much lighter loads, which can reduce the mechanical tension that actually drives growth. It is a description of a set, not a magic variable to maximise.",
       "In practice, a controlled tempo with a full range and a challenging load matters more than chasing a specific number of seconds under tension.",
     ],
@@ -405,7 +405,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     body: [
       "Training to failure means continuing a set until you cannot complete another rep with proper form (momentary muscular failure). It is the zero point of reps in reserve.",
       "It matters because how close you train to failure strongly influences the growth stimulus, but going all the way to failure on every set adds a lot of fatigue for little extra benefit and can compromise later sets. Most productive training happens a rep or two short of failure.",
-      "In practice, many lifters reserve true failure for the last set of an exercise or for safer isolation movements, and use reps in reserve to stay close to — but not always at — the limit.",
+      "In practice, many lifters reserve true failure for the last set of an exercise or for safer isolation movements, and use reps in reserve to stay close to the limit, though not always at it.",
     ],
     relatedTerms: ["rir", "rpe", "hypertrophy"],
     relatedTools: ["double-progression-planner"],
@@ -416,7 +416,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Multi-joint exercise"],
     short: "An exercise that moves multiple joints and trains several muscles at once.",
     body: [
-      "A compound exercise involves movement at more than one joint and recruits several muscle groups together — squats, deadlifts, presses, rows and pull-ups are the classic examples.",
+      "A compound exercise involves movement at more than one joint and recruits several muscle groups together, with squats, deadlifts, presses, rows and pull-ups as the classic examples.",
       "It matters because compounds let you load heavy, train a lot of muscle efficiently, and carry over well to real-world strength, which is why they usually form the backbone of a programme. They are the most time-effective way to build strength and muscle.",
       "In practice, most sessions lead with one or two compound lifts trained fairly heavy, with isolation work added around them to target specific muscles.",
     ],
@@ -429,7 +429,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Single-joint exercise"],
     short: "An exercise that moves a single joint to target one muscle.",
     body: [
-      "An isolation exercise involves movement at just one joint and focuses the work on a single muscle — a biceps curl, a leg extension, or a lateral raise, for instance.",
+      "An isolation exercise involves movement at just one joint and focuses the work on a single muscle, such as a biceps curl, a leg extension, or a lateral raise.",
       "It matters because isolation work lets you add targeted volume to a specific muscle, bring up a lagging area, or train a muscle the big compounds miss, with less overall fatigue than a heavy compound.",
       "In practice, isolation movements are typically used as accessories after the main compound lifts, often in higher rep ranges with strict form.",
     ],
@@ -454,7 +454,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Macros"],
     short: "The three energy-providing nutrients: protein, carbohydrate and fat.",
     body: [
-      "Macronutrients — protein, carbohydrate and fat — are the nutrients the body needs in large amounts and which supply energy (calories). Alcohol also provides calories but isn't an essential nutrient.",
+      "Macronutrients, namely protein, carbohydrate and fat, are the nutrients the body needs in large amounts and which supply energy (calories). Alcohol also provides calories but isn't an essential nutrient.",
       "They matter because their balance shapes body composition and performance: protein supports muscle, carbohydrate fuels hard training, and fat supports hormones and health. Total calories set weight change, but the macro split influences how you feel, perform and partition that weight.",
       "In practice, people set a protein target first, then divide the remaining calories between carbohydrate and fat to suit their training and preferences.",
     ],
@@ -468,7 +468,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "Vitamins and minerals the body needs in small amounts for health.",
     body: [
       "Micronutrients are the vitamins and minerals required in comparatively tiny quantities. They provide no calories but are essential for countless processes, from energy metabolism and oxygen transport to bone health and immune function.",
-      "They matter because shortfalls — of iron, vitamin D or others — can quietly impair health, energy and performance even when calories and macros look fine. Chasing macros while ignoring micronutrient quality is a common blind spot.",
+      "They matter because shortfalls of iron, vitamin D or others can quietly impair health, energy and performance even when calories and macros look fine. Chasing macros while ignoring micronutrient quality is a common blind spot.",
       "In practice, a varied diet built around vegetables, fruit, whole foods and adequate protein covers most micronutrient needs, with targeted supplements only to fill a genuine, ideally tested, gap.",
     ],
     relatedTerms: ["macronutrient", "energy-balance"],
@@ -479,7 +479,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Glycogen",
     short: "The body's stored form of carbohydrate, held in muscle and liver.",
     body: [
-      "Glycogen is how the body stores carbohydrate — chains of glucose kept mainly in the muscles and liver, ready to be broken down for energy. Muscle glycogen fuels the muscle it's stored in; liver glycogen helps maintain blood sugar.",
+      "Glycogen is how the body stores carbohydrate, as chains of glucose kept mainly in the muscles and liver, ready to be broken down for energy. Muscle glycogen fuels the muscle it's stored in; liver glycogen helps maintain blood sugar.",
       "It matters because glycogen is the primary fuel for hard, high-intensity and prolonged exercise; running low contributes to fatigue and 'hitting the wall'. Each gram of glycogen also holds water, which is why carbohydrate intake affects how full or flat muscles look and short-term scale weight.",
       "In practice, carbohydrate around training tops up glycogen, and the water shifts that come with changing carbohydrate intake explain much of the rapid weight change people see when starting or stopping a low-carb diet.",
     ],
@@ -492,7 +492,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "The key branched-chain amino acid that triggers muscle protein synthesis.",
     body: [
       "Leucine is one of the nine essential amino acids and the one most directly responsible for switching on muscle protein synthesis. It acts as a signal that enough building blocks are available to build new muscle.",
-      "It matters because reaching a sufficient dose of leucine at a meal (the so-called leucine threshold) helps maximally stimulate muscle building, which is why protein quality — not just quantity — matters, and why complete proteins like whey are effective.",
+      "It matters because reaching a sufficient dose of leucine at a meal (the so-called leucine threshold) helps maximally stimulate muscle building, which is why protein quality, not just quantity, matters, and why complete proteins like whey are effective.",
       "In practice, getting enough total protein from leucine-rich sources across the day covers this automatically; it is the reason animal proteins and good plant blends are emphasised over incomplete protein sources.",
     ],
     relatedTerms: ["protein-synthesis", "essential-amino-acids", "macronutrient"],
@@ -505,7 +505,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "The nine amino acids the body can't make and must get from food.",
     body: [
       "Essential amino acids (EAAs) are the nine amino acids your body cannot synthesise and must obtain from protein in the diet. All nine are needed together to build new body proteins, including muscle.",
-      "It matters because muscle growth requires the full set of EAAs, not just one or two — which is why a complete protein (containing all nine in good amounts) is more effective than fragments like BCAAs alone, and why protein source quality counts.",
+      "It matters because muscle growth requires the full set of EAAs, not just one or two, which is why a complete protein (containing all nine in good amounts) is more effective than fragments like BCAAs alone, and why protein source quality counts.",
       "In practice, animal proteins and well-combined plant proteins supply all the EAAs; eating enough complete protein across the day is what matters, rather than supplementing isolated amino acids.",
     ],
     relatedTerms: ["leucine", "protein-synthesis", "macronutrient"],
@@ -518,7 +518,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "Losing fat and gaining muscle at the same time.",
     body: [
       "Body recomposition is the process of simultaneously reducing body fat and increasing muscle, so your weight may barely change while your shape does. It's the alternative to distinct 'bulk' and 'cut' phases.",
-      "It matters because it's most achievable in specific situations — beginners, those returning after a break, people carrying higher body fat, or those using well-controlled nutrition — and less so for lean, advanced trainees, for whom dedicated gaining and cutting phases usually work better.",
+      "It matters because it's most achievable in specific situations, such as beginners, those returning after a break, people carrying higher body fat, or those using well-controlled nutrition, and less so for lean, advanced trainees, for whom dedicated gaining and cutting phases usually work better.",
       "In practice, recomposition is driven by ample protein, progressive resistance training and eating around maintenance calories, with progress judged by the mirror, measurements and strength rather than scale weight alone.",
     ],
     relatedTerms: ["energy-balance", "hypertrophy", "protein-synthesis"],
@@ -530,9 +530,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Adaptive thermogenesis"],
     short: "The body's tendency to burn fewer calories as you diet.",
     body: [
-      "Metabolic adaptation is the reduction in energy expenditure that occurs during prolonged dieting and weight loss — partly from being smaller, and partly from the body defending its weight by lowering metabolic rate and spontaneous movement more than size alone predicts.",
+      "Metabolic adaptation is the reduction in energy expenditure that occurs during prolonged dieting and weight loss, partly from being smaller, and partly from the body defending its weight by lowering metabolic rate and spontaneous movement more than size alone predicts.",
       "It matters because it helps explain why fat loss slows over time and why a deficit that once worked stops producing results, without anyone 'cheating'. It also underlies the weight regain many experience after aggressive diets.",
-      "In practice, it's managed with sensible (not extreme) deficits, adequate protein, resistance training to preserve muscle, and periodic breaks at maintenance — and by re-estimating your TDEE as your weight changes.",
+      "In practice, it's managed with sensible (not extreme) deficits, adequate protein, resistance training to preserve muscle, and periodic breaks at maintenance, and by re-estimating your TDEE as your weight changes.",
     ],
     relatedTerms: ["tdee", "neat", "energy-balance", "bmr"],
     relatedTools: ["tdee-calculator", "calorie-deficit-calculator"],
@@ -544,7 +544,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "Alternating short, hard efforts with recovery periods.",
     body: [
       "HIIT (High-Intensity Interval Training) alternates brief bouts of near-maximal effort with periods of easier recovery. Sessions are typically short but demanding, in contrast to long steady cardio.",
-      "It matters because it's a time-efficient way to improve cardiovascular fitness and VO₂max, and it can burn meaningful calories in little time. But it's taxing to recover from, so more is not better — done too often it interferes with strength training and recovery.",
+      "It matters because it's a time-efficient way to improve cardiovascular fitness and VO₂max, and it can burn meaningful calories in little time. But it's taxing to recover from, so more is not better, and done too often it interferes with strength training and recovery.",
       "In practice, a couple of well-placed HIIT sessions a week, balanced with easier aerobic work (like Zone 2), gives most of the benefit without digging a recovery hole.",
     ],
     relatedTerms: ["vo2max", "zone-2", "epoc", "lactate-threshold"],
@@ -567,9 +567,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "resting-heart-rate",
     term: "Resting heart rate",
     aka: ["RHR"],
-    short: "Your heart rate at complete rest — a simple fitness and recovery marker.",
+    short: "Your heart rate at complete rest, a simple fitness and recovery marker.",
     body: [
-      "Resting heart rate (RHR) is the number of times your heart beats per minute when you're fully at rest, ideally measured on waking. Typical adult values sit roughly in the 60–100 bpm range, with fitter people often lower.",
+      "Resting heart rate (RHR) is the number of times your heart beats per minute when you're fully at rest, ideally measured on waking. Typical adult values sit roughly in the 60 to 100 bpm range, with fitter people often lower.",
       "It matters because a lower resting heart rate generally reflects better cardiovascular fitness, and tracking your own trend is useful: a sustained rise above your normal can signal fatigue, stress, illness or under-recovery.",
       "In practice, RHR is best compared to your own baseline over time rather than to others, and works well alongside HRV as a daily readiness signal.",
     ],
@@ -595,9 +595,9 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Belly fat (deep)"],
     short: "Fat stored deep around the abdominal organs, linked to metabolic risk.",
     body: [
-      "Visceral fat is body fat stored deep in the abdomen, wrapped around organs like the liver and intestines — distinct from the subcutaneous fat just under the skin that you can pinch.",
+      "Visceral fat is body fat stored deep in the abdomen, wrapped around organs like the liver and intestines, distinct from the subcutaneous fat just under the skin that you can pinch.",
       "It matters because visceral fat is metabolically active and more strongly associated with insulin resistance, type 2 diabetes and cardiovascular disease than fat elsewhere. Two people at the same weight can carry very different amounts of it.",
-      "In practice, waist measurements and waist-to-height ratio give a rough proxy, and it responds well to overall fat loss, regular exercise and reduced excess calories — there's no way to target it specifically.",
+      "In practice, waist measurements and waist-to-height ratio give a rough proxy, and it responds well to overall fat loss, regular exercise and reduced excess calories, and there's no way to target it specifically.",
     ],
     relatedTerms: ["insulin-sensitivity", "metabolic-syndrome", "body-fat-percentage"],
     relatedTools: ["body-fat-calculator"],
@@ -607,8 +607,8 @@ export const glossaryEntries: GlossaryEntry[] = [
     term: "Metabolic syndrome",
     short: "A cluster of risk factors that together raise cardiometabolic risk.",
     body: [
-      "Metabolic syndrome is the name for a cluster of conditions that tend to occur together — a large waist, raised blood pressure, high blood sugar, high triglycerides and low HDL cholesterol. Having several of them together defines the syndrome.",
-      "It matters because the combination substantially raises the risk of type 2 diabetes, heart disease and stroke — more than any single factor alone. It's common and often silent, driven largely by excess visceral fat and insulin resistance.",
+      "Metabolic syndrome is the name for a cluster of conditions that tend to occur together: a large waist, raised blood pressure, high blood sugar, high triglycerides and low HDL cholesterol. Having several of them together defines the syndrome.",
+      "It matters because the combination substantially raises the risk of type 2 diabetes, heart disease and stroke, more than any single factor alone. It's common and often silent, driven largely by excess visceral fat and insulin resistance.",
       "In practice, it's assessed from waist, blood pressure and a blood panel, and improves markedly with weight loss, regular exercise, better diet quality and, where needed, medical treatment.",
     ],
     relatedTerms: ["insulin-sensitivity", "visceral-fat", "apob"],
@@ -621,7 +621,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     body: [
       "Sarcopenia is the progressive loss of muscle mass and, importantly, strength and physical function that tends to accompany ageing if left unchecked. It's a major contributor to frailty and loss of independence in later life.",
       "It matters because muscle underpins metabolism, mobility, balance and resilience; declining muscle and strength are linked to falls, disability and higher mortality. Much of the decline is not inevitable but driven by inactivity.",
-      "In practice, resistance training and adequate protein are the most effective defences, which is why building and maintaining muscle throughout life — not just for aesthetics — is a genuine health priority.",
+      "In practice, resistance training and adequate protein are the most effective defences, which is why building and maintaining muscle throughout life, not just for aesthetics, is a genuine health priority.",
     ],
     relatedTerms: ["hypertrophy", "protein-synthesis", "grip-strength", "lean-body-mass"],
     relatedTools: ["lean-body-mass-calculator", "ffmi-calculator"],
@@ -646,7 +646,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     body: [
       "Healthspan is the portion of life lived in good health and function, as opposed to lifespan, which is simply how long you live. The goal of much longevity thinking is to extend healthspan so it more closely matches lifespan.",
       "It matters because adding years of frailty and disease is a poor prize; compressing illness into as short a period as possible at the end of life is the more meaningful aim. Fitness, muscle, metabolic health and avoiding smoking are among its strongest levers.",
-      "In practice, the habits that extend healthspan — regular exercise, strength, good sleep, a sensible diet and not smoking — overlap heavily with those that extend lifespan.",
+      "In practice, the habits that extend healthspan, such as regular exercise, strength, good sleep, a sensible diet and not smoking, overlap heavily with those that extend lifespan.",
     ],
     relatedTerms: ["biological-age", "all-cause-mortality", "vo2max"],
     relatedTools: ["lifestyle-life-expectancy"],
@@ -654,11 +654,11 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     slug: "all-cause-mortality",
     term: "All-cause mortality",
-    short: "The risk of dying from any cause — a common yardstick in health research.",
+    short: "The risk of dying from any cause, a common yardstick in health research.",
     body: [
-      "All-cause mortality is the risk of death from any cause over a given period. Health studies often report how a factor — fitness, a habit, a biomarker — relates to it, because it sidesteps the problem of one risk simply shifting deaths from one disease to another.",
+      "All-cause mortality is the risk of death from any cause over a given period. Health studies often report how a factor such as fitness, a habit or a biomarker relates to it, because it sidesteps the problem of one risk simply shifting deaths from one disease to another.",
       "It matters because a factor linked to lower all-cause mortality is genuinely associated with living longer overall, not just avoiding one specific illness. Cardiorespiratory fitness, strength and not smoking show some of the strongest such links.",
-      "In practice, when you read that something is 'associated with lower all-cause mortality', it means people with more of it tended to live longer — though association isn't proof of cause, and context matters.",
+      "In practice, when you read that something is 'associated with lower all-cause mortality', it means people with more of it tended to live longer, though association isn't proof of cause, and context matters.",
     ],
     relatedTerms: ["healthspan", "biological-age", "vo2max", "grip-strength"],
     relatedTools: ["lifestyle-life-expectancy"],
@@ -666,10 +666,10 @@ export const glossaryEntries: GlossaryEntry[] = [
   {
     slug: "grip-strength",
     term: "Grip strength",
-    short: "How hard you can squeeze — a surprisingly strong marker of overall health.",
+    short: "How hard you can squeeze, a surprisingly strong marker of overall health.",
     body: [
       "Grip strength is the force you can generate by squeezing, usually measured with a hand dynamometer. Beyond its obvious role in lifting and daily tasks, it serves as a convenient proxy for whole-body strength.",
-      "It matters because low grip strength is consistently associated with higher risk of frailty, disability and all-cause mortality, making it a simple, cheap health marker — a signal of overall muscular fitness rather than a magic number in itself.",
+      "It matters because low grip strength is consistently associated with higher risk of frailty, disability and all-cause mortality, making it a simple, cheap health marker, a signal of overall muscular fitness rather than a magic number in itself.",
       "In practice, grip is trained indirectly through heavy pulling, carries and hangs; improving general strength and staying active are what the marker really reflects.",
     ],
     relatedTerms: ["all-cause-mortality", "sarcopenia", "one-rep-max"],
@@ -692,10 +692,10 @@ export const glossaryEntries: GlossaryEntry[] = [
     slug: "lean-body-mass",
     term: "Lean body mass",
     aka: ["LBM", "Fat-free mass"],
-    short: "Everything in your body that isn't fat — chiefly muscle, bone and water.",
+    short: "Everything in your body that isn't fat, chiefly muscle, bone and water.",
     body: [
       "Lean body mass (LBM) is your total weight minus your fat mass: muscle, bone, organs, connective tissue and body water. It's the counterpart to body-fat percentage.",
-      "It matters because lean mass — especially muscle — drives strength, metabolic rate and function, and preserving it is a key goal when dieting. Many nutrition and dosing calculations are based on lean mass rather than total weight, since fat is less metabolically demanding.",
+      "It matters because lean mass, especially muscle, drives strength, metabolic rate and function, and preserving it is a key goal when dieting. Many nutrition and dosing calculations are based on lean mass rather than total weight, since fat is less metabolically demanding.",
       "In practice, LBM is estimated from body-fat measurements, and the aim during fat loss is to lose fat while holding on to lean mass through protein and resistance training.",
     ],
     relatedTerms: ["body-fat-percentage", "sarcopenia", "hypertrophy"],
@@ -721,8 +721,8 @@ export const glossaryEntries: GlossaryEntry[] = [
     short: "A hormone central to the stress response, energy and recovery.",
     body: [
       "Cortisol is a hormone released by the adrenal glands that helps mobilise energy, regulate metabolism and manage the body's response to stress. It naturally follows a daily rhythm, peaking in the morning and falling at night.",
-      "It matters because cortisol is often demonised, but it isn't 'bad' — it's essential, and rises normally with exercise. The concern is chronically elevated cortisol from persistent stress, poor sleep or excessive training, which can impair recovery, sleep and body composition.",
-      "In practice, the useful levers are managing overall stress load, sleeping well, and not endlessly overreaching in training — rather than chasing supplements that claim to 'lower cortisol'.",
+      "It matters because cortisol is often demonised, but it isn't 'bad'. It's essential, and rises normally with exercise. The concern is chronically elevated cortisol from persistent stress, poor sleep or excessive training, which can impair recovery, sleep and body composition.",
+      "In practice, the useful levers are managing overall stress load, sleeping well, and not endlessly overreaching in training, rather than chasing supplements that claim to 'lower cortisol'.",
     ],
     relatedTerms: ["hrv", "insulin-sensitivity", "deload", "testosterone", "tsh"],
     relatedTools: ["recovery-readiness-index"],
@@ -733,7 +733,7 @@ export const glossaryEntries: GlossaryEntry[] = [
     aka: ["Mechanistic target of rapamycin"],
     short: "A cellular pathway that drives growth, including muscle building.",
     body: [
-      "mTOR (mechanistic target of rapamycin) is a central signalling pathway that senses nutrients, energy and mechanical load and, when activated, switches cells toward growth and building — including muscle protein synthesis.",
+      "mTOR (mechanistic target of rapamycin) is a central signalling pathway that senses nutrients, energy and mechanical load and, when activated, switches cells toward growth and building, including muscle protein synthesis.",
       "It matters because resistance training, adequate protein and especially leucine activate mTOR, linking the pathway directly to muscle growth. It also sits at the centre of a longevity debate: constant growth signalling may trade off against cellular clean-up (autophagy), so the ideal is thought to be cycling between the two rather than maximising either.",
       "In practice, you don't manage mTOR directly; training hard and eating enough protein activates it for muscle building, while periods without constant feeding allow the opposing maintenance processes their turn.",
     ],
@@ -1048,7 +1048,7 @@ export function getGlossaryEntry(slug: string): GlossaryEntry | undefined {
   return glossaryBySlug.get(slug);
 }
 
-/** Entries sorted alphabetically by term, for the hub A–Z listing. */
+/** Entries sorted alphabetically by term, for the hub A-Z listing. */
 export function glossaryAlphabetical(): GlossaryEntry[] {
   return [...glossaryEntries].sort((a, b) => a.term.localeCompare(b.term, "en-GB"));
 }

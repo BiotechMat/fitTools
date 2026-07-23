@@ -79,17 +79,17 @@ export interface GlowUpMyth {
 
 const SRC_HUGHES_2013: Source = {
   label:
-    "Hughes MCB, Williams GM, Baker P, Green AC. Sunscreen and prevention of skin aging: a randomized trial. Ann Intern Med 2013;158(11):781–790",
+    "Hughes MCB, Williams GM, Baker P, Green AC. Sunscreen and prevention of skin aging: a randomized trial. Ann Intern Med 2013;158(11):781-790",
   url: "https://www.acpjournals.org/doi/10.7326/0003-4819-158-11-201306040-00002",
 };
 const SRC_GREEN_2011: Source = {
   label:
-    "Green AC, Williams GM, Logan V, Strutton GM. Reduced melanoma after regular sunscreen use: randomized trial follow-up. J Clin Oncol 2011;29(3):257–263",
+    "Green AC, Williams GM, Logan V, Strutton GM. Reduced melanoma after regular sunscreen use: randomized trial follow-up. J Clin Oncol 2011;29(3):257-263",
   url: "https://pubmed.ncbi.nlm.nih.gov/21135266/",
 };
 const SRC_IARC_SUNBEDS: Source = {
   label:
-    "IARC / WHO. Sunbeds and UV radiation — UV-emitting tanning devices classified Group 1, carcinogenic to humans (El Ghissassi F, et al. Lancet Oncol 2009)",
+    "IARC / WHO. Sunbeds and UV radiation, with UV-emitting tanning devices classified Group 1, carcinogenic to humans (El Ghissassi F, et al. Lancet Oncol 2009)",
   url: "https://www.iarc.who.int/news-events/sunbeds-and-uv-radiation",
 };
 const SRC_TRETINOIN_SR: Source = {
@@ -99,14 +99,14 @@ const SRC_TRETINOIN_SR: Source = {
 };
 const SRC_MELANOTAN_DERMNET: Source = {
   label:
-    "DermNet: Melanotan II — unlicensed tanning peptide; documented melanoma and mole-change case reports; MHRA warns safety not established",
+    "DermNet: Melanotan II, an unlicensed tanning peptide; documented melanoma and mole-change case reports; MHRA warns safety not established",
   url: "https://dermnetnz.org/topics/melanotan-ii",
 };
 
-const collagenSeeAlso: CrossLink = { href: "/supplements/collagen", title: "Collagen — what the evidence says" };
+const collagenSeeAlso: CrossLink = { href: "/supplements/collagen", title: "Collagen: what the evidence says" };
 const redLightSeeAlso: CrossLink = {
   href: "/recovery/red-light-therapy",
-  title: "Red light therapy — the evidence",
+  title: "Red light therapy: the evidence",
 };
 const melanotanSeeAlso: CrossLink = {
   href: "/learn/peptides/melanotan-2",
@@ -119,14 +119,14 @@ const skin: GlowUpCluster = {
   slug: "skin",
   title: "The Evidence-Based Glow-Up: What Actually Improves Your Skin",
   pillarValueLine:
-    "Skip the 10-step shelf and the jaw exercises. Here's what genuinely changes how your skin looks — sorted by how strong the evidence is.",
+    "Skip the 10-step shelf and the jaw exercises. Here's what genuinely changes how your skin looks, sorted by how strong the evidence is.",
   metaDescription:
     "The honest, evidence-tiered glow-up for skin: sun protection (the single biggest lever), retinoids, a routine that actually matters, and the trends to ignore. Health-framed, cited, no hype.",
   safety: {
-    title: "Safety — skin, sun and your skin health",
+    title: "Skin, sun and skin health safety",
     points: [
       "The point of sun protection is health first: UV is the main preventable cause of skin cancer, and the appearance benefit (less ageing) is a bonus, not the reason.",
-      "See a doctor about any mole or patch that changes in size, shape or colour, itches or bleeds — don't wait, and don't rely on any online tool for this.",
+      "See a doctor about any mole or patch that changes in size, shape or colour, itches or bleeds. Don't wait, and don't rely on any online tool for this.",
       "Retinoids and some acids increase sun sensitivity; use sunscreen, and avoid retinoids in pregnancy. Patch-test actives and introduce one at a time.",
       "This is general information, not a diagnosis or a treatment plan. If you have a skin condition, see a GP or dermatologist.",
     ],
@@ -137,19 +137,19 @@ const skin: GlowUpCluster = {
   faq: [
     {
       q: "What's the single most effective thing for my skin?",
-      a: "Daily broad-spectrum sun protection. It's the one habit with randomised-trial evidence for both preventing skin cancer and slowing visible ageing — it out-performs any serum. Everything else is a distant second.",
+      a: "Daily broad-spectrum sun protection. It's the one habit with randomised-trial evidence for both preventing skin cancer and slowing visible ageing, and it out-performs any serum. Everything else is a distant second.",
     },
     {
       q: "Do I need an expensive multi-step routine?",
-      a: "No. The evidence supports a short routine: sunscreen every morning, a gentle cleanser, a moisturiser, and — if you want to target ageing — a retinoid at night. A ten-product shelf mostly adds cost and irritation, not results.",
+      a: "No. The evidence supports a short routine: sunscreen every morning, a gentle cleanser, a moisturiser, and, if you want to target ageing, a retinoid at night. A ten-product shelf mostly adds cost and irritation, not results.",
     },
     {
       q: "Is 'tanmaxxing' a shortcut to looking better?",
-      a: "No — it's the opposite. Deliberate UV exposure and tanning injections like Melanotan are dermatologist-flagged as dangerous, and a tan is literally your skin responding to DNA damage. See the tanmaxxing debunk below.",
+      a: "No, it's the opposite. Deliberate UV exposure and tanning injections like Melanotan are dermatologist-flagged as dangerous, and a tan is literally your skin responding to DNA damage. See the tanmaxxing debunk below.",
     },
     {
       q: "Does sleep really affect my skin?",
-      a: "Plausibly, yes — skin does much of its repair overnight, and poor sleep is linked to slower barrier recovery and more visible signs of ageing in small studies. It's a promising, low-cost lever, so it earns a place alongside sun protection.",
+      a: "Plausibly, yes. Skin does much of its repair overnight, and poor sleep is linked to slower barrier recovery and more visible signs of ageing in small studies. It's a promising, low-cost lever, so it earns a place alongside sun protection.",
     },
   ],
   sources: [SRC_HUGHES_2013, SRC_GREEN_2011, SRC_IARC_SUNBEDS],
@@ -161,7 +161,7 @@ const skin: GlowUpCluster = {
       title: "Sunscreen: the One Habit the Evidence Actually Backs",
       metaDescription:
         "Why daily sunscreen is the highest-evidence 'glow-up': the randomised trials on skin ageing and melanoma, how much to use, SPF vs broad-spectrum, and the myths to drop.",
-      valueLine: "The one skincare step with randomised-trial evidence behind it — for cancer risk and for how your skin ages.",
+      valueLine: "The one skincare step with randomised-trial evidence behind it, for cancer risk and for how your skin ages.",
       faq: [
         {
           q: "How much sunscreen, and how often?",
@@ -169,7 +169,7 @@ const skin: GlowUpCluster = {
         },
         {
           q: "Do I need it indoors or in winter?",
-          a: "UVA passes through cloud and windows year-round, so daily use is the simplest reliable habit. If you're genuinely indoors away from windows all day, the stakes are lower — but a morning routine you don't have to think about is easier to keep.",
+          a: "UVA passes through cloud and windows year-round, so daily use is the simplest reliable habit. If you're genuinely indoors away from windows all day, the stakes are lower, but a morning routine you don't have to think about is easier to keep.",
         },
       ],
       related: ["skin", "sunscreen-myths"],
@@ -184,15 +184,15 @@ const skin: GlowUpCluster = {
       title: "Retinoids Explained: OTC vs Prescription (and the Hype)",
       metaDescription:
         "An evidence-tiered guide to retinoids for skin ageing: what tretinoin and retinol actually do, over-the-counter vs prescription, how to start without wrecking your barrier, and the age and pregnancy notes.",
-      valueLine: "After sunscreen, retinoids are the best-evidenced 'anti-ageing' active — here's the honest version.",
+      valueLine: "After sunscreen, retinoids are the best-evidenced 'anti-ageing' active, and here's the honest version.",
       faq: [
         {
           q: "Retinol or prescription tretinoin?",
-          a: "Prescription tretinoin has the strongest trial evidence for photoageing; over-the-counter retinol is weaker but gentler and still reasonable. Start low and infrequent whichever you use — irritation is the main reason people quit.",
+          a: "Prescription tretinoin has the strongest trial evidence for photoageing; over-the-counter retinol is weaker but gentler and still reasonable. Start low and infrequent whichever you use, because irritation is the main reason people quit.",
         },
         {
           q: "Is there an age or pregnancy note?",
-          a: "Retinoids aren't recommended in pregnancy. And most under-18s don't need an anti-ageing retinoid at all — for teenage acne that's a conversation with a GP or pharmacist, not a looksmaxxing purchase.",
+          a: "Retinoids aren't recommended in pregnancy. And most under-18s don't need an anti-ageing retinoid at all, and for teenage acne that's a conversation with a GP or pharmacist, not a looksmaxxing purchase.",
         },
       ],
       related: ["skin", "skincare-routine", "skincare-ingredients"],
@@ -206,8 +206,8 @@ const skin: GlowUpCluster = {
       kind: "authority",
       title: "The Honest Skincare Routine: the 3 Steps That Matter",
       metaDescription:
-        "The evidence-based minimum skincare routine: cleanse, moisturise, protect — plus an optional retinoid. Why a short routine beats a ten-step shelf, and what each step is actually for.",
-      valueLine: "Three steps do most of the work. Here's the routine the evidence supports — and what's just shelf decoration.",
+        "The evidence-based minimum skincare routine: cleanse, moisturise and protect, plus an optional retinoid. Why a short routine beats a ten-step shelf, and what each step is actually for.",
+      valueLine: "Three steps do most of the work. Here's the routine the evidence supports, and what's just shelf decoration.",
       faq: [
         {
           q: "What are the three steps?",
@@ -215,7 +215,7 @@ const skin: GlowUpCluster = {
         },
         {
           q: "What can I drop?",
-          a: "Toners, essences, multiple serums and '10-step' routines are mostly optional. More products means more cost, more irritation risk, and more chances to quit — not better skin.",
+          a: "Toners, essences, multiple serums and '10-step' routines are mostly optional. More products means more cost, more irritation risk, and more chances to quit, not better skin.",
         },
       ],
       related: ["skin", "retinoids", "skincare-ingredients"],
@@ -230,16 +230,16 @@ const skin: GlowUpCluster = {
       kind: "authority",
       title: "Niacinamide, Vitamin C and the Ingredient Reality",
       metaDescription:
-        "What the popular skincare actives — niacinamide, vitamin C, hyaluronic acid, collagen — actually do, evidence-tiered. Which are worth it, which are oversold, and why the basics still win.",
-      valueLine: "The trendy actives, sorted by evidence — and why none of them out-rank sunscreen and sleep.",
+        "What the popular skincare actives (niacinamide, vitamin C, hyaluronic acid, collagen) actually do, evidence-tiered. Which are worth it, which are oversold, and why the basics still win.",
+      valueLine: "The trendy actives, sorted by evidence, and why none of them out-rank sunscreen and sleep.",
       faq: [
         {
           q: "Is niacinamide worth it?",
-          a: "It's one of the better-tolerated actives, with reasonable evidence for supporting the skin barrier and calming redness. A sensible, low-risk add — just not a miracle, and not a replacement for sun protection.",
+          a: "It's one of the better-tolerated actives, with reasonable evidence for supporting the skin barrier and calming redness. A sensible, low-risk add, just not a miracle, and not a replacement for sun protection.",
         },
         {
           q: "Does drinking or applying collagen help skin?",
-          a: "The evidence for collagen supplements on skin is preliminary and industry-funded studies dominate — treat it as promising-at-best, not established. Topical collagen mostly sits on the surface. See our collagen page for the honest breakdown.",
+          a: "The evidence for collagen supplements on skin is preliminary and industry-funded studies dominate, so treat it as promising-at-best, not established. Topical collagen mostly sits on the surface. See our collagen page for the honest breakdown.",
         },
       ],
       related: ["skin", "skincare-routine", "retinoids"],
@@ -254,12 +254,12 @@ const skin: GlowUpCluster = {
       kind: "debunk",
       title: "Tanmaxxing and Melanotan: an Honest Debunk",
       metaDescription:
-        "Tanmaxxing — deliberate UV exposure and Melanotan tanning injections — is a dermatologist-flagged danger, not a glow-up. The evidence on tanning beds, Melanotan and melanoma risk, clearly rated.",
+        "Tanmaxxing, meaning deliberate UV exposure and Melanotan tanning injections, is a dermatologist-flagged danger, not a glow-up. The evidence on tanning beds, Melanotan and melanoma risk, clearly rated.",
       valueLine: "Deliberate tanning and Melanotan injections are dangerous, not aspirational. Here's the evidence, not the hype.",
       faq: [
         {
           q: "Isn't a base tan protective?",
-          a: "No. A tan is your skin reacting to DNA damage; a 'base tan' offers a sun protection factor of roughly 3 at best and still adds to your lifetime UV damage. It's not protection — it's more of the exposure that causes the harm.",
+          a: "No. A tan is your skin reacting to DNA damage; a 'base tan' offers a sun protection factor of roughly 3 at best and still adds to your lifetime UV damage. It's not protection; it's more of the exposure that causes the harm.",
         },
         {
           q: "Are Melanotan tanning injections or nasal sprays safe?",
@@ -278,16 +278,16 @@ const skin: GlowUpCluster = {
       kind: "debunk",
       title: "Sunscreen Myths: Base Tans, Indoor Tanning and 'Sunscreen Is Toxic'",
       metaDescription:
-        "The common sunscreen and tanning myths — base tans, 'safe' indoor tanning beds, sunscreen scaremongering — rated against the evidence, with the honest advice that replaces each.",
+        "The common sunscreen and tanning myths (base tans, 'safe' indoor tanning beds, sunscreen scaremongering) rated against the evidence, with the honest advice that replaces each.",
       valueLine: "The myths that keep people out of sunscreen and into tanning beds, rated against the evidence.",
       faq: [
         {
           q: "Are tanning beds a safer way to tan?",
-          a: "No. UV-emitting tanning devices are classified by the WHO's cancer agency as Group 1 carcinogens — the same category as tobacco — and starting before age 30 raises melanoma risk substantially. There is no safe tanning bed.",
+          a: "No. UV-emitting tanning devices are classified by the WHO's cancer agency as Group 1 carcinogens, the same category as tobacco, and starting before age 30 raises melanoma risk substantially. There is no safe tanning bed.",
         },
         {
           q: "Is sunscreen itself dangerous?",
-          a: "The online 'sunscreen is toxic' claims run far ahead of the evidence. Regulators continue to review ingredient absorption, but the well-established, large risk is UV exposure and skin cancer — not wearing sunscreen. Don't let scaremongering talk you out of the one habit with trial evidence.",
+          a: "The online 'sunscreen is toxic' claims run far ahead of the evidence. Regulators continue to review ingredient absorption, but the well-established, large risk is UV exposure and skin cancer, not wearing sunscreen. Don't let scaremongering talk you out of the one habit with trial evidence.",
         },
       ],
       related: ["skin", "sunscreen", "tanmaxxing"],
@@ -322,14 +322,14 @@ export const glowUpMyths: GlowUpMyth[] = [
     sources: [
       {
         label:
-          "American Association of Orthodontists — 'Is mewing bad for you?' (no clinical evidence that mewing changes facial structure)",
+          "American Association of Orthodontists: 'Is mewing bad for you?' (no clinical evidence that mewing changes facial structure)",
         url: "https://aaoinfo.org/whats-trending/is-mewing-bad-for-you/",
       },
     ],
   },
   {
     slug: "bone-smashing",
-    claim: "'Bone smashing' — hitting your face to sharpen the bone",
+    claim: "'Bone smashing': hitting your face to sharpen the bone",
     verdict: "not-supported",
     basis: "human",
     verdictLine:
@@ -341,21 +341,21 @@ export const glowUpMyths: GlowUpMyth[] = [
     sources: [
       {
         label:
-          "American Association of Orthodontists — viral jawline trends: no evidence, real risk of harm",
+          "American Association of Orthodontists on viral jawline trends: no evidence, real risk of harm",
         url: "https://aaoinfo.org/whats-trending/is-mewing-bad-for-you/",
       },
     ],
   },
   {
     slug: "tanmaxxing",
-    claim: "'Tanmaxxing' — deliberate UV and Melanotan for a better look",
+    claim: "'Tanmaxxing': deliberate UV and Melanotan for a better look",
     verdict: "not-supported",
     basis: "human",
     verdictLine:
       "UV tanning devices are Group 1 carcinogens; Melanotan is unlicensed with melanoma case reports. A tan is DNA damage, not a glow-up.",
     honestAlternative: {
       href: "/glow-up/skin/tanmaxxing",
-      title: "Tanmaxxing and Melanotan — the full debunk",
+      title: "Tanmaxxing and Melanotan: the full debunk",
     },
     sources: [SRC_IARC_SUNBEDS, SRC_MELANOTAN_DERMNET],
   },
@@ -368,7 +368,7 @@ export const glowUpMyths: GlowUpMyth[] = [
       "A 2025 systematic review found limited benefit and a real asphyxiation risk for anyone with nasal obstruction. Loud snoring or gasping needs a doctor, not tape.",
     honestAlternative: {
       href: "/recovery/sleep-environment",
-      title: "Sleep environment — what actually helps",
+      title: "Sleep environment: what actually helps",
     },
     sources: [
       {
@@ -392,7 +392,7 @@ export const glowUpMyths: GlowUpMyth[] = [
     sources: [
       {
         label:
-          "US FDA — bodybuilding products with SARMs put consumers at risk of heart attack, stroke and serious liver damage",
+          "US FDA: bodybuilding products with SARMs put consumers at risk of heart attack, stroke and serious liver damage",
         url: "https://www.fda.gov/drugs/fraudulent-products/certain-bodybuilding-products-put-consumers-risk-heart-attack-stroke-serious-liver-damage-and-more",
       },
     ],

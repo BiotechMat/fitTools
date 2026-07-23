@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Medical Disclaimer",
   description:
-    "FitTools calculators provide estimates for general information and education only — they are not medical advice.",
+    "FitTools calculators provide estimates for general information and education only, they are not medical advice.",
   alternates: { canonical: "/legal/medical-disclaimer" },
 };
 
@@ -16,7 +16,7 @@ export default function MedicalDisclaimerPage() {
         FitTools provides calculators and editorial content for general
         information and education only. Nothing on this site is medical
         advice, diagnosis or treatment, and nothing here creates a
-        clinician–patient relationship.
+        clinician-patient relationship.
       </p>
       <h2>Estimates, not measurements</h2>
       <p>
@@ -29,7 +29,7 @@ export default function MedicalDisclaimerPage() {
       <h2>Speak to a professional</h2>
       <p>
         Consult your GP or another qualified health professional before
-        changing your diet, exercise, sleep or supplement regimen —
+        changing your diet, exercise, sleep or supplement regimen,
         especially if you are pregnant, under 18, have a medical condition,
         take medication, or have a history of disordered eating. Never
         disregard professional medical advice, or delay seeking it, because

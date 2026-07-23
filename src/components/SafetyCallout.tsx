@@ -30,7 +30,7 @@ export function SafetyCallout({
 /** Cold water immersion safety box (CONTENT.md §5). */
 export function ColdWaterSafetyCallout() {
   return (
-    <SafetyCallout title="Safety — cold water immersion">
+    <SafetyCallout title="Safety: cold water immersion">
       <ul className="list-disc space-y-1 pl-5">
         <li>
           Cold immersion is a strong stressor on the heart and circulation.
@@ -53,7 +53,7 @@ export function ColdWaterSafetyCallout() {
 /** Sauna safety box (CONTENT.md §5). */
 export function SaunaSafetyCallout() {
   return (
-    <SafetyCallout title="Safety — sauna use">
+    <SafetyCallout title="Safety: sauna use">
       <ul className="list-disc space-y-1 pl-5">
         <li>
           The main risks are <strong>overheating, dehydration and
@@ -76,7 +76,7 @@ export function SaunaSafetyCallout() {
 /** The standard peptides safety/legality box (CONTENT-peptides.md §4). */
 export function PeptideSafetyCallout() {
   return (
-    <SafetyCallout title="Safety & legality — read this">
+    <SafetyCallout title="Safety & legality: read this">
       <ul className="list-disc space-y-1 pl-5">
         <li>
           Most compounds discussed here are <strong>not approved medicines</strong>{" "}
@@ -84,7 +84,7 @@ export function PeptideSafetyCallout() {
         </li>
         <li>
           When sold as “research chemicals” they are made{" "}
-          <strong>outside pharmaceutical quality control</strong> — purity,
+          <strong>outside pharmaceutical quality control</strong>. Purity,
           dose accuracy and contamination cannot be assumed.
         </li>
         <li>

@@ -109,21 +109,21 @@ export function BodyFatCalculator() {
             </p>
             <p className="mt-1 text-sm font-medium">
               Realistic range: about{" "}
-              {formatNumber(Math.max(2, result.percent - 3.5), 1)}% –{" "}
+              {formatNumber(Math.max(2, result.percent - 3.5), 1)}% to{" "}
               {formatNumber(result.percent + 3.5, 1)}%
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
               The US Navy circumference method carries a {BODY_FAT_ERROR_BAND_PP}{" "}
               percentage-point error band against laboratory methods, so treat
               the single figure as the centre of the range above. Measured
-              consistently, it tracks change over time well — that trend is the
+              consistently, it tracks change over time well. That trend is the
               useful number.
             </p>
           </div>
         ) : (
           <p className="text-sm text-muted">
             {waistCm <= neckCm && sex === "male"
-              ? "Waist must measure larger than neck — please check both tape measurements."
+              ? "Waist must measure larger than neck, please check both tape measurements."
               : "Enter your height and tape measurements to estimate body fat. Women also need a hip measurement."}
           </p>
         )}

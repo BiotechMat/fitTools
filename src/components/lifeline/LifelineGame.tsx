@@ -19,6 +19,7 @@ import {
   speedAt,
 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
+import { lifelineSharePath, type LifelineCauseId } from "@/lib/arcade-share";
 
 /**
  * Lifeline (LIFELINE.md): tap-to-flap heartbeat arcade. All rendering is
@@ -42,12 +43,12 @@ const RESTART_GUARD_MS = 350;
    formula modules (CLAUDE.md: never invent numbers or citations). */
 const FACTS: { text: string; href: string; label: string }[] = [
   {
-    text: "In the Li 2018 cohort, five lifestyle factors were associated with 12–14 extra years of life expectancy at age 50.",
+    text: "In the Li 2018 cohort, five lifestyle factors were associated with 12 to 14 extra years of life expectancy at age 50.",
     href: "/lifestyle-life-expectancy",
     label: "See the study",
   },
   {
-    text: "Your modelled heart age usually moves most with systolic blood pressure — the calculator shows what moves your needle.",
+    text: "Your modelled heart age usually moves most with systolic blood pressure, the calculator shows what moves your needle.",
     href: "/heart-age-calculator",
     label: "Check your heart age",
   },
@@ -68,9 +69,9 @@ interface DailyModifier {
 const MODIFIERS: DailyModifier[] = [
   { id: "jitter", label: "Stress is twitchy today" },
   { id: "shortage", label: "Broccoli shortage" },
-  { id: "headwind", label: "Headwind — everything's faster" },
-  { id: "deepsleep", label: "Deep sleep — Zs are worth double" },
-  { id: "calmday", label: "Recovery day — gaps run wider" },
+  { id: "headwind", label: "Headwind: everything's faster" },
+  { id: "deepsleep", label: "Deep sleep: Zs are worth double" },
+  { id: "calmday", label: "Recovery day: gaps run wider" },
 ];
 
 const RUNS_KEY = "fittools.lifeline.runs";
@@ -341,7 +342,7 @@ function freshWorld(seed: number | null): World {
 const SKINS = [
   { id: "classic", label: "Classic", hint: "The original ticker" },
   { id: "gold", label: "Gold", hint: "Join the centenarian club (100)" },
-  { id: "chalk", label: "Chalk", hint: "Reach 80 — gold-medal territory" },
+  { id: "chalk", label: "Chalk", hint: "Reach 80: gold-medal territory" },
 ] as const;
 type SkinId = (typeof SKINS)[number]["id"];
 
@@ -381,6 +382,7 @@ export function LifelineGame() {
   const [finalAge, setFinalAge] = useState(0);
   const [cause, setCause] = useState("");
   const [causeLabel, setCauseLabel] = useState("");
+  const [causeId, setCauseId] = useState<LifelineCauseId>("gravity");
   const [best, setBest] = useState(0);
   const [dailyBest, setDailyBest] = useState(0);
   const [lastRuns, setLastRuns] = useState<number[]>([]);
@@ -479,7 +481,7 @@ export function LifelineGame() {
       shield: makeSprite(SPRITE_MAPS.shield, 3),
     };
 
-    const die = (deathCause: string, label: string) => {
+    const die = (deathCause: string, label: string, kindId: LifelineCauseId) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
       trackEvent({
@@ -489,6 +491,7 @@ export function LifelineGame() {
       setFinalAge(age);
       setCause(deathCause);
       setCauseLabel(label);
+      setCauseId(kindId);
       setCopied(false);
       setNewBest(false);
       setNewSkin(null);
@@ -618,7 +621,7 @@ export function LifelineGame() {
         w.y < LIFELINE.playerRadius + 2 ||
         w.y > floor - LIFELINE.playerRadius
       ) {
-        die(EDGE_CAUSE, "GRAVITY");
+        die(EDGE_CAUSE, "GRAVITY", "gravity");
         return;
       }
 
@@ -698,7 +701,7 @@ export function LifelineGame() {
             );
             continue;
           }
-          die(c.kind.cause, c.kind.label);
+          die(c.kind.cause, c.kind.label, c.kind.id);
           return;
         }
         if (!c.passed && c.x + LIFELINE.columnHalfWidth < LIFELINE.playerX - LIFELINE.playerRadius) {
@@ -1206,7 +1209,11 @@ export function LifelineGame() {
     : `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
   const share = () => {
     try {
-      const url = `${window.location.origin}/lifeline?seed=${finalSeed}&beat=${finalAge}`;
+      // The same URL replays the course AND unfurls as the score card
+      // (the page's generateMetadata reads these params).
+      const url =
+        window.location.origin +
+        lifelineSharePath({ seed: finalSeed, beat: finalAge, cause: causeId });
       void navigator.clipboard.writeText(`${shareText} · beat me: ${url}`);
       setCopied(true);
     } catch {
@@ -1284,7 +1291,7 @@ export function LifelineGame() {
     >
       <canvas
         ref={canvasRef}
-        aria-label="Lifeline — tap or press space to keep the heart beating"
+        aria-label="Lifeline, tap or press space to keep the heart beating"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${LIFELINE.width} / ${LIFELINE.height}` }}
       />
@@ -1368,7 +1375,7 @@ export function LifelineGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 
@@ -1405,7 +1412,7 @@ export function LifelineGame() {
                   </span>
                 ) : (
                   <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
-                    Target: {challenge.beat} — still standing
+                    Target: {challenge.beat}, still standing
                   </span>
                 )
               ) : null}

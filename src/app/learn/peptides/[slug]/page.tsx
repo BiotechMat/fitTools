@@ -139,7 +139,7 @@ export default async function PeptidePageRoute({ params }: PeptidePageParams) {
                 >
                   {r.name}
                 </Link>{" "}
-                <span className="text-xs text-muted">— {TIER_LABELS[r.headlineTier]}</span>
+                <span className="text-xs text-muted">({TIER_LABELS[r.headlineTier]})</span>
                 <p className="mt-1 text-sm text-muted">{r.metaDescription}</p>
               </li>
             ))}

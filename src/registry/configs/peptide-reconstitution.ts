@@ -20,7 +20,7 @@ export const peptideConfig: ToolConfig = {
   valueLine:
     "Arithmetic only: concentration, draw volume and U-100 syringe units from values you supply.",
   metaDescription:
-    "Reconstitution calculator for research and prescribed peptides: concentration from vial and diluent, draw volume and U-100 units from your prescribed dose. Arithmetic only — no dosing guidance.",
+    "Reconstitution calculator for research and prescribed peptides: concentration from vial and diluent, draw volume and U-100 units from your prescribed dose. Arithmetic only, with no dosing guidance.",
   hub: "nutrition",
   tier: 4,
   inputsSchema: peptideInputsSchema,
@@ -32,15 +32,15 @@ export const peptideConfig: ToolConfig = {
     },
     {
       q: "Why doesn't this tool suggest doses?",
-      a: "Deliberately. Dosing belongs to your prescriber — the calculator carries no compound presets and no dose suggestions, and only converts values you already have into volumes and syringe units.",
+      a: "Deliberately. Dosing belongs to your prescriber, so the calculator carries no compound presets and no dose suggestions, and only converts values you already have into volumes and syringe units.",
     },
     {
       q: "What is a U-100 syringe?",
-      a: "A syringe calibrated so that 100 units equal 1 ml. The unit markings measure volume, not drug amount — the same unit count contains different amounts depending on your concentration, which is why this arithmetic matters.",
+      a: "A syringe calibrated so that 100 units equal 1 ml. The unit markings measure volume, not drug amount, so the same unit count contains different amounts depending on your concentration, which is why this arithmetic matters.",
     },
     {
       q: "Does the diluent amount change the dose?",
-      a: "No — it changes the concentration, and therefore the volume you draw for the same dose. More diluent means larger, easier-to-measure draw volumes; the drug amount per dose stays whatever your prescriber set.",
+      a: "No, it changes the concentration, and therefore the volume you draw for the same dose. More diluent means larger, easier-to-measure draw volumes; the drug amount per dose stays whatever your prescriber set.",
     },
   ],
   related: [],
@@ -48,7 +48,7 @@ export const peptideConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "NHS — injection technique and medicines guidance (general reference)",
+      label: "NHS: injection technique and medicines guidance (general reference)",
       url: "https://www.nhs.uk/medicines/",
     },
     {

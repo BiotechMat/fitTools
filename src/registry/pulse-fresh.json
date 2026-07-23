@@ -1,7 +1,7 @@
 [
   {
     "id": "fresh-creatine-timing-pre-workout",
-    "claim": "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after — early, exploratory evidence rather than a firm recommendation.",
+    "claim": "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after, though this is early, exploratory evidence rather than a firm recommendation.",
     "category": "supplements",
     "tags": ["creatine", "timing", "strength"],
     "tier": "preliminary",
@@ -36,7 +36,7 @@
     "relatedContent": "/supplements/creatine-monohydrate",
     "kind": "fresh",
     "addedAt": "2026-07-23",
-    "caveat": "Pooled from seven trials (608 women, median 38 weeks). Gains were modest — about 0.4 kg lean mass — and appeared mainly at ≥5 g a day with training; several trials had some risk-of-bias concerns, and bone density did not move.",
+    "caveat": "Pooled from seven trials (608 women, median 38 weeks). Gains were modest, about 0.4 kg lean mass, and appeared mainly at ≥5 g a day with training; several trials had some risk-of-bias concerns, and bone density did not move.",
     "study": {
       "doi": "10.1080/15502783.2026.2668435",
       "journal": "J Int Soc Sports Nutr",
@@ -47,7 +47,7 @@
   },
   {
     "id": "fresh-protein-supplement-women-body-comp",
-    "claim": "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength — but made no difference to fat mass or body-fat percentage.",
+    "claim": "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength, but made no difference to fat mass or body-fat percentage.",
     "category": "nutrition",
     "tags": ["protein", "body-composition", "women"],
     "tier": "preliminary",
@@ -59,13 +59,13 @@
     "relatedContent": "/supplements/whey-protein",
     "kind": "fresh",
     "addedAt": "2026-07-23",
-    "caveat": "Nine trials, 408 women aged 18–73. Muscle effects were small (about 0.45 kg fat-free mass) and there was no effect on fat loss; the authors call for more high-quality trials.",
+    "caveat": "Nine trials, 408 women aged 18 to 73. Muscle effects were small (about 0.45 kg fat-free mass) and there was no effect on fat loss; the authors call for more high-quality trials.",
     "study": {
       "doi": "10.3389/fnut.2025.1678433",
       "journal": "Front Nutr",
       "design": "Meta-analysis (9 RCTs)",
       "n": 408,
-      "population": "healthy women 18–73"
+      "population": "healthy women 18 to 73"
     }
   }
 ]

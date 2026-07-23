@@ -5,7 +5,7 @@ import { getTool, standardTools } from "@/registry/tools";
 import { hubMeta } from "@/registry/hubs";
 import { calculators } from "@/components/calculators";
 import { AdSlot } from "@/components/AdSlot";
-import { AffiliateBlock } from "@/components/AffiliateBlock";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { AuthorBox } from "@/components/AuthorBox";
 import { ClinicalDisclaimer } from "@/components/ClinicalDisclaimer";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
@@ -125,15 +125,19 @@ export default async function ToolPage({ params }: ToolPageParams) {
 
       {tool.monetization.ads ? <AdSlot slotId={`${tool.slug}-below-results`} /> : null}
 
-      <div className="prose">
-        <Editorial />
-        <h2>Sources</h2>
-        <SourcesReceipt sources={tool.sources} />
-      </div>
+      {/* The calculator stays full-width; on desktop the recommendation
+          card (SPEC §10 affiliate placement) rails beside the editorial. */}
+      <RecommendationRail
+        surface={tool.monetization.affiliates ? `tool:${tool.slug}` : null}
+      >
+        <div className="prose">
+          <Editorial />
+          <h2>Sources</h2>
+          <SourcesReceipt sources={tool.sources} />
+        </div>
 
-      <FAQ entries={tool.faq} />
-
-      {tool.monetization.affiliates ? <AffiliateBlock slug={tool.slug} /> : null}
+        <FAQ entries={tool.faq} />
+      </RecommendationRail>
 
       <EmailCapture />
 

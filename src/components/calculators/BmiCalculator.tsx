@@ -57,7 +57,7 @@ export function BmiCalculator() {
             </p>
             <p className={warningClass}>
               BMI cannot tell muscle from fat. Muscular and athletic people are
-              routinely classed as overweight despite low body fat — if that
+              routinely classed as overweight despite low body fat, if that
               might be you, a body-fat estimate is a much better guide than
               BMI.
             </p>
@@ -68,7 +68,7 @@ export function BmiCalculator() {
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter a weight (30–300 kg) and height (120–250 cm) to see your BMI
+            Enter a weight (30 to 300 kg) and height (120 to 250 cm) to see your BMI
             and WHO category.
           </p>
         )}

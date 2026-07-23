@@ -70,7 +70,7 @@ export function FfmiCalculator() {
               · fat-free mass {formatNumber(result.ffm, 1)} kg
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
-              Typical untrained men sit around 18–20; values above ~25 were
+              Typical untrained men sit around 18 to 20; values above ~25 were
               rare among drug-free athletes in the original research. Accuracy
               depends entirely on your body-fat estimate.
             </p>

@@ -36,7 +36,7 @@ coefficient expects):
 Second, that score is converted to a 10-year mortality estimate under a
 Gompertz proportional-hazards model. Third, the mortality estimate is
 back-transformed to the age at which the population-average person carries
-the same risk — your Phenotypic Age.
+the same risk, your Phenotypic Age.
 
 We took these coefficients directly from the authors' own published code
 (the `BioAge` R package) and locked our implementation to a reproduced
@@ -50,19 +50,19 @@ the logarithm stays defined.
 ## Interpreting your result
 
 A Phenotypic Age *lower* than your chronological age is the favourable
-direction — at population level it is associated with lower mortality risk.
+direction, at population level it is associated with lower mortality risk.
 But this is an association across large groups, not a forecast for you: two
 people with the same PhenoAge can have very different futures.
 
 Treat the number as a conversation-starter with your doctor, not a verdict.
-It is also a *snapshot* — a recent infection, injury or flare of
+It is also a *snapshot*, a recent infection, injury or flare of
 inflammation raises CRP and white cell count and will push the estimate up
 temporarily, then settle. If your result surprises you, the most useful
 next step is to discuss the underlying blood values with a clinician.
 
 ## Limitations
 
-- PhenoAge reflects the day's blood panel, not a stable trait — acute
+- PhenoAge reflects the day's blood panel, not a stable trait, acute
   illness and inflammation move it.
 - It was derived and validated primarily in US (NHANES) data; performance
   in other populations may differ.
@@ -70,4 +70,4 @@ next step is to discuss the underlying blood values with a clinician.
   useful summary, not the whole picture.
 - This is a research measure of population risk, **not a medical test or a
   diagnosis**. Nothing here should be used to start, stop or change any
-  treatment — that is a decision for you and your clinician.
+  treatment, that is a decision for you and your clinician.
