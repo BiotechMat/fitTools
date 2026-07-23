@@ -253,7 +253,7 @@ export default function BloodTestPage() {
 
       {/* Final CTA */}
       <section className="mt-12 mb-4" aria-label="Get early access">
-        <div className="rounded-2xl border-2 border-foreground bg-primary-strong p-6 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)]">
+        <div className="rounded-2xl border-2 border-foreground bg-primary-strong p-6 text-background shadow-[3px_3px_0_0_var(--color-foreground)]">
           <h2 className="font-display text-2xl uppercase">Be first to know your numbers</h2>
           <p className="mt-2 max-w-prose text-sm">
             The test is launching soon. Join the early-access list and we&rsquo;ll email

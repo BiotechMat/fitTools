@@ -19,6 +19,7 @@
   --good: #1f5c3d; /* forest — evidence, health, positive deltas */
   --good-soft: #e4f2d2;
   --fresh: #8fbf3f; /* matcha — small accents only, never a ground */
+  --lime: #a3e635; /* vibrant lime — blood-test CTA accent (ink text only) */
   --warning-bg: #fbeecb;
   --warning-border: #e8c33c;
 }
@@ -36,6 +37,7 @@
   --color-good: var(--good);
   --color-good-soft: var(--good-soft);
   --color-fresh: var(--fresh);
+  --color-lime: var(--lime);
   --color-warning-bg: var(--warning-bg);
   --color-warning-border: var(--warning-border);
   --font-sans: var(--font-figtree);

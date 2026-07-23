@@ -130,7 +130,7 @@ export default function HomePage() {
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <Link
               href="/heart-age-calculator"
-              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
             >
               Find your heart age
             </Link>
@@ -158,7 +158,7 @@ export default function HomePage() {
       <section className="pt-8" aria-labelledby="bloodtest-cta">
         <Link
           href="/blood-test"
-          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-good-soft p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-lime p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
@@ -182,7 +182,7 @@ export default function HomePage() {
       <section className="pt-6" aria-labelledby="daily-cta">
         <Link
           href="/daily"
-          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
@@ -196,7 +196,7 @@ export default function HomePage() {
               weekly myth-buster quiz. Build a streak, learn the numbers.
             </p>
           </div>
-          <span className="shrink-0 self-start rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold shadow-[2px_2px_0_0_var(--color-foreground)] sm:self-auto">
+          <span className="shrink-0 self-start rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold text-foreground shadow-[2px_2px_0_0_var(--color-foreground)] sm:self-auto">
             Play today &rarr;
           </span>
         </Link>
