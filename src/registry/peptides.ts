@@ -76,6 +76,14 @@ import { bpc157Page } from "@/registry/peptides/bpc-157";
 import { tb500Page } from "@/registry/peptides/tb-500";
 import { fragment176191Page } from "@/registry/peptides/fragment-176-191";
 import { melanotan2Page } from "@/registry/peptides/melanotan-2";
+import { ipamorelinPage } from "@/registry/peptides/ipamorelin";
+import { cjc1295Page } from "@/registry/peptides/cjc-1295";
+import { sermorelinPage } from "@/registry/peptides/sermorelin";
+import { ghrp6Page } from "@/registry/peptides/ghrp-6";
+import { ghkCuPage } from "@/registry/peptides/ghk-cu";
+import { thymosinAlpha1Page } from "@/registry/peptides/thymosin-alpha-1";
+import { aod9604Page } from "@/registry/peptides/aod-9604";
+import { epithalonPage } from "@/registry/peptides/epithalon";
 
 export const allPeptides: PeptidePage[] = [
   tesamorelinPage,
@@ -86,6 +94,14 @@ export const allPeptides: PeptidePage[] = [
   tb500Page,
   fragment176191Page,
   melanotan2Page,
+  ipamorelinPage,
+  cjc1295Page,
+  sermorelinPage,
+  ghrp6Page,
+  ghkCuPage,
+  thymosinAlpha1Page,
+  aod9604Page,
+  epithalonPage,
 ];
 
 export const peptidesBySlug: ReadonlyMap<string, PeptidePage> = new Map(

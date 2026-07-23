@@ -56,9 +56,17 @@ flap blip, pickup ding, decade tick, flatline tone.
 
 ## 6. Not built yet (sequenced)
 
-- Daily-seeded run + streak + Wordle-style share text (joins /daily).
-- /share achievement-card hook ("Lived to 92 · top 6% today").
-- Optional leaderboard (accounts-gated, ROADMAP E4 rules apply).
+Most of the original deferred list shipped in v2–v4 (§7 has the record: the
+daily-seeded run, ghost replay, death-card PNG, challenge links and skins are
+all built). What genuinely remains open:
+
+- **Streaks** (played-streak with freezes, per DAILY-GAMES §6 rules).
+- **The server-rendered `/share` achievement-card hook** ("Lived to 92 · top 6%
+  today"). Lifeline already ships a client-side death-card PNG (§7 v4); the
+  branded OG-image pipeline (`/api/share-card`) exists but is tool-only, so
+  serving a Lifeline card through it is part of `STATUS.md §3` Phase 2 (build
+  once, serve tools + Pulse + Daily + arcade).
+- **Optional leaderboard** (accounts-gated, ROADMAP E4 rules apply).
 
 ## 7. Status
 

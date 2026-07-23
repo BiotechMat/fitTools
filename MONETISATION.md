@@ -14,6 +14,11 @@ intent and the principles that already bind, and flags what still needs Mat's
 call. When the model is confirmed, `BUSINESS_PLAN.md §7` and `ROADMAP.md E6` get
 reconciled to it (they currently pre-date this direction — §5).
 
+> **This is a gating decision, not just a doc.** The §4 model choice blocks the
+> design of the accounts/premium tier (`STATUS.md §3` Phase 4) — build premium
+> around what it actually gates, so decide the model *before* that phase. Listed
+> as blocking decision #1 in `STATUS.md §4`.
+
 ---
 
 ## 1. The direction

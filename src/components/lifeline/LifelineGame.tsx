@@ -113,31 +113,31 @@ function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
   return canvas;
 }
 
-const HEART_UP = [
-  "..KK....KK..",
-  ".KBBK..KBBK.",
-  "KBWBBKKBBBBK",
-  "KBWBBBBBBBBK",
-  "KPPKBBBBBBBK",
-  "KPPPKBBBBBK.",
-  ".KPKBBBBBK..",
-  "..KBBBBBK...",
-  "...KBBBK....",
-  "....KBK.....",
-  ".....K......",
+/* The hero: a Blaze heart. Two frames = the beat — systole (squeezed,
+   shown for 0.18s after each tap) and diastole (at rest). No wings: every
+   tap IS a heartbeat, and the pump is the propulsion. */
+const HEART_SQUEEZE = [
+  "...KK..KK...",
+  "..KBBKKBBK..",
+  ".KBWBBBBBBK.",
+  ".KBWBBBBBBK.",
+  ".KBBBBBBBBK.",
+  "..KBBBBBBK..",
+  "...KBBBBK...",
+  "....KBBK....",
+  ".....KK.....",
 ];
-const HEART_DOWN = [
+const HEART_REST = [
   "..KK....KK..",
   ".KBBK..KBBK.",
   "KBWBBKKBBBBK",
   "KBWBBBBBBBBK",
   "KBBBBBBBBBBK",
-  "KKKKBBBBBBK.",
-  "KPPPKBBBBK..",
-  ".KPPKBBBK...",
-  "..KKKBBK....",
-  "....KBK.....",
-  ".....K......",
+  ".KBBBBBBBBK.",
+  "..KBBBBBBK..",
+  "...KBBBBK...",
+  "....KBBK....",
+  ".....KK.....",
 ];
 
 const SPRITE_MAPS: Record<
@@ -467,12 +467,12 @@ export function LifelineGame() {
     ctx.imageSmoothingEnabled = false;
 
     spritesRef.current = {
-      heartUp: makeSprite(HEART_UP, 2),
-      heartDown: makeSprite(HEART_DOWN, 2),
-      heartUpGold: makeSprite(swapPalette(HEART_UP, { B: "A", W: "P" }), 2),
-      heartDownGold: makeSprite(swapPalette(HEART_DOWN, { B: "A", W: "P" }), 2),
-      heartUpChalk: makeSprite(swapPalette(HEART_UP, { B: "W", W: "S" }), 2),
-      heartDownChalk: makeSprite(swapPalette(HEART_DOWN, { B: "W", W: "S" }), 2),
+      heartUp: makeSprite(HEART_SQUEEZE, 2),
+      heartDown: makeSprite(HEART_REST, 2),
+      heartUpGold: makeSprite(swapPalette(HEART_SQUEEZE, { B: "A", W: "P" }), 2),
+      heartDownGold: makeSprite(swapPalette(HEART_REST, { B: "A", W: "P" }), 2),
+      heartUpChalk: makeSprite(swapPalette(HEART_SQUEEZE, { B: "W", W: "S" }), 2),
+      heartDownChalk: makeSprite(swapPalette(HEART_REST, { B: "W", W: "S" }), 2),
       sugar: makeSprite(SPRITE_MAPS.sugar, 4),
       smokes: makeSprite(SPRITE_MAPS.smokes, 4),
       allnighters: makeSprite(SPRITE_MAPS.allnighters, 3),
@@ -1065,8 +1065,9 @@ export function LifelineGame() {
           ? w.spin
           : Math.max(-0.45, Math.min(0.9, (w.vy / LIFELINE.terminalFall) * 1.1)),
       );
-      const squash = w.squashT * 1.6;
-      ctx.scale(1 + squash, 1 - squash);
+      // A beat, not a flap: the whole heart pops uniformly on each pump.
+      const pop = w.squashT * 1.3;
+      ctx.scale(1 + pop, 1 + pop);
       ctx.drawImage(heart, -heart.width / 2, -heart.height / 2);
       drawFace(age, dying);
       ctx.restore();
@@ -1195,7 +1196,8 @@ export function LifelineGame() {
     w.vy = LIFELINE.flapImpulse;
     w.wingT = 0.18;
     w.squashT = 0.1;
-    beep(synthRef.current, 300, 45, "square", 0.04);
+    // A low thump per pump — the tap sound is itself a heartbeat.
+    beep(synthRef.current, 150, 55, "sine", 0.06);
   };
 
   useEffect(() => {
@@ -1327,7 +1329,7 @@ export function LifelineGame() {
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
           <p className="font-display text-4xl uppercase">Lifeline</p>
           <p className="max-w-[16rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
-            Tap or press space to flap. Dodge the risk factors. Grow old.
+            Every tap is a heartbeat. Dodge the risk factors. Grow old.
           </p>
           {challenge ? (
             <p className="rounded-full border-2 border-foreground bg-warning-bg px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em]">

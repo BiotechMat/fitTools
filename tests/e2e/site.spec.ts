@@ -50,13 +50,13 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   // Home + daily hub + arcade hub + lifeline + powerhouse + blood-test +
   // pulse hub + pulse/this-week + calculators index + 3 section hubs +
   // 32 standard tools + reconstitution calculator (in the peptides section) +
-  // author + 5 legal + peptides pillar + 8 peptide pages + index-methodology +
-  // 8 recovery pillars + 4 recovery satellites + glossary hub + 23 glossary
-  // terms + supplements hub + 13 supplement pages + exercises hub + 3 pattern
-  // hubs + 13 exercise pages + food-reference hub + 4 food-reference pages +
+  // author + 5 legal + peptides pillar + 16 peptide pages + index-methodology +
+  // 8 recovery pillars + 4 recovery satellites + glossary hub + 55 glossary
+  // terms + supplements hub + 35 supplement pages + exercises hub + 3 pattern
+  // hubs + 39 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
   // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(146);
+  expect(locs.length).toBe(234);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);

@@ -20,6 +20,12 @@ Built in D0 (2026-07-23): `src/registry/metrics.ts` (+ `validateMetrics`),
 (noindexed route), `src/components/dashboard/DashboardView.tsx`, a nav link,
 and `tests/unit/metrics.test.ts` + `tests/unit/dashboard-store.test.ts`.
 
+> **Sequencing (2026-07-23, `STATUS.md §3`):** **D1 (Trajectory) is buildable
+> now** on the local store and is the near-term keystone (Phase 3) — but it needs
+> more tools wired to `ResultHistory` first (only TDEE and 1RM persist today), so
+> the dashboard has data to chart (Phase 2). **D2–D4 wait on the E0 accounts +
+> data-protection crossing** (Phase 4). Do not jump the §8 gate.
+
 Companion to: `SPEC.md` (§10 persistence, §17 scope), `ROADMAP.md`
 (E0 accounts, **E2 Trajectory — the keystone**), `DESIGN.md` (§6 retention
 components — styled, this doc assembles them), `METHODOLOGY.md` (the scores it

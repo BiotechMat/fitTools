@@ -216,7 +216,9 @@ never guess constants).
 - **v1 = Web Share / clipboard** (same degradation posture as Pulse §4).
   **OG-image card lands with the E1 pipeline** — branded espresso-ground story
   format per DESIGN §6, shared dependency with Pulse's share card; build once,
-  serve both.
+  serve both. *(Update 2026-07-23: the E1 pipeline now exists at
+  `/api/share-card`, but is tool-only — generalising it to serve Daily results is
+  `STATUS.md §3` Phase 2.)*
 - Share fires at the reveal — the peak-satisfaction moment (ROADMAP §1).
 
 ---
@@ -382,5 +384,8 @@ games). What exists:
   a slight, better-UX deviation from §11's literal "Mondays-only" wording.
 - **Saved/archive pages** (`/daily/archive/<date>`, §9) — not built; the daily
   is client-fetched like Pulse's.
-- **OG-image share card** (§7) — depends on the E1 pipeline; text share ships now.
-- **Bank growth** to the ~90 Ballpark / ~40 Myth v1 targets (§4).
+- **OG-image share card** (§7) — the E1 pipeline exists but is tool-only;
+  extending it to Daily is `STATUS.md §3` Phase 2. Text share ships now.
+- **Bank growth** to the ~90 Ballpark / ~40 Myth v1 targets (§4) — the top
+  remaining job (10 Ballpark + 9 Myth today, ~10 days of runway). `STATUS.md §3`
+  Phase 1; harvest from already-vetted repo content.
