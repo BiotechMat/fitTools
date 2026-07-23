@@ -12,7 +12,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecommendationCard } from "@/components/RecommendationCard";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { BodyImageResources } from "@/components/BodyImageResources";
 import { VerdictStamp } from "@/components/VerdictStamp";
@@ -74,6 +74,7 @@ export default async function GlowUpArticlePage({ params }: ArticleParams) {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
+      <RecommendationRail surface={`glowup:${c.slug}/${a.slug}`}>
       <div>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -108,8 +109,7 @@ export default async function GlowUpArticlePage({ params }: ArticleParams) {
       </div>
 
       {a.faq.length > 0 ? <FAQ entries={a.faq} /> : null}
-
-      <RecommendationCard surface={`glowup:${c.slug}/${a.slug}`} />
+      </RecommendationRail>
 
       {tools.length > 0 || seeAlso.length > 0 ? (
         <section aria-labelledby="glowup-crosslinks" data-testid="glowup-crosslinks">
