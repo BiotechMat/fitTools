@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  allPicksFor,
   isLivePick,
   recommendationsBySurface,
   recommendationsFor,
@@ -53,7 +52,7 @@ describe("recommendations registry", () => {
 
   it("every pick is complete and its URL is either pending or https", () => {
     for (const key of surfaceKeys) {
-      for (const pick of allPicksFor(key)) {
+      for (const pick of recommendationsFor(key)) {
         expect(pick.offerId.length).toBeGreaterThan(0);
         expect(pick.name.length).toBeGreaterThan(0);
         expect(pick.why.length).toBeGreaterThan(0);
@@ -67,28 +66,23 @@ describe("recommendations registry", () => {
 
   it("offerIds are unique within each surface", () => {
     for (const key of surfaceKeys) {
-      const ids = allPicksFor(key).map((p) => p.offerId);
+      const ids = recommendationsFor(key).map((p) => p.offerId);
       expect(new Set(ids).size, `duplicate offerId on ${key}`).toBe(ids.length);
     }
   });
 
-  it("only live picks are rendered, and unknown surfaces render nothing", () => {
+  it("liveness (button + disclosure) requires a pasted https URL; unknown surfaces render nothing", () => {
     const pending: ProductPick = { offerId: "x", name: "X", why: "y", url: "" };
     const live: ProductPick = { ...pending, url: "https://example.com/x" };
     expect(isLivePick(pending)).toBe(false);
     expect(isLivePick(live)).toBe(true);
-    for (const key of surfaceKeys) {
-      for (const pick of recommendationsFor(key)) {
-        expect(isLivePick(pick)).toBe(true);
-      }
-    }
     expect(recommendationsFor("supplement:does-not-exist")).toEqual([]);
   });
 
   it("never recommends products on marketing-claim supplement pages", () => {
     for (const s of supplements.filter((x) => x.headlineTier === "marketing-claim")) {
       expect(
-        allPicksFor(`supplement:${s.slug}`),
+        recommendationsFor(`supplement:${s.slug}`),
         `supplement:${s.slug} is marketing-claim tier and must have no picks`,
       ).toEqual([]);
     }
