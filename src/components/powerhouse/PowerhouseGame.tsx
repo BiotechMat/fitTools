@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { mulberry32 } from "@/lib/lifeline";
+import { powerhouseSharePath } from "@/lib/arcade-share";
 import {
   BOSS,
   ENEMY_KINDS,
@@ -1349,7 +1350,9 @@ export function PowerhouseGame() {
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${shareText(finalAtp, finalZone)}\n${origin}/powerhouse`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = powerhouseSharePath({ atp: finalAtp, zone: finalZone });
+    const text = `${shareText(finalAtp, finalZone)}\n${origin}${path}`;
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });
@@ -1387,7 +1390,7 @@ export function PowerhouseGame() {
         onPointerCancel={() => {
           draggingRef.current = false;
         }}
-        aria-label="Powerhouse — drag or use the arrow keys to fly the mitochondrion; firing is automatic"
+        aria-label="Powerhouse, drag or use the arrow keys to fly the mitochondrion; firing is automatic"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${POWERHOUSE.width} / ${POWERHOUSE.height}` }}
       />
@@ -1413,7 +1416,7 @@ export function PowerhouseGame() {
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
           <p className="font-display text-4xl uppercase">Powerhouse</p>
           <p className="max-w-[17rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
-            You are the mitochondrion. Drag or use WASD to fly — firing is
+            You are the mitochondrion. Drag or use WASD to fly, firing is
             automatic. Outlast the junk, climb the zones.
           </p>
           <p className="max-w-[17rem] font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
@@ -1429,7 +1432,7 @@ export function PowerhouseGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 

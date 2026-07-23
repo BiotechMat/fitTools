@@ -75,7 +75,7 @@ export function ProteinCalculator() {
               Daily protein target
             </h2>
             <p className="mt-1 text-4xl font-bold text-primary-strong" data-testid="protein-range">
-              {formatNumber(result.range.minG)}–{formatNumber(result.range.maxG)}{" "}
+              {formatNumber(result.range.minG)} to {formatNumber(result.range.maxG)}{" "}
               <span className="text-lg font-medium text-muted">g/day</span>
             </p>
             <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
@@ -91,7 +91,7 @@ export function ProteinCalculator() {
               </div>
             </dl>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Ranges come straight from the cited literature for your goal —
+              Ranges come straight from the cited literature for your goal,
               anywhere inside the band works; consistency matters more than
               precision.
             </p>

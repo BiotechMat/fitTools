@@ -23,9 +23,9 @@ export const ketoConfig: ToolConfig = {
   slug: KETO_SLUG,
   title: "Keto Macro Calculator",
   valueLine:
-    "Ketogenic macros without the mysticism: energy from Mifflin–St Jeor, carbs capped, protein evidence-based, fat fills the rest.",
+    "Ketogenic macros without the mysticism: energy from Mifflin-St Jeor, carbs capped, protein evidence-based, fat fills the rest.",
   metaDescription:
-    "Free keto macro calculator: calories from the Mifflin–St Jeor equation and your activity level, net carbs capped at 20–50 g, protein from the evidence-based g/kg range, fat as the remainder.",
+    "Free keto macro calculator: calories from the Mifflin-St Jeor equation and your activity level, net carbs capped at 20 to 50 g, protein from the evidence-based g/kg range, fat as the remainder.",
   hub: "nutrition",
   tier: 2,
   inputsSchema: ketoInputsSchema,
@@ -33,23 +33,23 @@ export const ketoConfig: ToolConfig = {
   faq: [
     {
       q: "How many carbs on a keto diet?",
-      a: "Ketogenic diets are conventionally defined by restricting carbohydrate to roughly 20–50 g of net carbs per day — low enough that most people shift towards fat and ketone metabolism. This calculator lets you set the cap anywhere in that range.",
+      a: "Ketogenic diets are conventionally defined by restricting carbohydrate to roughly 20 to 50 g of net carbs per day, low enough that most people shift towards fat and ketone metabolism. This calculator lets you set the cap anywhere in that range.",
     },
     {
       q: "How is protein set on keto?",
-      a: "The same way as on any diet: from body weight using the evidence-based range of about 1.6–2.2 g/kg for people who train. Very-low-protein versions of keto are unnecessary for ketosis and cost you muscle.",
+      a: "The same way as on any diet: from body weight using the evidence-based range of about 1.6 to 2.2 g/kg for people who train. Very-low-protein versions of keto are unnecessary for ketosis and cost you muscle.",
     },
     {
       q: "Why does fat get whatever calories remain?",
-      a: "Because carbs are fixed in grams and protein is set by body weight, fat is the adjustable energy lever — it fills the gap between those two and your calorie target. That's the arithmetic of the diet, not a claim that fat is magic.",
+      a: "Because carbs are fixed in grams and protein is set by body weight, fat is the adjustable energy lever, it fills the gap between those two and your calorie target. That's the arithmetic of the diet, not a claim that fat is magic.",
     },
     {
       q: "Is keto better for fat loss?",
-      a: "The ISSN's review of diet types concludes that widely different approaches — low-fat through ketogenic — produce similar body-composition results when calories and protein are matched. Choose it for adherence and preference, not metabolic magic.",
+      a: "The ISSN's review of diet types concludes that widely different approaches, low-fat through ketogenic, produce similar body-composition results when calories and protein are matched. Choose it for adherence and preference, not metabolic magic.",
     },
     {
       q: "What are net carbs?",
-      a: "Total carbohydrate minus fibre. Fibre isn't absorbed as glucose, so keto carb caps are usually counted as net carbs — that's the number this calculator asks for.",
+      a: "Total carbohydrate minus fibre. Fibre isn't absorbed as glucose, so keto carb caps are usually counted as net carbs, that's the number this calculator asks for.",
     },
   ],
   related: ["macro-calculator", "tdee-calculator", "calorie-deficit-calculator"],
@@ -57,7 +57,7 @@ export const ketoConfig: ToolConfig = {
   lastReviewed: "2026-07-23",
   sources: [
     {
-      label: "Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr 1990;51:241–247",
+      label: "Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr 1990;51:241-247",
       url: "https://pubmed.ncbi.nlm.nih.gov/2305711/",
     },
     {
@@ -65,7 +65,7 @@ export const ketoConfig: ToolConfig = {
       url: "https://link.springer.com/article/10.1186/s12970-017-0174-y",
     },
     {
-      label: "Morton RW, et al. Protein supplementation meta-analysis — the 1.6–2.2 g/kg range. Br J Sports Med 2018;52:376–384",
+      label: "Morton RW, et al. Protein supplementation meta-analysis, the 1.6 to 2.2 g/kg range. Br J Sports Med 2018;52:376-384",
       url: "https://pubmed.ncbi.nlm.nih.gov/28698222/",
     },
   ],

@@ -13,9 +13,9 @@ import { formatNumber, inputClass, labelClass } from "@/components/calculators/s
 
 const BAND_LABELS: Record<WhtrBand, string> = {
   low: "Below the typical range",
-  healthy: "Healthy — waist under half your height",
-  increased: "Increased risk — above the 0.5 boundary",
-  high: "High risk — well above the boundary",
+  healthy: "Healthy, waist under half your height",
+  increased: "Increased risk, above the 0.5 boundary",
+  high: "High risk, well above the boundary",
 };
 
 export function WhtrCalculator() {
@@ -81,7 +81,7 @@ export function WhtrCalculator() {
               {BAND_LABELS[result.band]}
             </p>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              The evidence-based boundary is 0.5 — keep your waist to less
+              The evidence-based boundary is 0.5, keep your waist to less
               than half your height. This is a screening estimate, not a
               diagnosis.
             </p>

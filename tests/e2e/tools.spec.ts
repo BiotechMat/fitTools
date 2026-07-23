@@ -38,9 +38,9 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "plate-calculator": {
     results: { "plate-stack": "25 + 15", "plate-total": "100.0 kg" },
   },
-  // Age 30 → Tanaka 187; zone 1 (%HRmax) 93.5–112.2 → 94–112.
+  // Age 30 → Tanaka 187; zone 1 (%HRmax) 93.5–112.2 → "94 to 112".
   "heart-rate-zone-calculator": {
-    results: { "hr-max": "187", "zone-1": "94–112" },
+    results: { "hr-max": "187", "zone-1": "94 to 112" },
   },
   // Wake 07:00 → 6 cycles bedtime 21:45.
   "sleep-calculator": { results: { "bedtime-6": "21:45" } },
@@ -58,7 +58,7 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "steps-to-calories-calculator": { results: { "steps-kcal": "483" } },
   // 80 kg × 0.3 g/kg → 24 g/day.
   "creatine-calculator": {
-    results: { "creatine-loading": "24", "creatine-maintenance": "3–5 g/day" },
+    results: { "creatine-loading": "24", "creatine-maintenance": "3 to 5 g/day" },
   },
   // 100 kg work set → 60 kg × 3 as the third ramp step.
   "warmup-calculator": { results: { "warmup-row-2": "60.0 kg" } },
@@ -92,7 +92,7 @@ const EXPECTATIONS: Record<string, ToolExpectation> = {
   "recovery-readiness-index": { results: { "index-value": "/ 100" } },
   // 80 kg × 1.6–2.2 g/kg (build) → 128–176 g/day; per-meal 0.4 g/kg → 32 g.
   "protein-intake-calculator": {
-    results: { "protein-range": "128–176", "protein-per-meal": "32" },
+    results: { "protein-range": "128 to 176", "protein-per-meal": "32" },
   },
   // Cooper 2,400 m → (2400 − 504.9) / 44.73 = 42.37.
   "vo2max-calculator": { results: { "vo2max-value": "42.4" } },

@@ -22,7 +22,7 @@ export const vo2maxInputsSchema = z.object({
 
 export const vo2maxConfig: ToolConfig = {
   slug: VO2MAX_SLUG,
-  title: "VO2max Calculator — Cooper, Rockport & Heart-Rate Methods",
+  title: "VO2max Calculator: Cooper, Rockport & Heart-Rate Methods",
   valueLine:
     "Estimate your VO2max without a lab: 12-minute run, 1-mile walk, or your resting and maximum heart rate.",
   metaDescription:
@@ -38,15 +38,15 @@ export const vo2maxConfig: ToolConfig = {
     },
     {
       q: "How accurate are field estimates of VO2max?",
-      a: "Good but not lab-grade. The Cooper test correlated ~0.90 with treadmill-measured VO2max in the original study, and the Rockport walk about 0.88 — expect an uncertainty of a few ml/kg/min either way, and treat changes over time as more informative than any single number.",
+      a: "Good but not lab-grade. The Cooper test correlated ~0.90 with treadmill-measured VO2max in the original study, and the Rockport walk about 0.88, expect an uncertainty of a few ml/kg/min either way, and treat changes over time as more informative than any single number.",
     },
     {
       q: "How do I run the Cooper test?",
-      a: "After a warm-up, run (or run-walk) as far as you can in exactly 12 minutes on a flat course or track, and enter the distance covered in metres. Pace it like a hard, even effort — starting too fast is the classic error.",
+      a: "After a warm-up, run (or run-walk) as far as you can in exactly 12 minutes on a flat course or track, and enter the distance covered in metres. Pace it like a hard, even effort, starting too fast is the classic error.",
     },
     {
       q: "What is the heart-rate ratio method?",
-      a: "Uth and colleagues showed VO2max ≈ 15.3 × (maximum heart rate ÷ resting heart rate). It needs no exercise test at all, just honest values for both heart rates — a true measured maximum works far better than an age formula.",
+      a: "Uth and colleagues showed VO2max ≈ 15.3 × (maximum heart rate ÷ resting heart rate). It needs no exercise test at all, just honest values for both heart rates, a true measured maximum works far better than an age formula.",
     },
     {
       q: "What's a good VO2max?",
@@ -62,15 +62,15 @@ export const vo2maxConfig: ToolConfig = {
   lastReviewed: "2026-07-23",
   sources: [
     {
-      label: "Cooper KH. A means of assessing maximal oxygen intake: correlation between field and treadmill testing. JAMA 1968;203:201–204",
+      label: "Cooper KH. A means of assessing maximal oxygen intake: correlation between field and treadmill testing. JAMA 1968;203:201-204",
       url: "https://pubmed.ncbi.nlm.nih.gov/5694044/",
     },
     {
-      label: "Kline GM, et al. Estimation of VO2max from a one-mile track walk, gender, age, and body weight. Med Sci Sports Exerc 1987;19:253–259",
+      label: "Kline GM, et al. Estimation of VO2max from a one-mile track walk, gender, age, and body weight. Med Sci Sports Exerc 1987;19:253-259",
       url: "https://pubmed.ncbi.nlm.nih.gov/3600239/",
     },
     {
-      label: "Uth N, Sørensen H, Overgaard K, Pedersen PK. Estimation of VO2max from the ratio between HRmax and HRrest — the Heart Rate Ratio Method. Eur J Appl Physiol 2004;91:111–115",
+      label: "Uth N, Sørensen H, Overgaard K, Pedersen PK. Estimation of VO2max from the ratio between HRmax and HRrest, the Heart Rate Ratio Method. Eur J Appl Physiol 2004;91:111-115",
       url: "https://pubmed.ncbi.nlm.nih.gov/14624296/",
     },
   ],

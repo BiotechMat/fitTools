@@ -18,9 +18,9 @@ import { formatNumber, inputClass, labelClass } from "@/components/calculators/s
 type Formula = "mifflin" | "katch" | "harris";
 
 const FORMULA_LABELS: Record<Formula, string> = {
-  mifflin: "Mifflin–St Jeor (recommended)",
-  katch: "Katch–McArdle (requires body-fat %)",
-  harris: "Revised Harris–Benedict",
+  mifflin: "Mifflin-St Jeor (recommended)",
+  katch: "Katch-McArdle (requires body-fat %)",
+  harris: "Revised Harris-Benedict",
 };
 
 export function BmrCalculator() {
@@ -136,7 +136,7 @@ export function BmrCalculator() {
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
               This estimates the energy your body uses at complete rest. Your
-              full daily burn is higher — see the TDEE calculator to include
+              full daily burn is higher, see the TDEE calculator to include
               activity. Estimates commonly sit within about 10% of measured
               values.
             </p>
@@ -144,7 +144,7 @@ export function BmrCalculator() {
         ) : (
           <p className="text-sm text-muted">
             {formula === "katch"
-              ? "Enter your body-fat percentage (5–60%) to use Katch–McArdle."
+              ? "Enter your body-fat percentage (5 to 60%) to use Katch-McArdle."
               : "Enter a valid age, weight and height to see your BMR."}
           </p>
         )}

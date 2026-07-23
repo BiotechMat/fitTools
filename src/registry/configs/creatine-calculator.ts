@@ -15,11 +15,11 @@ export const creatineInputsSchema = z.object({
 
 export const creatineConfig: ToolConfig = {
   slug: CREATINE_SLUG,
-  title: "Creatine Calculator — Loading & Maintenance Dose",
+  title: "Creatine Calculator: Loading & Maintenance Dose",
   valueLine:
-    "Loading and maintenance doses straight from the ISSN position stand — the most-studied supplement in sport.",
+    "Loading and maintenance doses straight from the ISSN position stand, the most-studied supplement in sport.",
   metaDescription:
-    "Free creatine dosage calculator: optional loading at 0.3 g/kg/day for 5–7 days and 3–5 g/day maintenance, per the ISSN position stand (Kreider 2017).",
+    "Free creatine dosage calculator: optional loading at 0.3 g/kg/day for 5 to 7 days and 3 to 5 g/day maintenance, per the ISSN position stand (Kreider 2017).",
   hub: "nutrition",
   tier: 3,
   inputsSchema: creatineInputsSchema,
@@ -27,7 +27,7 @@ export const creatineConfig: ToolConfig = {
   faq: [
     {
       q: "Do I need to load creatine?",
-      a: "No. Loading (0.3 g/kg/day for 5–7 days, split through the day) saturates muscle stores in about a week; a steady 3–5 g/day gets there in three to four weeks with identical end results.",
+      a: "No. Loading (0.3 g/kg/day for 5 to 7 days, split through the day) saturates muscle stores in about a week; a steady 3 to 5 g/day gets there in three to four weeks with identical end results.",
     },
     {
       q: "Is creatine safe?",
@@ -35,7 +35,7 @@ export const creatineConfig: ToolConfig = {
     },
     {
       q: "When should I take creatine?",
-      a: "Timing matters little — daily consistency is what saturates and maintains muscle stores. Taking it with a meal is a convenient habit anchor.",
+      a: "Timing matters little, because daily consistency is what saturates and maintains muscle stores. Taking it with a meal is a convenient habit anchor.",
     },
     {
       q: "Which form of creatine is best?",
@@ -51,7 +51,7 @@ export const creatineConfig: ToolConfig = {
       url: "https://pubmed.ncbi.nlm.nih.gov/28615996/",
     },
     {
-      label: "Morton RW, et al. Br J Sports Med 2018;52:376–384 (training context)",
+      label: "Morton RW, et al. Br J Sports Med 2018;52:376-384 (training context)",
       url: "https://pubmed.ncbi.nlm.nih.gov/28698222/",
     },
   ],

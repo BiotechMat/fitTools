@@ -50,7 +50,7 @@ export function absoluteWeekIndex(dateISO: string): number {
 }
 
 /**
- * A Fisher–Yates shuffle of [0..n) seeded by `block`, giving a stable
+ * A Fisher-Yates shuffle of [0..n) seeded by `block`, giving a stable
  * permutation of item indices for that block of the schedule. Appending items
  * grows n; earlier blocks with the old n are unaffected because each block
  * reshuffles the full current pool deterministically from its own seed.

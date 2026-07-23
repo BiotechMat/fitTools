@@ -15,8 +15,8 @@ export default function CookiePolicyPage() {
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <h2>Cookies we set today</h2>
       <p>
-        None. The site currently sets no cookies of any kind — first-party
-        or third-party — and makes no requests to advertising or analytics
+        None. The site currently sets no cookies of any kind, first-party
+        or third-party, and makes no requests to advertising or analytics
         services.
       </p>
       <h2>Local storage</h2>
@@ -51,8 +51,8 @@ export default function CookiePolicyPage() {
       <p>
         If analytics or advertising is activated in future, a consent banner
         will appear first. It will default to &ldquo;denied&rdquo; for UK
-        and EEA visitors — no advertising or analytics cookies will be set
-        unless you actively agree — and a footer link will let you change
+        and EEA visitors, no advertising or analytics cookies will be set
+        unless you actively agree, and a footer link will let you change
         your choice at any time. This page will be updated with a full list
         of cookies before any are set.
       </p>

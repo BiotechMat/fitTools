@@ -12,9 +12,9 @@ export const waterInputsSchema = z.object({
 
 export const waterConfig: ToolConfig = {
   slug: WATER_SLUG,
-  title: "Water Intake Calculator — Daily Hydration Guideline",
+  title: "Water Intake Calculator: Daily Hydration Guideline",
   valueLine:
-    "A daily water guideline anchored on the European Food Safety Authority's adequate intakes — not hydration folklore.",
+    "A daily water guideline anchored on the European Food Safety Authority's adequate intakes, not hydration folklore.",
   metaDescription:
     "Free water intake calculator based on EFSA adequate intakes (2.0 L women / 2.5 L men total water) with an exercise allowance from published sweat-rate ranges.",
   hub: "nutrition",
@@ -24,7 +24,7 @@ export const waterConfig: ToolConfig = {
   faq: [
     {
       q: "How much water should I drink a day?",
-      a: "EFSA's adequate intakes are 2.0 L/day for women and 2.5 L/day for men of total water — which includes the 20–30% that typically comes from food. This is a guideline for temperate conditions, not a prescription.",
+      a: "EFSA's adequate intakes are 2.0 L/day for women and 2.5 L/day for men of total water, which includes the 20 to 30% that typically comes from food. This is a guideline for temperate conditions, not a prescription.",
     },
     {
       q: "Is the 8-glasses-a-day rule real?",
@@ -36,7 +36,7 @@ export const waterConfig: ToolConfig = {
     },
     {
       q: "Can I drink too much water?",
-      a: "Yes — drinking far beyond losses can dilute blood sodium (hyponatraemia), which is dangerous. Spread intake through the day and let thirst guide you during long exercise.",
+      a: "Yes, drinking far beyond losses can dilute blood sodium (hyponatraemia), which is dangerous. Spread intake through the day and let thirst guide you during long exercise.",
     },
   ],
   related: ["tdee-calculator", "calories-burned-calculator"],
@@ -48,7 +48,7 @@ export const waterConfig: ToolConfig = {
       url: "https://efsa.onlinelibrary.wiley.com/doi/10.2903/j.efsa.2010.1459",
     },
     {
-      label: "Sawka MN, et al. ACSM position stand: exercise and fluid replacement. Med Sci Sports Exerc 2007;39:377–390",
+      label: "Sawka MN, et al. ACSM position stand: exercise and fluid replacement. Med Sci Sports Exerc 2007;39:377-390",
       url: "https://pubmed.ncbi.nlm.nih.gov/17277604/",
     },
   ],

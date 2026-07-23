@@ -22,6 +22,32 @@ export function withinAllowlist(url: string, allowlist: readonly string[]): bool
   return allowlist.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
 }
 
+/**
+ * Publication types that are NOT primary research (PubMed `pubtype`). A letter,
+ * comment, editorial, erratum or news item has no finding to ground a card, so
+ * it is dropped at triage before it can ever be drafted (this is what let a
+ * "letter to the editor" through in the first harvest run). Matched
+ * case-insensitively as a substring so "Published Erratum" etc. are covered.
+ */
+const NON_RESEARCH_PUBTYPES: readonly string[] = [
+  "letter",
+  "comment",
+  "editorial",
+  "erratum",
+  "retraction",
+  "news",
+  "biography",
+  "interview",
+  "published erratum",
+  "expression of concern",
+];
+
+/** True iff a candidate's publication types are all/partly non-research (§15.2). */
+export function isNonResearch(candidate: StudyCandidate): boolean {
+  const types = candidate.pubTypes.map((t) => t.toLowerCase());
+  return types.some((t) => NON_RESEARCH_PUBTYPES.some((bad) => t.includes(bad)));
+}
+
 /** The DOIs and source URLs already present, so the harvest never re-adds one. */
 export function existingKeys(chunks: FreshChunk[]): { dois: Set<string>; urls: Set<string> } {
   const dois = new Set<string>();
@@ -51,6 +77,10 @@ export function triage(
   for (const c of candidates) {
     if (!withinAllowlist(c.url, allowlist)) {
       skipped.push({ candidate: c, reason: "outside source allowlist" });
+      continue;
+    }
+    if (isNonResearch(c)) {
+      skipped.push({ candidate: c, reason: "not primary research (letter/comment/editorial/erratum)" });
       continue;
     }
     const doi = c.doi?.toLowerCase();

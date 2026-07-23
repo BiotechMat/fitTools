@@ -20,7 +20,7 @@ export const hrCaloriesConfig: ToolConfig = {
   slug: HR_CALORIES_SLUG,
   title: "Calories Burned by Heart Rate Calculator",
   valueLine:
-    "Estimate a session's energy burn from your average heart rate — the same published model many wearables build on.",
+    "Estimate a session's energy burn from your average heart rate, the same published model many wearables build on.",
   metaDescription:
     "Free calculator for calories burned from average heart rate, using the Keytel 2005 equations (sex, age, weight and heart rate) developed on steady-state aerobic exercise.",
   hub: "recovery",
@@ -30,15 +30,15 @@ export const hrCaloriesConfig: ToolConfig = {
   faq: [
     {
       q: "How does heart rate estimate calories burned?",
-      a: "During steady aerobic exercise, heart rate rises roughly linearly with oxygen use, and oxygen use maps to energy expenditure. The Keytel equations capture that relationship from sex, age, weight and heart rate — no VO2max test needed.",
+      a: "During steady aerobic exercise, heart rate rises roughly linearly with oxygen use, and oxygen use maps to energy expenditure. The Keytel equations capture that relationship from sex, age, weight and heart rate, no VO2max test needed.",
     },
     {
       q: "How accurate is this estimate?",
-      a: "Group-level accuracy is good for steady cardio, but individual error can be meaningful — fitness level shifts the heart-rate/energy relationship. Treat the number as a consistent estimate for comparing your own sessions, not a precise measurement.",
+      a: "Group-level accuracy is good for steady cardio, but individual error can be meaningful, fitness level shifts the heart-rate/energy relationship. Treat the number as a consistent estimate for comparing your own sessions, not a precise measurement.",
     },
     {
       q: "Why does it need my average heart rate?",
-      a: "The model assumes a steady working heart rate, so use the session average from your watch or chest strap. For intervals the average blurs the picture — the estimate degrades as work gets less steady.",
+      a: "The model assumes a steady working heart rate, so use the session average from your watch or chest strap. For intervals the average blurs the picture, the estimate degrades as work gets less steady.",
     },
     {
       q: "Why does the calculator warn at low heart rates?",
@@ -46,7 +46,7 @@ export const hrCaloriesConfig: ToolConfig = {
     },
     {
       q: "Does this work for weight training?",
-      a: "Poorly — lifting spikes heart rate for reasons other than oxygen demand (pressor response), so heart-rate-based estimates overshoot. The MET-based calories-burned calculator is the better tool there.",
+      a: "Poorly, lifting spikes heart rate for reasons other than oxygen demand (pressor response), so heart-rate-based estimates overshoot. The MET-based calories-burned calculator is the better tool there.",
     },
   ],
   related: [
@@ -58,7 +58,7 @@ export const hrCaloriesConfig: ToolConfig = {
   lastReviewed: "2026-07-23",
   sources: [
     {
-      label: "Keytel LR, Goedecke JH, Noakes TD, et al. Prediction of energy expenditure from heart rate monitoring during submaximal exercise. J Sports Sci 2005;23:289–297",
+      label: "Keytel LR, Goedecke JH, Noakes TD, et al. Prediction of energy expenditure from heart rate monitoring during submaximal exercise. J Sports Sci 2005;23:289-297",
       url: "https://www.semanticscholar.org/paper/Prediction-of-energy-expenditure-from-heart-rate-Keytel-Goedecke/2f647f62e650bf7df32546e541af3cf155297749",
     },
   ],

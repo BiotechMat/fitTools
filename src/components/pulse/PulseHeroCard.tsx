@@ -23,8 +23,7 @@ export function PulseHeroCard() {
         </span>
       </div>
       <p className="text-sm text-muted">
-        An endless, source-checked feed of fitness, recovery and longevity facts
-        — like the ones that click, save the keepers, filter to what you care
+        An endless, source-checked feed of fitness, recovery and longevity facts, like the ones that click, save the keepers, filter to what you care
         about.
       </p>
       <ul className="flex flex-wrap gap-1.5" aria-hidden="true">

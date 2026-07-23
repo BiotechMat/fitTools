@@ -211,7 +211,7 @@ export function Vo2maxCalculator() {
               <span className="text-lg font-medium text-muted">ml/kg/min</span>
             </p>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Field estimates carry a few ml/kg/min of uncertainty — the trend
+              Field estimates carry a few ml/kg/min of uncertainty, the trend
               across repeat tests of the <em>same</em> method is the number to
               watch.
             </p>

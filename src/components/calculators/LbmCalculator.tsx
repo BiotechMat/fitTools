@@ -89,7 +89,7 @@ export function LbmCalculator() {
             <p className="mt-2 max-w-prose text-sm text-muted">
               Estimated via {result.method}. That&rsquo;s{" "}
               {formatNumber((result.lbm / weightKg) * 100)}% of your bodyweight
-              as muscle, bone, organs and water — an estimate, not a scan
+              as muscle, bone, organs and water, an estimate, not a scan
               result.
             </p>
           </div>

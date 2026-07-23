@@ -16,11 +16,11 @@ export const whrInputsSchema = z.object({
 
 export const whrConfig: ToolConfig = {
   slug: WHR_SLUG,
-  title: "Waist-to-Hip Ratio Calculator — WHO Cut-offs",
+  title: "Waist-to-Hip Ratio Calculator: WHO Cut-offs",
   valueLine:
     "Where you carry weight matters: your waist-to-hip ratio against the WHO risk cut-offs.",
   metaDescription:
-    "Free waist-to-hip ratio calculator using the WHO expert-consultation cut-offs — substantially increased metabolic risk at ≥ 0.90 for men and ≥ 0.85 for women.",
+    "Free waist-to-hip ratio calculator using the WHO expert-consultation cut-offs, substantially increased metabolic risk at ≥ 0.90 for men and ≥ 0.85 for women.",
   hub: "nutrition",
   tier: 2,
   inputsSchema: whrInputsSchema,
@@ -28,7 +28,7 @@ export const whrConfig: ToolConfig = {
   faq: [
     {
       q: "What is a healthy waist-to-hip ratio?",
-      a: "The WHO expert consultation set the cut-offs for substantially increased metabolic risk at 0.90 or above for men and 0.85 or above for women — below those, risk attributable to fat distribution is considered lower.",
+      a: "The WHO expert consultation set the cut-offs for substantially increased metabolic risk at 0.90 or above for men and 0.85 or above for women, below those, risk attributable to fat distribution is considered lower.",
     },
     {
       q: "How do I measure waist and hips for this ratio?",
@@ -36,10 +36,10 @@ export const whrConfig: ToolConfig = {
     },
     {
       q: "Why does fat distribution matter?",
-      a: "Abdominal (visceral) fat is more metabolically active than fat stored on the hips and thighs, and associates more strongly with cardiovascular disease and type 2 diabetes at any given BMI — which is exactly what this ratio screens for.",
+      a: "Abdominal (visceral) fat is more metabolically active than fat stored on the hips and thighs, and associates more strongly with cardiovascular disease and type 2 diabetes at any given BMI, which is exactly what this ratio screens for.",
     },
     {
-      q: "Waist-to-hip or waist-to-height — which should I use?",
+      q: "Waist-to-hip or waist-to-height, which should I use?",
       a: "Both are simple central-adiposity screens. Waist-to-height has the simpler universal boundary (0.5) and needs one less measurement site; waist-to-hip is the classic WHO measure with sex-specific cut-offs. Tracking either consistently beats switching between them.",
     },
   ],
@@ -52,7 +52,7 @@ export const whrConfig: ToolConfig = {
   lastReviewed: "2026-07-23",
   sources: [
     {
-      label: "Waist circumference and waist–hip ratio: report of a WHO expert consultation (2008)",
+      label: "Waist circumference and waist to hip ratio: report of a WHO expert consultation (2008)",
       url: "https://wkc.who.int/resources/publications/i/item/9789241501491",
     },
   ],

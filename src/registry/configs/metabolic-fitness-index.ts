@@ -19,11 +19,11 @@ export const metabolicFitnessInputsSchema = z.object({
 
 export const metabolicFitnessConfig: ToolConfig = {
   slug: METABOLIC_FITNESS_SLUG,
-  title: "Metabolic Fitness Index — Open, Transparent Score",
+  title: "Metabolic Fitness Index: Open, Transparent Score",
   valueLine:
-    "A transparent 0–100 metabolic score from your CGM metrics, waist-to-height and resting heart rate — full formula and weights shown.",
+    "A transparent 0 to 100 metabolic score from your CGM metrics, waist-to-height and resting heart rate, with the full formula and weights shown.",
   metaDescription:
-    "Free open-methodology Metabolic Fitness Index: combines time in range, glucose variability, GMI, waist-to-height and resting heart rate into a transparent 0–100 score with a full sub-score breakdown. Not a medical test.",
+    "Free open-methodology Metabolic Fitness Index: combines time in range, glucose variability, GMI, waist-to-height and resting heart rate into a transparent 0 to 100 score with a full sub-score breakdown. Not a medical test.",
   hub: "recovery",
   tier: 3,
   inputsSchema: metabolicFitnessInputsSchema,
@@ -31,15 +31,15 @@ export const metabolicFitnessConfig: ToolConfig = {
   faq: [
     {
       q: "What is the Metabolic Fitness Index?",
-      a: "It's an open, transparent composite score (0–100) that combines five self-tracking metabolic markers into one number, with the full formula, weights and evidence tiers shown on the page. Unlike the scores inside proprietary wearables, nothing is hidden — you can reconstruct exactly how it was calculated.",
+      a: "It's an open, transparent composite score (0 to 100) that combines five self-tracking metabolic markers into one number, with the full formula, weights and evidence tiers shown on the page. Unlike the scores inside proprietary wearables, nothing is hidden, and you can reconstruct exactly how it was calculated.",
     },
     {
       q: "Where do I get the inputs?",
-      a: "Time in range, glucose variability (%CV) and GMI come from a CGM — our CGM metrics calculator computes them from your readings. Waist and height you can measure with a tape; resting heart rate from a morning pulse or a wearable.",
+      a: "Time in range, glucose variability (%CV) and GMI come from a CGM, and our CGM metrics calculator computes them from your readings. Waist and height you can measure with a tape; resting heart rate comes from a morning pulse or a wearable.",
     },
     {
       q: "Is a high score good?",
-      a: "Higher is more favourable by the index's design. But it is a self-tracking construct, not a medical test — it has not been validated against health outcomes, and it can't diagnose anything. Use it to track your own trend over time.",
+      a: "Higher is more favourable by the index's design. But it is a self-tracking construct, not a medical test. It has not been validated against health outcomes, and it can't diagnose anything. Use it to track your own trend over time.",
     },
     {
       q: "Why these five inputs and weights?",

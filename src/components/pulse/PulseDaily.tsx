@@ -54,7 +54,7 @@ export function PulseDaily() {
 
   const share = async () => {
     const url = typeof window !== "undefined" ? `${window.location.origin}/pulse` : "/pulse";
-    const text = `${card.fact} — via FitTools`;
+    const text = `${card.fact}, via FitTools`;
     try {
       if (typeof navigator !== "undefined" && navigator.share) await navigator.share({ text, url });
       else if (typeof navigator !== "undefined" && navigator.clipboard) await navigator.clipboard.writeText(`${text} ${url}`);

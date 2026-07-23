@@ -16,7 +16,7 @@ export default function NotFound() {
           <span className="plate-fall plate-fall-late absolute -top-6 right-5 h-[56px] w-3.5 rounded-[4px] border-2 border-foreground bg-primary" />
         </div>
       </div>
-      <h1 className="mt-6 font-display text-5xl uppercase">404 — failed lift</h1>
+      <h1 className="mt-6 font-display text-5xl uppercase">404: failed lift</h1>
       <p className="mt-3 max-w-prose text-muted">
         This page didn&rsquo;t make it off the ground. Rack the bar and try one
         of these instead.

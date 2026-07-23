@@ -21,11 +21,11 @@ export const recoveryReadinessInputsSchema = z.object({
 
 export const recoveryReadinessConfig: ToolConfig = {
   slug: RECOVERY_READINESS_SLUG,
-  title: "Recovery Readiness Index — Open, Self-Relative Score",
+  title: "Recovery Readiness Index: Open, Self-Relative Score",
   valueLine:
-    "A transparent daily readiness score comparing today's HRV, resting HR, sleep and breathing to your own baseline — the open version of proprietary readiness scores.",
+    "A transparent daily readiness score comparing today's HRV, resting HR, sleep and breathing to your own baseline, the open version of proprietary readiness scores.",
   metaDescription:
-    "Free open-methodology Recovery Readiness Index: a transparent daily 0–100 score comparing today's HRV, resting heart rate, sleep and breathing rate to your personal baseline. Self-relative, not a medical test.",
+    "Free open-methodology Recovery Readiness Index: a transparent daily 0 to 100 score comparing today's HRV, resting heart rate, sleep and breathing rate to your personal baseline. Self-relative, not a medical test.",
   hub: "recovery",
   tier: 3,
   inputsSchema: recoveryReadinessInputsSchema,
@@ -33,11 +33,11 @@ export const recoveryReadinessConfig: ToolConfig = {
   faq: [
     {
       q: "What is the Recovery Readiness Index?",
-      a: "It's an open, transparent version of the daily 'readiness' or 'recovery' scores built into wearables. It compares today's HRV, resting heart rate, sleep and breathing rate against your own recent baseline — and unlike the proprietary versions, it shows exactly how the number is calculated.",
+      a: "It's an open, transparent version of the daily 'readiness' or 'recovery' scores built into wearables. It compares today's HRV, resting heart rate, sleep and breathing rate against your own recent baseline, and unlike the proprietary versions, it shows exactly how the number is calculated.",
     },
     {
       q: "Why does it compare to my own baseline?",
-      a: "Because recovery is personal. A resting heart rate of 55 might be elevated for one person and low for another. The score is purely self-relative — there is no cross-user comparison and no clinical meaning.",
+      a: "Because recovery is personal. A resting heart rate of 55 might be elevated for one person and low for another. The score is purely self-relative, with no cross-user comparison and no clinical meaning.",
     },
     {
       q: "Where do I get baseline values?",
@@ -45,11 +45,11 @@ export const recoveryReadinessConfig: ToolConfig = {
     },
     {
       q: "How are the inputs weighted?",
-      a: "HRV 30%, resting heart rate 25%, sleep 25%, breathing rate 20%. The published methodology proposed HRV at 40%, but our house rule caps any single input at 30%, so we adjusted the weights — the change is recorded in the public changelog.",
+      a: "HRV 30%, resting heart rate 25%, sleep 25%, breathing rate 20%. The published methodology proposed HRV at 40%, but our house rule caps any single input at 30%, so we adjusted the weights, and the change is recorded in the public changelog.",
     },
     {
       q: "Should I skip training if my score is low?",
-      a: "It's a data point, not a prescription. A low score might reflect poor sleep, illness, alcohol or stress. Use it alongside how you actually feel — and remember it's a self-tracking tool, not a medical assessment.",
+      a: "It's a data point, not a prescription. A low score might reflect poor sleep, illness, alcohol or stress. Use it alongside how you actually feel, and remember it's a self-tracking tool, not a medical assessment.",
     },
   ],
   related: ["heart-rate-zone-calculator", "sleep-calculator", "caffeine-calculator"],

@@ -2,13 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { MaxOutGame } from "@/components/maxout/MaxOutGame";
+import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
+import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
-export const metadata: Metadata = {
-  title: "Max Out — The One-Rep-Max Timing Game",
+const COPY = {
+  title: "Max Out: The One-Rep-Max Timing Game",
   description:
-    "Tap when the needle crosses the green, lock the rep, load the bar. Chalk up, earn the belt, chase seven plates a side. Free browser lifting arcade — no sign-up.",
-  alternates: { canonical: "/max-out" },
-};
+    "Tap when the needle crosses the green, lock the rep, load the bar. Chalk up, earn the belt, chase seven plates a side. Free browser lifting arcade, no sign-up.",
+  canonical: "/max-out",
+  hero: "max-out",
+} as const;
+
+// Shared results carry ?kg=&cause= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseArcadeResult("max-out", await searchParams));
+}
 
 export default function MaxOutPage() {
   const jsonLd = breadcrumbJsonLd([
@@ -39,7 +52,7 @@ export default function MaxOutPage() {
       </h1>
       <p className="mt-2 max-w-prose text-muted">
         The bar is loaded and the needle is moving. Tap inside the green
-        window to lock the rep —{" "}
+        window to lock the rep,{" "}
         <strong className="font-semibold text-foreground">
           every clean one adds plates
         </strong>
@@ -49,10 +62,11 @@ export default function MaxOutPage() {
 
       <div className="mt-6">
         <MaxOutGame />
+        <AddToHomeScreen toolName="Max Out" />
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Max Out is a cartoon, not a training plan — no needle can judge a real
+        Max Out is a cartoon, not a training plan. No needle can judge a real
         lift, and nothing here measures you. For your actual one-rep max,
         estimated from any set with the formulas cited, try the{" "}
         <Link
@@ -68,12 +82,12 @@ export default function MaxOutPage() {
         >
           strength standards
         </Link>
-        . Prefer slicing misinformation to lifting it? Its sibling{" "}
+        . Prefer chopping to lifting? Its sibling{" "}
         <Link
-          href="/snake-oil"
+          href="/five-a-day"
           className="text-primary underline underline-offset-2 hover:text-foreground"
         >
-          Snake Oil
+          Five a Day
         </Link>{" "}
         is next door, and the rest of the games live in the{" "}
         <Link

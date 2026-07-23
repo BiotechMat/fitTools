@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { HubMeta } from "@/registry/hubs";
 import { hubMeta } from "@/registry/hubs";
 import { toolsForHub } from "@/registry/tools";
+import { CardSearch } from "@/components/CardSearch";
 import { ToolCardGrid } from "@/components/HubPage";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
@@ -72,10 +73,15 @@ export default async function CalculatorCategoryPage({ params }: CategoryParams)
         {meta.title} calculators
       </h1>
       <p className="mt-1 max-w-prose text-muted">
-        Every {meta.title.toLowerCase()} calculator — each built on a
+        Every {meta.title.toLowerCase()} calculator, each built on a
         published, peer-reviewed formula, with the sources cited on the page.
       </p>
-      <ToolCardGrid tools={tools} />
+      <CardSearch
+        label={`Search ${meta.title.toLowerCase()} calculators`}
+        className="mt-6"
+      >
+        <ToolCardGrid tools={tools} />
+      </CardSearch>
       <nav aria-label="More calculators" className="mt-10">
         <h2 className="font-display text-xl uppercase">More calculators</h2>
         <ul className="mt-2 flex flex-wrap gap-4 text-sm">

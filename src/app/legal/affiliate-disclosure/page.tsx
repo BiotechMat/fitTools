@@ -13,7 +13,7 @@ export default function AffiliateDisclosurePage() {
       <h1 className="font-display text-3xl uppercase sm:text-4xl">Affiliate disclosure</h1>
       <p className="mt-1 text-sm text-muted">Last updated: 21 July 2026</p>
       <p>
-        FitTools may include affiliate links — links to products or
+        FitTools may include affiliate links, links to products or
         services where we earn a commission if you make a purchase, at no
         extra cost to you. At the time of writing, no affiliate offers are
         live on the site; this disclosure exists so the rules are public

@@ -82,7 +82,7 @@ export function JumpPowerCalculator() {
               </div>
             </dl>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Peak and average are different quantities — peak is the highest
+              Peak and average are different quantities, peak is the highest
               instant of the drive, average the whole push-off. Track each
               against itself.
             </p>

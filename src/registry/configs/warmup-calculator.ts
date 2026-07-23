@@ -9,9 +9,9 @@ export const warmupInputsSchema = z.object({
 
 export const warmupConfig: ToolConfig = {
   slug: WARMUP_SLUG,
-  title: "Warm-Up Sets Calculator — Barbell Ramp",
+  title: "Warm-Up Sets Calculator: Barbell Ramp",
   valueLine:
-    "A sensible ramp to your first work set — bar, 40%, 60%, 80% — rounded to weights you can actually load.",
+    "A sensible ramp to your first work set (bar, 40%, 60%, 80%) rounded to weights you can actually load.",
   metaDescription:
     "Free warm-up set calculator: a bar ×10, 40% ×5, 60% ×3, 80% ×1 ramp to your first work set, every step rounded to plate-loadable weights.",
   hub: "strength",
@@ -21,7 +21,7 @@ export const warmupConfig: ToolConfig = {
   faq: [
     {
       q: "How should I warm up for barbell lifts?",
-      a: "Ramp from the empty bar to your first work set in a few progressively heavier, progressively shorter sets — this tool uses bar ×10, then 40% ×5, 60% ×3 and 80% ×1 of your work weight.",
+      a: "Ramp from the empty bar to your first work set in a few progressively heavier, progressively shorter sets. This tool uses bar ×10, then 40% ×5, 60% ×3 and 80% ×1 of your work weight.",
     },
     {
       q: "Why do warm-up reps decrease as weight increases?",
@@ -41,11 +41,11 @@ export const warmupConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "IPF Technical Rules — plate denominations used for load rounding",
+      label: "IPF Technical Rules: plate denominations used for load rounding",
       url: "https://www.powerlifting.sport/rules/codes/info/technical-rules",
     },
     {
-      label: "LeSuer DA, et al. J Strength Cond Res 1997;11:211–213 (percentage-of-max context)",
+      label: "LeSuer DA, et al. J Strength Cond Res 1997;11:211-213 (percentage-of-max context)",
       url: "https://www.semanticscholar.org/paper/The-Accuracy-of-Prediction-Equations-for-Estimating-LeSuer-Mccormick/e2c1cba24a3a4fb342f29dacf21b73226b51ad22",
     },
   ],

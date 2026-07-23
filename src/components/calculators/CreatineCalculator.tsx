@@ -48,11 +48,11 @@ export function CreatineCalculator() {
             <p className="mt-1 text-lg">
               Maintenance:{" "}
               <span className="font-semibold" data-testid="creatine-maintenance">
-                {CREATINE_MAINTENANCE_G.min}–{CREATINE_MAINTENANCE_G.max} g/day
+                {CREATINE_MAINTENANCE_G.min} to {CREATINE_MAINTENANCE_G.max} g/day
               </span>
             </p>
             <p className="mt-2 max-w-prose text-sm text-muted">
-              Loading (0.3 g/kg/day for {CREATINE_LOADING_DAYS.min}–
+              Loading (0.3 g/kg/day for {CREATINE_LOADING_DAYS.min} to{" "}
               {CREATINE_LOADING_DAYS.max} days, split into ~4 doses)
               saturates muscle stores in about a week; skipping it and taking
               the maintenance dose gets there in three to four weeks with the
@@ -61,7 +61,7 @@ export function CreatineCalculator() {
             </p>
           </div>
         ) : (
-          <p className="text-sm text-muted">Enter a valid bodyweight (30–300 kg).</p>
+          <p className="text-sm text-muted">Enter a valid bodyweight (30 to 300 kg).</p>
         )}
       </ResultsPanel>
     </CalculatorShell>

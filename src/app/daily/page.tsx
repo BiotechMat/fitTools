@@ -3,13 +3,25 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { DailyHub } from "@/components/daily/DailyHub";
 import { DailyFavicon } from "@/components/effects/DailyFavicon";
+import { parseDailyResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
-  title: "Daily — Ballpark & Myth or Fact, Cited Fitness Games",
+const COPY = {
+  title: "Daily: Ballpark & Myth or Fact, Cited Fitness Games",
   description:
     "A one-a-day guess-the-stat game and a weekly myth-buster quiz, every answer backed by a real study. Build a streak, learn the numbers, share your score.",
-  alternates: { canonical: "/daily" },
-};
+  canonical: "/daily",
+  hero: "daily",
+} as const;
+
+// Shared scores carry ?g=&p=… so the link unfurls as the day's result card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseDailyResult(await searchParams));
+}
 
 export default function DailyPage() {
   const jsonLd = breadcrumbJsonLd([
@@ -33,7 +45,7 @@ export default function DailyPage() {
         <strong className="font-semibold text-foreground">Ballpark</strong>, then test what you
         know against the myths in the weekly{" "}
         <strong className="font-semibold text-foreground">Myth or Fact?</strong> quiz. Every answer
-        cites a real study — so you leave knowing the number, not just guessing it.
+        cites a real study, so you leave knowing the number, not just guessing it.
       </p>
 
       <div className="mt-6">

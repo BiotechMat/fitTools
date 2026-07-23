@@ -13,7 +13,7 @@ export function ClinicalDisclaimer() {
       data-testid="clinical-disclaimer"
       className="rounded-xl border-2 border-warning-border bg-warning-bg p-4 text-sm"
     >
-      <h2 className="font-semibold">This uses clinical inputs — read first</h2>
+      <h2 className="font-semibold">This uses clinical inputs: read first</h2>
       <p className="mt-1">
         This tool estimates a research-based score from blood-test values you
         enter. It is <strong>not a diagnosis, not a medical test, and not a

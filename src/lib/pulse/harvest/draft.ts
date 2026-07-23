@@ -29,6 +29,20 @@ function isCategory(v: unknown): v is FreshChunk["category"] {
 }
 
 /**
+ * A claim/caveat that reads like a no-content placeholder — what the model
+ * emits when it was handed a study with no usable abstract (or a non-research
+ * item). Such candidates are already filtered upstream (triage + the abstract
+ * gate in index.ts §4); this is the belt-and-suspenders reject so one can never
+ * become a card.
+ */
+const PLACEHOLDER_RE =
+  /abstract (?:un)?available|no abstract|unable to assess|no primary findings|not (?:a )?primary research|cannot (?:be )?assess/i;
+
+function isPlaceholder(text: string): boolean {
+  return PLACEHOLDER_RE.test(text);
+}
+
+/**
  * Turn model drafts into fresh chunks, attaching the REAL citation from the
  * candidate (title/journal/year → source; DOI + inferred design → study). PURE
  * and unit-tested — the §15.3 enforcement point. Drops any draft with an
@@ -49,17 +63,27 @@ export function buildFreshChunks(
     const caveat = d.caveat?.trim();
     if (!claim || !caveat) continue;
     if (!isCategory(d.category) || !isTier(d.tier)) continue;
+    // Drop a draft whose claim/caveat reads like a no-content placeholder.
+    if (isPlaceholder(claim) || isPlaceholder(caveat)) continue;
 
     const id = proposeChunkId(candidate);
     if (usedIds.has(id)) continue; // two drafts for one study — keep the first
     usedIds.add(id);
+
+    // Mechanical evidence-tier ceiling (§15.3): only a meta-analysis or
+    // systematic review may be "well-supported". A single study the model
+    // over-tiers is clamped to "preliminary" — the reviewer can raise it at the
+    // PR gate, but the pipeline never ships an overstated tier by default.
+    const design = inferDesign(candidate);
+    const strongDesign = /meta-analysis|systematic review/i.test(design);
+    const tier = d.tier === "well-supported" && !strongDesign ? "preliminary" : d.tier;
 
     out.push({
       id,
       claim,
       category: d.category,
       tags: normaliseTags(d.tags),
-      tier: d.tier,
+      tier,
       basis: "human",
       source: { label: sourceLabel(candidate), url: candidate.url }, // ← mechanical, never model
       kind: "fresh",
@@ -68,7 +92,7 @@ export function buildFreshChunks(
       study: {
         doi: candidate.doi,
         journal: candidate.journal,
-        design: inferDesign(candidate),
+        design,
         // n / population are deliberately left for human review at the PR gate —
         // the pipeline never fabricates a sample size (§15.3).
       },
@@ -119,8 +143,8 @@ const SYSTEM_PROMPT = [
   "  unless the abstract is a meta-analysis or systematic review.",
   "- `caveat` is REQUIRED and must state the reality check in plain English:",
   "  the design, the sample size and population, and the key limitation",
-  "  (e.g. 'One pilot RCT, n=11 active men — exploratory, needs replication').",
-  "- British English. `claim` is 1–2 sentences. No emoji, no hashtags, no",
+  "  (e.g. 'One pilot RCT, n=11 active men, exploratory, needs replication').",
+  "- British English. `claim` is 1 to 2 sentences. No emoji, no hashtags, no",
   "  clickbait. Choose `category` and up to 5 lowercase `tags`.",
   "- Reference each study by its `index` only. You are physically unable to cite",
   "  a source; the system attaches the real citation. Never write a URL, DOI or",

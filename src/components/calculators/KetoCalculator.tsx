@@ -21,9 +21,9 @@ import { formatNumber, inputClass, labelClass } from "@/components/calculators/s
 
 const ACTIVITY_LABELS: Record<ActivityLevel, string> = {
   sedentary: "Sedentary (little exercise)",
-  light: "Light (1–3 sessions/week)",
-  moderate: "Moderate (3–5 sessions/week)",
-  active: "Active (6–7 sessions/week)",
+  light: "Light (1 to 3 sessions/week)",
+  moderate: "Moderate (3 to 5 sessions/week)",
+  active: "Active (6 to 7 sessions/week)",
   veryActive: "Very active (physical job + training)",
 };
 
@@ -176,7 +176,7 @@ export function KetoCalculator() {
             value={protein}
             onChange={(e) => setProtein(Number(e.target.value))}
           />
-          <p className="text-xs text-muted">Evidence-based range 1.6–2.2 g/kg (Morton 2018).</p>
+          <p className="text-xs text-muted">Evidence-based range 1.6 to 2.2 g/kg (Morton 2018).</p>
         </div>
       </form>
       <ResultsPanel>
@@ -210,7 +210,7 @@ export function KetoCalculator() {
               </div>
             </dl>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Estimates for planning, not prescriptions — anyone on
+              Estimates for planning, not prescriptions, anyone on
               glucose-lowering medication should involve their clinician
               before carbohydrate restriction.
             </p>

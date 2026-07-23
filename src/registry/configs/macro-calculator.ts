@@ -14,11 +14,11 @@ export const macroInputsSchema = z.object({
 
 export const macroConfig: ToolConfig = {
   slug: MACRO_SLUG,
-  title: "Macro Calculator — Protein, Fat & Carb Targets",
+  title: "Macro Calculator: Protein, Fat & Carb Targets",
   valueLine:
     "Split your daily calories into protein, fat and carbohydrate targets built on published intake ranges.",
   metaDescription:
-    "Free macro calculator: set protein by bodyweight (1.6–2.2 g/kg, per Morton et al. 2018), choose a fat percentage, and get gram and calorie targets for each macro.",
+    "Free macro calculator: set protein by bodyweight (1.6 to 2.2 g/kg, per Morton et al. 2018), choose a fat percentage, and get gram and calorie targets for each macro.",
   hub: "nutrition",
   tier: 1,
   inputsSchema: macroInputsSchema,
@@ -30,7 +30,7 @@ export const macroConfig: ToolConfig = {
     },
     {
       q: "How is the calorie split calculated?",
-      a: "Protein is set first from your bodyweight, fat is set as a percentage of your calorie target (20–35%), and carbohydrate fills the remaining calories. Grams are converted using the standard Atwater factors: 4 kcal per gram for protein and carbohydrate, 9 kcal per gram for fat.",
+      a: "Protein is set first from your bodyweight, fat is set as a percentage of your calorie target (20 to 35%), and carbohydrate fills the remaining calories. Grams are converted using the standard Atwater factors: 4 kcal per gram for protein and carbohydrate, 9 kcal per gram for fat.",
     },
     {
       q: "Why do my macros not add up to my calorie target elsewhere?",
@@ -38,11 +38,11 @@ export const macroConfig: ToolConfig = {
     },
     {
       q: "Do I need to hit these numbers exactly?",
-      a: "No. Macro targets are planning aids, not prescriptions. Staying within roughly 5–10 g of each target day to day is more than accurate enough for body-composition goals.",
+      a: "No. Macro targets are planning aids, not prescriptions. Staying within roughly 5 to 10 g of each target day to day is more than accurate enough for body-composition goals.",
     },
     {
       q: "What calorie target should I use?",
-      a: "Start from your estimated maintenance calories — our TDEE calculator will give you that — then adjust down for fat loss or up for muscle gain before splitting into macros.",
+      a: "Start from your estimated maintenance calories, which our TDEE calculator will give you, then adjust down for fat loss or up for muscle gain before splitting into macros.",
     },
   ],
   related: ["tdee-calculator", "calorie-deficit-calculator"],
@@ -51,12 +51,12 @@ export const macroConfig: ToolConfig = {
   sources: [
     {
       label:
-        "Morton RW, et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength. Br J Sports Med 2018;52:376–384",
+        "Morton RW, et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength. Br J Sports Med 2018;52:376-384",
       url: "https://pubmed.ncbi.nlm.nih.gov/28698222/",
     },
     {
       label:
-        "Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids (2005) — fat AMDR 20–35% of energy",
+        "Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids (2005), fat AMDR 20 to 35% of energy",
       url: "https://nap.nationalacademies.org/catalog/10490/dietary-reference-intakes-for-energy-carbohydrate-fiber-fat-fatty-acids-cholesterol-protein-and-amino-acids",
     },
   ],

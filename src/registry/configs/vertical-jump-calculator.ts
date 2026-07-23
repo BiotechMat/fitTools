@@ -15,7 +15,7 @@ export const jumpInputsSchema = z.object({
 
 export const verticalJumpConfig: ToolConfig = {
   slug: JUMP_SLUG,
-  title: "Vertical Jump Power Calculator — Sayers & Lewis",
+  title: "Vertical Jump Power Calculator: Sayers & Lewis",
   valueLine:
     "Turn your jump height into watts: peak power from the Sayers equation, average power from the classic Lewis formula.",
   metaDescription:
@@ -27,15 +27,15 @@ export const verticalJumpConfig: ToolConfig = {
   faq: [
     {
       q: "How do I measure my vertical jump?",
-      a: "The jump-and-reach method: mark your standing reach against a wall, then jump and mark the highest point you touch — the difference is your jump height. Take the best of three attempts, fully warmed up.",
+      a: "The jump-and-reach method: mark your standing reach against a wall, then jump and mark the highest point you touch, the difference is your jump height. Take the best of three attempts, fully warmed up.",
     },
     {
       q: "What's the difference between peak and average power?",
-      a: "Peak power is the highest instantaneous output during the jump (the Sayers estimate); average power is the mean over the whole propulsive phase (the Lewis estimate). Peak is always substantially larger — they are different quantities, not competing answers.",
+      a: "Peak power is the highest instantaneous output during the jump (the Sayers estimate); average power is the mean over the whole propulsive phase (the Lewis estimate). Peak is always substantially larger, they are different quantities, not competing answers.",
     },
     {
       q: "What is a good vertical jump?",
-      a: "Recreational adults commonly jump 30–50 cm; well-trained athletes in jumping sports commonly exceed 60 cm, and elite jumpers 75 cm+. Power output also rewards body mass — a heavier athlete produces more watts at the same jump height.",
+      a: "Recreational adults commonly jump 30 to 50 cm; well-trained athletes in jumping sports commonly exceed 60 cm, and elite jumpers 75 cm+. Power output also rewards body mass, a heavier athlete produces more watts at the same jump height.",
     },
     {
       q: "Why estimate power instead of just tracking jump height?",
@@ -51,7 +51,7 @@ export const verticalJumpConfig: ToolConfig = {
   lastReviewed: "2026-07-23",
   sources: [
     {
-      label: "Sayers SP, et al. Cross-validation of three jump power equations. Med Sci Sports Exerc 1999;31:572–577",
+      label: "Sayers SP, et al. Cross-validation of three jump power equations. Med Sci Sports Exerc 1999;31:572-577",
       url: "https://pubmed.ncbi.nlm.nih.gov/10211854/",
     },
     {

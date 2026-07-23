@@ -90,8 +90,8 @@ export function WhrCalculator() {
             </p>
             <p className="mt-2 font-semibold" data-testid="whr-band">
               {result.band === "raised"
-                ? `At or above the WHO cut-off (${result.cutoff.toFixed(2)}) — substantially increased metabolic risk`
-                : `Below the WHO cut-off (${result.cutoff.toFixed(2)}) — lower risk from fat distribution`}
+                ? `At or above the WHO cut-off (${result.cutoff.toFixed(2)}), substantially increased metabolic risk`
+                : `Below the WHO cut-off (${result.cutoff.toFixed(2)}), lower risk from fat distribution`}
             </p>
             <p className="mt-3 max-w-prose text-sm text-muted">
               WHO cut-offs: ≥ 0.90 for men, ≥ 0.85 for women. A screening

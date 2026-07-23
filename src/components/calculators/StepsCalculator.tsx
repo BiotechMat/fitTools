@@ -106,7 +106,7 @@ export function StepsCalculator() {
             <p className="mt-2 max-w-prose text-sm text-muted">
               About {formatNumber(result.distanceM / 1000, 1)} km of walking
               (Compendium MET {result.met}). Stride length is estimated from
-              height, so treat this as a rough estimate — the trend across
+              height, so treat this as a rough estimate. The trend across
               days matters more than any single figure.
             </p>
           </div>

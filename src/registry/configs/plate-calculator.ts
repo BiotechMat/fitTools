@@ -13,11 +13,11 @@ export const plateInputsSchema = z.object({
 
 export const plateConfig: ToolConfig = {
   slug: PLATE_SLUG,
-  title: "Barbell Plate Calculator — Load the Bar Right",
+  title: "Barbell Plate Calculator: Load the Bar Right",
   valueLine:
     "Work out exactly which plates to put on each side of the bar, with the nearest loadable weight when your target isn't possible.",
   metaDescription:
-    "Free barbell plate calculator: enter a target weight and bar, edit your plate inventory, and get the per-side stack — plus the nearest achievable load when the exact weight can't be made.",
+    "Free barbell plate calculator: enter a target weight and bar, edit your plate inventory, and get the per-side stack, plus the nearest achievable load when the exact weight can't be made.",
   hub: "strength",
   tier: 1,
   inputsSchema: plateInputsSchema,
@@ -29,7 +29,7 @@ export const plateConfig: ToolConfig = {
     },
     {
       q: "How much does a barbell weigh?",
-      a: "A standard Olympic bar is 20 kg; common alternatives are 15 kg (frequently used as a women's competition bar) and 10 kg technique bars. Pick your bar in the calculator — it changes every answer.",
+      a: "A standard Olympic bar is 20 kg; common alternatives are 15 kg (frequently used as a women's competition bar) and 10 kg technique bars. Pick your bar in the calculator, because it changes every answer.",
     },
     {
       q: "What if my target weight can't be loaded exactly?",
@@ -45,7 +45,7 @@ export const plateConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "IPF Technical Rules — standard competition plate denominations and bar weights",
+      label: "IPF Technical Rules: standard competition plate denominations and bar weights",
       url: "https://www.powerlifting.sport/rules/codes/info/technical-rules",
     },
   ],

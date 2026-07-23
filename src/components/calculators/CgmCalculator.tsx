@@ -110,14 +110,14 @@ export function CgmCalculator() {
             <p className={warningClass}>
               These metrics were designed for diabetes management. If you
               don&rsquo;t have diabetes, the evidence that flattening normal
-              glucose rises improves health is limited — treat this as data,
+              glucose rises improves health is limited. Treat this as data,
               not a verdict. Discuss anything concerning with your clinician.
             </p>
           </div>
         ) : result?.error ? (
           <p className="text-sm" role="alert">
             Some readings are outside the plausible range
-            ({unit === "mmol" ? "2–30 mmol/L" : "36–540 mg/dL"}) — check the
+            ({unit === "mmol" ? "2 to 30 mmol/L" : "36 to 540 mg/dL"}). Check the
             unit toggle and your pasted data.
           </p>
         ) : (

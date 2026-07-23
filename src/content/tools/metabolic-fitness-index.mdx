@@ -3,10 +3,10 @@
 The Metabolic Fitness Index is an **open composite index** (v1.0.0). Unlike
 the scores buried inside proprietary wearables, everything about it is
 published: the inputs, the sub-score mappings, the weights, and the
-evidence tier of each input. You — or anyone — can reconstruct the number
+evidence tier of each input. You, or anyone, can reconstruct the number
 exactly.
 
-Each input is mapped to a **0–100 sub-score** (higher = more favourable)
+Each input is mapped to a **0 to 100 sub-score** (higher = more favourable)
 using a clamped linear scale between documented anchor points, then combined
 as a weighted average:
 
@@ -23,11 +23,11 @@ as a weighted average:
   </tbody>
 </table>
 
-The anchor points come from recognised references — the international CGM
+The anchor points come from recognised references, the international CGM
 consensus (time in range ≥70%, %CV < 36%), ADA A1C bands for GMI, the 0.5
 waist-to-height boundary, and typical adult-to-athletic resting heart
 rates. They are self-tracking anchors, **not diagnostic thresholds**. Full
-detail on the house methodology — normalisation, weighting, versioning — is
+detail on the house methodology (normalisation, weighting, versioning) is
 on the [index methodology page](/learn/index-methodology).
 
 If you leave an input blank, the index renormalises across what you provided
@@ -36,7 +36,7 @@ and flags reduced confidence, rather than guessing a value.
 ## Interpreting your result
 
 Read the **breakdown, not just the headline**. The radar and table show
-which markers are pulling your score up or down — that's where the useful
+which markers are pulling your score up or down, that's where the useful
 information is. A single number is only a summary; the point of publishing
 the sub-scores is so you can see *what to work on*, framed as a modifiable
 lever rather than a verdict.

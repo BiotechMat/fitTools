@@ -134,12 +134,12 @@ export function HrCaloriesCalculator() {
             {result.belowModel ? (
               <p className={warningClass} role="note">
                 The Keytel equations were developed on steady exercise at
-                roughly {HR_MODEL_FLOOR_BPM} bpm and above — below that the
+                roughly {HR_MODEL_FLOOR_BPM} bpm and above, below that the
                 estimate isn&rsquo;t meaningful.
               </p>
             ) : (
               <p className="mt-3 max-w-prose text-sm text-muted">
-                Built for steady aerobic work — use your session-average heart
+                Built for steady aerobic work, use your session-average heart
                 rate, and prefer the MET-based calculator for lifting.
               </p>
             )}

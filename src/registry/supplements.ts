@@ -10,7 +10,13 @@
  */
 
 import type { FaqEntry, Source } from "@/registry/types";
-import type { EvidenceBasis, EvidenceTier } from "@/registry/peptides";
+import {
+  type EvidenceBasis,
+  type EvidenceGrade,
+  type EvidenceTier,
+  evidenceGrade,
+} from "@/registry/peptides";
+import { extraSupplements } from "@/registry/supplementsExtra";
 
 export interface SupplementEntry {
   slug: string;
@@ -22,6 +28,19 @@ export interface SupplementEntry {
   /** One-line identity, for the hub list and meta description. */
   short: string;
   metaDescription: string;
+  /**
+   * Category for the hub's A–Z-by-theme grouping (source: the 200-supplement
+   * reference, CONTENT-supplements-200.md). Optional on the original in-depth
+   * entries, which are grouped by evidence grade; set on the reference pages.
+   */
+  category?: string;
+  /**
+   * Structured body paragraphs, used for the reference pages built from the
+   * 200-supplement list. When present the detail page renders these instead of
+   * importing a per-slug MDX file (the original in-depth entries keep their
+   * richer MDX bodies).
+   */
+  body?: string[];
   /** Rendered as a SafetyCallout when present (§4.6). */
   safety?: { title: string; points: string[] };
   relatedSupplements: string[];
@@ -41,7 +60,7 @@ const ISSN_CAFFEINE =
 const ISSN_BETA_ALANINE =
   "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4501114/";
 
-export const supplements: SupplementEntry[] = [
+const coreSupplements: SupplementEntry[] = [
   {
     slug: "creatine-monohydrate",
     name: "Creatine monohydrate",
@@ -51,16 +70,16 @@ export const supplements: SupplementEntry[] = [
     short:
       "The most-researched, best-evidenced supplement for strength and muscle.",
     metaDescription:
-      "Creatine monohydrate, honestly reviewed: what it is, the strong human evidence for strength and muscle, who it suits, practical notes and safety — with primary sources.",    relatedSupplements: ["whey-protein", "beta-alanine"],
+      "Creatine monohydrate, honestly reviewed: what it is, the strong human evidence for strength and muscle, who it suits, practical notes and safety, all backed by primary sources.",    relatedSupplements: ["whey-protein", "beta-alanine"],
     relatedTools: ["creatine-calculator", "training-volume-calculator"],
     faq: [
       {
         q: "Does creatine actually work?",
-        a: "Yes — it is the most robustly supported sports supplement there is. A large body of human trials and the ISSN position stand conclude creatine monohydrate reliably improves high-intensity performance and, with training, gains in strength and lean mass.",
+        a: "Yes. It is the most robustly supported sports supplement there is. A large body of human trials and the ISSN position stand conclude creatine monohydrate reliably improves high-intensity performance and, with training, gains in strength and lean mass.",
       },
       {
         q: "Do I need to load creatine?",
-        a: "No. Loading (a higher dose for ~5–7 days) simply fills muscle stores faster. Taking a standard daily amount reaches the same saturation within a few weeks, with less chance of stomach upset.",
+        a: "No. Loading (a higher dose for ~5 to 7 days) simply fills muscle stores faster. Taking a standard daily amount reaches the same saturation within a few weeks, with less chance of stomach upset.",
       },
       {
         q: "Is creatine safe?",
@@ -97,7 +116,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "How much protein do I need?",
-        a: "For people training for muscle, roughly 1.6–2.2 g per kg of bodyweight per day is a well-supported range. Spreading it across meals is sensible, but total daily intake is the main driver.",
+        a: "For people training for muscle, roughly 1.6 to 2.2 g per kg of bodyweight per day is a well-supported range. Spreading it across meals is sensible, but total daily intake is the main driver.",
       },
       {
         q: "Whey or plant protein?",
@@ -105,7 +124,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Is whey just for building muscle?",
-        a: "Its main evidence-based role is helping you reach protein targets, which supports muscle retention and growth. It is a food, not a magic powder — the benefit comes from the protein, not the brand.",
+        a: "Its main evidence-based role is helping you reach protein targets, which supports muscle retention and growth. It is a food, not a magic powder. The benefit comes from the protein, not the brand.",
       },
     ],
     sources: [
@@ -123,13 +142,13 @@ export const supplements: SupplementEntry[] = [
     headlineBasis: "human",
     short: "A genuinely effective, well-studied performance and focus aid.",
     metaDescription:
-      "Caffeine for performance, evidence-first: the strong human data for endurance and some strength, timing and dose context, tolerance, and safety — with the ISSN position stand.",
+      "Caffeine for performance, evidence-first: the strong human data for endurance and some strength, timing and dose context, tolerance, and safety, drawing on the ISSN position stand.",
     safety: {
-      title: "Safety — caffeine",
+      title: "Caffeine safety",
       points: [
         "High intakes cause jitters, raised heart rate, anxiety, gut upset and disrupted sleep; its long half-life (~5 h) means afternoon doses linger.",
         "People who are pregnant, or who have heart-rhythm, blood-pressure or anxiety conditions, should be cautious and seek medical advice.",
-        "Concentrated caffeine powders are easy to overdose dangerously — measure by scale, never by scoop.",
+        "Concentrated caffeine powders are easy to overdose dangerously, so measure by scale, never by scoop.",
       ],
     },
     relatedSupplements: ["beta-alanine", "citrulline-malate"],
@@ -141,7 +160,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "When should I take it before training?",
-        a: "Effects typically build over 30–60 minutes and it has a long half-life (around 5 hours), so late-day doses can disrupt sleep. Our caffeine calculator estimates how much is left in your system over time.",
+        a: "Effects typically build over 30 to 60 minutes and it has a long half-life (around 5 hours), so late-day doses can disrupt sleep. Our caffeine calculator estimates how much is left in your system over time.",
       },
       {
         q: "Does tolerance build up?",
@@ -173,7 +192,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "What does beta-alanine do?",
-        a: "It raises muscle carnosine, which buffers the acid build-up that limits sustained high-intensity effort. The ISSN position stand supports a small but real benefit for exercise lasting roughly 1–4 minutes.",
+        a: "It raises muscle carnosine, which buffers the acid build-up that limits sustained high-intensity effort. The ISSN position stand supports a small but real benefit for exercise lasting roughly 1 to 4 minutes.",
       },
       {
         q: "Why does it make me tingle?",
@@ -185,7 +204,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "How long until it works?",
-        a: "It works by gradually loading muscle carnosine over several weeks of consistent daily use — it is not an acute pre-workout effect, so timing around a session doesn't matter.",
+        a: "It works by gradually loading muscle carnosine over several weeks of consistent daily use. It is not an acute pre-workout effect, so timing around a session doesn't matter.",
       },
     ],
     sources: [
@@ -218,7 +237,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Citrulline or arginine?",
-        a: "Citrulline actually raises blood arginine more effectively than supplementing arginine directly, because of how each is absorbed — which is why citrulline is the more common choice.",
+        a: "Citrulline actually raises blood arginine more effectively than supplementing arginine directly, because of how each is absorbed, which is why citrulline is the more common choice.",
       },
       {
         q: "Is it the same as what's in pre-workouts?",
@@ -244,9 +263,9 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Ashwagandha, honestly reviewed: the preliminary human evidence for stress, sleep and strength, the small-study caveats, who should be cautious, and safety.",
     safety: {
-      title: "Safety — ashwagandha",
+      title: "Ashwagandha safety",
       points: [
-        "Avoid if pregnant or breastfeeding. Caution with thyroid conditions, autoimmune disease, or sedative and thyroid medications — it can interact.",
+        "Avoid if pregnant or breastfeeding. Caution with thyroid conditions, autoimmune disease, or sedative and thyroid medications, because it can interact.",
         "There are rare reports of liver injury; stop and seek medical advice if you notice jaundice, dark urine or abdominal pain.",
         "As a herbal product, purity and dose vary between brands; this is educational information, not a recommendation to take it.",
       ],
@@ -264,7 +283,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Who should avoid it?",
-        a: "People who are pregnant, have thyroid conditions or autoimmune disease, or take sedatives or thyroid medication should be cautious and seek medical advice — there are rare reports of liver issues too.",
+        a: "People who are pregnant, have thyroid conditions or autoimmune disease, or take sedatives or thyroid medication should be cautious and seek medical advice. There are also rare reports of liver issues.",
       },
       {
         q: "How long to see effects?",
@@ -274,7 +293,7 @@ export const supplements: SupplementEntry[] = [
     sources: [
       {
         label:
-          "PubMed: Withania somnifera (ashwagandha) — randomised trials on stress, sleep and strength",
+          "PubMed: Withania somnifera (ashwagandha) randomised trials on stress, sleep and strength",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=ashwagandha+randomized+controlled+trial+stress+OR+strength",
       },
     ],
@@ -290,7 +309,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Vitamin D, evidence-first: correcting deficiency is well established for health, but a performance boost in people who are already replete is preliminary at best. Who should test, and safety.",
     safety: {
-      title: "Safety — vitamin D",
+      title: "Vitamin D safety",
       points: [
         "More is not better: very high doses over time can cause toxicity (high blood calcium) with nausea, kidney problems and worse.",
         "Do not megadose. If unsure, ask for a blood test and follow national guidance on sensible amounts.",
@@ -301,7 +320,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Should I take vitamin D?",
-        a: "If you're deficient — common in winter at northern latitudes — correcting it is worthwhile for bone and general health. If your levels are already adequate, extra vitamin D is unlikely to improve performance.",
+        a: "If you're deficient, which is common in winter at northern latitudes, correcting it is worthwhile for bone and general health. If your levels are already adequate, extra vitamin D is unlikely to improve performance.",
       },
       {
         q: "Does it boost strength or testosterone?",
@@ -333,7 +352,7 @@ export const supplements: SupplementEntry[] = [
     short:
       "Solid general-health rationale; the muscle and recovery benefits are still preliminary.",
     metaDescription:
-      "Omega-3 / fish oil, honestly reviewed: the general-health case, the preliminary evidence for recovery and muscle, and how it differs from the marketing — with sources.",
+      "Omega-3 / fish oil, honestly reviewed: the general-health case, the preliminary evidence for recovery and muscle, and how it differs from the marketing, with sources.",
     relatedSupplements: ["vitamin-d"],
     relatedTools: ["heart-age-calculator"],
     faq: [
@@ -347,11 +366,11 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "How much and what to look for?",
-        a: "What matters is the EPA + DHA content, not the total fish-oil weight — check the label. Quality and freshness (avoiding rancidity) also matter.",
+        a: "What matters is the EPA + DHA content, not the total fish-oil weight, so check the label. Quality and freshness (avoiding rancidity) also matter.",
       },
       {
         q: "Are algae oils an option?",
-        a: "Yes — algae-based omega-3 provides EPA/DHA without fish and suits vegans.",
+        a: "Yes. Algae-based omega-3 provides EPA/DHA without fish and suits vegans.",
       },
     ],
     sources: [
@@ -372,7 +391,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Magnesium, evidence-first: correcting a deficiency may help sleep and cramps, but performance benefits in people who are already replete are weak. Forms, and safety.",
     safety: {
-      title: "Safety — magnesium",
+      title: "Magnesium safety",
       points: [
         "High supplemental doses commonly cause diarrhoea and stomach upset; magnesium oxide is the worst offender.",
         "People with kidney problems should not supplement magnesium without medical advice.",
@@ -395,7 +414,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Can I just get it from food?",
-        a: "Often yes — leafy greens, nuts, seeds, legumes and wholegrains are good sources. Food first, supplement to fill a genuine gap.",
+        a: "Often yes. Leafy greens, nuts, seeds, legumes and wholegrains are good sources. Food first, supplement to fill a genuine gap.",
       },
     ],
     sources: [
@@ -413,11 +432,11 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "well-supported",
     headlineBasis: "human",
     short:
-      "Genuinely useful for heavy, prolonged sweating — overkill as an everyday drink for most.",
+      "Genuinely useful for heavy, prolonged sweating, but overkill as an everyday drink for most.",
     metaDescription:
       "Electrolytes, honestly reviewed: the well-established role in replacing sweat losses during prolonged exercise versus the marketing that everyone needs a daily electrolyte drink.",
     safety: {
-      title: "Safety — electrolytes",
+      title: "Electrolyte safety",
       points: [
         "Most people already get plenty of sodium from food; adding a lot more isn't automatically helpful, especially with high blood pressure.",
         "In very long events, drinking large volumes of plain water without electrolytes can dangerously dilute blood sodium (hyponatraemia).",
@@ -428,11 +447,11 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Do I need an electrolyte drink every day?",
-        a: "For most people, no. A normal diet supplies enough electrolytes. They earn their keep during long, hot or very sweaty sessions where you lose meaningful sodium — not as an everyday wellness drink.",
+        a: "For most people, no. A normal diet supplies enough electrolytes. They earn their keep during long, hot or very sweaty sessions where you lose meaningful sodium, not as an everyday wellness drink.",
       },
       {
         q: "When do electrolytes actually matter?",
-        a: "During prolonged endurance exercise (roughly beyond 60–90 minutes), heavy sweating, or in the heat, where replacing sodium (and fluid) supports performance and safety.",
+        a: "During prolonged endurance exercise (roughly beyond 60 to 90 minutes), heavy sweating, or in the heat, where replacing sodium (and fluid) supports performance and safety.",
       },
       {
         q: "Isn't more sodium bad for me?",
@@ -453,7 +472,7 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "preliminary",
     headlineBasis: "human",
     short:
-      "Emerging evidence for tendons, joints and skin — but a poor muscle-building protein.",
+      "Emerging evidence for tendons, joints and skin, but a poor muscle-building protein.",
     metaDescription:
       "Collagen, evidence-first: the emerging (preliminary) case for tendon, joint and skin support versus its weakness as a muscle-building protein. What the research shows.",
     relatedSupplements: ["whey-protein"],
@@ -465,7 +484,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Is collagen good for building muscle?",
-        a: "No — it's a low-quality protein for muscle, lacking enough of the key amino acid leucine. For muscle, whey or a good mixed-protein diet is far better.",
+        a: "No. It's a low-quality protein for muscle, lacking enough of the key amino acid leucine. For muscle, whey or a good mixed-protein diet is far better.",
       },
       {
         q: "What about skin?",
@@ -479,7 +498,7 @@ export const supplements: SupplementEntry[] = [
     sources: [
       {
         label:
-          "PubMed: collagen peptide supplementation — tendon, joint and skin outcomes (trials and reviews)",
+          "PubMed: collagen peptide supplementation and tendon, joint and skin outcomes (trials and reviews)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=collagen+peptide+supplementation+tendon+OR+joint+OR+skin",
       },
     ],
@@ -499,7 +518,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does ZMA boost testosterone?",
-        a: "In men who aren't deficient in zinc or magnesium — which is most people who train and eat reasonably — controlled studies do not support meaningful testosterone or strength increases. That's the headline claim, and it doesn't hold up.",
+        a: "In men who aren't deficient in zinc or magnesium, which is most people who train and eat reasonably, controlled studies do not support meaningful testosterone or strength increases. That's the headline claim, and it doesn't hold up.",
       },
       {
         q: "So is ZMA useless?",
@@ -507,13 +526,13 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Is it just zinc and magnesium?",
-        a: "Yes — ZMA is zinc, magnesium and vitamin B6 in a branded combination. You can get the same nutrients from food or plain zinc/magnesium if needed.",
+        a: "Yes. ZMA is zinc, magnesium and vitamin B6 in a branded combination. You can get the same nutrients from food or plain zinc/magnesium if needed.",
       },
     ],
     sources: [
       {
         label:
-          "PubMed: ZMA (zinc magnesium aspartate) supplementation, testosterone and strength — controlled trials",
+          "PubMed: controlled trials of ZMA (zinc magnesium aspartate) supplementation, testosterone and strength",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=ZMA+zinc+magnesium+testosterone+strength",
       },
     ],
@@ -529,7 +548,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Pre-workout supplements, honestly reviewed: the handful of ingredients that actually work (caffeine, beta-alanine, citrulline) versus the underdosed proprietary-blend marketing.",
     safety: {
-      title: "Safety — pre-workout",
+      title: "Pre-workout safety",
       points: [
         "Most of the effect is caffeine, often in high doses; watch total daily intake, late-day timing and stacking with coffee.",
         "People who are pregnant or have heart, blood-pressure or anxiety conditions should be cautious with stimulant blends.",
@@ -541,7 +560,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Do pre-workouts work?",
-        a: "The parts that work are the well-evidenced ingredients — mainly caffeine, plus beta-alanine and citrulline. The benefit is those ingredients, not the brand or the proprietary blend around them.",
+        a: "The parts that work are the well-evidenced ingredients: mainly caffeine, plus beta-alanine and citrulline. The benefit is those ingredients, not the brand or the proprietary blend around them.",
       },
       {
         q: "What's actually worth having in one?",
@@ -553,13 +572,13 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Can I just make my own?",
-        a: "Effectively yes — the evidence-based ingredients are available individually, letting you control the doses and skip paying for filler.",
+        a: "Effectively yes. The evidence-based ingredients are available individually, letting you control the doses and skip paying for filler.",
       },
     ],
     sources: [
       {
         label:
-          "PubMed: multi-ingredient pre-workout supplements — performance evidence and ingredient dosing",
+          "PubMed: multi-ingredient pre-workout supplements, performance evidence and ingredient dosing",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=multi-ingredient+pre-workout+supplement+performance",
       },
     ],
@@ -575,7 +594,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Beetroot juice and dietary nitrate, evidence-first: the solid human data for endurance and exercise economy, who responds (and who doesn't), the harmless red urine, and practical notes.",
     safety: {
-      title: "Safety — beetroot juice",
+      title: "Beetroot juice safety",
       points: [
         "Harmless red or pink urine and stools (beeturia) are common and no cause for concern.",
         "Nitrate can lower blood pressure; anyone on blood-pressure or nitrate medication should check with a doctor first.",
@@ -587,7 +606,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does beetroot juice actually improve performance?",
-        a: "For endurance, often yes. The dietary nitrate it contains raises nitric oxide, which can modestly improve exercise economy and time to exhaustion — one of the better-evidenced endurance aids. The benefit is clearest in recreational athletes; highly-trained athletes tend to respond less.",
+        a: "For endurance, often yes. The dietary nitrate it contains raises nitric oxide, which can modestly improve exercise economy and time to exhaustion, making it one of the better-evidenced endurance aids. The benefit is clearest in recreational athletes; highly-trained athletes tend to respond less.",
       },
       {
         q: "Is it the beetroot or the nitrate?",
@@ -599,7 +618,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Why does it turn my urine red?",
-        a: "That's beeturia — a harmless pigment effect from the beetroot, not blood. It's completely benign and simply means you've had a good dose of beetroot.",
+        a: "That's beeturia, a harmless pigment effect from the beetroot, not blood. It's completely benign and simply means you've had a good dose of beetroot.",
       },
     ],
     sources: [
@@ -617,13 +636,13 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "well-supported",
     headlineBasis: "human",
     short:
-      "A blood buffer with real evidence for repeated high-intensity efforts — if your gut tolerates it.",
+      "A blood buffer with real evidence for repeated high-intensity efforts, if your gut tolerates it.",
     metaDescription:
-      "Sodium bicarbonate for performance, evidence-first: the well-established buffering benefit for high-intensity exercise, the notorious gut-upset trade-off, and who it suits — with sources.",
+      "Sodium bicarbonate for performance, evidence-first: the well-established buffering benefit for high-intensity exercise, the notorious gut-upset trade-off, and who it suits, with sources.",
     safety: {
-      title: "Safety — sodium bicarbonate",
+      title: "Sodium bicarbonate safety",
       points: [
-        "Gastrointestinal upset — bloating, cramps, nausea and diarrhoea — is common and can wreck a session; it must be trialled in training, never first on race day.",
+        "Gastrointestinal upset (bloating, cramps, nausea and diarrhoea) is common and can wreck a session; it must be trialled in training, never first on race day.",
         "It is a large sodium load; people with high blood pressure, kidney or heart conditions should avoid it without medical advice.",
         "This is educational information about the evidence, not a recommendation to self-experiment with a performance dose.",
       ],
@@ -641,7 +660,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "How does it compare to beta-alanine?",
-        a: "They buffer acidity by different routes — bicarbonate outside the muscle cell, beta-alanine (via carnosine) inside it — and some evidence suggests they can complement each other for the right kind of high-intensity event.",
+        a: "They buffer acidity by different routes, with bicarbonate working outside the muscle cell and beta-alanine (via carnosine) inside it, and some evidence suggests they can complement each other for the right kind of high-intensity event.",
       },
     ],
     sources: [
@@ -667,7 +686,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does HMB build muscle?",
-        a: "The evidence is mixed and mostly underwhelming in trained lifters who already eat enough protein. Its more plausible role is anti-catabolic — reducing muscle breakdown — which may matter most during heavy dieting, injury or in older or untrained people, not for adding slabs of muscle.",
+        a: "The evidence is mixed and mostly underwhelming in trained lifters who already eat enough protein. Its more plausible role is anti-catabolic, meaning it reduces muscle breakdown, which may matter most during heavy dieting, injury or in older or untrained people, not for adding slabs of muscle.",
       },
       {
         q: "Isn't it just from protein anyway?",
@@ -810,7 +829,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Will it make me drowsy?",
-        a: "It isn't a sedative and doesn't typically cause drowsiness at common amounts — the goal is calm focus, not sleep. It's one of the gentler, better-tolerated supplements.",
+        a: "It isn't a sedative and doesn't typically cause drowsiness at common amounts. The goal is calm focus, not sleep. It's one of the gentler, better-tolerated supplements.",
       },
     ],
     sources: [
@@ -832,10 +851,10 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Rhodiola rosea, evidence-first: the preliminary human evidence for reducing fatigue and perceived exertion, the small-study caveats, and safety context.",
     safety: {
-      title: "Safety — rhodiola",
+      title: "Rhodiola safety",
       points: [
         "Generally well tolerated, but can occasionally cause irritability, jitteriness or trouble sleeping, especially later in the day.",
-        "As a herbal product, potency varies between brands, and it can interact with some medications — seek medical advice if you take any.",
+        "As a herbal product, potency varies between brands, and it can interact with some medications, so seek medical advice if you take any.",
       ],
     },
     relatedSupplements: ["ashwagandha", "caffeine"],
@@ -843,7 +862,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does rhodiola reduce fatigue?",
-        a: "Several small trials suggest it may reduce fatigue — particularly mental fatigue and burnout-type tiredness — and perhaps lower perceived effort during exercise. The studies are small and mixed, so treat it as promising rather than established.",
+        a: "Several small trials suggest it may reduce fatigue, particularly mental fatigue and burnout-type tiredness, and perhaps lower perceived effort during exercise. The studies are small and mixed, so treat it as promising rather than established.",
       },
       {
         q: "Is it a stimulant?",
@@ -873,7 +892,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Curcumin (turmeric extract), honestly reviewed: the preliminary evidence for reduced muscle soreness and joint discomfort, the poor-absorption problem, and safety.",
     safety: {
-      title: "Safety — curcumin",
+      title: "Curcumin safety",
       points: [
         "Generally well tolerated, but it can have a mild blood-thinning effect; be cautious if you take anticoagulants or are due surgery, and seek medical advice.",
         "Plain turmeric powder is poorly absorbed; the supplements studied use enhanced-absorption extracts, so results from one form don't transfer to another.",
@@ -888,11 +907,11 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Is turmeric in food enough?",
-        a: "Probably not for a supplemental effect — curcumin is a small fraction of turmeric and is poorly absorbed. The studies use concentrated extracts formulated for absorption, not culinary turmeric.",
+        a: "Probably not for a supplemental effect. Curcumin is a small fraction of turmeric and is poorly absorbed. The studies use concentrated extracts formulated for absorption, not culinary turmeric.",
       },
       {
         q: "What about joints and inflammation?",
-        a: "Some trials suggest it may ease joint discomfort, with a few comparing it favourably to standard anti-inflammatories for osteoarthritis symptoms — but the evidence base is still maturing and commercially driven.",
+        a: "Some trials suggest it may ease joint discomfort, with a few comparing it favourably to standard anti-inflammatories for osteoarthritis symptoms, but the evidence base is still maturing and commercially driven.",
       },
     ],
     sources: [
@@ -914,10 +933,10 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Glucosamine and chondroitin, evidence-first: the conflicting trial data for joint pain and osteoarthritis, who might see a small benefit, and safety notes.",
     safety: {
-      title: "Safety — glucosamine & chondroitin",
+      title: "Glucosamine and chondroitin safety",
       points: [
         "Glucosamine is often derived from shellfish; people with shellfish allergy should check the source.",
-        "May affect blood-sugar control and interact with blood-thinning medication — seek medical advice if either applies.",
+        "May affect blood-sugar control and interact with blood-thinning medication, so seek medical advice if either applies.",
       ],
     },
     relatedSupplements: ["collagen", "curcumin"],
@@ -954,7 +973,7 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Probiotics, honestly reviewed: why effects are strain-specific, the preliminary evidence for gut and immune outcomes in athletes, and why 'probiotics' as a category tells you little.",
     safety: {
-      title: "Safety — probiotics",
+      title: "Probiotic safety",
       points: [
         "Generally safe for healthy people, but those who are seriously immunocompromised or critically ill should only use them under medical guidance.",
         "Benefits are specific to particular strains and doses; a product without a named, studied strain may do nothing.",
@@ -965,7 +984,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Do probiotics help with training or health?",
-        a: "Some strains have preliminary evidence for gut comfort, reducing the frequency or duration of colds, and supporting the gut during heavy training. But benefits are strain-specific — results with one strain don't transfer to another.",
+        a: "Some strains have preliminary evidence for gut comfort, reducing the frequency or duration of colds, and supporting the gut during heavy training. But benefits are strain-specific, and results with one strain don't transfer to another.",
       },
       {
         q: "Why does the strain matter so much?",
@@ -990,13 +1009,13 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "preliminary",
     headlineBasis: "human",
     short:
-      "Essential mineral where correcting a shortfall helps — but more isn't better.",
+      "Essential mineral where correcting a shortfall helps, but more isn't better.",
     metaDescription:
       "Zinc, evidence-first: correcting a deficiency supports immunity and hormones, but supplementing when replete does little, and excess causes copper deficiency. Safety and forms.",
     safety: {
-      title: "Safety — zinc",
+      title: "Zinc safety",
       points: [
-        "Chronic high doses cause a copper deficiency, which can lead to anaemia and nerve problems — don't take a lot long-term without a reason.",
+        "Chronic high doses cause a copper deficiency, which can lead to anaemia and nerve problems, so don't take a lot long-term without a reason.",
         "Large single doses on an empty stomach commonly cause nausea; national upper limits are relatively low.",
       ],
     },
@@ -1013,13 +1032,13 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Can I take too much?",
-        a: "Yes. High-dose zinc over time causes copper deficiency, so more is not better. Food sources — meat, shellfish, seeds and legumes — cover most people's needs.",
+        a: "Yes. High-dose zinc over time causes copper deficiency, so more is not better. Food sources such as meat, shellfish, seeds and legumes cover most people's needs.",
       },
     ],
     sources: [
       {
         label:
-          "PubMed: zinc status and supplementation — immunity, testosterone and exercise (reviews and trials)",
+          "PubMed: zinc status and supplementation for immunity, testosterone and exercise (reviews and trials)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=zinc+supplementation+immunity+OR+testosterone+exercise",
       },
     ],
@@ -1030,13 +1049,13 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "preliminary",
     headlineBasis: "human",
     short:
-      "Vital for oxygen transport — supplement only to correct a tested deficiency.",
+      "Vital for oxygen transport. Supplement only to correct a tested deficiency.",
     metaDescription:
       "Iron, honestly reviewed: correcting a genuine deficiency clearly helps endurance and energy, but supplementing without testing is risky. Who's at risk, and important safety.",
     safety: {
-      title: "Safety — iron",
+      title: "Iron safety",
       points: [
-        "Don't supplement iron without a blood test — excess iron accumulates and can damage the liver and other organs, and some people carry a genetic tendency to overload.",
+        "Don't supplement iron without a blood test. Excess iron accumulates and can damage the liver and other organs, and some people carry a genetic tendency to overload.",
         "Iron tablets are a leading cause of poisoning in young children; store them out of reach.",
         "Supplements commonly cause constipation and stomach upset.",
       ],
@@ -1076,10 +1095,10 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Vitamin C, evidence-first: why high-dose supplements rarely help well-nourished people, the modest cold evidence, and the concern that mega-doses may blunt training adaptations.",
     safety: {
-      title: "Safety — vitamin C",
+      title: "Vitamin C safety",
       points: [
         "Very large doses commonly cause stomach upset and diarrhoea and can raise the risk of kidney stones in susceptible people.",
-        "Routine high-dose antioxidant supplements may interfere with some beneficial exercise adaptations — food-level amounts don't carry this concern.",
+        "Routine high-dose antioxidant supplements may interfere with some beneficial exercise adaptations. Food-level amounts don't carry this concern.",
       ],
     },
     relatedSupplements: ["vitamin-d", "zinc"],
@@ -1095,13 +1114,13 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Can't I just eat it?",
-        a: "Easily — fruit and vegetables provide ample vitamin C for nearly everyone, along with other nutrients. Deficiency is rare in a varied diet.",
+        a: "Easily. Fruit and vegetables provide ample vitamin C for nearly everyone, along with other nutrients. Deficiency is rare in a varied diet.",
       },
     ],
     sources: [
       {
         label:
-          "PubMed: vitamin C supplementation — common cold, antioxidants and exercise adaptation (reviews and trials)",
+          "PubMed: vitamin C supplementation for the common cold, antioxidants and exercise adaptation (reviews and trials)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=vitamin+C+supplementation+common+cold+OR+exercise+adaptation",
       },
     ],
@@ -1112,15 +1131,15 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "preliminary",
     headlineBasis: "human",
     short:
-      "A sleep-timing hormone that's useful for jet lag — less so as a nightly sleeping pill.",
+      "A sleep-timing hormone that's useful for jet lag, less so as a nightly sleeping pill.",
     metaDescription:
       "Melatonin, honestly reviewed: the good evidence for shifting body-clock timing and jet lag versus its weaker role as a general sleeping aid, plus timing and safety.",
     safety: {
-      title: "Safety — melatonin",
+      title: "Melatonin safety",
       points: [
         "Can cause grogginess, vivid dreams or next-day drowsiness, especially at higher amounts or the wrong time of day.",
         "Long-term safety is not well established; it is a hormone. Avoid in pregnancy and seek medical advice for children, or if you take other medication.",
-        "In some countries it is a prescription-only medicine — follow local rules and medical guidance.",
+        "In some countries it is a prescription-only medicine, so follow local rules and medical guidance.",
       ],
     },
     relatedSupplements: ["magnesium", "glycine"],
@@ -1128,7 +1147,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does melatonin help you sleep?",
-        a: "Its strongest evidence is for shifting the body clock — jet lag and delayed sleep timing — rather than as a sedative. It can modestly help you fall asleep a bit faster, but it's not a powerful sleeping pill.",
+        a: "Its strongest evidence is for shifting the body clock in jet lag and delayed sleep timing, rather than as a sedative. It can modestly help you fall asleep a bit faster, but it's not a powerful sleeping pill.",
       },
       {
         q: "Is timing more important than dose?",
@@ -1187,13 +1206,13 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "preliminary",
     headlineBasis: "human",
     short:
-      "Concentrated catechins with a small fat-oxidation effect — and a real liver caveat.",
+      "Concentrated catechins with a small fat-oxidation effect, and a real liver caveat.",
     metaDescription:
       "Green tea extract (EGCG), honestly reviewed: the modest, often caffeine-dependent fat-oxidation evidence, why concentrated extracts differ from drinking tea, and the liver-safety warning.",
     safety: {
-      title: "Safety — green tea extract",
+      title: "Green tea extract safety",
       points: [
-        "Concentrated EGCG extracts have been linked to rare but serious liver injury, particularly on an empty stomach — this is not a concern with drinking brewed tea.",
+        "Concentrated EGCG extracts have been linked to rare but serious liver injury, particularly on an empty stomach. This is not a concern with drinking brewed tea.",
         "Extracts also contain caffeine; stop and seek medical advice if you notice jaundice, dark urine or abdominal pain.",
       ],
     },
@@ -1216,7 +1235,7 @@ export const supplements: SupplementEntry[] = [
     sources: [
       {
         label:
-          "PubMed: green tea extract / EGCG — fat oxidation, weight loss and hepatotoxicity (reviews and case reports)",
+          "PubMed: green tea extract / EGCG on fat oxidation, weight loss and hepatotoxicity (reviews and case reports)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=green+tea+extract+EGCG+fat+oxidation+OR+hepatotoxicity",
       },
     ],
@@ -1274,7 +1293,7 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Does it help immunity or the gut?",
-        a: "Its credible evidence is in specific clinical settings — serious illness, trauma or gut injury — not in healthy athletes. Extrapolating from those situations to everyday training is where the marketing overreaches.",
+        a: "Its credible evidence is in specific clinical settings such as serious illness, trauma or gut injury, not in healthy athletes. Extrapolating from those situations to everyday training is where the marketing overreaches.",
       },
       {
         q: "So who actually needs it?",
@@ -1300,10 +1319,10 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Tribulus terrestris, honestly reviewed: why the testosterone- and strength-boosting claims fail in controlled studies, and the safety caveats around a herbal product.",
     safety: {
-      title: "Safety — tribulus",
+      title: "Tribulus safety",
       points: [
         "As a herbal product, quality and content vary; there are isolated reports of liver and kidney problems with some tribulus products.",
-        "Marketed 'test boosters' built on it can contain undisclosed ingredients — a general risk of the category.",
+        "Marketed 'test boosters' built on it can contain undisclosed ingredients, a general risk of the category.",
       ],
     },
     relatedSupplements: ["ashwagandha", "zma"],
@@ -1311,7 +1330,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Does tribulus raise testosterone?",
-        a: "No — controlled studies in men generally show it does not meaningfully raise testosterone or improve strength or muscle, despite being one of the most common ingredients in 'test booster' products.",
+        a: "No. Controlled studies in men generally show it does not meaningfully raise testosterone or improve strength or muscle, despite being one of the most common ingredients in 'test booster' products.",
       },
       {
         q: "Why is it in so many products then?",
@@ -1341,9 +1360,9 @@ export const supplements: SupplementEntry[] = [
     metaDescription:
       "Natural testosterone boosters, honestly reviewed: why most over-the-counter blends fail to raise testosterone in controlled studies, the deficiency-correction nuance, and safety.",
     safety: {
-      title: "Safety — testosterone boosters",
+      title: "Testosterone booster safety",
       points: [
-        "Proprietary blends can hide doses and occasionally contain undisclosed or banned substances, including actual hormones — a real risk for drug-tested athletes.",
+        "Proprietary blends can hide doses and occasionally contain undisclosed or banned substances, including actual hormones, which is a real risk for drug-tested athletes.",
         "Some products have been linked to liver injury. Genuine low testosterone is a medical issue to discuss with a doctor, not to self-treat with supplements.",
       ],
     },
@@ -1366,7 +1385,7 @@ export const supplements: SupplementEntry[] = [
     sources: [
       {
         label:
-          "PubMed: 'testosterone booster' supplements — efficacy and safety (analyses and reviews)",
+          "PubMed: 'testosterone booster' supplements, efficacy and safety (analyses and reviews)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=testosterone+booster+supplement+efficacy+safety",
       },
     ],
@@ -1378,14 +1397,14 @@ export const supplements: SupplementEntry[] = [
     headlineTier: "marketing-claim",
     headlineBasis: "human",
     short:
-      "Mostly caffeine and marketing — no supplement replaces an energy deficit.",
+      "Mostly caffeine and marketing. No supplement replaces an energy deficit.",
     metaDescription:
       "Fat burners and thermogenics, honestly reviewed: why most of the effect is caffeine, the small print on 'metabolism boosting', the stimulant-blend risks, and what actually drives fat loss.",
     safety: {
-      title: "Safety — fat burners",
+      title: "Fat burner safety",
       points: [
         "Most rely on high-dose stimulants; stacking them with coffee or pre-workout risks jitters, raised heart rate, poor sleep and, rarely, serious cardiac events.",
-        "Proprietary blends can hide doses and have historically included banned or withdrawn stimulants and hepatotoxic ingredients — a category with a poor safety track record.",
+        "Proprietary blends can hide doses and have historically included banned or withdrawn stimulants and hepatotoxic ingredients. As a category it has a poor safety track record.",
         "People who are pregnant or have heart, blood-pressure or anxiety conditions should avoid them.",
       ],
     },
@@ -1394,7 +1413,7 @@ export const supplements: SupplementEntry[] = [
     faq: [
       {
         q: "Do fat burners work?",
-        a: "Most of any real effect is the caffeine — a mild, temporary bump in metabolic rate and appetite suppression. The other ingredients are typically underdosed or unproven, and none override the need for an overall energy deficit to lose fat.",
+        a: "Most of any real effect is the caffeine, which gives a mild, temporary bump in metabolic rate and appetite suppression. The other ingredients are typically underdosed or unproven, and none override the need for an overall energy deficit to lose fat.",
       },
       {
         q: "What actually drives fat loss?",
@@ -1402,17 +1421,29 @@ export const supplements: SupplementEntry[] = [
       },
       {
         q: "Are they safe?",
-        a: "The category has a chequered safety record — high stimulant loads, hidden doses and, historically, banned or harmful ingredients. The risk-to-benefit balance is poor, especially alongside other caffeine sources.",
+        a: "The category has a chequered safety record: high stimulant loads, hidden doses and, historically, banned or harmful ingredients. The risk-to-benefit balance is poor, especially alongside other caffeine sources.",
       },
     ],
     sources: [
       {
         label:
-          "PubMed: thermogenic 'fat burner' supplements — efficacy, ingredients and safety (reviews and analyses)",
+          "PubMed: thermogenic 'fat burner' supplements, efficacy, ingredients and safety (reviews and analyses)",
         url: "https://pubmed.ncbi.nlm.nih.gov/?term=thermogenic+fat+burner+supplement+efficacy+safety",
       },
     ],
   },
+];
+
+/**
+ * The full supplement set: the original in-depth entries above plus the
+ * evidence-rated reference pages built from the 200-supplement list
+ * (CONTENT-supplements-200.md). Kept in a separate module so this file stays
+ * readable; every entry still gets its own page, rating, hub listing, sitemap
+ * entry and JSON-LD through the single `supplements` export.
+ */
+export const supplements: SupplementEntry[] = [
+  ...coreSupplements,
+  ...extraSupplements,
 ];
 
 export const supplementsBySlug: ReadonlyMap<string, SupplementEntry> = new Map(
@@ -1444,6 +1475,35 @@ export function supplementsByTier(): [EvidenceTier, SupplementEntry[]][] {
     ])
     .filter(([, list]) => list.length > 0)
     .sort(([a], [b]) => TIER_ORDER[a] - TIER_ORDER[b]);
+}
+
+const GRADE_ORDER: EvidenceGrade[] = [
+  "gold",
+  "silver",
+  "bronze",
+  "unproven",
+  "not-supported",
+];
+
+/**
+ * Supplements grouped on the medal ladder (the derived `evidenceGrade`, not the
+ * stored tier), A→Z within each grade, empty grades dropped. Drives the
+ * /supplements hub and the explorer so both read as one medal system.
+ */
+export function supplementsByGrade(): [EvidenceGrade, SupplementEntry[]][] {
+  const byGrade = new Map<EvidenceGrade, SupplementEntry[]>();
+  for (const s of [...supplements].sort((a, b) =>
+    a.name.localeCompare(b.name, "en-GB"),
+  )) {
+    const grade = evidenceGrade(s.headlineTier, s.headlineBasis);
+    const bucket = byGrade.get(grade);
+    if (bucket) bucket.push(s);
+    else byGrade.set(grade, [s]);
+  }
+  return GRADE_ORDER.filter((g) => byGrade.has(g)).map((g) => [
+    g,
+    byGrade.get(g)!,
+  ]);
 }
 
 export function resolveRelatedSupplements(slugs: string[]): SupplementEntry[] {
