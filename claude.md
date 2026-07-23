@@ -73,6 +73,9 @@ and Mat has signed off.
   and real blood values need ROADMAP E0 accounts + the BUSINESS_PLAN §13 /
   SPEC §17 data-protection posture (§8). Build sequence + gates in §11.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
+- IDEAS.md — product brainstorm backlog (2026-07-23). Ideas only, never a
+  build instruction; an idea graduates by being pulled into a spec doc after
+  Mat's call. Its §8 anti-ideas record what was considered and rejected.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
 - CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
