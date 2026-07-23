@@ -56,15 +56,62 @@ flap blip, pickup ding, decade tick, flatline tone.
 
 ## 6. Not built yet (sequenced)
 
-- Daily-seeded run + streak + Wordle-style share text (joins /daily).
-- /share achievement-card hook ("Lived to 92 · top 6% today"). The E1
-  OG-image pipeline (`/api/share-card`) exists but is tool-only; extending it to
-  Lifeline is part of `STATUS.md §3` Phase 2 (build once, serve tools + Pulse +
-  Daily + Lifeline).
-- Optional leaderboard (accounts-gated, ROADMAP E4 rules apply).
+Most of the original deferred list shipped in v2–v4 (§7 has the record: the
+daily-seeded run, ghost replay, death-card PNG, challenge links and skins are
+all built). What genuinely remains open:
+
+- **Streaks** (played-streak with freezes, per DAILY-GAMES §6 rules).
+- **The server-rendered `/share` achievement-card hook** ("Lived to 92 · top 6%
+  today"). Lifeline already ships a client-side death-card PNG (§7 v4); the
+  branded OG-image pipeline (`/api/share-card`) exists but is tool-only, so
+  serving a Lifeline card through it is part of `STATUS.md §3` Phase 2 (build
+  once, serve tools + Pulse + Daily + arcade).
+- **Optional leaderboard** (accounts-gated, ROADMAP E4 rules apply).
 
 ## 7. Status
 
 v1 BUILT (2026-07-23): src/lib/lifeline.ts (+ unit tests),
 src/components/lifeline/LifelineGame.tsx, /lifeline page, linked from
 /daily. Name "Lifeline" proposed, not locked.
+
+v2 feel + loops BUILT (same day): death sequence (freeze-frame, shake,
+tumble with X-eyes, flatline sweep, restart guard), grace runway + 2px
+hitbox forgiveness, flap squash, near-miss "CLOSE ONE" rewards, bass
+heartbeat that tracks age, the aging heart (blink/panic face; glasses 40+,
+grey brows 60+, flat cap 80+), the daily-seeded mode (dailySeed/
+dailyPuzzleNumber, per-day best, copy-to-clipboard share text), and a
+repo-vetted fact with link on every death card (§3 sourcing rule: only
+claims already cited by the site's tools). Still open from §6: /share
+card hook, streaks, leaderboard.
+
+v3 BUILT (2026-07-23): the screening shield (a CHECK-UP gate ~every 20
+years banks one free save — "caught early"; dashed ring = brief
+invulnerability), coffee pickup (2.2s slow-mo), daily modifiers
+("genetics": one deterministic twist per daily — twitchy stress, broccoli
+shortage, headwind, deep sleep, recovery day), per-kind column behaviour
+(stress always twitches, sofas sag into the gap), decade title cards
+("YOUR 40s"), calm mode (slower/wider, unmedaled, kept out of bests),
+last-five-lives line on the death card, typed analytics events
+(lifeline_run_started / lifeline_flatline in src/lib/analytics.ts), and
+the mobile fix: any tap on the game frame flaps/starts (controls
+excepted) — the ready overlay no longer swallows touches.
+
+v4 BUILT (2026-07-23) — the former deferred list, complete:
+- **Death-card PNG** ("Save card"): 1080×1080 canvas render — pixel heart,
+  Anton age (family read from the --font-anton variable), cause, medal,
+  FitTools footer — downloaded client-side, no backend.
+- **Challenge links** ("Challenge a mate"): every death can copy
+  `/lifeline?seed=…&beat=…`; opening one replays that exact course with a
+  "beat N" banner, and the death card stamps CHALLENGE BEATEN ✓ or
+  "still standing". Seeds recorded for random runs too.
+- **Skins** (earned, never bought — §3): Classic; Gold at 100; Chalk at 80.
+  Palette-swapped sprite variants, unlocks + selection persisted, locked
+  states visible with their unlock hints.
+- **Ghost replay** (daily mode): your best daily run's flight is sampled at
+  30Hz and replayed as a translucent heart on retries — you race yourself,
+  the ROADMAP "you vs you" motivator.
+Still open: streaks, /share holo-card hook, leaderboard (accounts-gated).
+
+Arcade (same day): now listed in the /arcade hub next to its sibling
+Powerhouse (POWERHOUSE.md), which also gave /lifeline a sitemap entry and
+an Arcade breadcrumb.

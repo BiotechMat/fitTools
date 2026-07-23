@@ -8,7 +8,7 @@ and a feature doc disagree on build status, this file is newer — update the
 feature doc to match.
 
 **Snapshot date: 2026-07-23.** Live at **https://tools.fit** (auto-indexable on
-the Vercel production deployment). Full suite green: **501 unit tests across 52
+the Vercel production deployment). Full suite green: **516 unit tests across 53
 files + 15 Playwright e2e specs**; `pnpm typecheck` clean; Lighthouse budgets
 enforced in CI.
 
@@ -33,7 +33,7 @@ in **content volume, instrumentation, and distribution**, not in the platform.
 | Glow-up (CONTENT-looksmaxxing.md) | §8 Step 1 — skin & sun cluster + debunk hub (pending Mat sign-off) |
 | Pulse (PULSE.md) | v1 feed + full fresh-cards pipeline **F0–F3** (harvest CLI, weekly Action, `/pulse/this-week` digest) |
 | Daily games (DAILY-GAMES.md) | Ballpark + Myth or Fact?, streaks, share, analytics |
-| Lifeline (LIFELINE.md) | Heartbeat arcade game at `/lifeline` |
+| Arcade (LIFELINE.md, POWERHOUSE.md) | **Lifeline** heartbeat flapper (v1–v4: daily-seeded run, ghost replay, death-card PNG, challenge links, skins) + **Powerhouse** mitochondria shooter, grouped in the `/arcade` hub; both funnel to Heart Age / HR-zone tools |
 | Dashboard (DASHBOARD.md) | **D0** local scaffold — metric registry, store, `/dashboard` route |
 | Share loop (ROADMAP E1) | **Partially built** — dynamic 1200×630 OG card at `/api/share-card` + `/share` page + share buttons on tool results |
 | Design (DESIGN.md) | v2 rebrand implemented + §8 motion system |
@@ -96,8 +96,10 @@ The features exist; give them content and turn on measurement.
 - **Activate measurement.** CMP + GA4 (consent-gated loaders built and
   e2e-tested), Search Console verification, a double-opt-in email provider for
   `EmailCapture`. `/pulse/this-week` was built as the newsletter unit.
-- **Unhide affiliate cards.** Paste real URLs into `src/registry/affiliates.ts`
-  (one-line edits; cards stay hidden until then).
+- **Activate affiliate buy buttons.** The recommendation cards already render
+  their editorial picks; the buy button + disclosure appear per pick once its
+  affiliate URL is pasted into `src/registry/affiliates.ts` (one-line edits, no
+  marketing-claim pages by rule).
 
 *Owner: mostly config/content + Vercel dashboard, not repo engineering.*
 
@@ -106,8 +108,10 @@ The features exist; give them content and turn on measurement.
 - **Extend the share-card pipeline beyond tools.** `/api/share-card` already
   renders a branded 1200×630 OG image, but validates against the *tool* registry
   only. Generalise it (or add sibling payloads) so **Pulse cards, Daily results
-  and Lifeline** can share through it, and add the **1080×1920 story format**.
-  This is the one dependency PULSE §4, DAILY-GAMES §7 and LIFELINE §6 all name.
+  and the arcade games** can share through it, and add the **1080×1920 story
+  format**. This is the one dependency PULSE §4, DAILY-GAMES §7 and LIFELINE §6
+  all name. (Lifeline already ships a *client-side* death-card PNG; this is the
+  server-rendered OG hook.)
 - **Build the specced SEO artefacts** (the internal-linking payoff both content
   docs call a build requirement): `/daily/archive/<date>` pages, the
   `/pulse/<date>` daily page with `Claim` JSON-LD, and reciprocal "related facts"
@@ -115,8 +119,9 @@ The features exist; give them content and turn on measurement.
 - **Wire more calculators to `ResultHistory`.** Only **TDEE and 1RM** persist
   today (DASHBOARD D0 note), which starves the dashboard and Trajectory of data.
   This is a prerequisite for Phase 3 to have anything to chart.
-- **Small closers:** `/pulse/saved` view (store already supports it),
-  Lifeline daily-seeded run + spoiler-free share text.
+- **Small closers:** `/pulse/saved` view (store already supports it), and the
+  **Powerhouse** daily-seeded run + share text (Lifeline's already shipped —
+  POWERHOUSE §6).
 
 ### Phase 3 — Trajectory (Dashboard D1 / ROADMAP E2) — *the keystone*
 

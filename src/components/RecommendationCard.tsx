@@ -1,21 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { recommendationsFor } from "@/registry/affiliates";
+import { isLivePick, recommendationsFor } from "@/registry/affiliates";
 import { trackEvent } from "@/lib/analytics";
 
 /**
  * "Our recommendation" card — the shared affiliate placement for every
  * surface where a product can be sold (SPEC §10; CONTENT.md §4.2/§6).
- * Renders nothing until the surface has a live pick in
- * registry/affiliates.ts, so pages stay clean before offers are signed.
- * Every render carries the disclosure line; links are
- * rel="sponsored nofollow"; clicks emit affiliate_click events keyed by
- * the surface.
+ * Picks render as editorial content straight away; the "View at" button and
+ * the affiliate disclosure appear only for picks whose affiliate URL is live
+ * in registry/affiliates.ts, so no dead or placeholder links ever ship.
+ * Live links are rel="sponsored nofollow" and clicks emit affiliate_click
+ * events keyed by the surface.
  */
 export function RecommendationCard({ surface }: { surface: string }) {
   const picks = recommendationsFor(surface);
   if (picks.length === 0) return null;
+
+  const anyLive = picks.some(isLivePick);
 
   return (
     <aside
@@ -43,35 +45,39 @@ export function RecommendationCard({ surface }: { surface: string }) {
                 </p>
               ) : null}
             </div>
-            <a
-              href={pick.url}
-              rel="sponsored nofollow noopener"
-              target="_blank"
-              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 text-sm font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
-              onClick={() =>
-                trackEvent({
-                  name: "affiliate_click",
-                  params: { slug: surface, offer: pick.offerId },
-                })
-              }
-            >
-              {pick.merchant ? `View at ${pick.merchant}` : "View product"}
-              <span aria-hidden="true"> ↗</span>
-            </a>
+            {isLivePick(pick) ? (
+              <a
+                href={pick.url}
+                rel="sponsored nofollow noopener"
+                target="_blank"
+                className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 text-sm font-bold text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+                onClick={() =>
+                  trackEvent({
+                    name: "affiliate_click",
+                    params: { slug: surface, offer: pick.offerId },
+                  })
+                }
+              >
+                {pick.merchant ? `View at ${pick.merchant}` : "View product"}
+                <span aria-hidden="true"> ↗</span>
+              </a>
+            ) : null}
           </li>
         ))}
       </ul>
-      <p className="mt-4 border-t border-border pt-3 text-xs text-muted">
-        Affiliate disclosure: we may earn a commission if you buy through this
-        link, at no extra cost to you. It never changes our evidence
-        assessments or what the calculators report.{" "}
-        <Link
-          href="/legal/affiliate-disclosure"
-          className="text-primary underline underline-offset-2"
-        >
-          How affiliate links work
-        </Link>
-      </p>
+      {anyLive ? (
+        <p className="mt-4 border-t border-border pt-3 text-xs text-muted">
+          Affiliate disclosure: we may earn a commission if you buy through this
+          link, at no extra cost to you. It never changes our evidence
+          assessments or what the calculators report.{" "}
+          <Link
+            href="/legal/affiliate-disclosure"
+            className="text-primary underline underline-offset-2"
+          >
+            How affiliate links work
+          </Link>
+        </p>
+      ) : null}
     </aside>
   );
 }

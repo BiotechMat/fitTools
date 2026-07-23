@@ -4,7 +4,7 @@
 Fitness calculator platform. Full requirements in SPEC.md — read it before any work.
 
 **Current state & what's next: see `STATUS.md`** — the cross-cutting build tracker
-and execution roadmap. Live at https://tools.fit; 501 unit tests + 15 e2e specs
+and execution roadmap. Live at https://tools.fit; 516 unit tests + 15 e2e specs
 green; typecheck clean. The short version: the platform is well ahead of the
 roadmap, and the near-term priority is content volume, instrumentation and
 distribution (fuel the banks → turn on measurement → close half-built loops →
@@ -21,18 +21,21 @@ breathwork, foam rolling), CONTENT-peptides.md, the CONTENT-reference.md
 first batch (glossary, supplement database, exercise library, food reference,
 reference tables, plus both-way calculator↔reference cross-links), the Pulse
 feed + fresh-cards pipeline F0–F3 (PULSE.md), the daily games (DAILY-GAMES.md),
-Lifeline the heartbeat arcade game (LIFELINE.md), the glow-up section first
-step (CONTENT-looksmaxxing.md §8), the E1 share loop (/share achievement card —
-tool-only for now; extending it to Pulse/Daily/Lifeline is STATUS.md Phase 2),
+the arcade (LIFELINE.md /lifeline heartbeat flapper; POWERHOUSE.md /powerhouse
+side-scrolling mitochondria shooter; hub at /arcade — nav + homepage CTA point
+there), the glow-up section first step (CONTENT-looksmaxxing.md §8), the E1 share
+loop (/share achievement card — tool-only for now; extending it to Pulse/Daily/
+arcade is STATUS.md Phase 2),
 the /blood-test page (placeholder panel, pending partner), the dashboard D0
 local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the
 data-protection posture), the DESIGN.md §8 motion & effects system, and the
 "Our recommendation" affiliate-card system (2026-07-23: shared
 src/components/RecommendationCard.tsx + surface-keyed src/registry/affiliates.ts
-wired across supplement, recovery, glow-up and tool pages; every seeded pick
-stays hidden until its affiliate URL is pasted into the registry — activation
-notes in the registry header; no picks on marketing-claim pages by rule,
-enforced in tests/unit/affiliates.test.ts).
+wired across supplement, recovery, glow-up and tool pages; cards render their
+editorial picks now, and the buy button + disclosure appear per pick once its
+affiliate URL is pasted into the registry — activation notes in the registry
+header; no picks on marketing-claim pages by rule, enforced in
+tests/unit/affiliates.test.ts).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
@@ -88,10 +91,19 @@ and Mat has signed off.
   Bank growth to the ~90 Ballpark / ~40 Myth targets is the top remaining job
   (STATUS.md Phase 1).
 - LIFELINE.md — spec + build for "Lifeline", the one-button heartbeat arcade
-  game at `/lifeline` (Flappy-Bird lineage; score = the age you reach). v1 BUILT
-  (2026-07-23): src/lib/lifeline.ts (+ tests), src/components/lifeline/*,
-  /lifeline, linked from /daily. A funnel to the Heart Age calculator, explicitly
-  a cartoon not a prediction (§3). Name "Lifeline" proposed, not locked.
+  game at `/lifeline` (Flappy-Bird lineage; score = the age you reach). v1–v4
+  BUILT (2026-07-23): src/lib/lifeline.ts (+ tests), src/components/lifeline/*,
+  /lifeline. Includes the daily-seeded run, ghost replay ("you vs you"), death-
+  card PNG, challenge links and earned skins (§7). A funnel to the Heart Age
+  calculator, explicitly a cartoon not a prediction (§3). Still open: streaks,
+  /share holo-card hook, leaderboard. Name "Lifeline" proposed, not locked.
+- POWERHOUSE.md — spec + build for "Powerhouse", the side-scrolling mitochondria
+  shooter at `/powerhouse` (Gradius lineage; score = ATP made, difficulty = HR
+  training zones). Sibling of Lifeline. v1 BUILT (2026-07-23): src/lib/
+  powerhouse.ts (+ tests), src/components/powerhouse/*, /powerhouse. Lives in the
+  /arcade hub (src/app/arcade/) beside Lifeline + the dailies. A funnel to the
+  Heart Rate Zone calculator; cartoon, not cell biology (§3). Name "Powerhouse"
+  proposed, not locked.
 - DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
   ("Your numbers"): the home base that aggregates vitals, saved calculations,
   composite/biological-age scores and blood-test biomarkers, with longitudinal

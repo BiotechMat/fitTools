@@ -41,14 +41,28 @@ export default function DailyPage() {
       </div>
 
       <p className="mt-8 text-sm text-muted">
-        Need something twitchier?{" "}
+        Need something twitchier? The{" "}
+        <Link
+          href="/arcade"
+          className="font-semibold text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          Arcade
+        </Link>{" "}
+        has{" "}
         <Link
           href="/lifeline"
           className="font-semibold text-primary underline underline-offset-2 hover:text-foreground"
         >
           Lifeline
-        </Link>{" "}
-        — our one-button heartbeat arcade. Your score is the age you reach.
+        </Link>
+        , our one-button heartbeat flapper, and{" "}
+        <Link
+          href="/powerhouse"
+          className="font-semibold text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          Powerhouse
+        </Link>
+        , the mitochondria shooter.
       </p>
       <DailyFavicon />
     </div>
