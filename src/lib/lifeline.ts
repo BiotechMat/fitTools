@@ -10,6 +10,9 @@ export const LIFELINE = {
   height: 560,
   playerX: 110,
   playerRadius: 9,
+  /** Collision circle is 2px inside the drawn heart — overlap without death
+      feels generous; death without overlap kills the game. */
+  hitboxRadius: 7,
   gravity: 1500,
   flapImpulse: -420,
   terminalFall: 520,
@@ -90,6 +93,19 @@ export function hitsColumn(
     py - radius < column.gapY - column.gapH / 2 ||
     py + radius > column.gapY + column.gapH / 2
   );
+}
+
+/** Daily run numbering — puzzle #1 on the launch date. */
+const DAILY_EPOCH_UTC = Date.UTC(2026, 6, 23);
+
+export function dailyPuzzleNumber(dateISO: string): number {
+  const [y, m, d] = dateISO.split("-").map(Number);
+  return Math.floor((Date.UTC(y, m - 1, d) - DAILY_EPOCH_UTC) / 86_400_000) + 1;
+}
+
+/** Seed for the daily course: the date digits (deterministic for everyone). */
+export function dailySeed(dateISO: string): number {
+  return Number(dateISO.replace(/-/g, ""));
 }
 
 /** Deterministic RNG (mulberry32) so a daily-seeded mode can ship later. */

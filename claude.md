@@ -20,10 +20,11 @@ local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the
 data-protection posture), the DESIGN.md §8 motion & effects system, and the
 "Our recommendation" affiliate-card system (2026-07-23: shared
 src/components/RecommendationCard.tsx + surface-keyed src/registry/affiliates.ts
-wired across supplement, recovery, glow-up and tool pages; every seeded pick
-stays hidden until its affiliate URL is pasted into the registry — activation
-notes in the registry header; no picks on marketing-claim pages by rule,
-enforced in tests/unit/affiliates.test.ts).
+wired across supplement, recovery, glow-up and tool pages; cards render their
+editorial picks now, and the buy button + disclosure appear per pick once its
+affiliate URL is pasted into the registry — activation notes in the registry
+header; no picks on marketing-claim pages by rule, enforced in
+tests/unit/affiliates.test.ts).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
