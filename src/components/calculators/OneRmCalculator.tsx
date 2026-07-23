@@ -135,13 +135,13 @@ export function OneRmCalculator() {
             <BarbellWhip loadKg={result.maxKg} />
             {result.reps > REP_VALIDITY_LIMIT ? (
               <p className={warningClass} role="alert">
-                Estimates lose accuracy beyond {REP_VALIDITY_LIMIT} reps —
+                Estimates lose accuracy beyond {REP_VALIDITY_LIMIT} reps,
                 treat this number as a rough guide only, or test with a
                 heavier set of 10 or fewer.
               </p>
             ) : (
               <p className="mt-2 max-w-prose text-sm text-muted">
-                An estimate, not a guarantee — individual rep-to-max
+                An estimate, not a guarantee, individual rep-to-max
                 relationships vary by lift and lifter. Use it to set training
                 percentages rather than to attempt a true max.
               </p>
@@ -173,7 +173,7 @@ export function OneRmCalculator() {
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter the weight you lifted and the reps completed (1–20) to
+            Enter the weight you lifted and the reps completed (1 to 20) to
             estimate your one-rep max.
           </p>
         )}

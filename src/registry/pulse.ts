@@ -40,12 +40,12 @@ const SRC = {
   },
   saunaMortality: {
     label:
-      "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542–548",
+      "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542-548",
     url: "https://pubmed.ncbi.nlm.nih.gov/25705824/",
   },
   saunaReview: {
     label:
-      "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111–1121",
+      "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111-1121",
     url: "https://www.mayoclinicproceedings.org/article/s0025-6196(18)30275-1/fulltext",
   },
   apob: {
@@ -86,7 +86,7 @@ const evergreenChunks: GroundingChunk[] = [
   {
     id: "cwi-wellbeing-preliminary",
     claim:
-      "Evidence that cold-water immersion improves mood and general wellbeing is still preliminary — promising but far weaker than the marketing around ice baths implies.",
+      "Evidence that cold-water immersion improves mood and general wellbeing is still preliminary, promising but far weaker than the marketing around ice baths implies.",
     category: "mind",
     tags: ["cold-water", "mood", "wellbeing"],
     tier: "preliminary",
@@ -97,7 +97,7 @@ const evergreenChunks: GroundingChunk[] = [
   {
     id: "sauna-cv-mortality",
     claim:
-      "In large Finnish cohort studies, frequent sauna use (around 4–7 sessions a week) is associated with substantially lower cardiovascular and all-cause mortality — a strong association, though observational rather than proven cause.",
+      "In large Finnish cohort studies, frequent sauna use (around 4 to 7 sessions a week) is associated with substantially lower cardiovascular and all-cause mortality, a strong association, though observational rather than proven cause.",
     category: "longevity",
     tags: ["sauna", "cardiovascular", "mortality"],
     tier: "well-supported",
@@ -130,7 +130,7 @@ const evergreenChunks: GroundingChunk[] = [
   {
     id: "sauna-not-detox",
     claim:
-      "Sauna 'detox' claims are marketing — the liver and kidneys handle that — and the weight lost in a session is water that returns on rehydration; the credible benefits are cardiovascular and relaxation-related.",
+      "Sauna 'detox' claims are marketing, since the liver and kidneys handle that, and the weight lost in a session is water that returns on rehydration; the credible benefits are cardiovascular and relaxation-related.",
     category: "recovery",
     tags: ["sauna", "myth", "detox"],
     tier: "marketing-claim",
@@ -140,7 +140,7 @@ const evergreenChunks: GroundingChunk[] = [
   {
     id: "apob-counts-particles",
     claim:
-      "ApoB counts the number of atherogenic (potentially artery-clogging) particles in your blood directly, because there is one ApoB molecule per particle — which can make it a more precise cardiovascular-risk marker than standard LDL cholesterol alone.",
+      "ApoB counts the number of atherogenic (potentially artery-clogging) particles in your blood directly, because there is one ApoB molecule per particle, which can make it a more precise cardiovascular-risk marker than standard LDL cholesterol alone.",
     category: "physiology",
     tags: ["apob", "cardiovascular", "biomarker"],
     tier: "well-supported",
@@ -152,7 +152,7 @@ const evergreenChunks: GroundingChunk[] = [
   {
     id: "lpa-mostly-genetic",
     claim:
-      "Lipoprotein(a) is roughly 80–90% genetically determined and stays fairly stable through life, so a single measurement can flag lifelong elevated cardiovascular risk that standard cholesterol testing misses.",
+      "Lipoprotein(a) is roughly 80 to 90% genetically determined and stays fairly stable through life, so a single measurement can flag lifelong elevated cardiovascular risk that standard cholesterol testing misses.",
     category: "longevity",
     tags: ["lp-a", "genetics", "cardiovascular"],
     tier: "well-supported",

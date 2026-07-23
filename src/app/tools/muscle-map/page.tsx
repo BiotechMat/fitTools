@@ -5,7 +5,7 @@ import { MuscleMap } from "@/components/tools/MuscleMap";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Muscle Map — Tap a Muscle, Find the Exercises",
+  title: "Muscle Map: Tap a Muscle, Find the Exercises",
   description:
     "A clickable muscle map: pick any muscle group and see every exercise in the library that trains it, directly or along the way. Free, with full form guides one tap away.",
   alternates: { canonical: "/tools/muscle-map" },
@@ -39,7 +39,7 @@ export default function MuscleMapPage() {
         Muscle map
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        Tap a muscle — on the figure or the chips — and see every exercise in
+        Tap a muscle, on the figure or the chips, and see every exercise in
         the library that trains it, with the ones that hit it directly listed
         first. Each link opens the full guide: steps, form faults and
         substitutions.

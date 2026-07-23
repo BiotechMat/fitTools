@@ -14,7 +14,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "FitTools",
     short_name: "FitTools",
     description:
-      "Evidence-based fitness calculators and micro-tools — every formula cited.",
+      "Evidence-based fitness calculators and micro-tools, every formula cited.",
     display: "standalone",
     background_color: "#fbf4ec",
     theme_color: "#fbf4ec",

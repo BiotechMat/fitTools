@@ -97,7 +97,7 @@ export function RacePredictorCalculator() {
             </table>
             <p className="mt-3 max-w-prose text-sm text-muted">
               Assumes you&rsquo;re as trained for the target distance as the
-              known one — marathon predictions in particular are a best case
+              known one, marathon predictions in particular are a best case
               without marathon-specific mileage.
             </p>
           </div>

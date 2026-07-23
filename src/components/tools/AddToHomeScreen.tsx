@@ -71,7 +71,7 @@ export function AddToHomeScreen({ toolName }: { toolName: string }) {
           </ol>
           <p className="mt-1.5 text-xs text-muted">
             The {toolName.toLowerCase()} then opens full-screen from its own
-            icon, like an app — no browser chrome, no App Store.
+            icon, like an app, with no browser chrome or App Store.
           </p>
         </div>
       ) : null}

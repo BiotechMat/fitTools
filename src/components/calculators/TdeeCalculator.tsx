@@ -33,17 +33,17 @@ type Formula = "mifflin" | "katch" | "harris";
 
 /** Plain labels for the activity factors (SPEC §7). */
 const ACTIVITY_LABELS: Record<ActivityLevel, string> = {
-  sedentary: "Sedentary — little or no exercise (×1.2)",
-  light: "Lightly active — exercise 1–3 days a week (×1.375)",
-  moderate: "Moderately active — exercise 3–5 days a week (×1.55)",
-  active: "Very active — hard exercise 6–7 days a week (×1.725)",
-  veryActive: "Extremely active — hard daily exercise or a physical job (×1.9)",
+  sedentary: "Sedentary: little or no exercise (×1.2)",
+  light: "Lightly active: exercise 1 to 3 days a week (×1.375)",
+  moderate: "Moderately active: exercise 3 to 5 days a week (×1.55)",
+  active: "Very active: hard exercise 6 to 7 days a week (×1.725)",
+  veryActive: "Extremely active: hard daily exercise or a physical job (×1.9)",
 };
 
 const FORMULA_LABELS: Record<Formula, string> = {
-  mifflin: "Mifflin–St Jeor (recommended)",
-  katch: "Katch–McArdle (requires body-fat %)",
-  harris: "Revised Harris–Benedict",
+  mifflin: "Mifflin-St Jeor (recommended)",
+  katch: "Katch-McArdle (requires body-fat %)",
+  harris: "Revised Harris-Benedict",
 };
 
 const selectClass =
@@ -235,7 +235,7 @@ export function TdeeCalculator() {
               We estimate you burn around {formatKcal(result.tdeeKcal)} kcal per
               day at your selected activity level, of which{" "}
               {formatKcal(result.bmr)} kcal is your estimated basal metabolic
-              rate — the energy your body uses at complete rest. These are
+              rate, the energy your body uses at complete rest. These are
               estimates, not measurements: use them as a starting point and
               adjust based on how your weight actually responds over a few
               weeks.
@@ -281,8 +281,8 @@ export function TdeeCalculator() {
         ) : (
           <p className="text-sm text-muted">
             {katchNeedsBodyFat
-              ? "Enter your body-fat percentage (5–60%) to use the Katch–McArdle formula, or switch back to Mifflin–St Jeor."
-              : "Enter a valid age (13–100), weight (30–300 kg) and height (120–250 cm) to see your estimate."}
+              ? "Enter your body-fat percentage (5 to 60%) to use the Katch-McArdle formula, or switch back to Mifflin-St Jeor."
+              : "Enter a valid age (13 to 100), weight (30 to 300 kg) and height (120 to 250 cm) to see your estimate."}
           </p>
         )}
       </ResultsPanel>

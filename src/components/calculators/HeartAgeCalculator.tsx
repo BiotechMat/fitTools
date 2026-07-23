@@ -52,14 +52,14 @@ function round(value: number, dp = 2): string {
 /** Lp(a) risk band, nmol/L (NLA 2024 focused update). Context only. */
 function lpaBand(nmol: number): { label: string; tone: string } {
   if (nmol >= 125) return { label: "High risk (≥125 nmol/L)", tone: "text-foreground" };
-  if (nmol >= 75) return { label: "Intermediate (75–125 nmol/L)", tone: "text-foreground" };
+  if (nmol >= 75) return { label: "Intermediate (75 to 125 nmol/L)", tone: "text-foreground" };
   return { label: "Lower risk (<75 nmol/L)", tone: "text-good" };
 }
 
 /** ApoB general reference band, mg/dL. Context only, not a treatment target. */
 function apoBBand(mgDl: number): { label: string; tone: string } {
   if (mgDl >= 130) return { label: "High (≥130 mg/dL)", tone: "text-foreground" };
-  if (mgDl >= 90) return { label: "Above desirable (90–129 mg/dL)", tone: "text-foreground" };
+  if (mgDl >= 90) return { label: "Above desirable (90 to 129 mg/dL)", tone: "text-foreground" };
   return { label: "Desirable (<90 mg/dL)", tone: "text-good" };
 }
 
@@ -206,7 +206,7 @@ export function HeartAgeCalculator() {
           </fieldset>
           <div>
             <label htmlFor={`${id}-age`} className={labelClass}>
-              Age (30–79)
+              Age (30 to 79)
             </label>
             <input
               id={`${id}-age`}
@@ -351,7 +351,7 @@ export function HeartAgeCalculator() {
             {levers && levers.length > 0 ? (
               <WhatMovesIt
                 entries={levers}
-                footnote="Each row re-runs the same PREVENT equation with that one input at the model's optimal-reference value — a modelled what-if, not medical advice."
+                footnote="Each row re-runs the same PREVENT equation with that one input at the model's optimal-reference value, a modelled what-if, not medical advice."
               />
             ) : null}
             <p className="text-sm text-muted">
@@ -364,7 +364,7 @@ export function HeartAgeCalculator() {
             <p className="mt-3 max-w-prose text-sm text-muted">
               This is a population-level estimate from the AHA PREVENT model, not
               a diagnosis or a personal prediction. It does not tell you to start
-              or change any treatment — that is a conversation for your doctor,
+              or change any treatment. That is a conversation for your doctor,
               who can weigh the full picture.
             </p>
 
@@ -374,7 +374,7 @@ export function HeartAgeCalculator() {
                 className="mt-5 rounded-lg border border-border bg-surface p-3"
               >
                 <h3 className="text-sm font-semibold">
-                  ApoB &amp; Lp(a) — context, not part of the heart-age calculation
+                  ApoB &amp; Lp(a), context, not part of the heart-age calculation
                 </h3>
                 <p className="mt-1 text-xs text-muted">
                   These are not inputs to PREVENT, so they don&rsquo;t change the
@@ -384,13 +384,13 @@ export function HeartAgeCalculator() {
                 <ul className="mt-2 space-y-1 text-sm">
                   {apoB && (
                     <li>
-                      ApoB {formatNumber(s.apoBmgDl ?? 0, 0)} mg/dL —{" "}
+                      ApoB {formatNumber(s.apoBmgDl ?? 0, 0)} mg/dL,{" "}
                       <span className={`font-semibold ${apoB.tone}`}>{apoB.label}</span>
                     </li>
                   )}
                   {lpa && (
                     <li>
-                      Lp(a) {formatNumber(s.lpaNmol ?? 0, 0)} nmol/L —{" "}
+                      Lp(a) {formatNumber(s.lpaNmol ?? 0, 0)} nmol/L,{" "}
                       <span className={`font-semibold ${lpa.tone}`}>{lpa.label}</span>
                     </li>
                   )}

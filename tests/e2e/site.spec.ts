@@ -51,7 +51,7 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
   // Home + daily hub + arcade hub + lifeline + powerhouse + max-out +
-  // snake-oil + blood-test +
+  // five-a-day + blood-test +
   // pulse hub + pulse/this-week + calculators index + 3 calculator category
   // pages + 3 section hubs +
   // 32 standard tools + reconstitution calculator (in the peptides section) +

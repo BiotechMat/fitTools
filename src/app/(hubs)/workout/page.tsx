@@ -7,7 +7,7 @@ import { exercisePatterns } from "@/registry/exercises";
 const meta = hubMeta.strength;
 
 export const metadata: Metadata = {
-  title: `${meta.title} — calculators & exercise library`,
+  title: `${meta.title}: calculators & exercise library`,
   description: meta.description,
   alternates: { canonical: meta.path },
 };
@@ -20,7 +20,7 @@ export default function WorkoutHubPage() {
           Exercise library
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
-          How to perform the lifts the calculators plan for — muscles worked,
+          How to perform the lifts the calculators plan for, muscles worked,
           form faults and fixes, substitutions and programming notes, grouped
           by movement pattern.
         </p>

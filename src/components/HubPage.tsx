@@ -61,7 +61,7 @@ export function HubPage({ hub, children }: { hub: Hub; children?: ReactNode }) {
               {meta.title} calculators
             </Link>
             <p className="mt-1 text-sm text-muted">
-              All {toolCount} {meta.title.toLowerCase()} calculators — every
+              All {toolCount} {meta.title.toLowerCase()} calculators, every
               formula cited to its published source.
             </p>
           </li>

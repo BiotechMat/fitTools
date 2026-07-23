@@ -3,7 +3,7 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Tools — Timers, Breath Coach, Muscle Map & More",
+  title: "Tools: Timers, Breath Coach, Muscle Map & More",
   description:
     "Interactive gym micro-tools: rest and interval timers, a breathing coach, a clickable muscle map, a protein plate builder and a supplement evidence explorer. Free, in your browser.",
   alternates: { canonical: "/tools" },
@@ -14,7 +14,7 @@ const TOOLS = [
   {
     href: "/tools/timer",
     name: "Gym timers",
-    blurb: "Rest, intervals and EMOM — big digits, countdown beeps, shareable settings.",
+    blurb: "Rest, intervals and EMOM, with big digits, countdown beeps and shareable settings.",
     chip: "bg-primary-soft",
     eyebrow: "Train",
   },
@@ -69,7 +69,7 @@ export default function ToolsHubPage() {
       </nav>
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Tools</h1>
       <p className="mt-2 max-w-prose text-muted">
-        Interactive micro-tools that earn a place in your session — timers that
+        Interactive micro-tools that earn a place in your session: timers that
         run your rest, a coach that paces your breathing, maps and builders
         driven by the same cited reference data as everything else on the site.
         No sign-up, nothing stored beyond your own browser.

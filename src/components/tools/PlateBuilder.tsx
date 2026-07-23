@@ -126,7 +126,7 @@ export function PlateBuilder() {
         {items.length === 0 ? (
           <p className="mt-2 text-sm text-muted">
             Tap foods on the left to start stacking. Portions are the typical
-            servings from the food reference — nudge them up or down per item.
+            servings from the food reference. Nudge them up or down per item.
           </p>
         ) : (
           <ul className="mt-2 space-y-1.5">

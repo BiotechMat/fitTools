@@ -5,11 +5,11 @@ export const ipamorelinPage: PeptidePage = {
   name: "Ipamorelin",
   aka: ["Growth-hormone secretagogue"],
   category: "gh-secretagogue",
-  title: "Ipamorelin — What It Is and What the Evidence Actually Shows",
+  title: "Ipamorelin: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on ipamorelin: a synthetic growth-hormone secretagogue marketed for muscle, fat loss and anti-ageing, whose real-world fitness benefits in healthy people are unproven.",
   valueLine:
-    "Prompts a short-lived rise in growth hormone — but that this translates into muscle, fat loss or anti-ageing benefits in healthy people is unproven.",
+    "Prompts a short-lived rise in growth hormone, but whether that translates into muscle, fat loss or anti-ageing benefits in healthy people is unproven.",
   headlineTier: "marketing-claim",
   headlineBasis: "mixed",
   wadaProhibited: true,
@@ -36,12 +36,12 @@ export const ipamorelinPage: PeptidePage = {
   sources: [
     {
       label:
-        "WADA Prohibited List — S2 Peptide Hormones, Growth Factors: growth-hormone secretagogues (including ghrelin mimetics) prohibited at all times",
+        "WADA Prohibited List, S2 Peptide Hormones, Growth Factors: growth-hormone secretagogues (including ghrelin mimetics) prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
     {
       label:
-        "PubMed: ipamorelin — growth-hormone secretagogue pharmacology (studies and reviews)",
+        "PubMed: ipamorelin, growth-hormone secretagogue pharmacology (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=ipamorelin+growth+hormone+secretagogue",
     },
   ],
