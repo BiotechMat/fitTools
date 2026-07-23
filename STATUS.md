@@ -35,7 +35,7 @@ in **content volume, instrumentation, and distribution**, not in the platform.
 | Daily games (DAILY-GAMES.md) | Ballpark + Myth or Fact?, streaks, share, analytics |
 | Arcade (LIFELINE.md, POWERHOUSE.md) | **Lifeline** heartbeat flapper (v1–v4: daily-seeded run, ghost replay, death-card PNG, challenge links, skins) + **Powerhouse** mitochondria shooter, grouped in the `/arcade` hub; both funnel to Heart Age / HR-zone tools |
 | Dashboard (DASHBOARD.md) | **D0** local scaffold — metric registry, store, `/dashboard` route |
-| Share loop (ROADMAP E1) | **Partially built** — tool pipeline (`/api/share-card` + `/share` + share buttons) **plus** (2026-07-23) the arcade/daily hook: game share links carry the score as bounded params and unfurl as `/api/arcade-card` score cards; every section/content/tool page now has its own OG image (`src/lib/og-image.tsx` kicker cards). Still open: Pulse cards, 1080×1920 story format |
+| Share loop (ROADMAP E1) | **Partially built** — tool pipeline (`/api/share-card` + `/share` + share buttons) **plus** (2026-07-23) the arcade/daily hook: game share links carry the score as bounded params and unfurl as `/api/arcade-card` score cards; every section/content/tool page now has its own OG image. All cards render in the Lifeline death-card house style (paper sheet, ink frame, pixel emblems, Anton score — `src/lib/og-image.tsx` + `src/lib/pixel-art.ts`, vendored OFL fonts in `src/lib/og-fonts/`). Still open: Pulse cards, 1080×1920 story format |
 | Design (DESIGN.md) | v2 rebrand implemented + §8 motion system |
 | Monetisation infra (SPEC §10) | CMP, AdSlot, affiliate registry, analytics, email — all **built behind flags, all OFF** |
 

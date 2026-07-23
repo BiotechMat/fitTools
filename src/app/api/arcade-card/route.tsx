@@ -1,125 +1,120 @@
 import type { ReactNode } from "react";
 import { ImageResponse } from "next/og";
 import {
-  lifelineCauseLabel,
   parseCardParams,
   powerhouseZonePhrase,
-  type ArcadeCardPayload,
   type HeroCard,
   type ShareResultPayload,
 } from "@/lib/arcade-share";
+import { EDGE_CAUSE, OBSTACLE_KINDS, medalFor, type Medal } from "@/lib/lifeline";
 import { MISS_CAUSES, formatKg, platesPhrase } from "@/lib/maxout";
-import { TIER_META } from "@/lib/daily/types";
-import { OG_COLORS, OG_SIZE } from "@/lib/og-image";
+import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
+import {
+  CardFooter,
+  CardSheet,
+  OG_COLORS,
+  OG_SIZE,
+  PixelSprite,
+  ogClip,
+  ogFonts,
+} from "@/lib/og-image";
+import {
+  BALLPARK_TARGET,
+  LIFELINE_HEART,
+  MAXOUT_LIFTER,
+  MINI_HEART_EMPTY,
+  MINI_HEART_FULL,
+  POWERHOUSE_MITO,
+  SNAKEOIL_BOTTLE,
+} from "@/lib/pixel-art";
 import { SITE_URL } from "@/lib/site";
 
 /**
  * Dynamic arcade/daily score card (STATUS.md Phase 2 — the share loop beyond
- * tools). Renders the branded 1200×630 OG image for a shared game result, so a
- * "beat me" link unfurls as the score instead of the generic site card. Sibling
- * of `/api/share-card` (which stays tool-registry-bound); params here are
- * numbers, fixed ids and tier letters only — never free text — so a crafted
- * URL can't put arbitrary words in the brand frame.
+ * tools), styled as the Lifeline death card (LifelineGame.saveCard): paper
+ * sheet, ink frame, pixel emblem, ember kicker, Anton score, mono gag line.
+ * A "beat me" link unfurls as this card instead of the generic site image.
+ * Sibling of `/api/share-card`; params are numbers, fixed ids and tier
+ * letters only — never free text — so a crafted URL can't put arbitrary
+ * words in the frame.
  */
 
 export const dynamic = "force-dynamic";
 
-const { ink, paper, blaze, forest, sand } = OG_COLORS;
-const HOST = new URL(SITE_URL).host;
+const HOST = new URL(SITE_URL).host.toUpperCase();
 
 const GAME_META: Record<
   HeroCard,
-  { name: string; kicker: string; strap: string; path: string }
+  { name: string; strap: string; path: string; sprite: string[]; cell: number }
 > = {
   lifeline: {
     name: "LIFELINE",
-    kicker: "THE ARCADE",
-    strap: "The heartbeat arcade game. One button — your score is the age you reach.",
-    path: "/lifeline",
+    strap: "ONE BUTTON · YOUR SCORE IS THE AGE YOU REACH",
+    path: "/LIFELINE",
+    sprite: LIFELINE_HEART,
+    cell: 9,
   },
   "max-out": {
     name: "MAX OUT",
-    kicker: "THE ARCADE",
-    strap: "Stop the needle in the green, lock the rep, load the bar.",
-    path: "/max-out",
+    strap: "STOP THE NEEDLE IN THE GREEN · LOCK THE REP · LOAD THE BAR",
+    path: "/MAX-OUT",
+    sprite: MAXOUT_LIFTER,
+    cell: 7,
   },
   "snake-oil": {
     name: "SNAKE OIL",
-    kicker: "THE ARCADE",
-    strap: "Slice the myths, spare the truths — every bust cites a real source.",
-    path: "/snake-oil",
+    strap: "SLICE THE MYTHS, SPARE THE TRUTHS · EVERY BUST CITES ITS SOURCE",
+    path: "/SNAKE-OIL",
+    sprite: SNAKEOIL_BOTTLE,
+    cell: 7,
   },
   powerhouse: {
     name: "POWERHOUSE",
-    kicker: "THE ARCADE",
-    strap: "You are the mitochondrion. Make ATP, dodge the junk, climb the zones.",
-    path: "/powerhouse",
+    strap: "YOU ARE THE MITOCHONDRION · MAKE ATP · CLIMB TO REDLINE",
+    path: "/POWERHOUSE",
+    sprite: POWERHOUSE_MITO,
+    cell: 8,
   },
   daily: {
     name: "THE DAILIES",
-    kicker: "DAILY GAMES",
-    strap: "Ballpark and Myth or Fact? — one cited stat game a day, streaks kept.",
-    path: "/daily",
+    strap: "BALLPARK & MYTH OR FACT? · ONE CITED STAT GAME A DAY",
+    path: "/DAILY",
+    sprite: BALLPARK_TARGET,
+    cell: 9,
   },
 };
 
-function heroOf(result: ShareResultPayload): HeroCard {
-  if (result.game === "ballpark" || result.game === "myth") return "daily";
-  return result.game;
+/* Mirrors LifelineGame's MEDAL_STYLE labels (thresholds live in medalFor). */
+const MEDAL_LINES: Record<Exclude<Medal, "none">, string> = {
+  bronze: "BRONZE · 40+",
+  silver: "SILVER · 60+",
+  gold: "GOLD · 80+",
+  centenarian: "CENTENARIAN · 100",
+};
+
+function lifelineGag(cause: ShareResultPayload & { game: "lifeline" }): string | null {
+  if (!cause.cause) return null;
+  if (cause.cause === "gravity") return EDGE_CAUSE;
+  return OBSTACLE_KINDS.find((kind) => kind.id === cause.cause)?.cause ?? null;
 }
 
 /* ------------------------------------------------------------ card pieces */
 
-function BrandRow({ kicker }: { kicker: string }) {
+function Title({ text }: { text: string }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <div
-          style={{
-            width: 28,
-            height: 28,
-            background: blaze,
-            borderRadius: 8,
-            marginRight: 18,
-            transform: "rotate(-6deg)",
-          }}
-        />
-        <div style={{ fontSize: 30, letterSpacing: 6, fontWeight: 700 }}>
-          FITTOOLS
-        </div>
-      </div>
-      <div
-        style={{
-          fontSize: 24,
-          letterSpacing: 5,
-          fontWeight: 700,
-          color: sand,
-          opacity: 0.85,
-        }}
-      >
-        {kicker}
-      </div>
-    </div>
+    <div style={{ display: "flex", fontSize: 38, letterSpacing: 8 }}>{text}</div>
   );
 }
 
-function Pill({ text, background = forest }: { text: string; background?: string }) {
+function Kicker({ text }: { text: string }) {
   return (
     <div
       style={{
         display: "flex",
-        background,
-        color: paper,
-        fontSize: 32,
-        fontWeight: 700,
-        padding: "10px 26px",
-        borderRadius: 999,
+        fontSize: 30,
+        letterSpacing: 5,
+        color: OG_COLORS.ember,
+        marginTop: 18,
       }}
     >
       {text}
@@ -127,60 +122,76 @@ function Pill({ text, background = forest }: { text: string; background?: string
   );
 }
 
-/** Cartoon ECG: a couple of beats, then the flatline — the Lifeline motif. */
-function EcgStrip() {
+function Score({ value, unit, size = 190 }: { value: string; unit?: string; size?: number }) {
   return (
-    <svg width="1056" height="72" viewBox="0 0 1056 72">
-      <polyline
-        points="0,36 150,36 170,36 186,8 202,62 218,36 380,36 400,36 416,8 432,62 448,36 560,36 1056,36"
-        fill="none"
-        stroke={blaze}
-        strokeWidth="5"
-      />
-    </svg>
-  );
-}
-
-/** Five ascending zone bars, filled to the zone reached — Powerhouse motif. */
-function ZoneBars({ zone }: { zone: number }) {
-  const bars = [0, 1, 2, 3, 4];
-  return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 14 }}>
-      {bars.map((i) => (
+    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          fontFamily: "Anton",
+          fontSize: size,
+          lineHeight: 0.98,
+          color: OG_COLORS.blaze,
+        }}
+      >
+        {value}
+      </div>
+      {unit ? (
         <div
-          key={i}
           style={{
-            width: 44,
-            height: 18 + i * 10,
-            borderRadius: 6,
-            background: i <= Math.min(zone, 4) ? blaze : "#3A2B20",
+            display: "flex",
+            fontSize: 40,
+            letterSpacing: 2,
+            color: OG_COLORS.taupe,
+            marginLeft: 18,
+            marginBottom: 16,
           }}
-        />
-      ))}
+        >
+          {unit}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-/** Ballpark form row as coloured dots (no emoji — deterministic rendering). */
-const TIER_DOTS: Record<string, string> = {
-  bullseye: blaze,
-  hot: "#FF8C42",
-  warm: sand,
-  cold: "#5B7C99",
+/** The death card's cause line: ink caps, clipped like saveCard's slice(56). */
+function Gag({ text, colour = OG_COLORS.ink }: { text: string; colour?: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        fontSize: 27,
+        letterSpacing: 2,
+        color: colour,
+        marginTop: 16,
+        maxWidth: 1020,
+        justifyContent: "center",
+      }}
+    >
+      {ogClip(text.toUpperCase(), 64)}
+    </div>
+  );
+}
+
+/** Ballpark 7-day form row as bordered pixel squares. */
+const TIER_FILL: Record<ClosenessTier, string> = {
+  bullseye: OG_COLORS.blaze,
+  hot: OG_COLORS.ember,
+  warm: "#e8c33c",
+  cold: "#5b7c99", // slate — the one off-palette tone, for ❄️
 };
 
-function TierRow({ tiers }: { tiers: readonly string[] }) {
+function TierRow({ tiers }: { tiers: readonly ClosenessTier[] }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <div style={{ display: "flex", gap: 14, marginTop: 20 }}>
       {tiers.map((tier, i) => (
         <div
           key={i}
           style={{
-            width: 40,
-            height: 40,
-            borderRadius: 999,
-            background: TIER_DOTS[tier] ?? sand,
-            border: tier === "bullseye" ? `6px solid ${paper}` : "none",
+            width: 38,
+            height: 38,
+            background: TIER_FILL[tier],
+            border: `5px solid ${OG_COLORS.ink}`,
             display: "flex",
           }}
         />
@@ -189,213 +200,187 @@ function TierRow({ tiers }: { tiers: readonly string[] }) {
   );
 }
 
+/** Myth or Fact score as the games' little life hearts. */
 function HeartsRow({ correct, total }: { correct: number; total: number }) {
   const cells = Array.from({ length: total }, (_, i) => i < correct);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
       {cells.map((won, i) => (
-        <div
-          key={i}
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 10,
-            background: won ? forest : "#3A2B20",
-            transform: "rotate(45deg)",
-            display: "flex",
-          }}
-        />
+        <PixelSprite key={i} rows={won ? MINI_HEART_FULL : MINI_HEART_EMPTY} cell={7} />
       ))}
     </div>
   );
 }
 
-/* ------------------------------------------------------------- card bodies */
+/* ------------------------------------------------------------- card specs */
 
-interface CardBody {
-  kicker: string;
-  /** Small caps line above the number, e.g. "FLATLINED AT". */
-  label: string;
-  value: string;
-  unit?: string;
-  pills: string[];
-  motif?: ReactNode;
+/* Satori mislays flex children delivered via fragments, so each card is a
+   spec of three real elements (title / middle / footer) that CardSheet
+   receives as direct children. */
+interface CardSpec {
+  title: string;
+  middle: ReactNode;
   footer: string;
 }
 
-function bodyFor(payload: ArcadeCardPayload): CardBody {
-  if (payload.kind === "hero") {
-    const meta = GAME_META[payload.game];
-    return {
-      kicker: meta.kicker,
-      label: "",
-      value: meta.name,
-      pills: [],
-      motif: payload.game === "lifeline" ? <EcgStrip /> : undefined,
-      footer: `${meta.strap} Free at ${HOST}${meta.path}`,
-    };
-  }
-  const result = payload.result;
-  const meta = GAME_META[heroOf(result)];
+const MIDDLE_COL = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+} as const;
+
+function heroSpec(game: HeroCard): CardSpec {
+  const meta = GAME_META[game];
+  return {
+    title: "FITTOOLS ARCADE",
+    middle: (
+      <div style={MIDDLE_COL}>
+        <PixelSprite rows={meta.sprite} cell={meta.cell} />
+        <div
+          style={{
+            display: "flex",
+            fontFamily: "Anton",
+            fontSize: 130,
+            lineHeight: 1,
+            color: OG_COLORS.blaze,
+            marginTop: 14,
+          }}
+        >
+          {meta.name}
+        </div>
+        <Gag text={meta.strap} />
+      </div>
+    ),
+    footer: `EVERY FORMULA CITED · ${HOST}${meta.path}`,
+  };
+}
+
+function resultSpec(result: ShareResultPayload): CardSpec {
   switch (result.game) {
-    case "lifeline":
+    case "lifeline": {
+      const medal = medalFor(result.beat);
+      const gag = lifelineGag(result);
       return {
-        kicker: `${meta.kicker} · LIFELINE`,
-        label: "FLATLINED AT",
-        value: String(result.beat),
-        pills: result.cause ? [`CAUSE: ${lifelineCauseLabel(result.cause)}`] : [],
-        motif: <EcgStrip />,
+        title: "LIFELINE",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LIFELINE_HEART} cell={6} />
+            <Kicker text="FLATLINED AT" />
+            <Score value={String(result.beat)} size={200} />
+            {gag ? <Gag text={gag} /> : null}
+            {medal !== "none" ? (
+              <Gag text={MEDAL_LINES[medal]} colour={OG_COLORS.forest} />
+            ) : null}
+          </div>
+        ),
         footer:
           result.seed !== undefined
-            ? `Same course · one button · beat them at ${HOST}/lifeline`
-            : `One button · your score is the age you reach · ${HOST}/lifeline`,
+            ? `SAME COURSE · ONE BUTTON · BEAT ME AT ${HOST}/LIFELINE`
+            : `FITTOOLS · ${HOST}/LIFELINE`,
       };
-    case "max-out":
+    }
+    case "max-out": {
+      const gag =
+        result.cause !== undefined && result.cause < MISS_CAUSES.length
+          ? `${platesPhrase(result.kg)} · CAUSE: ${MISS_CAUSES[result.cause]}`
+          : platesPhrase(result.kg);
       return {
-        kicker: `${meta.kicker} · MAX OUT`,
-        label: "FORM FAILED AT",
-        value: formatKg(result.kg),
-        unit: "kg",
-        pills: [
-          platesPhrase(result.kg).toUpperCase(),
-          ...(result.cause !== undefined && result.cause < MISS_CAUSES.length
-            ? [`CAUSE: ${MISS_CAUSES[result.cause].toUpperCase()}`]
-            : []),
-        ],
-        footer: `Stop the needle, load the bar — beat it at ${HOST}/max-out`,
+        title: "MAX OUT",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={MAXOUT_LIFTER} cell={5} />
+            <Kicker text="FORM FAILED AT" />
+            <Score value={formatKg(result.kg)} unit="KG" size={180} />
+            <Gag text={gag} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/MAX-OUT`,
       };
+    }
     case "snake-oil":
       return {
-        kicker: `${meta.kicker} · SNAKE OIL`,
-        label: "MYTHS BUSTED",
-        value: String(result.busted),
-        unit: `· ${result.points.toLocaleString("en-GB")} pts`,
-        pills: ["SLICE THE MYTHS. SPARE THE TRUTH."],
-        footer: `Every bust cites a real source — play at ${HOST}/snake-oil`,
+        title: "SNAKE OIL",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={SNAKEOIL_BOTTLE} cell={5} />
+            <Kicker text="MYTHS BUSTED" />
+            <Score
+              value={String(result.busted)}
+              unit={`· ${result.points.toLocaleString("en-GB")} PTS`}
+              size={180}
+            />
+            <Gag text="SLICE THE MYTHS. SPARE THE TRUTH." />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/SNAKE-OIL`,
       };
     case "powerhouse":
       return {
-        kicker: `${meta.kicker} · POWERHOUSE`,
-        label: "BONKED WITH",
-        value: result.atp.toLocaleString("en-GB"),
-        unit: "ATP",
-        pills: [powerhouseZonePhrase(result.zone)],
-        motif: <ZoneBars zone={result.zone} />,
-        footer: `The powerhouse of the cell needs a pilot — ${HOST}/powerhouse`,
+        title: "POWERHOUSE",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={POWERHOUSE_MITO} cell={6} />
+            <Kicker text={`BONKED IN ${powerhouseZonePhrase(result.zone)}`} />
+            <Score value={result.atp.toLocaleString("en-GB")} unit="ATP" size={170} />
+            <Gag text="THE POWERHOUSE OF THE CELL. I WAS NOT." />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/POWERHOUSE`,
       };
-    case "ballpark":
+    case "ballpark": {
+      const todays =
+        result.tiers.length > 0
+          ? TIER_META[result.tiers[result.tiers.length - 1]].label.toUpperCase()
+          : "PLAYED";
       return {
-        kicker: "DAILY GAMES · BALLPARK",
-        label: `BALLPARK #${result.puzzle}`,
-        value:
-          result.tiers.length > 0
-            ? TIER_META[result.tiers[result.tiers.length - 1]].label.toUpperCase()
-            : "PLAYED",
-        pills: [],
-        motif: result.tiers.length > 0 ? <TierRow tiers={result.tiers} /> : undefined,
-        footer: `One cited guess-the-stat a day — play today's at ${HOST}/daily`,
+        title: "BALLPARK",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={BALLPARK_TARGET} cell={7} />
+            <Kicker text={`DAILY #${result.puzzle}`} />
+            <Score value={todays} size={130} />
+            {result.tiers.length > 1 ? <TierRow tiers={result.tiers} /> : null}
+          </div>
+        ),
+        footer: `PLAY TODAY'S AT ${HOST}/DAILY`,
       };
+    }
     case "myth":
       return {
-        kicker: "DAILY GAMES · MYTH OR FACT?",
-        label: `MYTH OR FACT? #${result.puzzle}`,
-        value: `${result.correct}/${result.total}`,
-        pills: [],
-        motif: <HeartsRow correct={result.correct} total={result.total} />,
-        footer: `The weekly myth-buster, every verdict cited — ${HOST}/daily`,
+        title: "MYTH OR FACT?",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={MINI_HEART_FULL} cell={10} />
+            <Kicker text={`WEEKLY #${result.puzzle}`} />
+            <Score value={`${result.correct}/${result.total}`} size={170} />
+            <HeartsRow correct={result.correct} total={result.total} />
+          </div>
+        ),
+        footer: `PLAY IT AT ${HOST}/DAILY`,
       };
   }
 }
 
 /* ------------------------------------------------------------------ route */
 
-export function GET(request: Request): Response {
+export async function GET(request: Request): Promise<Response> {
   const { searchParams } = new URL(request.url);
   const payload = parseCardParams(Object.fromEntries(searchParams));
   if (!payload) return new Response("Invalid arcade card", { status: 400 });
-  const body = bodyFor(payload);
+  const spec =
+    payload.kind === "hero" ? heroSpec(payload.game) : resultSpec(payload.result);
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: "1200px",
-          height: "630px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          background: ink,
-          color: paper,
-          padding: "64px 72px",
-          fontFamily: "sans-serif",
-        }}
-      >
-        <BrandRow kicker={body.kicker} />
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {body.label ? (
-            <div
-              style={{
-                display: "flex",
-                fontSize: 40,
-                letterSpacing: 4,
-                fontWeight: 700,
-                color: sand,
-              }}
-            >
-              {body.label}
-            </div>
-          ) : null}
-          <div style={{ display: "flex", alignItems: "flex-end" }}>
-            <div
-              style={{
-                fontSize: payload.kind === "hero" ? 150 : 180,
-                fontWeight: 800,
-                color: blaze,
-                lineHeight: 1,
-              }}
-            >
-              {body.value}
-            </div>
-            {body.unit ? (
-              <div
-                style={{
-                  fontSize: 56,
-                  opacity: 0.65,
-                  marginLeft: 24,
-                  marginBottom: 22,
-                }}
-              >
-                {body.unit}
-              </div>
-            ) : null}
-          </div>
-          {body.pills.length > 0 ? (
-            <div style={{ display: "flex", gap: 18, marginTop: 26 }}>
-              {body.pills.map((text, i) => (
-                <Pill key={i} text={text} background={i === 0 ? forest : "#3A2B20"} />
-              ))}
-            </div>
-          ) : null}
-          {body.motif ? (
-            <div style={{ display: "flex", marginTop: 24 }}>{body.motif}</div>
-          ) : null}
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            fontSize: 27,
-            letterSpacing: 1,
-            opacity: 0.75,
-          }}
-        >
-          {body.footer}
-        </div>
-      </div>
+      <CardSheet>
+        <Title text={spec.title} />
+        {spec.middle}
+        <CardFooter text={spec.footer} />
+      </CardSheet>
     ),
     {
       ...OG_SIZE,
+      fonts: await ogFonts(),
       // Pure function of its query params — let scrapers and the CDN cache it.
       headers: {
         "Cache-Control":
