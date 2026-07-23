@@ -6,7 +6,7 @@ import { BestChip } from "@/components/arcade/BestChip";
 export const metadata: Metadata = {
   title: "Arcade — Quick Games With a Health-Nerd Twist",
   description:
-    "Free browser arcade: Lifeline (the heartbeat flapper), Powerhouse (the mitochondria shooter), Max Out (the one-rep-max timer), Snake Oil (the myth slicer) and the daily games. No sign-up, no lives to buy — just the retry loop, with the real calculators next door.",
+    "Free browser arcade: Lifeline (the heartbeat flapper), Powerhouse (the mitochondria shooter), Max Out (the one-rep-max timer), Five a Day (the produce slicer) and the daily games. No sign-up, no lives to buy — just the retry loop, with the real calculators next door.",
   alternates: { canonical: "/arcade" },
 };
 
@@ -50,16 +50,16 @@ const GAMES = [
     cta: "Play Max Out",
   },
   {
-    href: "/snake-oil",
-    glyph: "🐍",
+    href: "/five-a-day",
+    glyph: "🥦",
     glyphClass: "bg-good text-background",
-    name: "Snake Oil",
+    name: "Five a Day",
     tag: "Swipe",
     blurb:
-      "The myth slicer. Fitness claims fly — cut the nonsense, spare the truths, and get the receipt with a real source when one beats you.",
-    storageKey: "fittools.snakeoil.best",
-    unit: "myths",
-    cta: "Play Snake Oil",
+      "The produce slicer. Fruit and veg fly — chop them for portions, blend smoothie combos, chase plant variety, and never touch the junk.",
+    storageKey: "fittools.fiveaday.best",
+    unit: "portions",
+    cta: "Play Five a Day",
   },
 ] as const;
 

@@ -70,7 +70,15 @@ Ordered by recommendation strength. All names proposed, not locked.
   world, pure timing; all the work is feel (thump, clang, near-miss wobble).
   Daily-seeded "daily bar" mode is natural.
 
-### 3.2 Snake Oil — the myth-slicing game ⭐ **BUILT (2026-07-23 — see SNAKEOIL.md)**
+### 3.2 Snake Oil — the myth-slicing game ⭐ **BUILT, THEN PIVOTED (2026-07-23 — see FIVEADAY.md)**
+
+> **Post-mortem:** built as specced, and playtesting killed the premise the
+> same day — slogans cannot be read at toss speed, so "knowledge IS the
+> reflex" never fires (Mat). The slicer survived as **Five a Day** (produce
+> vs junk, purely visual recognition, FIVEADAY.md); the myth/fact
+> discrimination stays in Myth or Fact? on /daily, where reading has time.
+> Lesson for this bench: an arcade-speed mechanic may demand at most a
+> glance's worth of reading. The original pitch is kept below as the record.
 
 - **Lineage:** Fruit Ninja. **Verb:** swipe to slice.
 - **Loop:** claims fly up as bottles and cards with big 1–3 word Anton
