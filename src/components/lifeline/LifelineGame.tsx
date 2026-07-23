@@ -19,6 +19,7 @@ import {
   speedAt,
 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
+import { lifelineSharePath, type LifelineCauseId } from "@/lib/arcade-share";
 
 /**
  * Lifeline (LIFELINE.md): tap-to-flap heartbeat arcade. All rendering is
@@ -381,6 +382,7 @@ export function LifelineGame() {
   const [finalAge, setFinalAge] = useState(0);
   const [cause, setCause] = useState("");
   const [causeLabel, setCauseLabel] = useState("");
+  const [causeId, setCauseId] = useState<LifelineCauseId>("gravity");
   const [best, setBest] = useState(0);
   const [dailyBest, setDailyBest] = useState(0);
   const [lastRuns, setLastRuns] = useState<number[]>([]);
@@ -479,7 +481,7 @@ export function LifelineGame() {
       shield: makeSprite(SPRITE_MAPS.shield, 3),
     };
 
-    const die = (deathCause: string, label: string) => {
+    const die = (deathCause: string, label: string, kindId: LifelineCauseId) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
       trackEvent({
@@ -489,6 +491,7 @@ export function LifelineGame() {
       setFinalAge(age);
       setCause(deathCause);
       setCauseLabel(label);
+      setCauseId(kindId);
       setCopied(false);
       setNewBest(false);
       setNewSkin(null);
@@ -618,7 +621,7 @@ export function LifelineGame() {
         w.y < LIFELINE.playerRadius + 2 ||
         w.y > floor - LIFELINE.playerRadius
       ) {
-        die(EDGE_CAUSE, "GRAVITY");
+        die(EDGE_CAUSE, "GRAVITY", "gravity");
         return;
       }
 
@@ -698,7 +701,7 @@ export function LifelineGame() {
             );
             continue;
           }
-          die(c.kind.cause, c.kind.label);
+          die(c.kind.cause, c.kind.label, c.kind.id);
           return;
         }
         if (!c.passed && c.x + LIFELINE.columnHalfWidth < LIFELINE.playerX - LIFELINE.playerRadius) {
@@ -1206,7 +1209,11 @@ export function LifelineGame() {
     : `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
   const share = () => {
     try {
-      const url = `${window.location.origin}/lifeline?seed=${finalSeed}&beat=${finalAge}`;
+      // The same URL replays the course AND unfurls as the score card
+      // (the page's generateMetadata reads these params).
+      const url =
+        window.location.origin +
+        lifelineSharePath({ seed: finalSeed, beat: finalAge, cause: causeId });
       void navigator.clipboard.writeText(`${shareText} · beat me: ${url}`);
       setCopied(true);
     } catch {

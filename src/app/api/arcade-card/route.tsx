@@ -1,0 +1,391 @@
+import type { ReactNode } from "react";
+import { ImageResponse } from "next/og";
+import {
+  parseCardParams,
+  powerhouseZonePhrase,
+  type HeroCard,
+  type ShareResultPayload,
+} from "@/lib/arcade-share";
+import { EDGE_CAUSE, OBSTACLE_KINDS, medalFor, type Medal } from "@/lib/lifeline";
+import { MISS_CAUSES, formatKg, platesPhrase } from "@/lib/maxout";
+import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
+import {
+  CardFooter,
+  CardSheet,
+  OG_COLORS,
+  OG_SIZE,
+  PixelSprite,
+  ogClip,
+  ogFonts,
+} from "@/lib/og-image";
+import {
+  BALLPARK_TARGET,
+  LIFELINE_HEART,
+  MAXOUT_LIFTER,
+  MINI_HEART_EMPTY,
+  MINI_HEART_FULL,
+  POWERHOUSE_MITO,
+  SNAKEOIL_BOTTLE,
+} from "@/lib/pixel-art";
+import { SITE_URL } from "@/lib/site";
+
+/**
+ * Dynamic arcade/daily score card (STATUS.md Phase 2 — the share loop beyond
+ * tools), styled as the Lifeline death card (LifelineGame.saveCard): paper
+ * sheet, ink frame, pixel emblem, ember kicker, Anton score, mono gag line.
+ * A "beat me" link unfurls as this card instead of the generic site image.
+ * Sibling of `/api/share-card`; params are numbers, fixed ids and tier
+ * letters only — never free text — so a crafted URL can't put arbitrary
+ * words in the frame.
+ */
+
+export const dynamic = "force-dynamic";
+
+const HOST = new URL(SITE_URL).host.toUpperCase();
+
+const GAME_META: Record<
+  HeroCard,
+  { name: string; strap: string; path: string; sprite: string[]; cell: number }
+> = {
+  lifeline: {
+    name: "LIFELINE",
+    strap: "ONE BUTTON · YOUR SCORE IS THE AGE YOU REACH",
+    path: "/LIFELINE",
+    sprite: LIFELINE_HEART,
+    cell: 9,
+  },
+  "max-out": {
+    name: "MAX OUT",
+    strap: "STOP THE NEEDLE IN THE GREEN · LOCK THE REP · LOAD THE BAR",
+    path: "/MAX-OUT",
+    sprite: MAXOUT_LIFTER,
+    cell: 7,
+  },
+  "snake-oil": {
+    name: "SNAKE OIL",
+    strap: "SLICE THE MYTHS, SPARE THE TRUTHS · EVERY BUST CITES ITS SOURCE",
+    path: "/SNAKE-OIL",
+    sprite: SNAKEOIL_BOTTLE,
+    cell: 7,
+  },
+  powerhouse: {
+    name: "POWERHOUSE",
+    strap: "YOU ARE THE MITOCHONDRION · MAKE ATP · CLIMB TO REDLINE",
+    path: "/POWERHOUSE",
+    sprite: POWERHOUSE_MITO,
+    cell: 8,
+  },
+  daily: {
+    name: "THE DAILIES",
+    strap: "BALLPARK & MYTH OR FACT? · ONE CITED STAT GAME A DAY",
+    path: "/DAILY",
+    sprite: BALLPARK_TARGET,
+    cell: 9,
+  },
+};
+
+/* Mirrors LifelineGame's MEDAL_STYLE labels (thresholds live in medalFor). */
+const MEDAL_LINES: Record<Exclude<Medal, "none">, string> = {
+  bronze: "BRONZE · 40+",
+  silver: "SILVER · 60+",
+  gold: "GOLD · 80+",
+  centenarian: "CENTENARIAN · 100",
+};
+
+function lifelineGag(cause: ShareResultPayload & { game: "lifeline" }): string | null {
+  if (!cause.cause) return null;
+  if (cause.cause === "gravity") return EDGE_CAUSE;
+  return OBSTACLE_KINDS.find((kind) => kind.id === cause.cause)?.cause ?? null;
+}
+
+/* ------------------------------------------------------------ card pieces */
+
+function Title({ text }: { text: string }) {
+  return (
+    <div style={{ display: "flex", fontSize: 38, letterSpacing: 8 }}>{text}</div>
+  );
+}
+
+function Kicker({ text }: { text: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        fontSize: 30,
+        letterSpacing: 5,
+        color: OG_COLORS.ember,
+        marginTop: 18,
+      }}
+    >
+      {text}
+    </div>
+  );
+}
+
+function Score({ value, unit, size = 190 }: { value: string; unit?: string; size?: number }) {
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          fontFamily: "Anton",
+          fontSize: size,
+          lineHeight: 0.98,
+          color: OG_COLORS.blaze,
+        }}
+      >
+        {value}
+      </div>
+      {unit ? (
+        <div
+          style={{
+            display: "flex",
+            fontSize: 40,
+            letterSpacing: 2,
+            color: OG_COLORS.taupe,
+            marginLeft: 18,
+            marginBottom: 16,
+          }}
+        >
+          {unit}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** The death card's cause line: ink caps, clipped like saveCard's slice(56). */
+function Gag({ text, colour = OG_COLORS.ink }: { text: string; colour?: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        fontSize: 27,
+        letterSpacing: 2,
+        color: colour,
+        marginTop: 16,
+        maxWidth: 1020,
+        justifyContent: "center",
+      }}
+    >
+      {ogClip(text.toUpperCase(), 64)}
+    </div>
+  );
+}
+
+/** Ballpark 7-day form row as bordered pixel squares. */
+const TIER_FILL: Record<ClosenessTier, string> = {
+  bullseye: OG_COLORS.blaze,
+  hot: OG_COLORS.ember,
+  warm: "#e8c33c",
+  cold: "#5b7c99", // slate — the one off-palette tone, for ❄️
+};
+
+function TierRow({ tiers }: { tiers: readonly ClosenessTier[] }) {
+  return (
+    <div style={{ display: "flex", gap: 14, marginTop: 20 }}>
+      {tiers.map((tier, i) => (
+        <div
+          key={i}
+          style={{
+            width: 38,
+            height: 38,
+            background: TIER_FILL[tier],
+            border: `5px solid ${OG_COLORS.ink}`,
+            display: "flex",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/** Myth or Fact score as the games' little life hearts. */
+function HeartsRow({ correct, total }: { correct: number; total: number }) {
+  const cells = Array.from({ length: total }, (_, i) => i < correct);
+  return (
+    <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
+      {cells.map((won, i) => (
+        <PixelSprite key={i} rows={won ? MINI_HEART_FULL : MINI_HEART_EMPTY} cell={7} />
+      ))}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- card specs */
+
+/* Satori mislays flex children delivered via fragments, so each card is a
+   spec of three real elements (title / middle / footer) that CardSheet
+   receives as direct children. */
+interface CardSpec {
+  title: string;
+  middle: ReactNode;
+  footer: string;
+}
+
+const MIDDLE_COL = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+} as const;
+
+function heroSpec(game: HeroCard): CardSpec {
+  const meta = GAME_META[game];
+  return {
+    title: "FITTOOLS ARCADE",
+    middle: (
+      <div style={MIDDLE_COL}>
+        <PixelSprite rows={meta.sprite} cell={meta.cell} />
+        <div
+          style={{
+            display: "flex",
+            fontFamily: "Anton",
+            fontSize: 130,
+            lineHeight: 1,
+            color: OG_COLORS.blaze,
+            marginTop: 14,
+          }}
+        >
+          {meta.name}
+        </div>
+        <Gag text={meta.strap} />
+      </div>
+    ),
+    footer: `EVERY FORMULA CITED · ${HOST}${meta.path}`,
+  };
+}
+
+function resultSpec(result: ShareResultPayload): CardSpec {
+  switch (result.game) {
+    case "lifeline": {
+      const medal = medalFor(result.beat);
+      const gag = lifelineGag(result);
+      return {
+        title: "LIFELINE",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LIFELINE_HEART} cell={6} />
+            <Kicker text="FLATLINED AT" />
+            <Score value={String(result.beat)} size={200} />
+            {gag ? <Gag text={gag} /> : null}
+            {medal !== "none" ? (
+              <Gag text={MEDAL_LINES[medal]} colour={OG_COLORS.forest} />
+            ) : null}
+          </div>
+        ),
+        footer:
+          result.seed !== undefined
+            ? `SAME COURSE · ONE BUTTON · BEAT ME AT ${HOST}/LIFELINE`
+            : `FITTOOLS · ${HOST}/LIFELINE`,
+      };
+    }
+    case "max-out": {
+      const gag =
+        result.cause !== undefined && result.cause < MISS_CAUSES.length
+          ? `${platesPhrase(result.kg)} · CAUSE: ${MISS_CAUSES[result.cause]}`
+          : platesPhrase(result.kg);
+      return {
+        title: "MAX OUT",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={MAXOUT_LIFTER} cell={5} />
+            <Kicker text="FORM FAILED AT" />
+            <Score value={formatKg(result.kg)} unit="KG" size={180} />
+            <Gag text={gag} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/MAX-OUT`,
+      };
+    }
+    case "snake-oil":
+      return {
+        title: "SNAKE OIL",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={SNAKEOIL_BOTTLE} cell={5} />
+            <Kicker text="MYTHS BUSTED" />
+            <Score
+              value={String(result.busted)}
+              unit={`· ${result.points.toLocaleString("en-GB")} PTS`}
+              size={180}
+            />
+            <Gag text="SLICE THE MYTHS. SPARE THE TRUTH." />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/SNAKE-OIL`,
+      };
+    case "powerhouse":
+      return {
+        title: "POWERHOUSE",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={POWERHOUSE_MITO} cell={6} />
+            <Kicker text={`BONKED IN ${powerhouseZonePhrase(result.zone)}`} />
+            <Score value={result.atp.toLocaleString("en-GB")} unit="ATP" size={170} />
+            <Gag text="THE POWERHOUSE OF THE CELL. I WAS NOT." />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/POWERHOUSE`,
+      };
+    case "ballpark": {
+      const todays =
+        result.tiers.length > 0
+          ? TIER_META[result.tiers[result.tiers.length - 1]].label.toUpperCase()
+          : "PLAYED";
+      return {
+        title: "BALLPARK",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={BALLPARK_TARGET} cell={7} />
+            <Kicker text={`DAILY #${result.puzzle}`} />
+            <Score value={todays} size={130} />
+            {result.tiers.length > 1 ? <TierRow tiers={result.tiers} /> : null}
+          </div>
+        ),
+        footer: `PLAY TODAY'S AT ${HOST}/DAILY`,
+      };
+    }
+    case "myth":
+      return {
+        title: "MYTH OR FACT?",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={MINI_HEART_FULL} cell={10} />
+            <Kicker text={`WEEKLY #${result.puzzle}`} />
+            <Score value={`${result.correct}/${result.total}`} size={170} />
+            <HeartsRow correct={result.correct} total={result.total} />
+          </div>
+        ),
+        footer: `PLAY IT AT ${HOST}/DAILY`,
+      };
+  }
+}
+
+/* ------------------------------------------------------------------ route */
+
+export async function GET(request: Request): Promise<Response> {
+  const { searchParams } = new URL(request.url);
+  const payload = parseCardParams(Object.fromEntries(searchParams));
+  if (!payload) return new Response("Invalid arcade card", { status: 400 });
+  const spec =
+    payload.kind === "hero" ? heroSpec(payload.game) : resultSpec(payload.result);
+
+  return new ImageResponse(
+    (
+      <CardSheet>
+        <Title text={spec.title} />
+        {spec.middle}
+        <CardFooter text={spec.footer} />
+      </CardSheet>
+    ),
+    {
+      ...OG_SIZE,
+      fonts: await ogFonts(),
+      // Pure function of its query params — let scrapers and the CDN cache it.
+      headers: {
+        "Cache-Control":
+          "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+      },
+    },
+  );
+}

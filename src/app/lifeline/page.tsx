@@ -2,13 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { LifelineGame } from "@/components/lifeline/LifelineGame";
+import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Lifeline: The Heartbeat Arcade Game",
   description:
     "Tap to keep the heart beating, dodge the risk factors, and see what age you reach. One button, no sign-up, and when you're done, check your real heart age.",
-  alternates: { canonical: "/lifeline" },
-};
+  canonical: "/lifeline",
+  hero: "lifeline",
+} as const;
+
+// Challenge links carry ?seed=&beat=&cause= — the same URL that replays the
+// course also unfurls as the score card, so metadata reads the params.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseArcadeResult("lifeline", await searchParams));
+}
 
 export default function LifelinePage() {
   const jsonLd = breadcrumbJsonLd([
