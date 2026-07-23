@@ -354,7 +354,8 @@ function swapPalette(rows: string[], map: Record<string, string>): string[] {
 }
 
 type Phase = "ready" | "playing" | "dying" | "paused" | "dead";
-type Mode = "free" | "daily" | "calm";
+/* One mode (Mat, 2026-07-23): every run plays today's seeded course — the
+   daily IS the game. Challenge links are the only seed override. */
 
 const MEDAL_STYLE: Record<Exclude<Medal, "none">, { label: string; bg: string }> = {
   bronze: { label: "BRONZE · 40+", bg: "bg-primary-soft" },
@@ -367,7 +368,6 @@ export function LifelineGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const world = useRef<World>(freshWorld(null));
   const phaseRef = useRef<Phase>("ready");
-  const modeRef = useRef<Mode>("free");
   const modifierRef = useRef<DailyModifier>(
     MODIFIERS[dailySeed(todayISO()) % MODIFIERS.length],
   );
@@ -378,7 +378,6 @@ export function LifelineGame() {
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
   const [phase, setPhase] = useState<Phase>("ready");
-  const [mode, setModeState] = useState<Mode>("free");
   const [finalAge, setFinalAge] = useState(0);
   const [cause, setCause] = useState("");
   const [causeLabel, setCauseLabel] = useState("");
@@ -399,10 +398,6 @@ export function LifelineGame() {
   const setPhaseBoth = (p: Phase) => {
     phaseRef.current = p;
     setPhase(p);
-  };
-  const setMode = (m: Mode) => {
-    modeRef.current = m;
-    setModeState(m);
   };
 
   useEffect(() => {
@@ -487,10 +482,9 @@ export function LifelineGame() {
     const die = (deathCause: string, label: string) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
-      const calm = modeRef.current === "calm";
       trackEvent({
         name: "lifeline_flatline",
-        params: { age, cause: label, mode: modeRef.current },
+        params: { age, cause: label, mode: "daily" },
       });
       setFinalAge(age);
       setCause(deathCause);
@@ -499,54 +493,47 @@ export function LifelineGame() {
       setNewBest(false);
       setNewSkin(null);
       setFinalSeed(w.seed);
-      if (!calm) {
-        const earned: SkinId[] = [];
-        if (age >= 100) earned.push("gold");
-        if (age >= 80) earned.push("chalk");
-        if (earned.length > 0) {
-          setSkins((prev) => {
-            const fresh = earned.filter((s) => !prev.includes(s));
-            if (fresh.length === 0) return prev;
-            setNewSkin(fresh[0]);
-            const next = [...prev, ...fresh];
-            try {
-              localStorage.setItem(SKINS_KEY, JSON.stringify(next));
-            } catch {
-              /* fine */
-            }
-            return next;
-          });
-        }
-      }
-      if (modeRef.current === "daily") {
-        // Save the ghost BEFORE the best updates below write the same key.
-        try {
-          const prev = Number(
-            localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0,
-          );
-          if (age > prev) {
-            localStorage.setItem(
-              GHOST_KEY_PREFIX + todayISO(),
-              JSON.stringify(w.rec),
-            );
-          }
-        } catch {
-          /* fine */
-        }
-      }
-      if (!calm) {
-        setLastRuns((prev) => {
-          const next = [...prev, age].slice(-5);
+      const earned: SkinId[] = [];
+      if (age >= 100) earned.push("gold");
+      if (age >= 80) earned.push("chalk");
+      if (earned.length > 0) {
+        setSkins((prev) => {
+          const fresh = earned.filter((s) => !prev.includes(s));
+          if (fresh.length === 0) return prev;
+          setNewSkin(fresh[0]);
+          const next = [...prev, ...fresh];
           try {
-            localStorage.setItem(RUNS_KEY, JSON.stringify(next));
+            localStorage.setItem(SKINS_KEY, JSON.stringify(next));
           } catch {
             /* fine */
           }
           return next;
         });
       }
+      // Save the ghost BEFORE the best updates below write the same key.
+      try {
+        const prev = Number(
+          localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0,
+        );
+        if (age > prev) {
+          localStorage.setItem(
+            GHOST_KEY_PREFIX + todayISO(),
+            JSON.stringify(w.rec),
+          );
+        }
+      } catch {
+        /* fine */
+      }
+      setLastRuns((prev) => {
+        const next = [...prev, age].slice(-5);
+        try {
+          localStorage.setItem(RUNS_KEY, JSON.stringify(next));
+        } catch {
+          /* fine */
+        }
+        return next;
+      });
       setBest((prev) => {
-        if (calm) return prev;
         if (age > prev) {
           setNewBest(true);
           try {
@@ -558,17 +545,15 @@ export function LifelineGame() {
         }
         return prev;
       });
-      if (modeRef.current === "daily") {
-        setDailyBest((prev) => {
-          const next = Math.max(prev, age);
-          try {
-            localStorage.setItem(DAILY_KEY_PREFIX + todayISO(), String(next));
-          } catch {
-            /* fine */
-          }
-          return next;
-        });
-      }
+      setDailyBest((prev) => {
+        const next = Math.max(prev, age);
+        try {
+          localStorage.setItem(DAILY_KEY_PREFIX + todayISO(), String(next));
+        } catch {
+          /* fine */
+        }
+        return next;
+      });
       w.deathT = 0;
       w.deathY = w.y;
       w.vy = -220;
@@ -592,10 +577,10 @@ export function LifelineGame() {
       w.wingT = Math.max(0, w.wingT - dt);
       w.squashT = Math.max(0, w.squashT - dt);
       const age = ageAt(w.t, w.bonus);
-      const mod = modeRef.current === "daily" ? modifierRef.current.id : null;
+      // Modifier shapes today's course; challenge replays stay unmodified.
+      const mod = challengeRef.current ? null : modifierRef.current.id;
       let speed = speedAt(age);
       if (mod === "headwind") speed *= 1.08;
-      if (modeRef.current === "calm") speed *= 0.8;
       w.groundX = (w.groundX + speed * dt) % 32;
 
       w.blinkT = Math.max(0, w.blinkT - dt);
@@ -643,7 +628,6 @@ export function LifelineGame() {
         // First three gaps run wider — deaths at 20 feel like the game's fault.
         let gapH = gapAt(age) + Math.max(0, 3 - w.spawned) * 10;
         if (mod === "calmday") gapH += 8;
-        if (modeRef.current === "calm") gapH += 18;
         w.spawned += 1;
         const margin = 60;
         const gapY = margin + gapH / 2 + w.rng() * (floor - margin * 2 - gapH);
@@ -1164,11 +1148,9 @@ export function LifelineGame() {
     }
     if (current === "dead" || current === "ready") {
       const ch = challengeRef.current;
-      world.current = freshWorld(
-        ch ? ch.seed : modeRef.current === "daily" ? dailySeed(todayISO()) : null,
-      );
+      world.current = freshWorld(ch ? ch.seed : dailySeed(todayISO()));
       ghostRef.current = null;
-      if (!ch && modeRef.current === "daily") {
+      if (!ch) {
         try {
           const raw = localStorage.getItem(GHOST_KEY_PREFIX + todayISO());
           if (raw) {
@@ -1186,7 +1168,7 @@ export function LifelineGame() {
       }
       trackEvent({
         name: "lifeline_run_started",
-        params: { mode: modeRef.current },
+        params: { mode: "daily" },
       });
       setPhaseBoth("playing");
     } else if (current === "paused") {
@@ -1219,10 +1201,9 @@ export function LifelineGame() {
   const puzzleNo = dailyPuzzleNumber(todayISO());
   const fact = FACTS[finalAge % FACTS.length];
 
-  const shareText =
-    mode === "daily" && !challenge
-      ? `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`
-      : `Lifeline · flatlined at ${finalAge} · cause: ${causeLabel}`;
+  const shareText = challenge
+    ? `Lifeline · flatlined at ${finalAge} · cause: ${causeLabel}`
+    : `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
   const share = () => {
     try {
       const url = `${window.location.origin}/lifeline?seed=${finalSeed}&beat=${finalAge}`;
@@ -1262,7 +1243,7 @@ export function LifelineGame() {
     cctx.fillStyle = "#c63d08";
     cctx.font = "bold 36px monospace";
     cctx.fillText(
-      mode === "daily" && !challenge ? `DAILY #${puzzleNo} · FLATLINED AT` : "FLATLINED AT",
+      challenge ? "FLATLINED AT" : `DAILY #${puzzleNo} · FLATLINED AT`,
       540,
       430,
     );
@@ -1272,7 +1253,7 @@ export function LifelineGame() {
     cctx.fillStyle = "#1c130d";
     cctx.font = "bold 28px monospace";
     cctx.fillText(cause.toUpperCase().slice(0, 56), 540, 850);
-    if (mode !== "calm" && medal !== "none") {
+    if (medal !== "none") {
       cctx.fillStyle = "#1f5c3d";
       cctx.font = "bold 30px monospace";
       cctx.fillText(MEDAL_STYLE[medal].label, 540, 920);
@@ -1336,37 +1317,16 @@ export function LifelineGame() {
               Challenge · beat {challenge.beat} on their course
             </p>
           ) : null}
-          <div className={`flex gap-2 ${challenge ? "hidden" : ""}`}>
-            <button
-              type="button"
-              onClick={() => setMode("daily")}
-              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "daily" ? "bg-good text-background" : "bg-surface"}`}
-            >
-              Daily #{puzzleNo}
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("free")}
-              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "free" ? "bg-good text-background" : "bg-surface"}`}
-            >
-              Free play
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("calm")}
-              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "calm" ? "bg-good text-background" : "bg-surface"}`}
-            >
-              Calm
-            </button>
-          </div>
           <p className="max-w-[17rem] font-mono text-xs uppercase tracking-[0.12em] text-muted">
-            {mode === "daily"
-              ? `Today: ${todaysModifier.label.toLowerCase()}${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
-              : mode === "calm"
-                ? "Slower, wider, no medals — just vibes"
-                : best > 0
-                  ? `Best: ${best}`
-                  : "One button. That's it."}
+            {challenge
+              ? "Their course, your heart"
+              : `Daily #${puzzleNo} · ${todaysModifier.label.toLowerCase()}`}
+          </p>
+          <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
+            {dailyBest > 0
+              ? `Best today: ${dailyBest}`
+              : "Same course for everyone today"}
+            {best > 0 ? ` · all-time: ${best}` : ""}
           </p>
           <div className="flex gap-2">
             {SKINS.map((s) => {
@@ -1416,19 +1376,14 @@ export function LifelineGame() {
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div className="sticker-slap w-full rounded-2xl border-2 border-foreground bg-surface p-5 text-center shadow-[4px_4px_0_0_var(--color-foreground)]">
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-              {mode === "daily" ? `Daily #${puzzleNo} · flatlined at` : "Flatlined at"}
+              {challenge ? "Flatlined at" : `Daily #${puzzleNo} · flatlined at`}
             </p>
             <p className="font-display text-7xl uppercase text-primary-strong">
               {finalAge}
             </p>
             <p className="mt-2 text-sm font-semibold">{cause}</p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {mode === "calm" ? (
-                <span className="inline-block rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
-                  Calm mode
-                </span>
-              ) : null}
-              {mode !== "calm" && medal !== "none" ? (
+              {medal !== "none" ? (
                 <span
                   className={`inline-block -rotate-2 rounded-full border-2 border-foreground px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${MEDAL_STYLE[medal].bg}`}
                 >

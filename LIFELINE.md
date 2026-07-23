@@ -112,6 +112,13 @@ v4 BUILT (2026-07-23) — the former deferred list, complete:
   the ROADMAP "you vs you" motivator.
 Still open: streaks, /share holo-card hook, leaderboard (accounts-gated).
 
+v5 (2026-07-23, Mat): ONE MODE. Free play and calm mode removed — every
+run plays today's seeded course (the daily IS the game), so the ghost,
+modifier, per-day best and share numbering all apply to every run.
+Challenge links remain the only seed override, and challenge replays run
+unmodified for fairness. The heart also now beats instead of flapping
+(systole/diastole frames, uniform beat-pop, 150Hz thump per tap).
+
 Arcade (same day): now listed in the /arcade hub next to its sibling
 Powerhouse (POWERHOUSE.md), which also gave /lifeline a sitemap entry and
 an Arcade breadcrumb.
