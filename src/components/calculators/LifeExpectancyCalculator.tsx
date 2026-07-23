@@ -94,8 +94,7 @@ export function LifeExpectancyCalculator() {
               expectancy at age 50 of about{" "}
               <span data-testid="le-all">
                 {formatNumber(ctx.allFactorsProjectedAge, 1)} years
-              </span>{" "}
-              — around{" "}
+              </span>,{" "}around{" "}
               <strong>{formatNumber(ctx.anchors.reportedGainYears, 1)} years longer</strong>{" "}
               than those who met <strong>none</strong> (about{" "}
               {formatNumber(ctx.zeroFactorsProjectedAge, 1)} years).
@@ -104,7 +103,7 @@ export function LifeExpectancyCalculator() {
               <p className="mt-2 text-muted">
                 The study reported that meeting more factors was linked to more
                 years, but it only published exact figures for none and all
-                five — so we don&rsquo;t show a specific number for {ctx.count}{" "}
+                five, so we don&rsquo;t show a specific number for {ctx.count}{" "}
                 of 5.
               </p>
             ) : null}
@@ -117,7 +116,7 @@ export function LifeExpectancyCalculator() {
 
           <p className="mt-3 max-w-prose text-sm text-muted">
             This is a <strong>population-level association</strong> from one
-            large study — <strong>not a prediction about you</strong>. It
+            large study, <strong>not a prediction about you</strong>. It
             cannot tell any individual how long they will live, and the factors
             are correlated with many other advantages. Read it as
             encouragement that these habits mattered, on average, in this

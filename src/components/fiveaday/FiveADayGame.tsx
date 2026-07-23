@@ -4,46 +4,50 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { mulberry32 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
+import { fiveADaySharePath } from "@/lib/arcade-share";
 import {
-  type Claim,
-  type Receipt,
-  SNAKEOIL,
+  FIVEADAY,
+  type Junk,
+  type Produce,
   burstSizeFor,
   comboBonusFor,
+  comboLabelFor,
   escapedCause,
+  junkChanceFor,
   launch,
-  pickClaim,
-  receiptFor,
+  pickJunk,
+  pickProduce,
   segmentHitsCircle,
   shareText,
-  slicedTruthCause,
   spawnIntervalFor,
-} from "@/lib/snakeoil";
+} from "@/lib/fiveaday";
 
 /**
- * Snake Oil (SNAKEOIL.md): the myth-slicing game. One verb — swipe.
- * Claims fly up as bottles with their slogan on a chip; slice the myths,
- * spare the truths. A sliced truth or an escaped myth costs a heart, and
- * the death card serves the receipt: the registry item behind the claim
- * that got you, with its real source. All rendering is canvas; React
- * handles overlays. WebAudio synth on first input, mute persisted.
+ * Five a Day (FIVEADAY.md): the produce slicer. One verb — swipe. Fruit
+ * and veg fly; slice them for portions (SMOOTHIE combos, NEW PLANT
+ * variety bonuses), and never touch the junk — the arcade's villains end
+ * the run on contact, bomb-style. Recognition is entirely visual: the
+ * game's Snake Oil predecessor proved text cannot be read at toss speed.
+ * All rendering is canvas; React handles overlays. WebAudio synth on
+ * first input, mute persisted.
  */
 
-const BEST_KEY = "fittools.snakeoil.best";
-const MUTE_KEY = "fittools.snakeoil.muted";
+const BEST_KEY = "fittools.fiveaday.best";
+const MUTE_KEY = "fittools.fiveaday.muted";
 
 /* ---------------------------------------------------------------- sprites */
 
 const PALETTE: Record<string, string> = {
   K: "#1c130d", // ink
-  B: "#ff531a", // blaze
-  E: "#c63d08", // ember — bottle glass
-  P: "#fbf4ec", // paper — labels
+  B: "#ff531a", // blaze — oranges, carrots, apples
+  E: "#c63d08", // ember — tomatoes, cherries, kiwi skin
+  P: "#fbf4ec", // paper
   W: "#fffdf9", // white shine
-  F: "#1f5c3d", // forest — the tin
-  A: "#e8c33c", // amber — the cork
+  F: "#1f5c3d", // forest — leaves, broccoli
+  M: "#8fbf3f", // matcha — grapes, stalks
+  A: "#e8c33c", // amber — bananas, pineapple
   S: "#f3e7d8", // soft
-  L: "#a3e635", // lime — flask liquid
+  L: "#a3e635", // lime — rind, kiwi flesh
 };
 
 function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
@@ -63,48 +67,338 @@ function makeSprite(rows: string[], scale: number): HTMLCanvasElement {
   return canvas;
 }
 
-/* Three containers so the shelf looks stocked. The container NEVER encodes
-   the verdict — the label is the only tell, by design. */
-const BOTTLE = [
-  "....KK....",
-  "...KAAK...",
-  "...KAAK...",
-  "..KKKKKK..",
-  ".KEEEEEEK.",
-  ".KEWEEEEK.",
-  ".KEEEEEEK.",
-  ".KPPPPPPK.",
-  ".KPKPPKPK.",
-  ".KPPPPPPK.",
-  ".KEEEEEEK.",
-  ".KEEEEEEK.",
-  "..KKKKKK..",
-];
-const TIN = [
-  "..KKKKKK..",
-  ".KSSSSSSK.",
-  ".KKKKKKKK.",
-  ".KFFFFFFK.",
-  ".KFWFFFFK.",
-  ".KFFFFFFK.",
-  ".KFFFFFFK.",
-  ".KFFFFFFK.",
-  "..KKKKKK..",
-];
-const FLASK = [
-  "...KKKK...",
-  "....KK....",
-  "...KSSK...",
-  "...KSSK...",
-  "..KSSSSK..",
-  "..KSWSSK..",
-  ".KSSSSSSK.",
-  ".KLLLLLLK.",
-  "KLLLLLLLLK",
-  "KLWLLLLLLK",
-  "KKKKKKKKKK",
-];
-const CONTAINER_KEYS = ["bottle", "tin", "flask"] as const;
+/* The harvest. Silhouette + colour must read in a tenth of a second. */
+const PRODUCE_MAPS: Record<string, { rows: string[]; scale: number }> = {
+  apple: {
+    scale: 5,
+    rows: [
+      "....K.....",
+      "....K.FF..",
+      "..KKKKK...",
+      ".KBBWBBK..",
+      "KBBBWBBBK.",
+      "KBBBBBBBK.",
+      "KEBBBBBEK.",
+      ".KEBBBEK..",
+      "..KKKKK...",
+    ],
+  },
+  banana: {
+    scale: 4,
+    rows: [
+      "KK..........",
+      ".KAK........",
+      ".KAAK.......",
+      "..KAAKK.....",
+      "...KAAAKK...",
+      "....KAAAAKK.",
+      ".....KAAAAK.",
+      "......KKKK..",
+    ],
+  },
+  orange: {
+    scale: 5,
+    rows: [
+      "....KF...",
+      "..KKKKK..",
+      ".KBBBBBK.",
+      "KBBWBBBBK",
+      "KBBBBBBBK",
+      "KBBBBBBBK",
+      ".KBBBBBK.",
+      "..KKKKK..",
+    ],
+  },
+  broccoli: {
+    scale: 5,
+    rows: [
+      "..KKKKK...",
+      ".KFFFFFK..",
+      "KFMFFMFFK.",
+      "KFFMFFFMK.",
+      ".KFFFFFK..",
+      "..KKSKK...",
+      "...KSSK...",
+      "...KSSK...",
+      "...KKKK...",
+    ],
+  },
+  strawberry: {
+    scale: 5,
+    rows: [
+      "..FFKFF..",
+      ".KKKKKKK.",
+      "KEBBWBBEK",
+      "KEBWBBWEK",
+      ".KEBWBEK.",
+      "..KEBEK..",
+      "...KEK...",
+      "....K....",
+    ],
+  },
+  carrot: {
+    scale: 5,
+    rows: [
+      "..LFL...",
+      "..FLF...",
+      "..KKK...",
+      ".KBBBK..",
+      ".KBBBK..",
+      ".KBWBK..",
+      "..KBBK..",
+      "..KBBK..",
+      "...KBK..",
+      "...KBK..",
+      "....K...",
+    ],
+  },
+  watermelon: {
+    scale: 4,
+    rows: [
+      "KKKKKKKKKKKKKK",
+      "KBBBKBBBBKBBBK",
+      "KBBBBBBKBBBBBK",
+      ".KBBBKBBBBBK..",
+      ".KBBBBBBBBBK..",
+      "..KLLLLLLLK...",
+      "..KFFFFFFFK...",
+      "...KKKKKKK....",
+    ],
+  },
+  tomato: {
+    scale: 5,
+    rows: [
+      "...FKF...",
+      "..KKFKK..",
+      ".KEEFEEK.",
+      "KEEWEEEEK",
+      "KEEEEEEEK",
+      "KEEEEEEEK",
+      ".KEEEEEK.",
+      "..KKKKK..",
+    ],
+  },
+  blueberry: {
+    scale: 6,
+    rows: [
+      "....MM..",
+      "...FF...",
+      "..KKKK..",
+      ".KKWKKK.",
+      "KKWKKKKK",
+      "KKKKKKKK",
+      ".KKKKKK.",
+      "..KKKK..",
+    ],
+  },
+  pineapple: {
+    scale: 5,
+    rows: [
+      "..FL.LF...",
+      "...FLF....",
+      "...KKK....",
+      ".KKAAAKK..",
+      "KAAKAAKAAK",
+      "KAAAAKAAAK",
+      "KAAKAAKAAK",
+      "KAAAAKAAAK",
+      ".KAAAAAAK.",
+      "..KKKKKK..",
+    ],
+  },
+  kiwi: {
+    scale: 5,
+    rows: [
+      "..KKKKK...",
+      ".KELLLEK..",
+      "KELLKLLEK.",
+      "KELKWKLEK.",
+      "KELLWLLEK.",
+      "KELLKLLEK.",
+      ".KELLLEK..",
+      "..KKKKK...",
+    ],
+  },
+  avocado: {
+    scale: 5,
+    rows: [
+      "...KKK...",
+      "..KFFFK..",
+      ".KFLLLFK.",
+      ".KFLLLFK.",
+      "KFLLELLFK",
+      "KFLEEELFK",
+      "KFLLELLFK",
+      ".KFLLLFK.",
+      ".KFLLLFK.",
+      "..KFFFK..",
+      "...KKK...",
+    ],
+  },
+  pepper: {
+    scale: 5,
+    rows: [
+      "....F....",
+      "...KFK...",
+      ".KKKKKKK.",
+      "KBWBBBBBK",
+      "KBWBBBBBK",
+      "KBBBBBBBK",
+      "KBBBBBBBK",
+      "KBBBBBBBK",
+      ".KBBBBBK.",
+      "..KKKKK..",
+    ],
+  },
+  grapes: {
+    scale: 5,
+    rows: [
+      "....K....",
+      "...KK....",
+      "..KKKKK..",
+      ".KMMMMMK.",
+      ".KMKMKMK.",
+      "..KMMMK..",
+      "..KMKMK..",
+      "...KMK...",
+      "....K....",
+    ],
+  },
+  cherries: {
+    scale: 4,
+    rows: [
+      "....KKK....",
+      "...K...K...",
+      "..K.....K..",
+      ".KKK...KKK.",
+      "KEEEK.KEEEK",
+      "KEWEK.KEWEK",
+      "KEEEK.KEEEK",
+      ".KKK...KKK.",
+    ],
+  },
+  pomegranate: {
+    scale: 5,
+    rows: [
+      "...KKK...",
+      "...K.K...",
+      ".KKKKKKK.",
+      "KEEEEEEEK",
+      "KEWEWEWEK",
+      "KEEEEEEEK",
+      ".KEEEEEK.",
+      "..KKKKK..",
+    ],
+  },
+};
+
+/* The junk — the arcade's villains, unmistakable at any speed. The phone,
+   nugget and CRASH can are Powerhouse's own sprites; the cigarette and
+   fizzy can are Lifeline's obstacles in the flesh. */
+const JUNK_MAPS: Record<string, { rows: string[]; scale: number }> = {
+  cigarette: {
+    scale: 4,
+    rows: [
+      "W.............",
+      ".KKKKKKKKKKKK.",
+      "KEWWWWWWWKAAAK",
+      "KEWWWWWWWKAAAK",
+      ".KKKKKKKKKKKK.",
+    ],
+  },
+  fizzy: {
+    scale: 4,
+    rows: [
+      ".KKKKKK.",
+      ".KWWWWK.",
+      ".KKKKKK.",
+      "KSSSSSSK",
+      "KSBBBBSK",
+      "KSBWWBSK",
+      "KSBBBBSK",
+      "KSSSSSSK",
+      "KSSSSSSK",
+      ".KKKKKK.",
+    ],
+  },
+  crash: {
+    scale: 3,
+    rows: [
+      "..KKKKKKKKKK..",
+      ".KWWWWWWWWWWK.",
+      ".KKKKKKKKKKKK.",
+      "KEEEEEEEEEEEEK",
+      "KEEEEEEEEEEEEK",
+      "KEWWEEEEEEWWEK",
+      "KEWWEEEEEEWWEK",
+      "KEEEEEEEEEEEEK",
+      "KEEEEEAAEEEEEK",
+      "KEEEEAAEEEEEEK",
+      "KEEEAAAAAAEEEK",
+      "KEEEEEEAAEEEEK",
+      "KEEEEEAAEEEEEK",
+      "KEEEEEEEEEEEEK",
+      "KEEKKEEEEKKEEK",
+      "KEEEKKKKKKEEEK",
+      "KEEEEEEEEEEEEK",
+      "KEEEEEEEEEEEEK",
+      "KEEEEEEEEEEEEK",
+      ".KKKKKKKKKKKK.",
+      ".KWWWWWWWWWWK.",
+      "..KKKKKKKKKK..",
+    ],
+  },
+  phone: {
+    scale: 4,
+    rows: [
+      ".KKKKKK.",
+      "KSSSSSAK",
+      "KSSSSSSK",
+      "KSWWWSSK",
+      "KSSSSSSK",
+      "KSWWSSSK",
+      "KSSSSSSK",
+      "KSWWWSSK",
+      "KSSSSSSK",
+      "KSSSSSSK",
+      "KKKKKKKK",
+      ".KKKKKK.",
+    ],
+  },
+  nugget: {
+    scale: 4,
+    rows: [
+      "...KKKKK...",
+      ".KKAAAAAKK.",
+      "KAAEAAAEAAK",
+      "KAAAAEAAAAK",
+      "KAEAAAAAEAK",
+      "KAAAEAAAAAK",
+      ".KKAAAAAKK.",
+      "...KKKKK...",
+    ],
+  },
+};
+
+/** Juice colour per produce (junk bursts ink). */
+const SPLAT: Record<string, string> = {
+  apple: "#ff531a",
+  banana: "#e8c33c",
+  orange: "#ff531a",
+  broccoli: "#1f5c3d",
+  strawberry: "#c63d08",
+  carrot: "#ff531a",
+  watermelon: "#c63d08",
+  tomato: "#c63d08",
+  blueberry: "#1c130d",
+  pineapple: "#e8c33c",
+  kiwi: "#a3e635",
+  avocado: "#a3e635",
+  pepper: "#ff531a",
+  grapes: "#8fbf3f",
+  cherries: "#c63d08",
+  pomegranate: "#c63d08",
+};
 
 const HEART_FULL = [
   ".KK.KK.",
@@ -122,13 +416,6 @@ const HEART_EMPTY = [
   "..KSK..",
   "...K...",
 ];
-
-/** Deterministic container per claim — stable, uncorrelated with verdict. */
-function containerFor(id: string): (typeof CONTAINER_KEYS)[number] {
-  let hash = 0;
-  for (const ch of id) hash = (hash * 31 + ch.charCodeAt(0)) | 0;
-  return CONTAINER_KEYS[Math.abs(hash) % CONTAINER_KEYS.length];
-}
 
 /* ------------------------------------------------------------------ audio */
 
@@ -184,9 +471,12 @@ function chirp(
 
 /* ------------------------------------------------------------------- game */
 
+type Payload =
+  | { type: "produce"; item: Produce }
+  | { type: "junk"; item: Junk };
+
 interface Flying {
-  claim: Claim;
-  container: (typeof CONTAINER_KEYS)[number];
+  payload: Payload;
   x: number;
   y: number;
   vx: number;
@@ -196,7 +486,7 @@ interface Flying {
 }
 
 interface Half {
-  container: (typeof CONTAINER_KEYS)[number];
+  spriteKey: string;
   left: boolean;
   x: number;
   y: number;
@@ -234,16 +524,18 @@ interface BladePoint {
 interface World {
   t: number;
   hearts: number;
-  points: number;
-  busted: number;
+  portions: number;
+  plantsSliced: Set<string>;
+  bestCombo: number;
   spawnIn: number;
   comboCount: number;
+  comboKinds: Produce["kind"][];
   comboT: number;
   comboX: number;
   comboY: number;
   prevWave: number;
   waveFlashT: number;
-  claims: Flying[];
+  items: Flying[];
   halves: Half[];
   blade: BladePoint[];
   toasts: Toast[];
@@ -256,17 +548,19 @@ interface World {
 function freshWorld(): World {
   return {
     t: 0,
-    hearts: SNAKEOIL.maxHearts,
-    points: 0,
-    busted: 0,
+    hearts: FIVEADAY.maxHearts,
+    portions: 0,
+    plantsSliced: new Set(),
+    bestCombo: 0,
     spawnIn: 0.6,
     comboCount: 0,
+    comboKinds: [],
     comboT: 0,
     comboX: 0,
     comboY: 0,
     prevWave: 0,
     waveFlashT: 0,
-    claims: [],
+    items: [],
     halves: [],
     blade: [],
     toasts: [],
@@ -285,7 +579,7 @@ interface PendingPoint {
 
 type Phase = "ready" | "playing" | "paused" | "dead";
 
-export function SnakeOilGame() {
+export function FiveADayGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const world = useRef<World>(freshWorld());
   const phaseRef = useRef<Phase>("ready");
@@ -296,10 +590,10 @@ export function SnakeOilGame() {
   const strokeRef = useRef(0);
   const strokeActiveRef = useRef(false);
   const [phase, setPhase] = useState<Phase>("ready");
-  const [finalBusted, setFinalBusted] = useState(0);
-  const [finalPoints, setFinalPoints] = useState(0);
+  const [finalPortions, setFinalPortions] = useState(0);
+  const [finalPlants, setFinalPlants] = useState(0);
+  const [finalCombo, setFinalCombo] = useState(0);
   const [cause, setCause] = useState("");
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
   const [best, setBest] = useState(0);
   const [newBest, setNewBest] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -332,8 +626,8 @@ export function SnakeOilGame() {
     if (!canvas || !ctx) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = SNAKEOIL.width * dpr;
-    canvas.height = SNAKEOIL.height * dpr;
+    canvas.width = FIVEADAY.width * dpr;
+    canvas.height = FIVEADAY.height * dpr;
     ctx.scale(dpr, dpr);
     ctx.imageSmoothingEnabled = false;
 
@@ -341,13 +635,17 @@ export function SnakeOilGame() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
-    spritesRef.current = {
-      bottle: makeSprite(BOTTLE, 3),
-      tin: makeSprite(TIN, 3),
-      flask: makeSprite(FLASK, 3),
+    const sprites: Record<string, HTMLCanvasElement> = {
       heartFull: makeSprite(HEART_FULL, 2),
       heartEmpty: makeSprite(HEART_EMPTY, 2),
     };
+    for (const [id, map] of Object.entries(PRODUCE_MAPS)) {
+      sprites[id] = makeSprite(map.rows, map.scale);
+    }
+    for (const [id, map] of Object.entries(JUNK_MAPS)) {
+      sprites[id] = makeSprite(map.rows, map.scale);
+    }
+    spritesRef.current = sprites;
 
     const toast = (x: number, y: number, text: string, colour = "#1f5c3d") => {
       world.current.toasts.push({ x, y, text, ttl: 1, colour });
@@ -358,7 +656,7 @@ export function SnakeOilGame() {
       const n = reducedMotionRef.current ? Math.ceil(count / 2) : count;
       for (let i = 0; i < n; i++) {
         const a = w.rng() * Math.PI * 2;
-        const v = 40 + w.rng() * 140;
+        const v = 40 + w.rng() * 150;
         w.particles.push({
           x,
           y,
@@ -370,50 +668,42 @@ export function SnakeOilGame() {
       }
     };
 
-    const die = (deathCause: string, culprit: Claim) => {
+    const die = (deathCause: string) => {
       const w = world.current;
-      setFinalBusted(w.busted);
-      setFinalPoints(w.points);
+      setFinalPortions(w.portions);
+      setFinalPlants(w.plantsSliced.size);
+      setFinalCombo(w.bestCombo);
       setCause(deathCause);
-      setReceipt(receiptFor(culprit));
       setNewBest(false);
       setBest((prev) => {
-        if (w.busted > prev) {
+        if (w.portions > prev) {
           setNewBest(true);
           try {
-            localStorage.setItem(BEST_KEY, String(w.busted));
+            localStorage.setItem(BEST_KEY, String(w.portions));
           } catch {
             /* fine */
           }
-          return w.busted;
+          return w.portions;
         }
         return prev;
       });
       trackEvent({
-        name: "snakeoil_run_ended",
-        params: { busted: w.busted, points: w.points },
+        name: "fiveaday_run_ended",
+        params: { portions: w.portions, plants: w.plantsSliced.size },
       });
       setPhaseBoth("dead");
       chirp(synthRef.current, 380, 45, 700, "sawtooth", 0.06);
       setTimeout(() => beep(synthRef.current, 90, 500, "sine", 0.05), 260);
     };
 
-    const loseHeart = (deathCause: string, culprit: Claim) => {
+    const sliceItem = (index: number, sx: number, sy: number) => {
       const w = world.current;
-      w.hearts -= 1;
-      w.flashT = 0.25;
-      w.shakeT = 0.25;
-      if (w.hearts <= 0) die(deathCause, culprit);
-    };
-
-    const sliceClaim = (index: number, sx: number, sy: number) => {
-      const w = world.current;
-      const f = w.claims[index];
-      w.claims.splice(index, 1);
-      /* The container splits; both halves keep flying. */
+      const f = w.items[index];
+      w.items.splice(index, 1);
+      const spriteKey = f.payload.item.id;
       for (const left of [true, false]) {
         w.halves.push({
-          container: f.container,
+          spriteKey,
           left,
           x: f.x,
           y: f.y,
@@ -424,24 +714,30 @@ export function SnakeOilGame() {
           ttl: 0.8,
         });
       }
-      if (f.claim.verdict === "myth") {
-        w.busted += 1;
-        w.points += SNAKEOIL.mythPoints;
-        w.comboCount += 1;
-        w.comboT = SNAKEOIL.comboWindow;
-        w.comboX = f.x;
-        w.comboY = f.y;
-        toast(f.x, f.y - 26, "BUSTED +10", "#1f5c3d");
+      if (f.payload.type === "junk") {
+        w.shakeT = 0.35;
+        w.flashT = 0.35;
+        splat(sx, sy, "#1c130d", 18);
         splat(sx, sy, "#c63d08", 10);
-        chirp(synthRef.current, 620, 90, 90, "square", 0.05);
-        beep(synthRef.current, 990, 60, "triangle", 0.04);
-      } else {
-        toast(f.x, f.y - 26, "THAT WAS TRUE", "#c63d08");
-        splat(sx, sy, "#1c130d", 12);
         beep(synthRef.current, 110, 240, "sawtooth", 0.07);
-        setTimeout(() => beep(synthRef.current, 78, 220, "sawtooth", 0.06), 120);
-        loseHeart(slicedTruthCause(f.claim.label), f.claim);
+        die(f.payload.item.cause);
+        return;
       }
+      const item = f.payload.item;
+      w.portions += 1;
+      splat(sx, sy, SPLAT[item.id] ?? "#c63d08", 9);
+      chirp(synthRef.current, 620, 90, 80, "square", 0.045);
+      if (!w.plantsSliced.has(item.id)) {
+        w.plantsSliced.add(item.id);
+        w.portions += FIVEADAY.newPlantBonus;
+        toast(f.x, f.y - 30, `NEW PLANT +${FIVEADAY.newPlantBonus}`, "#1f5c3d");
+        beep(synthRef.current, 990, 80, "triangle", 0.05);
+      }
+      w.comboCount += 1;
+      w.comboKinds.push(item.kind);
+      w.comboT = FIVEADAY.comboWindow;
+      w.comboX = f.x;
+      w.comboY = f.y;
     };
 
     const step = (dt: number) => {
@@ -450,7 +746,7 @@ export function SnakeOilGame() {
       w.flashT = Math.max(0, w.flashT - dt);
       w.shakeT = Math.max(0, w.shakeT - dt);
       w.waveFlashT = Math.max(0, w.waveFlashT - dt);
-      const wave = Math.floor(w.t / SNAKEOIL.waveSeconds);
+      const wave = Math.floor(w.t / FIVEADAY.waveSeconds);
       if (wave > w.prevWave) {
         w.prevWave = wave;
         w.waveFlashT = 1.6;
@@ -470,8 +766,8 @@ export function SnakeOilGame() {
             const dy = point.y - prev.y;
             if (dx * dx + dy * dy >= 36) {
               let whoosh = false;
-              for (let i = w.claims.length - 1; i >= 0; i--) {
-                const f = w.claims[i];
+              for (let i = w.items.length - 1; i >= 0; i--) {
+                const f = w.items[i];
                 if (
                   segmentHitsCircle(
                     prev.x,
@@ -480,11 +776,11 @@ export function SnakeOilGame() {
                     point.y,
                     f.x,
                     f.y,
-                    SNAKEOIL.sliceRadius,
+                    FIVEADAY.sliceRadius,
                   )
                 ) {
                   whoosh = true;
-                  sliceClaim(i, point.x, point.y);
+                  sliceItem(i, point.x, point.y);
                   if (phaseRef.current !== "playing") return;
                 }
               }
@@ -500,19 +796,26 @@ export function SnakeOilGame() {
         if (w.blade[i].age > 0.14) w.blade.splice(i, 1);
       }
 
-      /* The combo window closes — pay the bonus. */
+      /* The combo window closes — name the drink, pay the bonus. */
       if (w.comboT > 0) {
         w.comboT -= dt;
         if (w.comboT <= 0) {
           if (w.comboCount >= 2) {
             const bonus = comboBonusFor(w.comboCount);
-            w.points += bonus;
-            toast(w.comboX, w.comboY - 48, `COMBO ×${w.comboCount} +${bonus}`, "#c63d08");
+            w.portions += bonus;
+            w.bestCombo = Math.max(w.bestCombo, w.comboCount);
+            toast(
+              w.comboX,
+              w.comboY - 48,
+              `${comboLabelFor(w.comboKinds)} ×${w.comboCount} +${bonus}`,
+              "#c63d08",
+            );
             [660, 880, 1100].forEach((f, i) =>
               setTimeout(() => beep(synthRef.current, f, 70, "triangle", 0.05), i * 70),
             );
           }
           w.comboCount = 0;
+          w.comboKinds = [];
         }
       }
 
@@ -522,19 +825,13 @@ export function SnakeOilGame() {
         w.spawnIn = spawnIntervalFor(wave) * (0.8 + w.rng() * 0.4);
         const burst = burstSizeFor(wave, w.rng);
         for (let i = 0; i < burst; i++) {
-          /* Avoid identical claims sharing the air — confusing to judge. */
-          let claim = pickClaim(w.rng, wave);
-          for (
-            let attempt = 0;
-            attempt < 5 && w.claims.some((f) => f.claim.id === claim.id);
-            attempt++
-          ) {
-            claim = pickClaim(w.rng, wave);
-          }
+          const junk = w.rng() < junkChanceFor(wave);
+          const payload: Payload = junk
+            ? { type: "junk", item: pickJunk(w.rng) }
+            : { type: "produce", item: pickProduce(w.rng, wave) };
           const l = launch(w.rng);
-          w.claims.push({
-            claim,
-            container: containerFor(claim.id),
+          w.items.push({
+            payload,
             x: l.x0,
             y: l.y0,
             vx: l.vx,
@@ -546,34 +843,31 @@ export function SnakeOilGame() {
       }
 
       /* Flight. */
-      for (let i = w.claims.length - 1; i >= 0; i--) {
-        const f = w.claims[i];
+      for (let i = w.items.length - 1; i >= 0; i--) {
+        const f = w.items[i];
         f.x += f.vx * dt;
         f.y += f.vy * dt;
-        f.vy += SNAKEOIL.gravity * dt;
+        f.vy += FIVEADAY.gravity * dt;
         f.rot += f.spin * dt;
-        if (f.vy > 0 && f.y > SNAKEOIL.height + 40) {
-          w.claims.splice(i, 1);
-          if (f.claim.verdict === "myth") {
+        if (f.vy > 0 && f.y > FIVEADAY.height + 40) {
+          w.items.splice(i, 1);
+          if (f.payload.type === "produce") {
+            const gone = escapedCause(f.payload.item.label);
+            w.hearts -= 1;
+            w.flashT = 0.2;
             toast(
-              Math.max(40, Math.min(SNAKEOIL.width - 40, f.x)),
-              SNAKEOIL.height - 60,
-              "IT SPREAD",
+              Math.max(40, Math.min(FIVEADAY.width - 40, f.x)),
+              FIVEADAY.height - 60,
+              gone.toUpperCase(),
               "#c63d08",
             );
             chirp(synthRef.current, 420, 140, 320, "triangle", 0.05);
-            loseHeart(escapedCause(f.claim.label), f.claim);
-            if (phaseRef.current !== "playing") return;
-          } else {
-            w.points += SNAKEOIL.sparePoints;
-            toast(
-              Math.max(40, Math.min(SNAKEOIL.width - 40, f.x)),
-              SNAKEOIL.height - 60,
-              "TRUE · SPARED +5",
-              "#1f5c3d",
-            );
-            beep(synthRef.current, 880, 70, "triangle", 0.03);
+            if (w.hearts <= 0) {
+              die(gone);
+              return;
+            }
           }
+          /* Junk falling untouched is the correct play — silence. */
         }
       }
 
@@ -582,9 +876,9 @@ export function SnakeOilGame() {
         h.ttl -= dt;
         h.x += h.vx * dt;
         h.y += h.vy * dt;
-        h.vy += SNAKEOIL.gravity * dt;
+        h.vy += FIVEADAY.gravity * dt;
         h.rot += h.spin * dt;
-        if (h.ttl <= 0 || h.y > SNAKEOIL.height + 60) w.halves.splice(i, 1);
+        if (h.ttl <= 0 || h.y > FIVEADAY.height + 60) w.halves.splice(i, 1);
       }
       for (let i = w.toasts.length - 1; i >= 0; i--) {
         const t = w.toasts[i];
@@ -602,65 +896,38 @@ export function SnakeOilGame() {
       }
     };
 
-    const drawClaim = (f: Flying) => {
-      const sprites = spritesRef.current;
-      if (!sprites) return;
-      const sprite = sprites[f.container];
-      ctx.save();
-      ctx.translate(f.x, f.y);
-      ctx.rotate(f.rot * 0.35);
-      ctx.drawImage(sprite, -sprite.width / 2, -sprite.height / 2);
-      ctx.restore();
-
-      /* The label chip stays level — it IS the game. */
-      ctx.font = "bold 10px monospace";
-      const textW = ctx.measureText(f.claim.label).width;
-      const chipW = textW + 14;
-      const chipY = f.y + sprite.height / 2 + 4;
-      ctx.fillStyle = "#fffdf9";
-      ctx.strokeStyle = "#1c130d";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.roundRect(f.x - chipW / 2, chipY, chipW, 18, 5);
-      ctx.fill();
-      ctx.stroke();
-      ctx.fillStyle = "#1c130d";
-      ctx.textAlign = "center";
-      ctx.fillText(f.claim.label, f.x, chipY + 13);
-    };
-
     const draw = () => {
       const w = world.current;
-      const sprites = spritesRef.current;
-      if (!sprites) return;
+      if (!spritesRef.current) return;
+      const spr = spritesRef.current;
 
       ctx.save();
       if (w.shakeT > 0 && !reducedMotionRef.current) {
-        const mag = 6 * (w.shakeT / 0.25);
+        const mag = 6 * (w.shakeT / 0.35);
         ctx.translate((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
       }
 
-      /* The expo hall: paper, a faint stall shelf, dust motes. */
+      /* The market: paper sky, drifting motes, a stall counter below. */
       ctx.fillStyle = "#fbf4ec";
-      ctx.fillRect(-8, -8, SNAKEOIL.width + 16, SNAKEOIL.height + 16);
+      ctx.fillRect(-8, -8, FIVEADAY.width + 16, FIVEADAY.height + 16);
       ctx.fillStyle = "#f3e7d8";
       for (let i = 0; i < 5; i++) {
-        const mx = ((i * 97 + w.t * 8) % (SNAKEOIL.width + 40)) - 20;
+        const mx = ((i * 97 + w.t * 8) % (FIVEADAY.width + 40)) - 20;
         const my = 90 + ((i * 131) % 380);
         ctx.beginPath();
         ctx.arc(mx, my, 3, 0, Math.PI * 2);
         ctx.fill();
       }
-      ctx.fillRect(-8, SNAKEOIL.height - 14, SNAKEOIL.width + 16, 14);
+      ctx.fillRect(-8, FIVEADAY.height - 14, FIVEADAY.width + 16, 14);
       ctx.fillStyle = "#1c130d";
-      ctx.fillRect(0, SNAKEOIL.height - 14, SNAKEOIL.width, 2);
+      ctx.fillRect(0, FIVEADAY.height - 14, FIVEADAY.width, 2);
 
       for (const h of w.halves) {
-        const sprite = sprites[h.container];
+        const sprite = spr[h.spriteKey];
         const hw = sprite.width / 2;
         ctx.save();
         ctx.translate(h.x, h.y);
-        ctx.rotate(h.rot * 0.35);
+        ctx.rotate(h.rot);
         ctx.globalAlpha = Math.min(1, h.ttl * 2.4);
         if (h.left) {
           ctx.drawImage(sprite, 0, 0, hw, sprite.height, -hw, -sprite.height / 2, hw, sprite.height);
@@ -671,7 +938,14 @@ export function SnakeOilGame() {
       }
       ctx.globalAlpha = 1;
 
-      for (const f of w.claims) drawClaim(f);
+      for (const f of w.items) {
+        const sprite = spr[f.payload.item.id];
+        ctx.save();
+        ctx.translate(f.x, f.y);
+        ctx.rotate(f.rot);
+        ctx.drawImage(sprite, -sprite.width / 2, -sprite.height / 2);
+        ctx.restore();
+      }
 
       /* The blade trail. */
       if (w.blade.length > 1) {
@@ -720,34 +994,34 @@ export function SnakeOilGame() {
       if (w.flashT > 0) {
         ctx.globalAlpha = Math.min(0.35, w.flashT * 1.6);
         ctx.fillStyle = "#c63d08";
-        ctx.fillRect(0, 0, SNAKEOIL.width, SNAKEOIL.height);
+        ctx.fillRect(0, 0, FIVEADAY.width, FIVEADAY.height);
         ctx.globalAlpha = 1;
       }
 
       /* ------------------------------------------------------------- HUD */
-      for (let i = 0; i < SNAKEOIL.maxHearts; i++) {
-        const sprite = i < w.hearts ? sprites.heartFull : sprites.heartEmpty;
-        ctx.drawImage(sprite, 12 + i * 20, 40);
+      for (let i = 0; i < FIVEADAY.maxHearts; i++) {
+        const sprite = i < w.hearts ? spr.heartFull : spr.heartEmpty;
+        ctx.drawImage(sprite, 12 + i * 20, 44);
       }
 
       ctx.fillStyle = "#1c130d";
       ctx.font = "bold 22px monospace";
       ctx.textAlign = "right";
       ctx.fillText(
-        `${w.points.toLocaleString("en-GB")} PTS`,
-        SNAKEOIL.width - 12,
+        `${w.portions.toLocaleString("en-GB")} PORTIONS`,
+        FIVEADAY.width - 12,
         54,
       );
       ctx.fillStyle = "#6e5b4d";
       ctx.font = "bold 11px monospace";
-      ctx.fillText(`${w.busted} BUSTED`, SNAKEOIL.width - 12, 70);
+      ctx.fillText(`${w.plantsSliced.size} PLANTS`, FIVEADAY.width - 12, 70);
 
       if (w.waveFlashT > 0 && phaseRef.current !== "ready") {
         ctx.globalAlpha = Math.min(1, w.waveFlashT / 0.4);
         ctx.fillStyle = "#1c130d";
         ctx.font = "bold 24px monospace";
         ctx.textAlign = "center";
-        ctx.fillText(`WAVE ${w.prevWave + 1}`, SNAKEOIL.width / 2, 110);
+        ctx.fillText(`WAVE ${w.prevWave + 1}`, FIVEADAY.width / 2, 110);
         ctx.globalAlpha = 1;
       }
 
@@ -790,7 +1064,7 @@ export function SnakeOilGame() {
       world.current = freshWorld();
       pendingRef.current = [];
       setCopied(false);
-      trackEvent({ name: "snakeoil_run_started", params: {} });
+      trackEvent({ name: "fiveaday_run_started", params: {} });
       setPhaseBoth("playing");
     } else if (current === "paused") {
       setPhaseBoth("playing");
@@ -802,14 +1076,16 @@ export function SnakeOilGame() {
     if (!canvas) return null;
     const rect = canvas.getBoundingClientRect();
     return {
-      x: ((e.clientX - rect.left) / rect.width) * SNAKEOIL.width,
-      y: ((e.clientY - rect.top) / rect.height) * SNAKEOIL.height,
+      x: ((e.clientX - rect.left) / rect.width) * FIVEADAY.width,
+      y: ((e.clientY - rect.top) / rect.height) * FIVEADAY.height,
     };
   };
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${shareText(finalBusted, finalPoints, cause)}\n${origin}/snake-oil`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = fiveADaySharePath({ portions: finalPortions, plants: finalPlants });
+    const text = `${shareText(finalPortions, finalPlants, cause)}\n${origin}${path}`;
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });
@@ -851,9 +1127,9 @@ export function SnakeOilGame() {
         onPointerCancel={() => {
           strokeActiveRef.current = false;
         }}
-        aria-label="Snake Oil — swipe across the flying claims to slice the myths and spare the true ones"
+        aria-label="Five a Day, swipe to slice the fruit and veg; never slice the junk"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
-        style={{ aspectRatio: `${SNAKEOIL.width} / ${SNAKEOIL.height}` }}
+        style={{ aspectRatio: `${FIVEADAY.width} / ${FIVEADAY.height}` }}
       />
       <button
         type="button"
@@ -875,17 +1151,17 @@ export function SnakeOilGame() {
 
       {phase === "ready" ? (
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 p-4 text-center">
-          <p className="font-display text-4xl uppercase">Snake Oil</p>
+          <p className="font-display text-4xl uppercase">Five a Day</p>
           <p className="max-w-[18rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
-            Slice the myths. Spare the truth. A sliced truth — or a myth that
-            gets away — costs a heart.
+            Slice the produce. Never the junk. Drop three and it&rsquo;s
+            compost.
           </p>
           <p className="max-w-[17rem] font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
             Swipe to start
           </p>
           {best > 0 ? (
             <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
-              Best: {best.toLocaleString("en-GB")} myths busted
+              Best: {best.toLocaleString("en-GB")} portions
             </p>
           ) : null}
         </div>
@@ -893,7 +1169,7 @@ export function SnakeOilGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 
@@ -901,59 +1177,25 @@ export function SnakeOilGame() {
         <div className="absolute inset-0 flex items-center justify-center overflow-y-auto p-4">
           <div className="sticker-slap w-full rounded-2xl border-2 border-foreground bg-surface p-5 text-center shadow-[4px_4px_0_0_var(--color-foreground)]">
             <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-              Snake oiled
+              Composted
             </p>
             <p className="font-display text-6xl uppercase text-primary-strong">
-              {finalBusted}
+              {finalPortions}
             </p>
             <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.16em]">
-              myth{finalBusted === 1 ? "" : "s"} busted ·{" "}
-              {finalPoints.toLocaleString("en-GB")} pts
+              portion{finalPortions === 1 ? "" : "s"} · {finalPlants} different
+              plant{finalPlants === 1 ? "" : "s"}
             </p>
-            <p className="mt-2 text-sm font-semibold">{cause}</p>
-
-            {receipt ? (
-              <div className="mt-3 rounded-xl border-2 border-foreground bg-background p-3 text-left">
-                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.12em]">
-                  <span
-                    className={
-                      receipt.kicker === "MYTH"
-                        ? "text-primary-strong"
-                        : "text-good"
-                    }
-                  >
-                    {receipt.kicker}
-                  </span>{" "}
-                  · {receipt.label}
-                </p>
-                <p className="mt-1 line-clamp-4 text-xs text-muted">
-                  {receipt.body}
-                </p>
-                <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
-                  <a
-                    href={receipt.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-primary underline underline-offset-2 hover:text-foreground"
-                  >
-                    Source →
-                  </a>
-                  {receipt.link ? (
-                    <Link
-                      href={receipt.link}
-                      className="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-primary underline underline-offset-2 hover:text-foreground"
-                    >
-                      The evidence on the site →
-                    </Link>
-                  ) : null}
-                </p>
-              </div>
-            ) : null}
-
+            <p className="mt-2 text-sm font-semibold">cause: {cause}</p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
               <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
                 Best {best.toLocaleString("en-GB")}
               </span>
+              {finalCombo >= 2 ? (
+                <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
+                  Best combo ×{finalCombo}
+                </span>
+              ) : null}
               {newBest ? (
                 <span className="sticker-slap inline-block rotate-2 rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
                   New best ✓
@@ -976,10 +1218,10 @@ export function SnakeOilGame() {
                 {copied ? "Copied ✓" : "Share score"}
               </button>
               <Link
-                href="/daily"
+                href="/nutrition/reference"
                 className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
               >
-                Myth or Fact? →
+                Food reference →
               </Link>
             </div>
           </div>

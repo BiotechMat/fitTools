@@ -5,7 +5,7 @@ import { BreathCoach } from "@/components/tools/BreathCoach";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 
 export const metadata: Metadata = {
-  title: "Breath Coach — Box, 4-7-8 & Coherent Breathing",
+  title: "Breath Coach: Box, 4-7-8 & Coherent Breathing",
   description:
     "A free breathing pacer: box breathing, 4-7-8 and coherent breathing with a calm visual orb and gentle haptics. One to five minutes, in your browser, nothing stored.",
   alternates: { canonical: "/tools/breath" },
@@ -58,7 +58,7 @@ export default function BreathPage() {
         >
           breathwork guide
         </Link>{" "}
-        covers it honestly, citations included — this tool is a pacer, not a
+        covers it honestly, citations included. This tool is a pacer, not a
         treatment.
       </p>
     </div>

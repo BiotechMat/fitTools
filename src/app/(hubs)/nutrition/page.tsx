@@ -7,7 +7,7 @@ import { foodReferencePages } from "@/registry/food-reference";
 const meta = hubMeta.nutrition;
 
 export const metadata: Metadata = {
-  title: `${meta.title} — calculators & food reference`,
+  title: `${meta.title}: calculators & food reference`,
   description: meta.description,
   alternates: { canonical: meta.path },
 };
@@ -20,8 +20,8 @@ export default function NutritionHubPage() {
           Food reference
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
-          Quick, bookmarkable tables — protein content, calories and portion
-          sizes for common foods — to pair with the calculators above.
+          Quick, bookmarkable tables (protein content, calories and portion
+          sizes for common foods) to pair with the calculators above.
         </p>
         <ul className="mt-4 grid gap-4 sm:grid-cols-2">
           {foodReferencePages.map((p) => (

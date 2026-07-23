@@ -13,19 +13,25 @@
  *
  * Degrades gracefully: with no generator configured (no API key), the vetted
  * claims are served verbatim as cards (`degraded: true`).
+ *
+ * COST POSTURE (PULSE.md §11.12 / §14.1): generation is SITE-WIDE, not
+ * per-request. Cards are assembled from the day's shared phrasing store —
+ * one corpus-wide pass per UTC day — so nothing in a request body can trigger
+ * a Messages API call, and LLM cost is bounded by corpus size, not traffic.
  */
 
 import { NextResponse } from "next/server";
 import { chunksById, groundingChunks } from "@/registry/pulse";
-import { getCachedCard, setCachedCard } from "@/lib/pulse/cache";
-import {
-  buildCardsFromChunks,
-  buildCardsFromDrafts,
-  getGenerator,
-} from "@/lib/pulse/generator";
+import { buildCardsFromChunks, buildCardsFromDrafts } from "@/lib/pulse/generator";
+import { getDayPhrasings } from "@/lib/pulse/phrasings";
+import type { DayPhrasings } from "@/lib/pulse/phrasings";
 import { dailyChunkIndex, selectChunks } from "@/lib/pulse/rank";
 import { isPulseCategory } from "@/lib/pulse/types";
-import type { PulseBatchResponse, PulseCategory } from "@/lib/pulse/types";
+import type { GeneratedCardDraft, GroundingChunk, PulseBatchResponse, PulseCategory } from "@/lib/pulse/types";
+
+// The first request of a UTC day pays for the corpus-wide generation pass
+// (a few parallel Haiku calls); give it headroom beyond the platform default.
+export const maxDuration = 30;
 
 const MAX_COUNT = 12;
 const DEFAULT_COUNT = 6;
@@ -71,16 +77,19 @@ export async function POST(request: Request): Promise<NextResponse> {
     // empty/invalid body → sensible defaults
   }
 
-  const generator = getGenerator();
-  const degraded = !generator.available;
+  // The day's site-wide phrasings; null → degraded (no key, budget spent, or
+  // API failure) and every card serves its vetted claim verbatim.
+  const phrasings = await getDayPhrasings();
+  const degraded = phrasings === null;
 
   // Daily hero: one deterministic, date-seeded card. Prefers a recently-added
-  // fresh chunk when one exists (§15.5), still stable per UTC day for everyone.
+  // fresh chunk when one exists (§15.5), still stable per UTC day for everyone
+  // — and phrased identically for everyone, since phrasing is day-keyed too.
   if (body.daily === true) {
     const dailyPool = recentFreshChunks();
     const pool = dailyPool.length > 0 ? dailyPool : groundingChunks;
     const chunk = pool[dailyChunkIndex(todayISO(), pool.length)];
-    const cards = chunk ? await cardsForChunks([chunk.id]) : [];
+    const cards = chunk ? cardsForChunks([chunk.id], phrasings) : [];
     return NextResponse.json({ cards, degraded } satisfies PulseBatchResponse);
   }
 
@@ -92,7 +101,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   const freshOnly = body.freshOnly === true;
 
   const selected = selectChunks(groundingChunks, { categories, count, seen, affinity, seed, freshOnly });
-  const cards = await cardsForChunks(selected.map((c) => c.id));
+  const cards = cardsForChunks(selected.map((c) => c.id), phrasings);
 
   return NextResponse.json({ cards, degraded } satisfies PulseBatchResponse);
 }
@@ -113,39 +122,28 @@ function clampCount(v: unknown): number {
 }
 
 /**
- * Resolve cards for an ordered list of chunk ids: cache first, then a single
- * batched generation for the misses, then a vetted-claim fallback for anything
- * the model didn't return. Order is preserved.
+ * Assemble cards for an ordered list of chunk ids from the day's site-wide
+ * phrasings; any chunk without a phrasing serves its vetted claim verbatim.
+ * Pure lookup — no model call ever happens on the request path, so client
+ * input (seen/seed/count) cannot create LLM cost. Order is preserved, and
+ * `buildCardsFromDrafts` stays the §1.1 enforcement point (real source
+ * attached server-side, unknown chunkIds dropped).
  */
-async function cardsForChunks(orderedIds: string[]): Promise<PulseBatchResponse["cards"]> {
-  const generator = getGenerator();
-  const byChunk = new Map<string, PulseBatchResponse["cards"][number]>();
-  const misses: string[] = [];
+function cardsForChunks(orderedIds: string[], phrasings: DayPhrasings | null): PulseBatchResponse["cards"] {
+  const drafts: GeneratedCardDraft[] = [];
+  const verbatim: GroundingChunk[] = [];
 
   for (const id of orderedIds) {
-    const cached = getCachedCard(id);
-    if (cached) byChunk.set(id, cached);
-    else misses.push(id);
+    const chunk = chunksById.get(id);
+    if (!chunk) continue;
+    const phrasing = phrasings?.[id];
+    if (phrasing) drafts.push({ chunkId: id, fact: phrasing.fact, detail: phrasing.detail });
+    else verbatim.push(chunk);
   }
 
-  if (misses.length > 0) {
-    const missChunks = misses.map((id) => chunksById.get(id)).filter((c) => c !== undefined);
-
-    if (generator.available) {
-      const drafts = await generator.generate(missChunks);
-      for (const card of buildCardsFromDrafts(drafts, chunksById)) {
-        setCachedCard(card);
-        byChunk.set(card.chunkId, card);
-      }
-    }
-
-    // Vetted-claim fallback for any miss the generator didn't cover (no key, or
-    // the model skipped it) — always sourced, never a blank card.
-    const stillMissing = missChunks.filter((c) => !byChunk.has(c.id));
-    for (const card of buildCardsFromChunks(stillMissing)) {
-      byChunk.set(card.chunkId, card);
-    }
-  }
+  const byChunk = new Map<string, PulseBatchResponse["cards"][number]>();
+  for (const card of buildCardsFromDrafts(drafts, chunksById)) byChunk.set(card.chunkId, card);
+  for (const card of buildCardsFromChunks(verbatim)) byChunk.set(card.chunkId, card);
 
   return orderedIds.map((id) => byChunk.get(id)).filter((c) => c !== undefined);
 }

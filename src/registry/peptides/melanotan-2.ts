@@ -5,11 +5,11 @@ export const melanotan2Page: PeptidePage = {
   name: "Melanotan II",
   aka: ["MT-II", "MT-2"],
   category: "melanocortin",
-  title: "Melanotan II — What It Is, the Claims, and the Documented Risks",
+  title: "Melanotan II: What It Is, the Claims, and the Documented Risks",
   metaDescription:
-    "An evidence-tiered explainer on Melanotan II: an unlicensed melanocortin agonist sold for tanning, with documented safety concerns and no approval — contrasted with the licensed afamelanotide.",
+    "An evidence-tiered explainer on Melanotan II: an unlicensed melanocortin agonist sold for tanning, with documented safety concerns and no approval, contrasted with the licensed afamelanotide.",
   valueLine:
-    "An unlicensed tanning peptide with a genuinely concerning safety record — and no quality control behind what's sold.",
+    "An unlicensed tanning peptide with a genuinely concerning safety record, and no quality control behind what's sold.",
   headlineTier: "marketing-claim",
   headlineBasis: "human",
   wadaProhibited: false,
@@ -20,11 +20,11 @@ export const melanotan2Page: PeptidePage = {
     },
     {
       q: "Is it the same as the approved afamelanotide?",
-      a: "No — and this is a key distinction. Afamelanotide (Melanotan I / Scenesse) is a licensed medicine for a rare light-sensitivity condition, used under specialist supervision. Melanotan II is a different, unlicensed compound sold online for cosmetic tanning with none of that oversight.",
+      a: "No, and this is a key distinction. Afamelanotide (Melanotan I / Scenesse) is a licensed medicine for a rare light-sensitivity condition, used under specialist supervision. Melanotan II is a different, unlicensed compound sold online for cosmetic tanning with none of that oversight.",
     },
     {
       q: "Does it actually make you tan?",
-      a: "It does stimulate melanin production, so tanning claims have a real mechanism. But 'it works' is beside the point when the product is unlicensed, unmonitored for skin-cancer risk, and sold without any quality control — the risks are why regulators advise against it.",
+      a: "It does stimulate melanin production, so tanning claims have a real mechanism. But 'it works' is beside the point when the product is unlicensed, unmonitored for skin-cancer risk, and sold without any quality control, and the risks are why regulators advise against it.",
     },
     {
       q: "Why is this filed under 'unproven'?",
@@ -36,12 +36,12 @@ export const melanotan2Page: PeptidePage = {
   sources: [
     {
       label:
-        "DermNet — Melanotan II: mechanism and documented adverse effects (moles/melanoma changes, priapism, systemic toxicity)",
+        "DermNet on Melanotan II: mechanism and documented adverse effects (moles/melanoma changes, priapism, systemic toxicity)",
       url: "https://dermnetnz.org/topics/melanotan-ii",
     },
     {
       label:
-        "Cancer Research UK — Fake tan and Melanotan injections (why Melanotan is unlicensed and unsafe)",
+        "Cancer Research UK on fake tan and Melanotan injections (why Melanotan is unlicensed and unsafe)",
       url: "https://www.cancerresearchuk.org/about-cancer/causes-of-cancer/sun-uv-and-cancer/fake-tan-and-melanotan-injections",
     },
   ],

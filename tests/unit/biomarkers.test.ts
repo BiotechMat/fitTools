@@ -6,6 +6,7 @@ import {
   validateBiomarkers,
   biomarkersInGroup,
 } from "@/registry/biomarkers";
+import { glossaryBySlug } from "@/registry/glossary";
 
 /**
  * The biomarker panel must satisfy the invariants it owns: unique ids, real
@@ -35,6 +36,25 @@ describe("biomarker registry", () => {
   it("every display group contains at least one marker", () => {
     for (const g of BIOMARKER_GROUPS) {
       expect(biomarkersInGroup(g.category).length).toBeGreaterThan(0);
+    }
+  });
+
+  // Every biomarker we test for must have its own glossary explainer, by the
+  // slug === id convention (as apob / lp-a / cortisol already do). The glossary
+  // is the internal-linking backbone, so a marker with no entry is a dead end.
+  it("every biomarker has an individual glossary entry with a matching slug", () => {
+    for (const b of biomarkers) {
+      const entry = glossaryBySlug.get(b.id);
+      expect(entry, `biomarker '${b.id}' has no glossary entry`).toBeDefined();
+      expect(entry?.term.trim().length ?? 0).toBeGreaterThan(0);
+    }
+  });
+
+  it("every biomarker's related content links to its own glossary entry", () => {
+    for (const b of biomarkers) {
+      expect(b.relatedContent, `biomarker '${b.id}' has no relatedContent`).toBe(
+        `/glossary/${b.id}`,
+      );
     }
   });
 

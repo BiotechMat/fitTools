@@ -4,7 +4,7 @@ import { exercisePatterns, exercisesForPattern } from "@/registry/exercises";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Exercise Library — How to Perform the Big Lifts",
+  title: "Exercise Library: How to Perform the Big Lifts",
   description:
     "A reference library of the main barbell and bodyweight exercises: how to perform each, the muscles worked, common form faults and fixes, variations, and where they fit in your programming.",
   alternates: { canonical: "/exercises" },
@@ -30,7 +30,7 @@ export default function ExercisesHubPage() {
         </nav>
         <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Exercise library</h1>
         <p className="mt-2 max-w-prose text-muted">
-          Clear, no-nonsense guides to the lifts that matter — how to do each
+          Clear, no-nonsense guides to the lifts that matter, how to do each
           one, the muscles it works, the form faults to avoid, and how to fit it
           into a programme. Grouped by movement pattern.
         </p>

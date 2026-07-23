@@ -63,7 +63,7 @@ export function IndexResultPanel({
 
       {result.reducedConfidence ? (
         <p className="mt-2 rounded-md border border-warning-border bg-warning-bg p-2 text-sm">
-          Reduced confidence — some inputs were left blank, so the score is
+          Reduced confidence, some inputs were left blank, so the score is
           based only on what you entered ({Math.round(result.usedWeightTotal)}%
           of the full weighting).
         </p>

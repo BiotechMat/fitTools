@@ -5,7 +5,7 @@ import { personJsonLd } from "@/lib/schema-org";
 import { allTools } from "@/registry/tools";
 
 export const metadata: Metadata = {
-  title: "Mathew Beale — Author",
+  title: "Mathew Beale: Author",
   description:
     "Mathew Beale (MSc Biotechnology, University of Reading) writes and reviews every FitTools calculator against its published primary sources.",
   alternates: { canonical: AUTHOR.path },
@@ -23,7 +23,7 @@ export default function AuthorPage() {
       <p className="mt-1 text-muted">{AUTHOR.credentials}</p>
       <p>
         I build and maintain every calculator on FitTools. My background is
-        in biotechnology — an MSc from the University of Reading — which
+        in biotechnology, an MSc from the University of Reading, which
         shaped the way this site works: every formula is implemented from
         its published, peer-reviewed source, and the citation appears in the
         Methodology section of the page that uses it, so you can check the
@@ -45,7 +45,7 @@ export default function AuthorPage() {
         </li>
       </ul>
       <p>
-        FitTools provides estimates for general information — it does not
+        FitTools provides estimates for general information, it does not
         give medical advice, and I am not a medical professional. For
         anything affecting your health, please speak to a qualified
         clinician. See the{" "}

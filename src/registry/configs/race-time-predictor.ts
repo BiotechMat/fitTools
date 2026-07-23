@@ -11,9 +11,9 @@ export const raceInputsSchema = z.object({
 
 export const raceConfig: ToolConfig = {
   slug: RACE_SLUG,
-  title: "Race Time Predictor — Riegel Formula",
+  title: "Race Time Predictor: Riegel Formula",
   valueLine:
-    "Predict your 5k to marathon times from one recent race, using Riegel's endurance formula — assumptions stated.",
+    "Predict your 5k to marathon times from one recent race, using Riegel's endurance formula, with assumptions stated.",
   metaDescription:
     "Free race time predictor using the Riegel formula (T₂ = T₁ × (D₂/D₁)^1.06): predictions for 5k, 10k, half marathon and marathon from any recent result.",
   hub: "recovery",
@@ -27,11 +27,11 @@ export const raceConfig: ToolConfig = {
     },
     {
       q: "What is the Riegel formula?",
-      a: "T₂ = T₁ × (D₂ ÷ D₁)^1.06 — published by Peter Riegel in 1981 from analysis of record performances across endurance sports. The 1.06 exponent captures how pace naturally slows as distance doubles.",
+      a: "T₂ = T₁ × (D₂ ÷ D₁)^1.06, published by Peter Riegel in 1981 from analysis of record performances across endurance sports. The 1.06 exponent captures how pace naturally slows as distance doubles.",
     },
     {
       q: "Why is my marathon prediction too fast?",
-      a: "The formula assumes you're as trained for the target distance as the known one. Without marathon-specific mileage, glycogen limits and fatigue bite harder than the exponent expects — treat marathon predictions as a best case.",
+      a: "The formula assumes you're as trained for the target distance as the known one. Without marathon-specific mileage, glycogen limits and fatigue bite harder than the exponent expects, so treat marathon predictions as a best case.",
     },
     {
       q: "Which race should I base predictions on?",
@@ -43,7 +43,7 @@ export const raceConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Riegel PS. Athletic records and human endurance. American Scientist 1981;69:285–290",
+      label: "Riegel PS. Athletic records and human endurance. American Scientist 1981;69:285-290",
       url: "https://www.jstor.org/stable/27850427",
     },
     {

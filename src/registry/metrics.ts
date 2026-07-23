@@ -187,7 +187,7 @@ export const dashboardMetrics: DashboardMetric[] = [
     precision: 1,
     direction: "up",
     epsilon: 0.1,
-    blurb: "Fat-free mass index — muscularity, height-adjusted.",
+    blurb: "Fat-free mass index: muscularity, height-adjusted.",
   },
 ];
 

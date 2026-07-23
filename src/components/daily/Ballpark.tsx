@@ -145,7 +145,7 @@ function BallparkGame({
               </span>
               <span className="font-display text-2xl uppercase">{TIER_META[tier].label}</span>
               {alreadyPlayed && !justPlayedTier ? (
-                <span className="ml-2 text-sm text-muted">— you already played today</span>
+                <span className="ml-2 text-sm text-muted">you already played today</span>
               ) : null}
             </div>
           ) : null}
@@ -159,7 +159,7 @@ function BallparkGame({
           >
             <span aria-hidden="true">↗</span> Share result
           </button>
-          <p className="mt-2 text-xs text-muted">Shares your score grid only — never the answer. Come back tomorrow for the next one.</p>
+          <p className="mt-2 text-xs text-muted">Shares your score grid only, never the answer. Come back tomorrow for the next one.</p>
         </>
       )}
     </section>

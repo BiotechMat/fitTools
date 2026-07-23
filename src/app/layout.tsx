@@ -32,7 +32,7 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Evidence-based fitness calculators`,
+    default: `${SITE_NAME}: Evidence-based fitness calculators`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
@@ -50,7 +50,7 @@ const liveHubs = Object.values(hubMeta).filter(
 
 // Menu labels use the short tool name — the part before the SEO suffix —
 // matching the share-page convention.
-const shortTitle = (title: string) => title.split("—")[0].trim();
+const shortTitle = (title: string) => title.split(":")[0].trim();
 
 // Main nav, rendered responsively by <SiteNav /> (horizontal on desktop,
 // hamburger dropdown below lg). Emphasised links are the primary
@@ -60,7 +60,6 @@ const shortTitle = (title: string) => title.split("—")[0].trim();
 // top-level items carrying calculators plus the wider content of each domain.
 const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
-  { href: "/daily", label: "Daily", emphasis: true },
   { href: "/arcade", label: "Arcade", emphasis: true },
   { href: "/tools", label: "Tools", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },

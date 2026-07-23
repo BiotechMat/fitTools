@@ -35,7 +35,7 @@ in **content volume, instrumentation, and distribution**, not in the platform.
 | Daily games (DAILY-GAMES.md) | Ballpark + Myth or Fact?, streaks, share, analytics |
 | Arcade (LIFELINE.md, POWERHOUSE.md) | **Lifeline** heartbeat flapper (v1–v4: daily-seeded run, ghost replay, death-card PNG, challenge links, skins) + **Powerhouse** mitochondria shooter, grouped in the `/arcade` hub; both funnel to Heart Age / HR-zone tools |
 | Dashboard (DASHBOARD.md) | **D0** local scaffold — metric registry, store, `/dashboard` route |
-| Share loop (ROADMAP E1) | **Partially built** — dynamic 1200×630 OG card at `/api/share-card` + `/share` page + share buttons on tool results |
+| Share loop (ROADMAP E1) | **Partially built** — tool pipeline (`/api/share-card` + `/share` + share buttons) **plus** (2026-07-23) the arcade/daily hook: game share links carry the score as bounded params and unfurl as `/api/arcade-card` score cards; every section/content/tool page now has its own OG image. All cards render in the Lifeline death-card house style (paper sheet, ink frame, pixel emblems, Anton score — `src/lib/og-image.tsx` + `src/lib/pixel-art.ts`, vendored OFL fonts in `src/lib/og-fonts/`). Still open: Pulse cards, 1080×1920 story format |
 | Design (DESIGN.md) | v2 rebrand implemented + §8 motion system |
 | Monetisation infra (SPEC §10) | CMP, AdSlot, affiliate registry, analytics, email — all **built behind flags, all OFF** |
 
@@ -50,7 +50,7 @@ Three imbalances, not code defects, are what actually gate growth:
 
    | Bank | Now | Doc target | Gap |
    |---|---|---|---|
-   | Pulse corpus | **12** (9 evergreen + 3 fresh) | 60–100 (PULSE §3.3) | thin: nutrition, supplements, sleep |
+   | Pulse corpus | **64** (61 evergreen + 3 fresh) | 60–100 (PULSE §3.3) | ✅ in band (2026-07-23 harvest) |
    | Ballpark items | **10** | ~90 (DAILY-GAMES §4) | ~10 days of dailies |
    | Myth or Fact? items | **9** | ~40 (DAILY-GAMES §4) | ~2 weeks |
 
@@ -89,8 +89,10 @@ The features exist; give them content and turn on measurement.
   supplement/tool sources); fresh Pulse chunks already have `pnpm harvest` + the
   PR gate. Every new item brings its own primary source (CLAUDE.md).
 - **Flip the recorded activation switches** (all documented, all code-complete):
-  - `ANTHROPIC_API_KEY` + `PULSE_LLM_MODEL=claude-haiku-4-5` in Vercel → Pulse
-    leaves degraded mode (PULSE §14 "PRODUCTION TODO").
+  - `ANTHROPIC_API_KEY` in Vercel → Pulse leaves degraded mode (PULSE §14
+    "PRODUCTION TODO"). Cost-safe to flip: generation is site-wide, one pass
+    per UTC day on the `claude-haiku-4-5` default with a hard daily call
+    budget (PULSE §14.1); `PULSE_LLM_MODEL` is now only an optional override.
   - Same key as a GitHub Actions secret + "Actions may create PRs" → the weekly
     harvest Action goes live (PULSE §15.10).
 - **Activate measurement.** CMP + GA4 (consent-gated loaders built and
@@ -105,13 +107,14 @@ The features exist; give them content and turn on measurement.
 
 ### Phase 2 — Close the loops that are 80% built *(~1–2 weeks)*
 
-- **Extend the share-card pipeline beyond tools.** `/api/share-card` already
-  renders a branded 1200×630 OG image, but validates against the *tool* registry
-  only. Generalise it (or add sibling payloads) so **Pulse cards, Daily results
-  and the arcade games** can share through it, and add the **1080×1920 story
-  format**. This is the one dependency PULSE §4, DAILY-GAMES §7 and LIFELINE §6
-  all name. (Lifeline already ships a *client-side* death-card PNG; this is the
-  server-rendered OG hook.)
+- **Extend the share-card pipeline beyond tools.** PARTLY DONE (2026-07-23):
+  the arcade games and both dailies now share through `/api/arcade-card` — a
+  sibling of `/api/share-card` with the same forgery posture (bounded numbers /
+  fixed ids only, `src/lib/arcade-share.ts`). Game share links carry the result
+  as query params on the game's own URL, whose `generateMetadata` unfurls them
+  as the score card (LIFELINE §6 challenge links included), and every
+  section/content page got a per-page OG image. Still open from this bullet:
+  **Pulse cards** (PULSE §4) and the **1080×1920 story format**.
 - **Build the specced SEO artefacts** (the internal-linking payoff both content
   docs call a build requirement): `/daily/archive/<date>` pages, the
   `/pulse/<date>` daily page with `Claim` JSON-LD, and reciprocal "related facts"

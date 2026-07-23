@@ -15,9 +15,9 @@ import { EvidenceTier } from "@/components/EvidenceTier";
 
 const GRADE_BLURBS: Record<EvidenceGrade, string> = {
   gold: "Strong, replicated human evidence behind the headline claim.",
-  silver: "Real but limited human evidence — promising, not settled.",
+  silver: "Real but limited human evidence, promising but not settled.",
   bronze: "Early or animal-only evidence; a lead, not a result.",
-  unproven: "Sold hard, shown little — human evidence weak or absent.",
+  unproven: "Sold hard, shown little. Human evidence weak or absent.",
   "not-supported": "The evidence actively points the other way.",
 };
 

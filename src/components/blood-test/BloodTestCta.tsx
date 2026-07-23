@@ -30,7 +30,7 @@ export function BloodTestCta({ panelHref = "#panel" }: { panelHref?: string }) {
         </p>
         <p className="mt-2 text-sm text-muted">
           We&rsquo;re finalising our accredited testing partner. Early access opens
-          shortly — for now, see exactly what the panel measures.
+          shortly, for now, see exactly what the panel measures.
         </p>
         <a
           href={panelHref}
@@ -64,7 +64,7 @@ export function BloodTestCta({ panelHref = "#panel" }: { panelHref?: string }) {
     <div className="rounded-2xl border-2 border-foreground bg-surface p-5 shadow-[3px_3px_0_0_var(--color-foreground)]">
       {status === "done" ? (
         <p className="text-sm font-medium">
-          You&rsquo;re on the list — check your inbox to confirm, and we&rsquo;ll email you
+          You&rsquo;re on the list, check your inbox to confirm, and we&rsquo;ll email you
           the moment it launches.
         </p>
       ) : (
@@ -96,7 +96,7 @@ export function BloodTestCta({ panelHref = "#panel" }: { panelHref?: string }) {
           </button>
           {status === "error" ? (
             <p role="alert" className="w-full text-sm text-muted">
-              Something went wrong — please try again in a moment.
+              Something went wrong, please try again in a moment.
             </p>
           ) : null}
         </form>

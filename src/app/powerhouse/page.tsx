@@ -2,13 +2,25 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { PowerhouseGame } from "@/components/powerhouse/PowerhouseGame";
+import { parseArcadeResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
-  title: "Powerhouse — The Mitochondria Arcade Shooter",
+const COPY = {
+  title: "Powerhouse: The Mitochondria Arcade Shooter",
   description:
-    "You are the mitochondrion — the powerhouse of the cell. Autofire at free radicals and sugar spikes, stack protein and caffeine power-ups, and climb the heart-rate zones to REDLINE. Free, no sign-up.",
-  alternates: { canonical: "/powerhouse" },
-};
+    "You are the mitochondrion, the powerhouse of the cell. Autofire at free radicals and sugar spikes, stack protein and caffeine power-ups, and climb the heart-rate zones to REDLINE. Free, no sign-up.",
+  canonical: "/powerhouse",
+  hero: "powerhouse",
+} as const;
+
+// Shared results carry ?atp=&zone= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseArcadeResult("powerhouse", await searchParams));
+}
 
 export default function PowerhousePage() {
   const jsonLd = breadcrumbJsonLd([
@@ -38,7 +50,7 @@ export default function PowerhousePage() {
         Powerhouse
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        The mitochondria is the powerhouse of the cell — and today,{" "}
+        The mitochondria is the powerhouse of the cell, and today,{" "}
         <strong className="font-semibold text-foreground">that&rsquo;s you</strong>. Fly the
         bloodstream, autofire at the junk, grab the good stuff, and climb the
         training zones. Your score is ATP. Zone 5 is earned. REDLINE is
@@ -50,7 +62,7 @@ export default function PowerhousePage() {
       </div>
 
       <p className="mt-6 max-w-prose text-sm text-muted">
-        Powerhouse is a cartoon, not cell biology — no organelles were
+        Powerhouse is a cartoon, not cell biology. No organelles were
         consulted, and nothing here measures you. For your actual training
         zones, built on real heart-rate maths with the sources cited, try the{" "}
         <Link

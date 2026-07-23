@@ -92,7 +92,7 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         >
           Disclosure: this is a buying guide. Where we link to products we may
           earn a commission at no extra cost to you. It never changes our
-          evidence assessments — the neutral evidence lives on the{" "}
+          evidence assessments, the neutral evidence lives on the{" "}
           <Link href={`/recovery/${c.slug}`} className="text-primary underline underline-offset-2">
             main guide
           </Link>.

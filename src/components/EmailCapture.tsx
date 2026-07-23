@@ -42,7 +42,7 @@ export function EmailCapture() {
     >
       {status === "done" ? (
         <p className="text-sm font-medium">
-          Nearly there — check your inbox and confirm your subscription.
+          Nearly there, check your inbox and confirm your subscription.
         </p>
       ) : (
         <form onSubmit={submit} className="flex flex-wrap items-end gap-3">
@@ -73,7 +73,7 @@ export function EmailCapture() {
           </button>
           {status === "error" ? (
             <p role="alert" className="w-full text-sm text-muted">
-              Something went wrong — please try again in a moment.
+              Something went wrong, please try again in a moment.
             </p>
           ) : null}
         </form>

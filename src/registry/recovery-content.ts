@@ -43,11 +43,11 @@ const coldWater: RecoveryCluster = {
   slug: "cold-water-immersion",
   title: "Cold Water Immersion: Benefits, Evidence and How to Start",
   pillarValueLine:
-    "What ice baths and cold plunges actually do — separating the well-supported effects from the hype.",
+    "What ice baths and cold plunges actually do, separating the well-supported effects from the hype.",
   metaDescription:
     "An evidence-tiered guide to cold water immersion: what the research supports (and doesn't) for recovery, mood and metabolism, the timing trade-off with muscle growth, and how to start safely.",
   safety: {
-    title: "Safety — cold water immersion",
+    title: "Cold water immersion safety",
     points: [
       "Cold immersion is a strong stressor on the heart and circulation. The cold-shock response (gasping, spiking heart rate and blood pressure) is the main acute danger, especially in very cold water.",
       "Be cautious or avoid it with heart conditions, uncontrolled high blood pressure, or during pregnancy, and never immerse alone or after alcohol.",
@@ -63,15 +63,15 @@ const coldWater: RecoveryCluster = {
     },
     {
       q: "Can ice baths blunt muscle growth?",
-      a: "Yes — this is the nuance most marketing skips. A 2024 meta-analysis found that cold water immersion done immediately after resistance training tends to blunt the muscle-growth response. If building muscle is the goal, don't ice straight after lifting; separate them by several hours or skip it on those days.",
+      a: "Yes, and this is the nuance most marketing skips. A 2024 meta-analysis found that cold water immersion done immediately after resistance training tends to blunt the muscle-growth response. If building muscle is the goal, don't ice straight after lifting; separate them by several hours or skip it on those days.",
     },
     {
       q: "Is cold water immersion good for mental health?",
-      a: "The mood and stress claims are promising but preliminary. Cold immersion is a strong physiological stressor and some people report feeling better afterwards, but the controlled evidence is limited and mixed — treat mood benefits as plausible, not proven.",
+      a: "The mood and stress claims are promising but preliminary. Cold immersion is a strong physiological stressor and some people report feeling better afterwards, but the controlled evidence is limited and mixed, so treat mood benefits as plausible, not proven.",
     },
     {
       q: "How cold and how long?",
-      a: "Common practice is water around 10–15°C for a few minutes, but there is no single evidence-based prescription, and colder or longer is not automatically better. Start conservatively and never push through warning signs.",
+      a: "Common practice is water around 10 to 15°C for a few minutes, but there is no single evidence-based prescription, and colder or longer is not automatically better. Start conservatively and never push through warning signs.",
     },
   ],
   sources: [
@@ -91,9 +91,9 @@ const coldWater: RecoveryCluster = {
       slug: "ice-bath-benefits",
       clusterSlug: "cold-water-immersion",
       kind: "authority",
-      title: "Ice Bath Benefits — What the Evidence Actually Says",
+      title: "Ice Bath Benefits: What the Evidence Actually Says",
       metaDescription:
-        "An honest, evidence-tiered look at ice bath benefits: recovery and soreness, mood, metabolism and the muscle-growth trade-off — what's well-supported, what's preliminary, and what's marketing.",
+        "An honest, evidence-tiered look at ice bath benefits: recovery and soreness, mood, metabolism and the muscle-growth trade-off, covering what's well-supported, what's preliminary, and what's marketing.",
       valueLine: "Every claimed ice-bath benefit, sorted by how strong the evidence really is.",
       faq: [],
       related: ["cold-water-immersion", "best-cold-plunge-tubs"],
@@ -113,10 +113,10 @@ const coldWater: RecoveryCluster = {
       slug: "best-cold-plunge-tubs",
       clusterSlug: "cold-water-immersion",
       kind: "commercial",
-      title: "How to Choose a Cold Plunge Tub — What Actually Matters",
+      title: "How to Choose a Cold Plunge Tub: What Actually Matters",
       metaDescription:
-        "The selection criteria that genuinely matter when buying a cold plunge tub — chiller, insulation, size, filtration and cost — plus honest DIY alternatives.",
-      valueLine: "The criteria that matter when buying a cold plunge — and when a bin of ice does the same job.",
+        "The selection criteria that genuinely matter when buying a cold plunge tub, namely chiller, insulation, size, filtration and cost, plus honest DIY alternatives.",
+      valueLine: "The criteria that matter when buying a cold plunge, and when a bin of ice does the same job.",
       faq: [
         {
           q: "Do I need an expensive chiller tub?",
@@ -143,11 +143,11 @@ const sauna: RecoveryCluster = {
   slug: "sauna-therapy",
   title: "Sauna Therapy: Benefits, Evidence and How to Use It",
   pillarValueLine:
-    "Among the better-supported recovery practices — here's what the evidence shows, and where it stops.",
+    "Among the better-supported recovery practices. Here's what the evidence shows, and where it stops.",
   metaDescription:
     "An evidence-tiered guide to sauna therapy: the strong observational links to cardiovascular and all-cause mortality, blood-pressure benefits, the causation caveat, infrared vs traditional, and how to use it safely.",
   safety: {
-    title: "Safety — sauna use",
+    title: "Sauna use safety",
     points: [
       "The main risks are overheating, dehydration and fainting. Hydrate before and after, and don't stay in longer than feels comfortable.",
       "Be cautious or avoid it with certain cardiovascular conditions, unstable angina, recent heart attack, or during pregnancy, and never combine sauna with alcohol.",
@@ -159,11 +159,11 @@ const sauna: RecoveryCluster = {
   faq: [
     {
       q: "Is sauna use actually good for your heart?",
-      a: "The evidence here is unusually strong for this field, though observational. Large Finnish cohort studies link frequent sauna use (4–7 times a week) to substantially lower cardiovascular and all-cause mortality, and randomised trials show acute blood-pressure reductions. Because the mortality data are observational, they show association, not proven cause.",
+      a: "The evidence here is unusually strong for this field, though observational. Large Finnish cohort studies link frequent sauna use (4 to 7 times a week) to substantially lower cardiovascular and all-cause mortality, and randomised trials show acute blood-pressure reductions. Because the mortality data are observational, they show association, not proven cause.",
     },
     {
       q: "How often and how long?",
-      a: "The cohort benefits were largest at 4–7 sessions a week of roughly 15–20 minutes at typical Finnish sauna temperatures (around 80°C). More was associated with more benefit in the data, but hydration and individual tolerance set practical limits.",
+      a: "The cohort benefits were largest at 4 to 7 sessions a week of roughly 15 to 20 minutes at typical Finnish sauna temperatures (around 80°C). More was associated with more benefit in the data, but hydration and individual tolerance set practical limits.",
     },
     {
       q: "Is infrared as good as a traditional sauna?",
@@ -171,18 +171,18 @@ const sauna: RecoveryCluster = {
     },
     {
       q: "Does sauna 'detox' the body or burn meaningful fat?",
-      a: "No. Detox claims are marketing — your liver and kidneys handle that — and the weight lost in a session is water that returns on rehydration. The credible benefits are cardiovascular and relaxation-related, not detox or fat loss.",
+      a: "No. Detox claims are marketing, since your liver and kidneys handle that, and the weight lost in a session is water that returns on rehydration. The credible benefits are cardiovascular and relaxation-related, not detox or fat loss.",
     },
   ],
   sources: [
     {
       label:
-        "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542–548",
+        "Laukkanen T, et al. Association between sauna bathing and fatal cardiovascular and all-cause mortality events. JAMA Intern Med 2015;175:542-548",
       url: "https://pubmed.ncbi.nlm.nih.gov/25705824/",
     },
     {
       label:
-        "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111–1121",
+        "Laukkanen JA, Laukkanen T, Kunutsor SK. Cardiovascular and other health benefits of sauna bathing: a review of the evidence. Mayo Clin Proc 2018;93:1111-1121",
       url: "https://www.mayoclinicproceedings.org/article/s0025-6196(18)30275-1/fulltext",
     },
   ],
@@ -191,10 +191,10 @@ const sauna: RecoveryCluster = {
       slug: "sauna-benefits",
       clusterSlug: "sauna-therapy",
       kind: "authority",
-      title: "Sauna Benefits — What the Evidence Actually Says",
+      title: "Sauna Benefits: What the Evidence Actually Says",
       metaDescription:
-        "An evidence-tiered review of sauna benefits: cardiovascular and mortality associations, blood pressure, recovery and relaxation — clearly separating well-supported effects from detox and weight-loss marketing.",
-      valueLine: "Sauna's health claims, sorted by evidence — including its unusually strong cardiovascular data.",
+        "An evidence-tiered review of sauna benefits: cardiovascular and mortality associations, blood pressure, recovery and relaxation, clearly separating well-supported effects from detox and weight-loss marketing.",
+      valueLine: "Sauna's health claims, sorted by evidence, including its unusually strong cardiovascular data.",
       faq: [],
       related: ["sauna-therapy", "best-home-saunas"],
       lastReviewed: "2026-07-22",
@@ -213,14 +213,14 @@ const sauna: RecoveryCluster = {
       slug: "best-home-saunas",
       clusterSlug: "sauna-therapy",
       kind: "commercial",
-      title: "Choosing a Home Sauna — Traditional vs Infrared, and What Matters",
+      title: "Choosing a Home Sauna: Traditional vs Infrared, and What Matters",
       metaDescription:
-        "How to choose a home sauna: traditional vs infrared (and why the evidence differs), heater type, size, wiring and cost — with an honest note on which evidence applies to which.",
-      valueLine: "How to choose a home sauna — and why the type you pick changes which evidence applies.",
+        "How to choose a home sauna: traditional vs infrared (and why the evidence differs), heater type, size, wiring and cost, with an honest note on which evidence applies to which.",
+      valueLine: "How to choose a home sauna, and why the type you pick changes which evidence applies.",
       faq: [
         {
           q: "Traditional or infrared for home use?",
-          a: "If you're buying for the well-evidenced cardiovascular and blood-pressure benefits, traditional (hot, higher-temperature) saunas are what those studies used. Infrared runs cooler and is gentler and cheaper to run, but its evidence base is smaller and more condition-specific — a reasonable choice for comfort, less so if you're chasing the Finnish-cohort findings.",
+          a: "If you're buying for the well-evidenced cardiovascular and blood-pressure benefits, traditional (hot, higher-temperature) saunas are what those studies used. Infrared runs cooler and is gentler and cheaper to run, but its evidence base is smaller and more condition-specific, making it a reasonable choice for comfort, less so if you're chasing the Finnish-cohort findings.",
         },
         {
           q: "What matters most when buying?",
@@ -243,13 +243,13 @@ const compression: RecoveryCluster = {
   slug: "compression-therapy",
   title: "Compression Boots: Benefits, Evidence and How to Use Them",
   pillarValueLine:
-    "What pneumatic compression boots actually do for recovery — the real effects versus the marketing.",
+    "What pneumatic compression boots actually do for recovery, the real effects versus the marketing.",
   metaDescription:
     "An evidence-tiered guide to pneumatic compression boots: what the research supports for recovery and soreness, what it doesn't, who should be cautious, and how to use them.",
   safety: {
-    title: "Safety — compression therapy",
+    title: "Compression therapy safety",
     points: [
-      "Avoid if you have or are at risk of a blood clot (DVT), serious circulation problems, or an active leg injury or infection — squeezing the leg could be harmful.",
+      "Avoid if you have or are at risk of a blood clot (DVT), serious circulation problems, or an active leg injury or infection, because squeezing the leg could be harmful.",
       "Stop if you get numbness, tingling or pain, and don't use over open wounds.",
       "Consult a doctor first if you have any vascular condition, are pregnant, or have any doubt.",
     ],
@@ -266,11 +266,11 @@ const compression: RecoveryCluster = {
     },
     {
       q: "Are they worth the money?",
-      a: "They're a convenience and a 'feel-good' recovery tool rather than a proven performance booster. Gentle movement, sleep and nutrition do more for recovery — and cost nothing.",
+      a: "They're a convenience and a 'feel-good' recovery tool rather than a proven performance booster. Gentle movement, sleep and nutrition do more for recovery, and cost nothing.",
     },
     {
       q: "How long should I use them?",
-      a: "Typical sessions are 15–30 minutes at a comfortable pressure. More isn't necessarily better, and there's no strong evidence for a precise protocol.",
+      a: "Typical sessions are 15 to 30 minutes at a comfortable pressure. More isn't necessarily better, and there's no strong evidence for a precise protocol.",
     },
   ],
   sources: [
@@ -287,22 +287,22 @@ const massageGuns: RecoveryCluster = {
   slug: "massage-guns",
   title: "Massage Guns (Percussive Therapy): What the Evidence Says",
   pillarValueLine:
-    "What percussive massage devices do for soreness and range of motion — and what they don't.",
+    "What percussive massage devices do for soreness and range of motion, and what they don't.",
   metaDescription:
     "An evidence-tiered guide to massage guns: the preliminary evidence for short-term range of motion and soreness relief, the overblown claims, and how to use one safely.",
   safety: {
-    title: "Safety — massage guns",
+    title: "Massage gun safety",
     points: [
       "Keep them on muscle. Avoid bones, joints, the neck/throat, the spine, nerves and any injured, bruised or inflamed area.",
       "Don't use over numbness, recent injuries, blood clots or if you're on blood thinners without medical advice.",
-      "Keep sessions short and pressure moderate — more force and time is not better, and can bruise.",
+      "Keep sessions short and pressure moderate, because more force and time is not better, and can bruise.",
     ],
   },
   lastReviewed: "2026-07-22",
   faq: [
     {
       q: "Do massage guns work?",
-      a: "For a short-term increase in range of motion and some relief of muscle soreness, the evidence is modest but real. As a way to feel looser and more recovered before or after training, they're reasonable — just don't expect performance gains.",
+      a: "For a short-term increase in range of motion and some relief of muscle soreness, the evidence is modest but real. As a way to feel looser and more recovered before or after training, they're reasonable, just don't expect performance gains.",
     },
     {
       q: "Do they improve performance or build muscle?",
@@ -314,7 +314,7 @@ const massageGuns: RecoveryCluster = {
     },
     {
       q: "How long should I use it?",
-      a: "Short bouts — roughly 1–2 minutes per muscle — are plenty. Prolonged, aggressive use risks bruising and offers no extra benefit.",
+      a: "Short bouts of roughly 1 to 2 minutes per muscle are plenty. Prolonged, aggressive use risks bruising and offers no extra benefit.",
     },
   ],
   sources: [
@@ -331,13 +331,13 @@ const redLight: RecoveryCluster = {
   slug: "red-light-therapy",
   title: "Red Light Therapy (Photobiomodulation): Benefits and Evidence",
   pillarValueLine:
-    "What red and near-infrared light therapy is claimed to do — and where the evidence actually stands.",
+    "What red and near-infrared light therapy is claimed to do, and where the evidence actually stands.",
   metaDescription:
     "An evidence-tiered guide to red light therapy (photobiomodulation): the preliminary and mixed evidence for recovery, skin and muscle, the marketing claims to ignore, and safety.",
   safety: {
-    title: "Safety — red light therapy",
+    title: "Red light therapy safety",
     points: [
-      "Protect your eyes — don't stare into the light source; use goggles for facial/near-eye use.",
+      "Protect your eyes, so don't stare into the light source; use goggles for facial or near-eye use.",
       "It is generally low-risk on skin, but stop if you get irritation, and be cautious if you take photosensitising medication or have a light-sensitive condition.",
       "Devices vary widely in power and quality; follow the manufacturer's distance and time guidance.",
     ],
@@ -346,7 +346,7 @@ const redLight: RecoveryCluster = {
   faq: [
     {
       q: "Does red light therapy work?",
-      a: "It's genuinely being researched, with preliminary and mixed evidence for muscle recovery, some skin outcomes and pain. It's one of the more plausible 'light' treatments — but the evidence is early and the consumer market overpromises.",
+      a: "It's genuinely being researched, with preliminary and mixed evidence for muscle recovery, some skin outcomes and pain. It's one of the more plausible 'light' treatments, but the evidence is early and the consumer market overpromises.",
     },
     {
       q: "What are the credible uses?",
@@ -364,7 +364,7 @@ const redLight: RecoveryCluster = {
   sources: [
     {
       label:
-        "PubMed: photobiomodulation / red light therapy — muscle recovery, skin and performance (trials and reviews)",
+        "PubMed: photobiomodulation and red light therapy for muscle recovery, skin and performance (trials and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=photobiomodulation+red+light+therapy+muscle+recovery+OR+skin",
     },
   ],
@@ -375,13 +375,13 @@ const sleepEnvironment: RecoveryCluster = {
   slug: "sleep-environment",
   title: "Optimising Your Sleep Environment: Temperature, Light and Sound",
   pillarValueLine:
-    "The bedroom factors that genuinely affect sleep — and the gadgets that mostly don't.",
+    "The bedroom factors that genuinely affect sleep, and the gadgets that mostly don't.",
   metaDescription:
     "An evidence-based guide to your sleep environment: the well-supported basics (cool, dark, quiet), what the research says about temperature and light, and which gadgets are hype.",
   safety: {
-    title: "Safety — sleep",
+    title: "Sleep safety",
     points: [
-      "Persistent poor sleep, loud snoring or gasping, or daytime exhaustion can signal a treatable sleep disorder — see a doctor rather than relying on gadgets.",
+      "Persistent poor sleep, loud snoring or gasping, or daytime exhaustion can signal a treatable sleep disorder, so see a doctor rather than relying on gadgets.",
       "This is general information about your environment, not treatment for insomnia or a sleep disorder.",
     ],
   },
@@ -389,11 +389,11 @@ const sleepEnvironment: RecoveryCluster = {
   faq: [
     {
       q: "What actually matters for sleep environment?",
-      a: "The well-supported basics: a cool room, darkness, and quiet. Your body lowers its core temperature to sleep, so a slightly cool room (often cited around 16–19°C) and light control are the highest-value changes.",
+      a: "The well-supported basics: a cool room, darkness, and quiet. Your body lowers its core temperature to sleep, so a slightly cool room (often cited around 16 to 19°C) and light control are the highest-value changes.",
     },
     {
       q: "Does room temperature really matter?",
-      a: "Yes — temperature is one of the better-supported environmental factors. Too warm a room is a common, fixable cause of restless sleep.",
+      a: "Yes. Temperature is one of the better-supported environmental factors. Too warm a room is a common, fixable cause of restless sleep.",
     },
     {
       q: "Are sleep gadgets worth it?",
@@ -401,13 +401,13 @@ const sleepEnvironment: RecoveryCluster = {
     },
     {
       q: "What about light at night?",
-      a: "Darkness supports melatonin and sleep; bright light — especially in the hours before bed — works against it. Reducing evening light and blocking morning light where needed both help.",
+      a: "Darkness supports melatonin and sleep; bright light, especially in the hours before bed, works against it. Reducing evening light and blocking morning light where needed both help.",
     },
   ],
   sources: [
     {
       label:
-        "PubMed: bedroom environment — ambient temperature, light and noise effects on sleep (reviews)",
+        "PubMed: bedroom environment and the effects of ambient temperature, light and noise on sleep (reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=sleep+environment+temperature+light+noise+review",
     },
   ],
@@ -418,13 +418,13 @@ const breathwork: RecoveryCluster = {
   slug: "breathwork",
   title: "Breathwork for Recovery and Stress: What the Evidence Shows",
   pillarValueLine:
-    "What breathing techniques can and can't do for stress, recovery and focus — honestly assessed.",
+    "What breathing techniques can and can't do for stress, recovery and focus, honestly assessed.",
   metaDescription:
     "An evidence-tiered guide to breathwork: the reasonable evidence for slow breathing and acute stress relief, the overblown claims, and important safety limits.",
   safety: {
-    title: "Safety — breathwork",
+    title: "Breathwork safety",
     points: [
-      "Never do breath-holds or hyperventilation-style techniques (e.g. Wim Hof) in or near water, while driving, or standing — fainting can cause drowning or injury. Do them seated or lying down.",
+      "Never do breath-holds or hyperventilation-style techniques (e.g. Wim Hof) in or near water, while driving, or standing, because fainting can cause drowning or injury. Do them seated or lying down.",
       "Intense hyperventilation methods can cause dizziness, tingling and blackouts. Be cautious with heart or lung conditions, epilepsy, high blood pressure or pregnancy, and seek medical advice first.",
       "Gentle slow breathing is low-risk for most people; stop any technique that makes you feel unwell.",
     ],
@@ -437,7 +437,7 @@ const breathwork: RecoveryCluster = {
     },
     {
       q: "What about the more extreme methods?",
-      a: "Intense hyperventilation-and-hold methods (such as the Wim Hof method) have some preliminary research and passionate advocates, but the evidence for lasting benefits is early — and the safety cautions above are important.",
+      a: "Intense hyperventilation-and-hold methods (such as the Wim Hof method) have some preliminary research and passionate advocates, but the evidence for lasting benefits is early, and the safety cautions above are important.",
     },
     {
       q: "Can it help recovery or sleep?",
@@ -451,7 +451,7 @@ const breathwork: RecoveryCluster = {
   sources: [
     {
       label:
-        "PubMed: slow-paced breathing / breathwork — stress, heart-rate variability and wellbeing (trials and reviews)",
+        "PubMed: slow-paced breathing and breathwork for stress, heart-rate variability and wellbeing (trials and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=slow+breathing+breathwork+stress+heart+rate+variability",
     },
   ],
@@ -462,14 +462,14 @@ const foamRolling: RecoveryCluster = {
   slug: "foam-rolling",
   title: "Foam Rolling & Mobility: Benefits and Limits",
   pillarValueLine:
-    "What foam rolling actually does for mobility and soreness — and the myths worth dropping.",
+    "What foam rolling actually does for mobility and soreness, and the myths worth dropping.",
   metaDescription:
     "An evidence-tiered guide to foam rolling: the real short-term benefits for range of motion and soreness, the myths about 'breaking up' fascia, and how to use it well.",
   safety: {
-    title: "Safety — foam rolling",
+    title: "Foam rolling safety",
     points: [
       "Roll muscle, not joints or bone. Avoid rolling directly over the lower back (spine), the neck, the front of the knee, or any injured or inflamed area.",
-      "Ease off if you get sharp pain, numbness or tingling — some discomfort is normal, pain is not.",
+      "Ease off if you get sharp pain, numbness or tingling. Some discomfort is normal, pain is not.",
       "Keep pressure moderate; grinding hard on a spot offers no extra benefit.",
     ],
   },
@@ -477,7 +477,7 @@ const foamRolling: RecoveryCluster = {
   faq: [
     {
       q: "Does foam rolling work?",
-      a: "For a short-term increase in range of motion — without the temporary strength loss long static stretching can cause — and for modestly easing muscle soreness, yes. Those short-term effects are its real, evidence-based value.",
+      a: "For a short-term increase in range of motion, without the temporary strength loss long static stretching can cause, and for modestly easing muscle soreness, yes. Those short-term effects are its real, evidence-based value.",
     },
     {
       q: "Does it 'break up' fascia or knots?",
@@ -495,7 +495,7 @@ const foamRolling: RecoveryCluster = {
   sources: [
     {
       label:
-        "PubMed: foam rolling / self-myofascial release — range of motion and muscle soreness (trials and reviews)",
+        "PubMed: foam rolling and self-myofascial release for range of motion and muscle soreness (trials and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=foam+rolling+self-myofascial+release+range+of+motion+soreness",
     },
   ],

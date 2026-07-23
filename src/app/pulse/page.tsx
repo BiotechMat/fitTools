@@ -5,9 +5,9 @@ import { PulseDaily } from "@/components/pulse/PulseDaily";
 import { PulseScroller } from "@/components/pulse/PulseScroller";
 
 export const metadata: Metadata = {
-  title: "Pulse — An Endless Feed of Cited Fitness & Longevity Facts",
+  title: "Pulse: An Endless Feed of Cited Fitness & Longevity Facts",
   description:
-    "Pulse is a bottomless, source-verified feed of bite-sized facts across training, nutrition, recovery, sleep, physiology, supplements and longevity — like, save, share and filter by topic.",
+    "Pulse is a bottomless, source-verified feed of bite-sized facts across training, nutrition, recovery, sleep, physiology, supplements and longevity, like, save, share and filter by topic.",
   alternates: { canonical: "/pulse" },
 };
 
@@ -34,7 +34,7 @@ export default function PulsePage() {
       <p className="mt-2 max-w-prose text-muted">
         A bottomless feed of bite-sized, source-verified facts across fitness,
         recovery, nutrition, sleep, physiology and longevity. Every card cites a
-        real study — like the ones that click, save the keepers, and filter to
+        real study, like the ones that click, save the keepers, and filter to
         what you care about.
       </p>
       <p className="mt-3 text-sm">

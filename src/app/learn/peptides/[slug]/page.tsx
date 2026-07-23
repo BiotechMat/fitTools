@@ -140,7 +140,7 @@ export default async function PeptidePageRoute({ params }: PeptidePageParams) {
                 >
                   {r.name}
                 </Link>{" "}
-                <span className="text-xs text-muted">— {GRADE_LABELS[evidenceGrade(r.headlineTier, r.headlineBasis)]}</span>
+                <span className="text-xs text-muted">({GRADE_LABELS[evidenceGrade(r.headlineTier, r.headlineBasis)]})</span>
                 <p className="mt-1 text-sm text-muted">{r.metaDescription}</p>
               </li>
             ))}

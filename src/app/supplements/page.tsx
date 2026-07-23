@@ -7,9 +7,9 @@ import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Supplement Database — What the Evidence Actually Says",
+  title: "Supplement Database: What the Evidence Actually Says",
   description:
-    "An honest, evidence-tiered supplement reference: what each one is, what's claimed, and what the human research actually shows — sorted by strength of evidence, with citations.",
+    "An honest, evidence-tiered supplement reference: what each one is, what's claimed, and what the human research actually shows, sorted by strength of evidence, with citations.",
   alternates: { canonical: "/supplements" },
 };
 

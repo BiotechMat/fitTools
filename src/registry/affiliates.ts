@@ -54,49 +54,49 @@ export interface ProductPick {
 const CREATINE_PICK: ProductPick = {
   offerId: "creatine-monohydrate-plain",
   name: "Plain creatine monohydrate powder",
-  why: "The form nearly all the research used — the pricier variants have not been shown to beat it.",
+  why: "The form nearly all the research used, and the pricier variants have not been shown to beat it.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const WHEY_PICK: ProductPick = {
   offerId: "whey-protein-plain",
   name: "A plain whey protein powder",
-  why: "Any reputable whey does the job — the benefit is hitting your daily protein target, not the brand.",
+  why: "Any reputable whey does the job, because the benefit is hitting your daily protein target, not the brand.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const CAFFEINE_TABLETS_PICK: ProductPick = {
   offerId: "caffeine-tablets-fixed-dose",
   name: "Fixed-dose caffeine tablets",
-  why: "A precise, cheap dose that is easy to time — and far safer than concentrated caffeine powders.",
+  why: "A precise, cheap dose that is easy to time, and far safer than concentrated caffeine powders.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const ELECTROLYTES_PICK: ProductPick = {
   offerId: "electrolyte-mix-endurance",
   name: "An electrolyte drink mix",
-  why: "Earns its keep during long, hot or very sweaty sessions — it is not needed as an everyday drink.",
+  why: "Earns its keep during long, hot or very sweaty sessions, but it is not needed as an everyday drink.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const SLEEP_DARKNESS_PICK: ProductPick = {
   offerId: "sleep-blackout-mask",
   name: "Blackout blinds or a contoured sleep mask",
-  why: "Darkness is one of the best-supported bedroom changes — and the cheapest one to make.",
+  why: "Darkness is one of the best-supported bedroom changes, and the cheapest one to make.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const COLD_PLUNGE_PICK: ProductPick = {
   offerId: "cold-plunge-insulated-chiller",
   name: "An insulated cold plunge tub with a chiller",
-  why: "Holds a steady target temperature and filters the water — the two criteria that matter for regular use. For occasional use, a tub and bags of ice does the same job.",
+  why: "Holds a steady target temperature and filters the water, the two criteria that matter for regular use. For occasional use, a tub and bags of ice does the same job.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
 const SAUNA_PICK: ProductPick = {
   offerId: "sauna-traditional-home",
   name: "A traditional (Finnish-style) home sauna",
-  why: "The hot, traditional type is what the strong cardiovascular evidence comes from — choose infrared for comfort and running cost, not for those findings.",
+  why: "The hot, traditional type is what the strong cardiovascular evidence comes from, so choose infrared for comfort and running cost, not for those findings.",
   url: "", // TODO(mat): paste affiliate URL + merchant to activate
 };
 
@@ -116,7 +116,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "beta-alanine-plain",
       name: "Plain beta-alanine powder",
-      why: "A single ingredient lets you split doses to avoid the tingle — and skip the underdosed blends.",
+      why: "A single ingredient lets you split doses to avoid the tingle, and skip the underdosed blends.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -124,7 +124,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "citrulline-malate-plain",
       name: "Plain citrulline malate powder",
-      why: "If you try it, buy it plain and match the doses studies used — many pre-workouts underdose it.",
+      why: "If you try it, buy it plain and match the doses studies used, because many pre-workouts underdose it.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -132,7 +132,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "vitamin-d3-daily",
       name: "Vitamin D3 (cholecalciferol)",
-      why: "D3 raises blood levels more effectively than D2 — a basic sensible-dose product is all you need.",
+      why: "D3 raises blood levels more effectively than D2, and a basic sensible-dose product is all you need.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -148,7 +148,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "magnesium-glycinate-citrate",
       name: "Magnesium glycinate or citrate",
-      why: "Well-absorbed forms — unlike the oxide in many cheap products, which is most likely to upset your stomach.",
+      why: "Well-absorbed forms, unlike the oxide in many cheap products, which is most likely to upset your stomach.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -157,7 +157,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "collagen-peptides-vitc",
       name: "Hydrolysed collagen peptides (with vitamin C)",
-      why: "The form and pairing the tendon and joint studies used — not a muscle-building protein.",
+      why: "The form and pairing the tendon and joint studies used, not a muscle-building protein.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -172,7 +172,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "compression-boots",
       name: "Pneumatic compression boots",
-      why: "A feel-good convenience for heavy training weeks — buy them for comfort, not as a proven performance booster.",
+      why: "A feel-good convenience for heavy training weeks, so buy them for comfort, not as a proven performance booster.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -180,7 +180,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "massage-gun-midrange",
       name: "A mid-range percussive massage gun",
-      why: "Short-term looseness and soreness relief is the real benefit — premium models add attachments, not evidence.",
+      why: "Short-term looseness and soreness relief is the real benefit, and premium models add attachments, not evidence.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -188,7 +188,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "red-light-panel-published-output",
       name: "A red/near-infrared panel with published output",
-      why: "Dose is what matters — pick a panel that publishes wavelengths and measured irradiance, not marketing watts.",
+      why: "Dose is what matters, so pick a panel that publishes wavelengths and measured irradiance, not marketing watts.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -197,7 +197,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "foam-roller-medium-density",
       name: "A plain medium-density foam roller",
-      why: "A basic roller does everything the evidence supports — textures and vibration add price, not proof.",
+      why: "A basic roller does everything the evidence supports, and textures and vibration add price, not proof.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
@@ -207,7 +207,7 @@ export const recommendationsBySurface: Readonly<Record<string, ProductPick[]>> =
     {
       offerId: "sunscreen-broad-spectrum",
       name: "A broad-spectrum SPF 30+ sunscreen you enjoy wearing",
-      why: "The best sunscreen is the one you will actually use daily — texture and finish matter as much as the number.",
+      why: "The best sunscreen is the one you will actually use daily, so texture and finish matter as much as the number.",
       url: "", // TODO(mat): paste affiliate URL + merchant to activate
     },
   ],
