@@ -136,6 +136,11 @@ Ordered by recommendation strength. All names proposed, not locked.
 
 ### 3.5 Exhale — the calm corner
 
+> **Re-homing proposed (2026-07-23):** PERFORMANCE-LAB.md §4.7 proposes
+> adopting this design as the Lab's guided breathing practice — its
+> no-fail, no-death shape never fit the arcade formula anyway. Pending
+> Mat's call (PERFORMANCE-LAB §11); if approved, remove it from this bench.
+
 - **Lineage:** none needed — breathwork itself. **Verb:** hold and release.
 - **Loop:** hold to inhale as your ring grows, release to exhale as it
   shrinks; match the coach ring through box-breathing and 4-7-8 patterns.
@@ -216,7 +221,10 @@ physics appetite.
   no balance-test scoring, no "guess your body fat" mechanics. Questions and
   scores are about cartoons and the world, never the player (DAILY-GAMES §2,
   LIFELINE §3). The line between Lifeline's cartoon age and a game that
-  claims to measure you is the whole brand.
+  claims to measure you is the whole brand. *(This rejection stands for the
+  arcade. PERFORMANCE-LAB.md blueprints honest self-measurement as a
+  separate, walled-off surface — its §2 records why that doesn't weaken
+  this rule.)*
 - **Craving/food-whacking or calorie games.** Punishing food desire is
   disordered-eating-adjacent; the fail joke would land on eating itself.
 - **Idle/clicker with offline accrual.** Engineered compulsion — collides
