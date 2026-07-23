@@ -39,6 +39,17 @@ export default function DailyPage() {
       <div className="mt-6">
         <DailyHub />
       </div>
+
+      <p className="mt-8 text-sm text-muted">
+        Need something twitchier?{" "}
+        <Link
+          href="/lifeline"
+          className="font-semibold text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          Lifeline
+        </Link>{" "}
+        — our one-button heartbeat arcade. Your score is the age you reach.
+      </p>
       <DailyFavicon />
     </div>
   );
