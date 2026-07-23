@@ -169,6 +169,15 @@ body {
   animation: month-pop 260ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
 }
 
+/* Muscle map regions (MICROTOOLS.md §4): pointer affordance + hover fill.
+   The class rule outranks the SVG fill attribute, so hover always shows. */
+.muscle-region {
+  cursor: pointer;
+}
+.muscle-region:hover {
+  fill: var(--primary);
+}
+
 /* Hero ECG telemetry drift: same duplicate-half loop as the ticker, but on
    the `translate` property so it composes with positioning transforms. */
 @keyframes ecg-drift {

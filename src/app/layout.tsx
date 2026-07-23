@@ -38,6 +38,9 @@ export const metadata: Metadata = {
   description:
     "Free fitness and health calculators built on published, peer-reviewed formulas. Every tool cites its sources.",
   robots: SITE_CONFIGURED ? undefined : { index: false, follow: false },
+  // Home-screen saves open app-like (manifest.ts pairs with this; the
+  // micro-tools carry the visible "add to home screen" affordance).
+  appleWebApp: { capable: true, title: "FitTools", statusBarStyle: "default" },
 };
 
 // Only hubs with live tools appear in navigation — no dead links.
@@ -59,6 +62,7 @@ const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
   { href: "/daily", label: "Daily", emphasis: true },
   { href: "/arcade", label: "Arcade", emphasis: true },
+  { href: "/tools", label: "Tools", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },
   {
     label: "Calculators",
