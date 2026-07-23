@@ -1,6 +1,6 @@
 /**
- * Decorative drifting ECG trace behind the homepage hero (v2 effects
- * prototype). Two faint telemetry lines (ember and forest) loop seamlessly
+ * Decorative drifting ECG trace — the background of the Pulse hero card
+ * (v2 effects §8). Two faint telemetry lines (ember and forest) loop seamlessly
  * using the same duplicate-half technique as the ticker; motion stops under
  * prefers-reduced-motion (the static trace stays). aria-hidden and
  * pointer-events-none throughout; absolutely positioned, so zero-CLS.

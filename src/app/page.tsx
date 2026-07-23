@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { HeroEcg } from "@/components/effects/HeroEcg";
 import { PulseHeroCard } from "@/components/pulse/PulseHeroCard";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
@@ -112,8 +111,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="relative grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
-        <HeroEcg />
+      <section className="grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
         <div>
           <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
             {toolCount} calculators · every formula cited · free, no sign-up

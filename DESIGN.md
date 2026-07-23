@@ -247,7 +247,7 @@ animation libraries — CSS keyframes and small client components only.
 | Heartbeat | `.heartbeat`; `ScoreCard` `pulse` prop | The Heart Age score beats a resting 60 bpm lub-dub. |
 | Sticker slap | `.sticker-slap` | Delta pills (re-keyed on text change) and `VerdictStamp` land with overshoot and a small wobble. |
 | Life-in-months grid | `effects/LifeMonthsGrid.tsx` (life-expectancy tool) | The Li 2018 gap as one square per month; cascade-fills **only** at 5/5 — the paper publishes no intermediate figures, so a partial fill would invent data. |
-| Hero ECG telemetry | `effects/HeroEcg.tsx` + `.ecg-rail` | Two stylised PQRST traces (ember 0.30, forest 0.22) drift at different speeds (30s/48s loops) behind the homepage hero, seamless duplicate-half loop like the ticker. Stylised, not clinical data. |
+| ECG telemetry (Pulse hero card) | `effects/HeroEcg.tsx` + `.ecg-rail` | Two stylised PQRST traces (ember 0.30, forest 0.22) drift at different speeds (30s/48s loops) as the Pulse hero card's background, seamless duplicate-half loop like the ticker. Stylised, not clinical data. |
 
 Tuning knobs: ECG stroke opacities are props in `HeroEcg.tsx`; drift speeds
 are the `.ecg-rail` durations; roll feel is the constants at the top of
