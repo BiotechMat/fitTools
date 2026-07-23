@@ -24,7 +24,7 @@ in **content volume, instrumentation, and distribution**, not in the platform.
 
 | Area | State |
 |---|---|
-| Calculators (SPEC M0–M4) | **33 tools** in the `/calculators` index + Nutrition / Workout / Recovery topic sections (2026-07-23 IA restructure: "Calculators" nav submenu; `/labs` retired — the reconstitution calculator sits in `/learn/peptides` with tier-4 rules intact); registry-driven routing, sitemap, JSON-LD, OG images, embeds |
+| Calculators (SPEC M0–M4) | **40 tools** in the `/calculators` index + Nutrition / Workout / Recovery topic sections (2026-07-23 IA restructure: "Calculators" nav submenu; `/labs` retired — the reconstitution calculator sits in `/learn/peptides` with tier-4 rules intact); registry-driven routing, sitemap, JSON-LD, OG images, embeds |
 | Longevity tools (METHODOLOGY L1) | Phenotypic Age, Heart Age (PREVENT), CGM metrics, lifestyle life-expectancy — **built**. Fitness Age **blocked** (paywalled Nes 2011 source) |
 | Composite indices (METHODOLOGY L2) | All three — Metabolic Fitness, Pace of Aging, Recovery Readiness — **built** |
 | Recovery/wellness content (CONTENT.md) | Both launch clusters **+ all six future clusters** built (cold-water, sauna, compression, red-light, foam-rolling, breathwork, sleep-environment, massage-guns) |
