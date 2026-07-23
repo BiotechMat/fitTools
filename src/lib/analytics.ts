@@ -24,7 +24,13 @@ export type AnalyticsEvent =
   | { name: "daily_game_played"; params: { game: "ballpark" | "myth"; result: string } }
   | { name: "daily_game_shared"; params: { game: "ballpark" | "myth" } }
   | { name: "daily_streak_freeze_used"; params: Record<string, never> }
-  | { name: "daily_related_click"; params: { id: string; target: string } };
+  | { name: "daily_related_click"; params: { id: string; target: string } }
+  // Lifeline arcade (LIFELINE.md). Age is the score, not a health datum.
+  | { name: "lifeline_run_started"; params: { mode: "free" | "daily" | "calm" } }
+  | {
+      name: "lifeline_flatline";
+      params: { age: number; cause: string; mode: "free" | "daily" | "calm" };
+    };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

@@ -75,3 +75,16 @@ dailyPuzzleNumber, per-day best, copy-to-clipboard share text), and a
 repo-vetted fact with link on every death card (§3 sourcing rule: only
 claims already cited by the site's tools). Still open from §6: /share
 card hook, streaks, leaderboard.
+
+v3 BUILT (2026-07-23): the screening shield (a CHECK-UP gate ~every 20
+years banks one free save — "caught early"; dashed ring = brief
+invulnerability), coffee pickup (2.2s slow-mo), daily modifiers
+("genetics": one deterministic twist per daily — twitchy stress, broccoli
+shortage, headwind, deep sleep, recovery day), per-kind column behaviour
+(stress always twitches, sofas sag into the gap), decade title cards
+("YOUR 40s"), calm mode (slower/wider, unmedaled, kept out of bests),
+last-five-lives line on the death card, typed analytics events
+(lifeline_run_started / lifeline_flatline in src/lib/analytics.ts), and
+the mobile fix: any tap on the game frame flaps/starts (controls
+excepted) — the ready overlay no longer swallows touches. Deferred:
+death-card PNG download, challenge links, skins, ghost replay.

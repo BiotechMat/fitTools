@@ -18,6 +18,7 @@ import {
   spawnIntervalAt,
   speedAt,
 } from "@/lib/lifeline";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Lifeline (LIFELINE.md): tap-to-flap heartbeat arcade. All rendering is
@@ -56,6 +57,23 @@ const FACTS: { text: string; href: string; label: string }[] = [
     label: "Play today's",
   },
 ];
+
+/* Daily modifiers ("genetics"): one deterministic twist per day, announced
+   up front. Gameplay-only — never framed as advice. */
+interface DailyModifier {
+  id: "jitter" | "shortage" | "headwind" | "deepsleep" | "calmday";
+  label: string;
+}
+
+const MODIFIERS: DailyModifier[] = [
+  { id: "jitter", label: "Stress is twitchy today" },
+  { id: "shortage", label: "Broccoli shortage" },
+  { id: "headwind", label: "Headwind — everything's faster" },
+  { id: "deepsleep", label: "Deep sleep — Zs are worth double" },
+  { id: "calmday", label: "Recovery day — gaps run wider" },
+];
+
+const RUNS_KEY = "fittools.lifeline.runs";
 
 function todayISO(): string {
   const d = new Date();
@@ -122,7 +140,10 @@ const HEART_DOWN = [
   ".....K......",
 ];
 
-const SPRITE_MAPS: Record<ObstacleKind["id"] | "veg" | "zed", string[]> = {
+const SPRITE_MAPS: Record<
+  ObstacleKind["id"] | "veg" | "zed" | "coffee" | "shield",
+  string[]
+> = {
   sugar: [
     ".KKKKK.",
     "KPWPPPK",
@@ -174,6 +195,25 @@ const SPRITE_MAPS: Record<ObstacleKind["id"] | "veg" | "zed", string[]> = {
     "...KK...",
   ],
   zed: ["KKKKKK", "...KK.", "..KK..", ".KK...", "KKKKKK"],
+  coffee: [
+    ".KKKKK..",
+    "KWSWSWKK",
+    "KEEEEEKS",
+    "KEEEEEKS",
+    "KEEEEEKK",
+    ".KKKKK..",
+    "KKKKKKK.",
+  ],
+  shield: [
+    ".KKKKK.",
+    "KFWFWFK",
+    "KFWWWFK",
+    "KWWKWWK",
+    "KFWWWFK",
+    ".KFWFK.",
+    "..KFK..",
+    "...K...",
+  ],
 };
 
 /* ------------------------------------------------------------------ audio */
@@ -208,6 +248,7 @@ function beep(
 interface Column {
   x: number;
   gapY: number;
+  baseGapY: number;
   gapH: number;
   kind: ObstacleKind;
   passed: boolean;
@@ -216,7 +257,7 @@ interface Column {
 interface Pickup {
   x: number;
   y: number;
-  type: "veg" | "zed";
+  type: "veg" | "zed" | "coffee" | "shield";
   taken: boolean;
 }
 
@@ -247,6 +288,11 @@ interface World {
   deathT: number;
   deathY: number;
   spin: number;
+  shield: boolean;
+  invulnT: number;
+  slowT: number;
+  nextShieldAge: number;
+  bigToast: { text: string; ttl: number } | null;
   rng: () => number;
 }
 
@@ -272,12 +318,18 @@ function freshWorld(seed: number | null): World {
     deathT: 0,
     deathY: LIFELINE.height / 2,
     spin: 0,
+    shield: false,
+    invulnT: 0,
+    slowT: 0,
+    // First check-up gate arrives at 38 — screening starts in your late 30s.
+    nextShieldAge: 38,
+    bigToast: null,
     rng: mulberry32(seed ?? Math.floor(Math.random() * 2 ** 31)),
   };
 }
 
 type Phase = "ready" | "playing" | "dying" | "paused" | "dead";
-type Mode = "free" | "daily";
+type Mode = "free" | "daily" | "calm";
 
 const MEDAL_STYLE: Record<Exclude<Medal, "none">, { label: string; bg: string }> = {
   bronze: { label: "BRONZE · 40+", bg: "bg-primary-soft" },
@@ -291,6 +343,9 @@ export function LifelineGame() {
   const world = useRef<World>(freshWorld(null));
   const phaseRef = useRef<Phase>("ready");
   const modeRef = useRef<Mode>("free");
+  const modifierRef = useRef<DailyModifier>(
+    MODIFIERS[dailySeed(todayISO()) % MODIFIERS.length],
+  );
   const deadAtRef = useRef(0);
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
@@ -301,6 +356,7 @@ export function LifelineGame() {
   const [causeLabel, setCauseLabel] = useState("");
   const [best, setBest] = useState(0);
   const [dailyBest, setDailyBest] = useState(0);
+  const [lastRuns, setLastRuns] = useState<number[]>([]);
   const [newBest, setNewBest] = useState(false);
   const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -319,6 +375,16 @@ export function LifelineGame() {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
       setDailyBest(Number(localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0));
       setMuted(localStorage.getItem(MUTE_KEY) === "1");
+      const runsRaw = localStorage.getItem(RUNS_KEY);
+      if (runsRaw) {
+        const parsed: unknown = JSON.parse(runsRaw);
+        if (
+          Array.isArray(parsed) &&
+          parsed.every((n): n is number => typeof n === "number")
+        ) {
+          setLastRuns(parsed.slice(-5));
+        }
+      }
     } catch {
       /* private mode — scores just live for the session */
     }
@@ -349,17 +415,36 @@ export function LifelineGame() {
       sofa: makeSprite(SPRITE_MAPS.sofa, 3),
       veg: makeSprite(SPRITE_MAPS.veg, 3),
       zed: makeSprite(SPRITE_MAPS.zed, 3),
+      coffee: makeSprite(SPRITE_MAPS.coffee, 3),
+      shield: makeSprite(SPRITE_MAPS.shield, 3),
     };
 
     const die = (deathCause: string, label: string) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
+      const calm = modeRef.current === "calm";
+      trackEvent({
+        name: "lifeline_flatline",
+        params: { age, cause: label, mode: modeRef.current },
+      });
       setFinalAge(age);
       setCause(deathCause);
       setCauseLabel(label);
       setCopied(false);
       setNewBest(false);
+      if (!calm) {
+        setLastRuns((prev) => {
+          const next = [...prev, age].slice(-5);
+          try {
+            localStorage.setItem(RUNS_KEY, JSON.stringify(next));
+          } catch {
+            /* fine */
+          }
+          return next;
+        });
+      }
       setBest((prev) => {
+        if (calm) return prev;
         if (age > prev) {
           setNewBest(true);
           try {
@@ -390,13 +475,20 @@ export function LifelineGame() {
       beep(synthRef.current, 220, 90, "sawtooth", 0.07);
     };
 
-    const step = (dt: number) => {
+    const step = (realDt: number) => {
       const w = world.current;
+      // Coffee slow-mo: the world runs at 55% while slowT is live.
+      w.slowT = Math.max(0, w.slowT - realDt);
+      const dt = realDt * (w.slowT > 0 ? 0.55 : 1);
+      w.invulnT = Math.max(0, w.invulnT - dt);
       w.t += dt;
       w.wingT = Math.max(0, w.wingT - dt);
       w.squashT = Math.max(0, w.squashT - dt);
       const age = ageAt(w.t, w.bonus);
-      const speed = speedAt(age);
+      const mod = modeRef.current === "daily" ? modifierRef.current.id : null;
+      let speed = speedAt(age);
+      if (mod === "headwind") speed *= 1.08;
+      if (modeRef.current === "calm") speed *= 0.8;
       w.groundX = (w.groundX + speed * dt) % 32;
 
       w.blinkT = Math.max(0, w.blinkT - dt);
@@ -418,8 +510,13 @@ export function LifelineGame() {
       const decade = Math.floor(age / 10);
       if (decade > w.lastDecade) {
         w.lastDecade = decade;
+        w.bigToast = { text: `YOUR ${decade * 10}s`, ttl: 1.5 };
         beep(synthRef.current, 520, 70, "square", 0.05);
         setTimeout(() => beep(synthRef.current, 700, 90, "square", 0.05), 100);
+      }
+      if (w.bigToast) {
+        w.bigToast.ttl -= dt;
+        if (w.bigToast.ttl <= 0) w.bigToast = null;
       }
 
       w.vy = Math.min(LIFELINE.terminalFall, w.vy + LIFELINE.gravity * dt);
@@ -437,17 +534,38 @@ export function LifelineGame() {
       if (w.spawnIn <= 0) {
         w.spawnIn = spawnIntervalAt(age);
         // First three gaps run wider — deaths at 20 feel like the game's fault.
-        const gapH = gapAt(age) + Math.max(0, 3 - w.spawned) * 10;
+        let gapH = gapAt(age) + Math.max(0, 3 - w.spawned) * 10;
+        if (mod === "calmday") gapH += 8;
+        if (modeRef.current === "calm") gapH += 18;
         w.spawned += 1;
         const margin = 60;
         const gapY = margin + gapH / 2 + w.rng() * (floor - margin * 2 - gapH);
         const kind = OBSTACLE_KINDS[Math.floor(w.rng() * OBSTACLE_KINDS.length)];
-        w.columns.push({ x: LIFELINE.width + 40, gapY, gapH, kind, passed: false });
-        if (w.rng() < 0.35) {
+        w.columns.push({
+          x: LIFELINE.width + 40,
+          gapY,
+          baseGapY: gapY,
+          gapH,
+          kind,
+          passed: false,
+        });
+        const pickupChance = mod === "shortage" ? 0.15 : 0.35;
+        if (w.rng() < pickupChance) {
+          const roll = w.rng();
           w.pickups.push({
             x: LIFELINE.width + 40 + 130,
             y: margin + w.rng() * (floor - margin * 2),
-            type: w.rng() < 0.6 ? "veg" : "zed",
+            type: roll < 0.12 ? "coffee" : roll < 0.62 ? "veg" : "zed",
+            taken: false,
+          });
+        }
+        // The screening shield: a check-up gate roughly every 20 years.
+        if (age >= w.nextShieldAge) {
+          w.nextShieldAge += 20;
+          w.pickups.push({
+            x: LIFELINE.width + 40 + 200,
+            y: margin + w.rng() * (floor - margin * 2),
+            type: "shield",
             taken: false,
           });
         }
@@ -460,7 +578,35 @@ export function LifelineGame() {
           w.columns.splice(i, 1);
           continue;
         }
-        if (hitsColumn(w.y, LIFELINE.hitboxRadius, LIFELINE.playerX, c)) {
+        // Per-kind behaviour: stress twitches, sofas slowly sag into the gap.
+        if (c.kind.id === "stress") {
+          const amp = mod === "jitter" ? 16 : 7;
+          c.gapY = c.baseGapY + Math.sin(w.t * 4 + c.x * 0.05) * amp;
+        } else if (c.kind.id === "sofa" && !c.passed) {
+          c.gapH = Math.max(62, c.gapH - 3.5 * dt);
+        }
+        if (
+          w.invulnT <= 0 &&
+          hitsColumn(w.y, LIFELINE.hitboxRadius, LIFELINE.playerX, c)
+        ) {
+          if (w.shield) {
+            // Screening caught it early: consume the shield, clear the column.
+            w.shield = false;
+            w.invulnT = 1.2;
+            w.columns.splice(i, 1);
+            w.toasts.push({
+              x: LIFELINE.playerX + 10,
+              y: w.y - 24,
+              text: "CAUGHT EARLY ✓",
+              ttl: 1,
+            });
+            beep(synthRef.current, 620, 90, "triangle", 0.06);
+            setTimeout(
+              () => beep(synthRef.current, 930, 120, "triangle", 0.05),
+              90,
+            );
+            continue;
+          }
           die(c.kind.cause, c.kind.label);
           return;
         }
@@ -493,20 +639,42 @@ export function LifelineGame() {
         const dy = p.y - w.y;
         if (!p.taken && dx * dx + dy * dy < 24 * 24) {
           p.taken = true;
-          const years = p.type === "veg" ? 2 : 1;
-          w.bonus += years;
-          w.toasts.push({
-            x: p.x,
-            y: p.y - 16,
-            text: `+${years} yr${years > 1 ? "s" : ""}`,
-            ttl: 0.9,
-          });
-          beep(synthRef.current, p.type === "veg" ? 660 : 540, 90, "triangle", 0.06);
-          setTimeout(
-            () =>
-              beep(synthRef.current, p.type === "veg" ? 880 : 720, 110, "triangle", 0.05),
-            80,
-          );
+          if (p.type === "shield") {
+            w.shield = true;
+            w.toasts.push({
+              x: p.x,
+              y: p.y - 16,
+              text: "CHECK-UP · 1 free save",
+              ttl: 1.1,
+            });
+            beep(synthRef.current, 520, 80, "triangle", 0.06);
+            setTimeout(() => beep(synthRef.current, 780, 110, "triangle", 0.05), 90);
+          } else if (p.type === "coffee") {
+            w.slowT = 2.2;
+            w.toasts.push({ x: p.x, y: p.y - 16, text: "COFFEE · slow-mo", ttl: 1 });
+            beep(synthRef.current, 440, 70, "triangle", 0.06);
+          } else {
+            const years = p.type === "veg" ? 2 : mod === "deepsleep" ? 2 : 1;
+            w.bonus += years;
+            w.toasts.push({
+              x: p.x,
+              y: p.y - 16,
+              text: `+${years} yr${years > 1 ? "s" : ""}`,
+              ttl: 0.9,
+            });
+            beep(synthRef.current, p.type === "veg" ? 660 : 540, 90, "triangle", 0.06);
+            setTimeout(
+              () =>
+                beep(
+                  synthRef.current,
+                  p.type === "veg" ? 880 : 720,
+                  110,
+                  "triangle",
+                  0.05,
+                ),
+              80,
+            );
+          }
           w.pickups.splice(i, 1);
         }
       }
@@ -779,6 +947,19 @@ export function LifelineGame() {
       ctx.drawImage(heart, -heart.width / 2, -heart.height / 2);
       drawFace(age, dying);
       ctx.restore();
+      if (!dying && (w.shield || w.invulnT > 0)) {
+        ctx.strokeStyle = "#1f5c3d";
+        ctx.lineWidth = 2;
+        ctx.setLineDash(w.invulnT > 0 ? [4, 4] : []);
+        ctx.beginPath();
+        ctx.arc(LIFELINE.playerX, w.y, 18, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      if (w.slowT > 0) {
+        ctx.fillStyle = "rgba(198, 61, 8, 0.06)";
+        ctx.fillRect(0, 0, LIFELINE.width, LIFELINE.height);
+      }
 
       ctx.fillStyle = "#ff531a";
       ctx.fillRect(0, floor, LIFELINE.width, LIFELINE.groundHeight);
@@ -805,6 +986,14 @@ export function LifelineGame() {
         ctx.font = "bold 34px monospace";
         ctx.textAlign = "right";
         ctx.fillText(`AGE ${age}`, LIFELINE.width - 14, 44);
+      }
+      if (w.bigToast && phaseRef.current === "playing") {
+        ctx.globalAlpha = Math.min(1, w.bigToast.ttl * 1.6);
+        ctx.fillStyle = "#1c130d";
+        ctx.font = "bold 30px monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(w.bigToast.text, LIFELINE.width / 2, 150);
+        ctx.globalAlpha = 1;
       }
       ctx.restore();
     };
@@ -854,6 +1043,10 @@ export function LifelineGame() {
       world.current = freshWorld(
         modeRef.current === "daily" ? dailySeed(todayISO()) : null,
       );
+      trackEvent({
+        name: "lifeline_run_started",
+        params: { mode: modeRef.current },
+      });
       setPhaseBoth("playing");
     } else if (current === "paused") {
       setPhaseBoth("playing");
@@ -892,13 +1085,18 @@ export function LifelineGame() {
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-[420px] select-none">
+    <div
+      className="relative mx-auto w-full max-w-[420px] select-none"
+      onPointerDown={(e) => {
+        // Any tap on the game frame flaps/starts — except real controls.
+        const target = e.target;
+        if (target instanceof HTMLElement && target.closest("button, a")) return;
+        e.preventDefault();
+        flap();
+      }}
+    >
       <canvas
         ref={canvasRef}
-        onPointerDown={(e) => {
-          e.preventDefault();
-          flap();
-        }}
         aria-label="Lifeline — tap or press space to keep the heart beating"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${LIFELINE.width} / ${LIFELINE.height}` }}
@@ -942,13 +1140,25 @@ export function LifelineGame() {
             >
               Free play
             </button>
+            <button
+              type="button"
+              onClick={() => setMode("calm")}
+              className={`rounded-full border-2 border-foreground px-4 py-1.5 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${mode === "calm" ? "bg-good text-background" : "bg-surface"}`}
+            >
+              Calm
+            </button>
           </div>
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted">
+          <p className="max-w-[17rem] font-mono text-xs uppercase tracking-[0.12em] text-muted">
             {mode === "daily"
-              ? `Same course for everyone today${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
-              : best > 0
-                ? `Best: ${best}`
-                : "One button. That's it."}
+              ? `Today: ${modifierRef.current.label.toLowerCase()}${dailyBest > 0 ? ` · your best: ${dailyBest}` : ""}`
+              : mode === "calm"
+                ? "Slower, wider, no medals — just vibes"
+                : best > 0
+                  ? `Best: ${best}`
+                  : "One button. That's it."}
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+            Tap anywhere to start
           </p>
         </div>
       ) : null}
@@ -970,7 +1180,12 @@ export function LifelineGame() {
             </p>
             <p className="mt-2 text-sm font-semibold">{cause}</p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {medal !== "none" ? (
+              {mode === "calm" ? (
+                <span className="inline-block rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
+                  Calm mode
+                </span>
+              ) : null}
+              {mode !== "calm" && medal !== "none" ? (
                 <span
                   className={`inline-block -rotate-2 rounded-full border-2 border-foreground px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] ${MEDAL_STYLE[medal].bg}`}
                 >
@@ -986,6 +1201,11 @@ export function LifelineGame() {
                 </span>
               ) : null}
             </div>
+            {lastRuns.length > 1 ? (
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                Last lives: {lastRuns.join(" · ")}
+              </p>
+            ) : null}
             <p className="mt-3 border-t border-dashed border-border pt-3 text-xs text-muted">
               {fact.text}{" "}
               <Link
