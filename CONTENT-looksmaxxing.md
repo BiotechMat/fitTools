@@ -186,7 +186,8 @@ credible tools. A page that doesn't route is incomplete.
 
 ## 5. Section identity (DESIGN.md)
 
-Uses the v2 system as-is: evidence tiers (gold→ember), myth chips
+Uses the v2 system as-is: the evidence medal ladder (Gold/Silver/Bronze →
+Unproven → Not supported), myth chips
 (`<s>Myth</s>`), Anton headers, sticker language. One addition to specify in
 DESIGN.md if built: a **"rated" verdict stamp** for the debunk hub
 (reuse the rotated evidence-tier stamp from the supplement page). British

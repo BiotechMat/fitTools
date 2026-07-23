@@ -99,24 +99,31 @@ export default function PeptidesPillarPage() {
           approved medicine.
         </p>
 
-        <h2>Claimed vs shown — how we tier the evidence</h2>
+        <h2>Claimed vs shown — how we grade the evidence</h2>
         <p>
-          Every page labels the evidence behind a compound&rsquo;s fitness
-          claims using three tiers, and flags whether the evidence is from
-          humans, animals, or the lab bench:
+          We grade the evidence behind a compound&rsquo;s fitness claims like
+          medals — the stronger the evidence, the higher the medal — and flag
+          whether it comes from humans, animals, or the lab bench. Claims that
+          are merely oversold earn no medal at all:
         </p>
         <ul>
           <li>
-            <EvidenceTier tier="well-supported" /> — real, replicated human
-            trials (usually because the compound went through drug development).
+            <EvidenceTier tier="well-supported" basis="human" /> — strong,
+            replicated human trials (usually because the compound went through
+            drug development).
           </li>
           <li>
-            <EvidenceTier tier="preliminary" /> — some evidence, but limited,
-            early, or animal-dominated; promising is not the same as proven.
+            <EvidenceTier tier="preliminary" basis="human" /> — real but limited
+            human evidence; promising is not the same as proven.
+          </li>
+          <li>
+            <EvidenceTier tier="preliminary" basis="animal" /> — early or
+            animal-only evidence: a lead worth noting, not a result to rely on.
           </li>
           <li>
             <EvidenceTier tier="marketing-claim" /> — heavily promoted, but the
             human evidence is weak, absent, or actively didn&rsquo;t pan out.
+            No medal.
           </li>
         </ul>
         <p>

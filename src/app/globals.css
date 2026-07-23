@@ -18,8 +18,12 @@
   --primary-soft: #ffe1d3;
   --good: #1f5c3d; /* forest — evidence, health, positive deltas */
   --good-soft: #e4f2d2;
-  --gold: #c99700; /* gold — the top evidence tier only; ink text on the soft fill */
+  --gold: #c99700; /* the medal ladder (evidence grades) — ink text on the soft fills */
   --gold-soft: #f2d571;
+  --silver: #7d7468; /* warm pewter, never clinical grey (DESIGN §1) */
+  --silver-soft: #e6e0d6;
+  --bronze: #a4693c; /* warm copper */
+  --bronze-soft: #ecd7c0;
   --fresh: #8fbf3f; /* matcha — small accents only, never a ground */
   --lime: #a3e635; /* vibrant lime — blood-test CTA accent (ink text only) */
   --warning-bg: #fbeecb;
@@ -40,6 +44,10 @@
   --color-good-soft: var(--good-soft);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-silver: var(--silver);
+  --color-silver-soft: var(--silver-soft);
+  --color-bronze: var(--bronze);
+  --color-bronze-soft: var(--bronze-soft);
   --color-fresh: var(--fresh);
   --color-lime: var(--lime);
   --color-warning-bg: var(--warning-bg);

@@ -27,7 +27,9 @@ counterweight. One identity, two energies.
 | `--ember` | `#C63D08` | Burnt sibling. Hover states, links, small labels — depth without noise. |
 | `--forest` | `#1F5C3D` | Health & evidence. Longevity tools, Tier-A badges, positive deltas, secondary CTAs. |
 | `--matcha` | `#8FBF3F` | Fresh accent. Ticks, "good" zones, small stickers. Never a ground. |
-| `--gold` | `#C99700` | Top evidence tier. Well-supported badges only — soft fill `#F2D571`, ink text, foil-sheen sweep. Never a CTA or a ground. |
+| `--gold` | `#C99700` | Evidence medal — Gold (well-supported). Soft fill `#F2D571`, ink text, foil-sheen sweep. Badges only, never a CTA or a ground. |
+| `--silver` | `#7D7468` | Evidence medal — Silver (some human evidence). Warm pewter, never clinical grey. Soft fill `#E6E0D6`, ink text. Badges only. |
+| `--bronze` | `#A4693C` | Evidence medal — Bronze (early / animal-only evidence). Warm copper. Soft fill `#ECD7C0`, ink text. Badges only. |
 | `--paper` | `#FBF4EC` | Ground. Warm, orange-biased off-white — sunlit, not sterile. |
 | `--ink` | `#1C130D` | Text, borders, the inverted score card. Warm near-black ("espresso"), never `#000`. |
 
@@ -74,14 +76,19 @@ grey-black; ink flips to `#F6EDE2`; Blaze brightens to `#FF6231` and Matcha to
 - **Buttons:** pill-shaped, 2px ink border, hard shadow. Primary = Blaze fill,
   secondary = card fill with ink text, evidence/health = Forest fill, tertiary =
   Ember underlined text link.
-- **Evidence tiers (supplements/claims)** *(re-ranked 2026-07-23, Mat — the
-  medal ladder)*: **Well-supported = gold** (`--gold` border, `--gold-soft`
-  fill, ink text, `.tier-shine` foil-sheen sweep — reduced-motion safe; the
-  one badge that shines) → **Preliminary = forest** on soft green (promising
-  reads positive, never a warning) → **Unproven = amber** caution (display
-  rename of the `marketing-claim` id, which stays for registries/MDX/
-  analytics) → **Not supported = ember** on soft orange. Tier is always
-  spelled out in the badge, never colour or shine alone.
+- **Evidence tiers (supplements/claims)** *(the medal ladder, Mat 2026-07-23)*:
+  genuine evidence earns a medal graded by strength; oversold or contradicted
+  claims deliberately earn none. **Gold** (`--gold` + `.tier-shine` foil sweep,
+  reduced-motion safe — the one badge that shines) = strong replicated human
+  evidence → **Silver** (`--silver`, warm pewter) = some human evidence →
+  **Bronze** (`--bronze`, warm copper) = early or animal-only evidence →
+  **Unproven = amber** caution (no medal) → **Not supported = ember** on soft
+  orange (no medal, active-caution/debunk tier). The medal is *derived* from
+  the claim's stored `tier` + `basis` via `evidenceGrade()` — the four stored
+  ids (`well-supported`/`preliminary`/`marketing-claim`/`not-supported`) are
+  unchanged, so registries, MDX and analytics are untouched; Silver vs Bronze
+  is the human-vs-animal/in-vitro split. The grade is always spelled out in the
+  badge, never colour or shine alone.
 - **Score states:** soft-fill pills with dark text (`On track` green /
   `Keep an eye` amber / `Needs work` orange) — legible on paper and midnight.
 - **Result cards:** the score card inverts to ink ground so the Blaze number

@@ -63,10 +63,43 @@ export const CATEGORY_LABELS: Record<PeptideCategory, string> = {
   metabolic: "Metabolic & other",
 };
 
-export const TIER_LABELS: Record<EvidenceTier, string> = {
-  "well-supported": "Well-supported",
-  preliminary: "Preliminary",
-  "marketing-claim": "Unproven",
+/**
+ * Presentation grade — the medal ladder (Mat, 2026-07-23). Genuine evidence is
+ * awarded a medal graded by strength; claims that are merely oversold
+ * (`marketing-claim` → "Unproven") or actively contradicted (`not-supported`)
+ * are deliberately NOT medalled, so a medal always means real evidence and hype
+ * never wears one. The Silver/Bronze split is derived from the evidence basis
+ * already recorded on every claim — no claim data changes: some human evidence
+ * earns Silver; early or animal/in-vitro-only evidence earns Bronze.
+ */
+export type EvidenceGrade =
+  | "gold"
+  | "silver"
+  | "bronze"
+  | "unproven"
+  | "not-supported";
+
+export function evidenceGrade(
+  tier: EvidenceTier,
+  basis?: EvidenceBasis,
+): EvidenceGrade {
+  switch (tier) {
+    case "well-supported":
+      return "gold";
+    case "preliminary":
+      return basis === "animal" || basis === "in-vitro" ? "bronze" : "silver";
+    case "marketing-claim":
+      return "unproven";
+    case "not-supported":
+      return "not-supported";
+  }
+}
+
+export const GRADE_LABELS: Record<EvidenceGrade, string> = {
+  gold: "Gold",
+  silver: "Silver",
+  bronze: "Bronze",
+  unproven: "Unproven",
   "not-supported": "Not supported",
 };
 

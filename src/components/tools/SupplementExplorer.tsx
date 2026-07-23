@@ -2,28 +2,29 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { TIER_LABELS, type EvidenceTier as Tier } from "@/registry/peptides";
-import { type SupplementEntry, supplementsByTier } from "@/registry/supplements";
+import { type EvidenceGrade, GRADE_LABELS } from "@/registry/peptides";
+import { type SupplementEntry, supplementsByGrade } from "@/registry/supplements";
 import { EvidenceTier } from "@/components/EvidenceTier";
 
 /**
  * Supplement evidence explorer (MICROTOOLS.md §6): the whole supplement
- * registry laid out by evidence tier — a tier board, deliberately not a
- * scatter, because the registry records tiers, not effect sizes, and we
- * don't invent numbers. Pure presentation over supplementsByTier().
+ * registry laid out on the medal ladder — a board, deliberately not a scatter,
+ * because the registry records evidence grade, not effect sizes, and we don't
+ * invent numbers. Pure presentation over `supplementsByGrade()`.
  */
 
-const TIER_BLURBS: Record<Tier, string> = {
-  "well-supported": "Meaningful human evidence behind the headline claim.",
-  preliminary: "Some signal, not settled — promising but thin.",
-  "marketing-claim": "Sold hard, shown little.",
+const GRADE_BLURBS: Record<EvidenceGrade, string> = {
+  gold: "Strong, replicated human evidence behind the headline claim.",
+  silver: "Real but limited human evidence — promising, not settled.",
+  bronze: "Early or animal-only evidence; a lead, not a result.",
+  unproven: "Sold hard, shown little — human evidence weak or absent.",
   "not-supported": "The evidence actively points the other way.",
 };
 
 export function SupplementExplorer() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<string | null>(null);
-  const tiers = useMemo(() => supplementsByTier(), []);
+  const grades = useMemo(() => supplementsByGrade(), []);
 
   const matches = (entry: SupplementEntry) => {
     if (query.trim() === "") return true;
@@ -49,15 +50,17 @@ export function SupplementExplorer() {
       </label>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-3">
-        {tiers.map(([tier, entries]) => {
+        {grades.map(([grade, entries]) => {
           const visible = entries.filter(matches);
           return (
-            <section key={tier} aria-label={TIER_LABELS[tier]}>
+            <section key={grade} aria-label={GRADE_LABELS[grade]}>
               <div className="rounded-t-xl border-2 border-foreground bg-background p-3">
                 <h2 className="font-display text-xl uppercase">
-                  {TIER_LABELS[tier]}
+                  {GRADE_LABELS[grade]}
                 </h2>
-                <p className="mt-0.5 text-xs text-muted">{TIER_BLURBS[tier]}</p>
+                <p className="mt-0.5 text-xs text-muted">
+                  {GRADE_BLURBS[grade]}
+                </p>
               </div>
               <ul className="space-y-2 rounded-b-xl border-2 border-t-0 border-border p-2">
                 {visible.length === 0 ? (

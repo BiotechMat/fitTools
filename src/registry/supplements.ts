@@ -10,7 +10,12 @@
  */
 
 import type { FaqEntry, Source } from "@/registry/types";
-import type { EvidenceBasis, EvidenceTier } from "@/registry/peptides";
+import {
+  type EvidenceBasis,
+  type EvidenceGrade,
+  type EvidenceTier,
+  evidenceGrade,
+} from "@/registry/peptides";
 
 export interface SupplementEntry {
   slug: string;
@@ -1444,6 +1449,35 @@ export function supplementsByTier(): [EvidenceTier, SupplementEntry[]][] {
     ])
     .filter(([, list]) => list.length > 0)
     .sort(([a], [b]) => TIER_ORDER[a] - TIER_ORDER[b]);
+}
+
+const GRADE_ORDER: EvidenceGrade[] = [
+  "gold",
+  "silver",
+  "bronze",
+  "unproven",
+  "not-supported",
+];
+
+/**
+ * Supplements grouped on the medal ladder (the derived `evidenceGrade`, not the
+ * stored tier), A→Z within each grade, empty grades dropped. Drives the
+ * /supplements hub and the explorer so both read as one medal system.
+ */
+export function supplementsByGrade(): [EvidenceGrade, SupplementEntry[]][] {
+  const byGrade = new Map<EvidenceGrade, SupplementEntry[]>();
+  for (const s of [...supplements].sort((a, b) =>
+    a.name.localeCompare(b.name, "en-GB"),
+  )) {
+    const grade = evidenceGrade(s.headlineTier, s.headlineBasis);
+    const bucket = byGrade.get(grade);
+    if (bucket) bucket.push(s);
+    else byGrade.set(grade, [s]);
+  }
+  return GRADE_ORDER.filter((g) => byGrade.has(g)).map((g) => [
+    g,
+    byGrade.get(g)!,
+  ]);
 }
 
 export function resolveRelatedSupplements(slugs: string[]): SupplementEntry[] {
