@@ -349,6 +349,7 @@ type SkinId = (typeof SKINS)[number]["id"];
 const SKINS_KEY = "fittools.lifeline.skins";
 const SKIN_KEY = "fittools.lifeline.skin";
 const GHOST_KEY_PREFIX = "fittools.lifeline.ghost.";
+const GHOST_OFF_KEY = "fittools.lifeline.ghostoff";
 
 function swapPalette(rows: string[], map: Record<string, string>): string[] {
   return rows.map((row) => [...row].map((ch) => map[ch] ?? ch).join(""));
@@ -375,6 +376,7 @@ export function LifelineGame() {
   const challengeRef = useRef<{ seed: number; beat: number } | null>(null);
   const skinRef = useRef<SkinId>("classic");
   const ghostRef = useRef<number[] | null>(null);
+  const ghostOffRef = useRef(false);
   const deadAtRef = useRef(0);
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
@@ -396,6 +398,8 @@ export function LifelineGame() {
   const [newBest, setNewBest] = useState(false);
   const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [ghostOff, setGhostOff] = useState(false);
+  const [hasGhost, setHasGhost] = useState(false);
 
   const setPhaseBoth = (p: Phase) => {
     phaseRef.current = p;
@@ -418,6 +422,9 @@ export function LifelineGame() {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
       setDailyBest(Number(localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0));
       setMuted(localStorage.getItem(MUTE_KEY) === "1");
+      ghostOffRef.current = localStorage.getItem(GHOST_OFF_KEY) === "1";
+      setGhostOff(ghostOffRef.current);
+      setHasGhost(localStorage.getItem(GHOST_KEY_PREFIX + todayISO()) !== null);
       const runsRaw = localStorage.getItem(RUNS_KEY);
       if (runsRaw) {
         const parsed: unknown = JSON.parse(runsRaw);
@@ -523,6 +530,7 @@ export function LifelineGame() {
             GHOST_KEY_PREFIX + todayISO(),
             JSON.stringify(w.rec),
           );
+          setHasGhost(true);
         }
       } catch {
         /* fine */
@@ -1015,7 +1023,7 @@ export function LifelineGame() {
       }
 
       /* Daily ghost: your best run today, racing you at 30Hz. */
-      if (phaseRef.current === "playing" && ghostRef.current) {
+      if (phaseRef.current === "playing" && ghostRef.current && !ghostOffRef.current) {
         const gi = Math.floor(w.t * 30);
         if (gi < ghostRef.current.length) {
           ctx.globalAlpha = 0.3;
@@ -1312,6 +1320,27 @@ export function LifelineGame() {
       >
         {muted ? "Sound off" : "Sound on"}
       </button>
+      {hasGhost && !challenge ? (
+        <button
+          type="button"
+          aria-pressed={ghostOff}
+          onClick={() => {
+            setGhostOff((g) => {
+              const next = !g;
+              ghostOffRef.current = next;
+              try {
+                localStorage.setItem(GHOST_OFF_KEY, next ? "1" : "0");
+              } catch {
+                /* fine */
+              }
+              return next;
+            });
+          }}
+          className="absolute bottom-3 left-3 rounded-full border-2 border-foreground bg-surface px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em]"
+        >
+          {ghostOff ? "Ghost off" : "Ghost on"}
+        </button>
+      ) : null}
 
       {phase === "ready" ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">

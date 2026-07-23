@@ -8,6 +8,7 @@ import {
 import { toolPath } from "@/registry/tools";
 import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { AuthorBox } from "@/components/AuthorBox";
+import { CardSearch } from "@/components/CardSearch";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { PeptideSafetyCallout } from "@/components/SafetyCallout";
@@ -165,29 +166,35 @@ export default function PeptidesPillarPage() {
         </ul>
       </section>
 
-      {grouped.map(([category, pages]) => (
-        <section key={category} aria-labelledby={`cat-${category}`}>
-          <h2 id={`cat-${category}`} className="font-display text-2xl uppercase">
-            {CATEGORY_LABELS[category]}
-          </h2>
-          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-            {pages.map((p) => (
-              <li key={p.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href={`/learn/peptides/${p.slug}`}
-                    className="font-semibold text-primary underline underline-offset-2"
-                  >
-                    {p.name}
-                  </Link>
-                  <EvidenceTier tier={p.headlineTier} basis={p.headlineBasis} />
-                </div>
-                <p className="mt-1 text-sm text-muted">{p.metaDescription}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <CardSearch label="Search peptides" className="space-y-8">
+        {grouped.map(([category, pages]) => (
+          <section key={category} aria-labelledby={`cat-${category}`} data-search-group>
+            <h2 id={`cat-${category}`} className="font-display text-2xl uppercase">
+              {CATEGORY_LABELS[category]}
+            </h2>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {pages.map((p) => (
+                <li
+                  key={p.slug}
+                  data-search-item={p.name}
+                  className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={`/learn/peptides/${p.slug}`}
+                      className="font-semibold text-primary underline underline-offset-2"
+                    >
+                      {p.name}
+                    </Link>
+                    <EvidenceTier tier={p.headlineTier} basis={p.headlineBasis} />
+                  </div>
+                  <p className="mt-1 text-sm text-muted">{p.metaDescription}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </CardSearch>
 
       <AuthorBox lastReviewed={LAST_REVIEWED} />
       <DisclaimerBanner />
