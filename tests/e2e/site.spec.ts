@@ -50,7 +50,8 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const xml = await response.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
-  // Home + daily hub + arcade hub + lifeline + powerhouse + blood-test +
+  // Home + daily hub + arcade hub + lifeline + powerhouse + max-out +
+  // snake-oil + blood-test +
   // pulse hub + pulse/this-week + calculators index + 3 calculator category
   // pages + 3 section hubs +
   // 32 standard tools + reconstitution calculator (in the peptides section) +
@@ -60,7 +61,7 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   // hubs + 39 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
   // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(237);
+  expect(locs.length).toBe(239);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
