@@ -172,6 +172,15 @@ forgotten.
 - **Email:** recovery guides make good lead magnets (e.g. a protocol cheat-sheet)
   feeding the newsletter (`ROADMAP.md` E5).
 
+**Build status (2026-07-23):** the affiliate placement layer is built — every
+cluster pillar and buying-guide page renders the shared "Our recommendation"
+card (`src/components/RecommendationCard.tsx`) from the surface-keyed registry
+`src/registry/affiliates.ts` (disclosure line, `rel="sponsored nofollow"` and
+`affiliate_click` events built in). Product-type picks are seeded per cluster;
+each stays hidden until its affiliate URL is pasted into the registry entry, so
+activation is a one-line edit per product. `Product`/`Review` schema (§4.2) is
+still owed once specific partner products are named.
+
 ---
 
 ## 7. Definition of done (per page)
