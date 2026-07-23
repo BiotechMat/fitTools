@@ -15,7 +15,8 @@ feed (PULSE.md), the daily games (DAILY-GAMES.md), the glow-up section first
 step (CONTENT-looksmaxxing.md §8), the E1 share loop (/share achievement card),
 the /blood-test page (placeholder panel, pending partner), the dashboard D0
 local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the
-data-protection posture), and the DESIGN.md §8 motion & effects system.
+data-protection posture), the DESIGN.md §8 motion & effects system, and the
+/today daily surface + site-wide streak (TODAY.md, from IDEAS.md §2.1–§2.2).
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 
@@ -60,6 +61,12 @@ and Mat has signed off.
   (2026-07-23, see §15): src/registry/daily.ts, src/lib/daily/*,
   src/lib/daily-store.ts, /daily, homepage banner + nav. "Ballpark" name
   LOCKED (Mat, 2026-07-23); "Myth or Fact?" name still proposed (§12.1).
+- TODAY.md — spec + build for `/today`, the single daily surface (streak
+  panel, fact of the day, games status, due-a-re-run chips) and the site-wide
+  "showed up" streak (activity-store + the shared streak core in
+  src/lib/streak.ts, which daily-store also delegates to). v1 BUILT
+  2026-07-23 (§9). Composition-only by design (§1); PWA/notifications
+  explicitly out of scope (§8).
 - DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
   ("Your numbers"): the home base that aggregates vitals, saved calculations,
   composite/biological-age scores and blood-test biomarkers, with longitudinal

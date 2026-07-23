@@ -8,19 +8,19 @@
  * Streak rules (DAILY-GAMES.md §6, ROADMAP §2.4): played-streak, not
  * perfect-streak — showing up counts, the score doesn't. A single missed day
  * is bridged by an earned freeze (one per completed week, capped); a longer
- * gap resets to a warm day-one, never a loss screen.
+ * gap resets to a warm day-one, never a loss screen. The rules themselves
+ * live in the shared core (`streak.ts`) so the site-wide activity streak
+ * (`activity-store.ts`, TODAY.md §5) advances identically; this store keeps
+ * its own state shape (`lastPlayed`) for stored-schema stability.
  */
 
-import { daysBetween } from "@/lib/daily/schedule";
 import type { DailyResult } from "@/lib/daily/types";
+import { MAX_FREEZES, advanceRun } from "@/lib/streak";
+
+export { MAX_FREEZES };
 
 export const DAILY_STORAGE_KEY = "fittools.daily.v1";
 export const DAILY_CHANGE_EVENT = "fittools:daily-change";
-
-/** Freeze cap — long absences always reset to warm re-entry (§6). */
-export const MAX_FREEZES = 3;
-/** Days of streak that earn one freeze. */
-const FREEZE_EARN_EVERY = 7;
 
 export interface StreakState {
   current: number;
@@ -113,43 +113,16 @@ export function getResult(store: DailyStore, key: string): DailyResult | undefin
 
 /**
  * Advance the streak for a daily play on `dateISO` (DAILY-GAMES.md §6). Pure.
- * - same day already played  → unchanged (idempotent);
- * - consecutive day          → +1;
- * - single missed day(s) within the freeze balance → bridged, freezes spent;
- * - larger gap               → warm reset to 1.
- * A completed week (crossing a multiple of 7) earns one freeze, capped.
+ * Delegates to the shared `advanceRun` core (`streak.ts`) — same-day
+ * idempotence, freeze bridging, warm reset, weekly freeze earn — mapping
+ * between this store's `lastPlayed` field and the core's `last`.
  */
 export function advanceStreak(streak: StreakState, dateISO: string): StreakState {
-  if (streak.lastPlayed === dateISO) return streak; // already counted today
-
-  let current: number;
-  let freezes = streak.freezes;
-
-  if (streak.lastPlayed === null) {
-    current = 1;
-  } else {
-    const gap = daysBetween(streak.lastPlayed, dateISO);
-    if (gap <= 0) {
-      // A play dated on/before the last play — don't rewrite history.
-      return streak;
-    }
-    const missed = gap - 1;
-    if (missed === 0) {
-      current = streak.current + 1; // consecutive
-    } else if (missed <= freezes) {
-      current = streak.current + 1; // bridge the gap with earned freezes
-      freezes -= missed;
-    } else {
-      current = 1; // warm re-entry
-    }
-  }
-
-  const best = Math.max(streak.best, current);
-  // Earn a freeze each time the streak completes another week.
-  if (current > 0 && current % FREEZE_EARN_EVERY === 0) {
-    freezes = Math.min(MAX_FREEZES, freezes + 1);
-  }
-  return { current, best, freezes, lastPlayed: dateISO };
+  const run = advanceRun(
+    { current: streak.current, best: streak.best, freezes: streak.freezes, last: streak.lastPlayed },
+    dateISO,
+  );
+  return { current: run.current, best: run.best, freezes: run.freezes, lastPlayed: run.last };
 }
 
 /**

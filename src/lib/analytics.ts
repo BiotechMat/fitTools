@@ -24,7 +24,10 @@ export type AnalyticsEvent =
   | { name: "daily_game_played"; params: { game: "ballpark" | "myth"; result: string } }
   | { name: "daily_game_shared"; params: { game: "ballpark" | "myth" } }
   | { name: "daily_streak_freeze_used"; params: Record<string, never> }
-  | { name: "daily_related_click"; params: { id: string; target: string } };
+  | { name: "daily_related_click"; params: { id: string; target: string } }
+  // The /today surface (TODAY.md §7). Which due-a-re-run chip converts is the
+  // one signal the page needs; streak state itself is never transmitted.
+  | { name: "today_rerun_click"; params: { tool: string } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

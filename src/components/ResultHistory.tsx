@@ -15,6 +15,7 @@ import {
   upsertResult,
   writeHistory,
 } from "@/lib/history";
+import { markActiveToday } from "@/lib/activity-store";
 
 /**
  * "Since last time" footer for a ResultsPanel (DESIGN.md §6 — the temporal
@@ -114,6 +115,7 @@ export function ResultHistory({
           savedAt: new Date().toISOString(),
         }),
       );
+      if (saved) markActiveToday("calc");
       if (saved && claimFirstWin()) setFirstWin(true);
     }, SAVE_DELAY_MS);
     return () => window.clearTimeout(timer);

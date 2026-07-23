@@ -3,6 +3,7 @@
 import { useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { EvidenceTier } from "@/components/EvidenceTier";
+import { markActiveToday } from "@/lib/activity-store";
 import { trackEvent } from "@/lib/analytics";
 import {
   getResult,
@@ -88,6 +89,7 @@ function MythGame({
       const finalCorrect = correctCount; // already includes this round
       const result: MythResult = { game: "myth", puzzle, correct: finalCorrect, total };
       updateDailyStore((s) => recordResult(s, storeKey, result, today));
+      markActiveToday("daily");
       trackEvent({ name: "daily_game_played", params: { game: "myth", result: `${finalCorrect}/${total}` } });
       setFinished(true);
     } else {

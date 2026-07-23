@@ -48,6 +48,7 @@ const liveHubs = Object.values(hubMeta).filter(
 // Main nav, rendered responsively by <SiteNav /> (horizontal on desktop,
 // hamburger dropdown below lg). Emphasised links are the primary destinations.
 const navItems: NavItem[] = [
+  { href: "/today", label: "Today", emphasis: true },
   { href: "/pulse", label: "Pulse", emphasis: true },
   { href: "/daily", label: "Daily", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },

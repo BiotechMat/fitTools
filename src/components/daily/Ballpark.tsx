@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useSyncExternalStore } from "react";
+import { markActiveToday } from "@/lib/activity-store";
 import { trackEvent } from "@/lib/analytics";
 import {
   ballparkKey,
@@ -99,6 +100,7 @@ function BallparkGame({
     const scored = scoreGuess(item, guess);
     const result: BallparkResult = { game: "ballpark", puzzle, tier: scored };
     updateDailyStore((s) => recordResult(s, storeKey, result, today));
+    markActiveToday("daily");
     setJustPlayedTier(scored);
     trackEvent({ name: "daily_game_played", params: { game: "ballpark", result: scored } });
   };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { markActiveToday } from "@/lib/activity-store";
 import { trackEvent } from "@/lib/analytics";
 import {
   applyEngagement,
@@ -72,11 +73,13 @@ export function PulseDaily() {
         liked={isLiked(store, card.id)}
         saved={isSaved(store, card.id)}
         onLike={() => {
-          updatePulseStore((st) => applyEngagement(toggleLike(st, card.id), card.category, "like"));
+          const next = updatePulseStore((st) => applyEngagement(toggleLike(st, card.id), card.category, "like"));
+          if (isLiked(next, card.id)) markActiveToday("pulse");
           trackEvent({ name: "pulse_card_liked", params: { id: card.id } });
         }}
         onSave={() => {
-          updatePulseStore((st) => applyEngagement(toggleSave(st, card.id), card.category, "save"));
+          const next = updatePulseStore((st) => applyEngagement(toggleSave(st, card.id), card.category, "save"));
+          if (isSaved(next, card.id)) markActiveToday("pulse");
           trackEvent({ name: "pulse_card_saved", params: { id: card.id } });
         }}
         onShare={() => void share()}

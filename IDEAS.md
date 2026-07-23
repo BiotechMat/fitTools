@@ -93,7 +93,7 @@ Pulse, the daily games, the dashboard and (soon) streaks are each return
 reasons. The risk as they multiply: five small habits instead of one strong
 one. These ideas consolidate.
 
-### 2.1 `/today` — the single daily surface — *M · gate: none*
+### 2.1 `/today` — the single daily surface — *M · gate: none* — **PULLED → TODAY.md, built 2026-07-23**
 One page composing what already exists: fact of the day (`PulseDaily`), today's
 Ballpark, the weekly Myth-or-Fact when live, due-a-re-run chips
 (`DESIGN.md §6` welcome-back strip), and one fresh-discovery card (Pulse F0).
@@ -101,7 +101,7 @@ This becomes the canonical bookmark/home-screen destination, the anchor for
 any future notification, and the natural place for the site-wide streak (2.2).
 Games and Pulse keep their own pages; `/today` is composition, not new content.
 
-### 2.2 One "showed up" streak — *S–M · gate: none*
+### 2.2 One "showed up" streak — *S–M · gate: none* — **PULLED → TODAY.md, built 2026-07-23**
 `DAILY-GAMES.md §6` has game streaks; E3 plans behaviour streaks. Add the
 umbrella: a single site-wide "active day" streak satisfied by *any* meaningful
 action (played, calculated, read, logged). Rationale: multiple parallel streaks
@@ -380,7 +380,8 @@ displaces accounts + Trajectory; these multiply around them:
 
 1. **`/today` + the site-wide streak + PWA (2.1–2.3)** — consolidates the
    already-built loops into one daily habit before more surfaces dilute it.
-   Cheapest retention multiplier available.
+   Cheapest retention multiplier available. *(2.1–2.2 built → TODAY.md;
+   2.3 PWA still open.)*
 2. **Goal-seek + scenario mode (1.1–1.2)** — the wedge's next differentiation,
    pure client-side, feeds share cards and pre-sells the premium depth story.
 3. **AEO + the open API/MCP (4.1–4.2)** — the strategic hedge on the primary
