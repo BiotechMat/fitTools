@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroEcg } from "@/components/effects/HeroEcg";
 import { PulseHeroCard } from "@/components/pulse/PulseHeroCard";
 import { SITE_NAME } from "@/lib/site";
 import { hubMeta } from "@/registry/hubs";
@@ -111,7 +112,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
+      <section className="relative grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
+        <HeroEcg />
         <div>
           <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
             {toolCount} calculators · every formula cited · free, no sign-up
@@ -130,13 +132,13 @@ export default function HomePage() {
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <Link
               href="/heart-age-calculator"
-              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-background riso-press"
             >
               Find your heart age
             </Link>
             <Link
               href="#all-tools"
-              className="rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+              className="rounded-full border-2 border-foreground bg-surface px-5 py-2 font-bold riso-press"
             >
               Browse all tools
             </Link>
@@ -158,7 +160,7 @@ export default function HomePage() {
       <section className="pt-8" aria-labelledby="bloodtest-cta">
         <Link
           href="/blood-test"
-          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-lime p-5 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-lime p-5 text-foreground riso-press sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
@@ -182,7 +184,7 @@ export default function HomePage() {
       <section className="pt-6" aria-labelledby="daily-cta">
         <Link
           href="/daily"
-          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-background riso-press sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
@@ -218,7 +220,7 @@ export default function HomePage() {
           {cards.map((card) => (
             <li
               key={card.slug}
-              className="relative rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+              className="riso-press relative rounded-2xl border-2 border-foreground bg-surface p-4"
             >
               <span
                 className={`inline-block rounded-full border border-foreground px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${card.chip}`}
@@ -252,7 +254,7 @@ export default function HomePage() {
               <li key={key}>
                 <Link
                   href={entry.meta.path}
-                  className={`flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground p-4 shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] ${classes}`}
+                  className={`flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground p-4 riso-press ${classes}`}
                 >
                   <span className="font-display text-xl uppercase">
                     {entry.meta.title}
@@ -267,7 +269,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/labs"
-              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-good p-4 text-background shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-good p-4 text-background riso-press"
             >
               <span className="font-display text-xl uppercase">Labs</span>
               <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
@@ -278,7 +280,7 @@ export default function HomePage() {
           <li>
             <Link
               href="/glow-up"
-              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-primary-soft p-4 text-foreground shadow-[3px_3px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)]"
+              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-primary-soft p-4 text-foreground riso-press"
             >
               <span className="font-display text-xl uppercase">Glow-up</span>
               <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">

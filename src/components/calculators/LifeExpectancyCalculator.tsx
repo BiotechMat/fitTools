@@ -11,6 +11,7 @@ import {
 import { LIFE_EXPECTANCY_DEFAULTS } from "@/registry/configs/life-expectancy-calculator.shared";
 import { CalculatorShell } from "@/components/CalculatorShell";
 import { ResultsPanel } from "@/components/ResultsPanel";
+import { LifeMonthsGrid } from "@/components/effects/LifeMonthsGrid";
 import { formatNumber, labelClass } from "@/components/calculators/styles";
 
 const EMPTY: FactorSelections = {
@@ -108,6 +109,11 @@ export function LifeExpectancyCalculator() {
               </p>
             ) : null}
           </div>
+
+          <LifeMonthsGrid
+            gainYears={ctx.anchors.reportedGainYears}
+            filled={ctx.count === 5}
+          />
 
           <p className="mt-3 max-w-prose text-sm text-muted">
             This is a <strong>population-level association</strong> from one

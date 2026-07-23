@@ -307,6 +307,7 @@ export function HeartAgeCalculator() {
               label="Your estimated heart age"
               value={result.clampedAt === "max" ? "79+" : formatNumber(result.heartAge, 0)}
               unit="years"
+              pulse
               valueTestId="heart-age-value"
               secondary={{
                 label: "calendar age",

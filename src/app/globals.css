@@ -76,6 +76,123 @@ body {
   }
 }
 
+/*
+ * v2 effect prototypes (2026-07-23). All motion is decorative and disabled
+ * under prefers-reduced-motion; nothing here affects layout (transform/
+ * shadow only), per the zero-CLS rule.
+ */
+
+/* Riso press physics: interactive hard-shadow elements sink slightly into
+   the paper on hover and flatten fully while pressed. The rest offset is
+   var(--riso, 3px) — a fallback, not a declaration, so a Tailwind
+   `[--riso:2px]` override can win from the utilities layer. */
+.riso-press {
+  box-shadow: var(--riso, 3px) var(--riso, 3px) 0 0 var(--color-foreground);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .riso-press {
+    transition:
+      translate 130ms ease-out,
+      box-shadow 130ms ease-out;
+  }
+  .riso-press:hover {
+    translate: 1px 1px;
+    box-shadow: calc(var(--riso, 3px) - 1px) calc(var(--riso, 3px) - 1px) 0 0
+      var(--color-foreground);
+  }
+  .riso-press:active {
+    translate: var(--riso, 3px) var(--riso, 3px);
+    box-shadow: 0 0 0 0 var(--color-foreground);
+  }
+}
+
+/* Heartbeat: a resting-rate lub-dub (60 bpm) for the Heart Age score. */
+@keyframes heartbeat-lubdub {
+  0%,
+  30%,
+  100% {
+    scale: 1;
+  }
+  7% {
+    scale: 1.035;
+  }
+  14% {
+    scale: 1;
+  }
+  21% {
+    scale: 1.05;
+  }
+}
+.heartbeat {
+  animation: heartbeat-lubdub 1s ease-in-out infinite;
+  transform-origin: 12% 60%;
+}
+
+/* Sticker slap: verdict stamps and delta pills land like a sticker. */
+@keyframes sticker-slap {
+  0% {
+    opacity: 0;
+    scale: 1.8;
+    rotate: -6deg;
+  }
+  70% {
+    opacity: 1;
+    scale: 0.94;
+    rotate: 1.5deg;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+    rotate: 0deg;
+  }
+}
+.sticker-slap {
+  animation: sticker-slap 340ms cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+/* Life-in-months squares: staggered cascade fill (delays set inline). */
+@keyframes month-pop {
+  0% {
+    opacity: 0;
+    scale: 0.2;
+  }
+  60% {
+    opacity: 1;
+    scale: 1.3;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.month-pop {
+  animation: month-pop 260ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+/* Hero ECG telemetry drift: same duplicate-half loop as the ticker, but on
+   the `translate` property so it composes with positioning transforms. */
+@keyframes ecg-drift {
+  to {
+    translate: -50% 0;
+  }
+}
+.ecg-rail {
+  animation: ecg-drift 30s linear infinite;
+}
+.ecg-rail-slow {
+  animation-duration: 48s;
+  animation-delay: -16s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat,
+  .sticker-slap,
+  .month-pop,
+  .ecg-rail {
+    animation: none;
+  }
+}
+
 /* Editorial (MDX) typography — hand-rolled to avoid a plugin dependency. */
 .prose {
   max-width: 65ch;
