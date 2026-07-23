@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { supplementsByGrade } from "@/registry/supplements";
 import { GRADE_LABELS } from "@/registry/peptides";
+import { CardSearch } from "@/components/CardSearch";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
@@ -41,30 +42,36 @@ export default function SupplementsHubPage() {
         </p>
       </div>
 
-      {grouped.map(([grade, list]) => (
-        <section key={grade} aria-labelledby={`grade-${grade}`}>
-          <div className="flex items-center gap-2">
-            <h2 id={`grade-${grade}`} className="font-display text-2xl uppercase">{GRADE_LABELS[grade]}</h2>
-            <EvidenceTier tier={list[0].headlineTier} basis={list[0].headlineBasis} />
-          </div>
-          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-            {list.map((s) => (
-              <li key={s.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href={`/supplements/${s.slug}`}
-                    className="font-semibold text-primary underline underline-offset-2"
-                  >
-                    {s.name}
-                  </Link>
-                  <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
-                </div>
-                <p className="mt-1 text-sm text-muted">{s.short}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <CardSearch label="Search supplements" className="space-y-8">
+        {grouped.map(([grade, list]) => (
+          <section key={grade} aria-labelledby={`grade-${grade}`} data-search-group>
+            <div className="flex items-center gap-2">
+              <h2 id={`grade-${grade}`} className="font-display text-2xl uppercase">{GRADE_LABELS[grade]}</h2>
+              <EvidenceTier tier={list[0].headlineTier} basis={list[0].headlineBasis} />
+            </div>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {list.map((s) => (
+                <li
+                  key={s.slug}
+                  data-search-item={s.name}
+                  className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={`/supplements/${s.slug}`}
+                      className="font-semibold text-primary underline underline-offset-2"
+                    >
+                      {s.name}
+                    </Link>
+                    <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
+                  </div>
+                  <p className="mt-1 text-sm text-muted">{s.short}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </CardSearch>
 
       <DisclaimerBanner />
     </div>

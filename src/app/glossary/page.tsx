@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { glossaryAlphabetical } from "@/registry/glossary";
+import { CardSearch } from "@/components/CardSearch";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
@@ -35,22 +36,28 @@ export default function GlossaryHubPage() {
         and links to the calculators that put it to work.
       </p>
 
-      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-        {entries.map((e) => (
-          <li key={e.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
-            <Link
-              href={`/glossary/${e.slug}`}
-              className="font-semibold text-primary underline underline-offset-2"
+      <CardSearch label="Search the glossary" className="mt-6">
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          {entries.map((e) => (
+            <li
+              key={e.slug}
+              data-search-item={e.aka && e.aka.length > 0 ? `${e.term} ${e.aka.join(" ")}` : e.term}
+              className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
             >
-              {e.term}
-              {e.aka && e.aka.length > 0 ? (
-                <span className="font-normal text-muted"> ({e.aka.join(", ")})</span>
-              ) : null}
-            </Link>
-            <p className="mt-1 text-sm text-muted">{e.short}</p>
-          </li>
-        ))}
-      </ul>
+              <Link
+                href={`/glossary/${e.slug}`}
+                className="font-semibold text-primary underline underline-offset-2"
+              >
+                {e.term}
+                {e.aka && e.aka.length > 0 ? (
+                  <span className="font-normal text-muted"> ({e.aka.join(", ")})</span>
+                ) : null}
+              </Link>
+              <p className="mt-1 text-sm text-muted">{e.short}</p>
+            </li>
+          ))}
+        </ul>
+      </CardSearch>
     </div>
   );
 }
