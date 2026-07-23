@@ -205,10 +205,12 @@ body {
   animation-delay: -16s;
 }
 
-/* Gold-tier shine (DESIGN §3): a foil sheen sweeps the well-supported badge —
-   sweep, then rest. Decorative pseudo-element only: no layout, clipped by the
-   pill radius, and parked offscreen under reduced motion (the badge stays
-   plain gold; the tier is always spelled out, never colour or shine alone). */
+/* Evidence-medal shine (DESIGN §3): a foil sheen sweeps a medal badge, then
+   rests. Gold gets the full-strength gleam; Silver and Bronze override
+   `--shine-strength`/`--shine-speed` for a much fainter, slower shimmer.
+   Decorative pseudo-element only: no layout, clipped by the pill radius, and
+   parked offscreen under reduced motion (the badge stays a plain medal colour;
+   the grade is always spelled out, never colour or shine alone). */
 @keyframes tier-shine {
   0% {
     translate: -130% 0;
@@ -229,11 +231,11 @@ body {
   background: linear-gradient(
     115deg,
     transparent 35%,
-    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, var(--shine-strength, 0.6)) 50%,
     transparent 65%
   );
   translate: -130% 0;
-  animation: tier-shine 3.8s ease-in-out infinite;
+  animation: tier-shine var(--shine-speed, 3.8s) ease-in-out infinite;
   pointer-events: none;
 }
 

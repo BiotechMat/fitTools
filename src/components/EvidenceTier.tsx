@@ -18,8 +18,10 @@ import { type EvidenceGrade, evidenceGrade, GRADE_LABELS } from "@/registry/pept
 // caution / the CONTENT-looksmaxxing §4 debunk tier).
 const GRADE_STYLES: Record<EvidenceGrade, string> = {
   gold: "tier-shine border-gold bg-gold-soft text-foreground",
-  silver: "border-silver bg-silver-soft text-foreground",
-  bronze: "border-bronze bg-bronze-soft text-foreground",
+  silver:
+    "tier-shine [--shine-strength:0.22] [--shine-speed:5s] border-silver bg-silver-soft text-foreground",
+  bronze:
+    "tier-shine [--shine-strength:0.2] [--shine-speed:5.6s] border-bronze bg-bronze-soft text-foreground",
   unproven: "border-warning-border bg-warning-bg text-foreground",
   "not-supported": "border-primary bg-primary-soft text-primary",
 };
