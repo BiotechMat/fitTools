@@ -35,7 +35,16 @@ wired across supplement, recovery, glow-up and tool pages; cards render their
 editorial picks now, and the buy button + disclosure appear per pick once its
 affiliate URL is pasted into the registry — activation notes in the registry
 header; no picks on marketing-claim pages by rule, enforced in
-tests/unit/affiliates.test.ts).
+tests/unit/affiliates.test.ts), and the 2026-07-23 IA restructure (Mat's
+direction): calculator categories grouped under a "Calculators" nav submenu
+deep-linking into the new /calculators index; topic sections Nutrition,
+Workout (renamed from Strength, /strength redirects) and Recovery each carry
+calculators plus their domain content (food reference / exercise library /
+recovery guides); /labs retired — the reconstitution calculator lives at
+/learn/peptides/peptide-reconstitution with tier-4 rules (enhanced
+disclaimer, no ads) intact and permanent redirects from the old URLs;
+`toolPath()` in src/registry/tools.ts is the single source of truth for
+tool hrefs.
 Do not start a SPEC milestone until the previous one's acceptance criteria pass
 and Mat has signed off.
 

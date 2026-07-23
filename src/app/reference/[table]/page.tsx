@@ -8,7 +8,7 @@ import {
   getReferenceTablePage,
   referenceTablePages,
 } from "@/registry/reference-tables";
-import { getTool } from "@/registry/tools";
+import { getTool, toolPath } from "@/registry/tools";
 import { hrMaxTanaka, hrZones } from "@/lib/formulas/heart-rate";
 import { planPlateLoad, type PlateStock } from "@/lib/formulas/plates";
 import { AuthorBox } from "@/components/AuthorBox";
@@ -135,7 +135,7 @@ function renderView(p: ReferenceTablePage) {
 function toolLink(slug: string): { href: string; title: string } | null {
   const tool = getTool(slug);
   if (!tool) return null;
-  return { href: tool.tier === 4 ? `/labs/${tool.slug}` : `/${tool.slug}`, title: tool.title };
+  return { href: toolPath(tool), title: tool.title };
 }
 
 export default async function ReferenceTablePageView({ params }: TableParams) {

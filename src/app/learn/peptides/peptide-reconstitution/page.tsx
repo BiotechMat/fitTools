@@ -1,39 +1,29 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getTool, labsTools } from "@/registry/tools";
+import { toolPath } from "@/registry/tools";
+import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { calculators } from "@/components/calculators";
 import { AuthorBox } from "@/components/AuthorBox";
 import { FAQ } from "@/components/FAQ";
 import { breadcrumbJsonLd, faqPageJsonLd, webApplicationJsonLd } from "@/lib/schema-org";
 
-interface LabsPageParams {
-  params: Promise<{ slug: string }>;
-}
+/**
+ * The peptide reconstitution calculator, relocated from the retired /labs
+ * route into the peptides learn section (2026-07-23). Tier-4 rules travel
+ * with it: enhanced disclaimer always visible, arithmetic only, no ads.
+ */
 
-export const dynamicParams = false;
+const tool = peptideConfig;
+const path = toolPath(tool);
 
-export function generateStaticParams(): { slug: string }[] {
-  return labsTools().map((tool) => ({ slug: tool.slug }));
-}
+export const metadata: Metadata = {
+  title: tool.title,
+  description: tool.metaDescription,
+  alternates: { canonical: path },
+};
 
-export async function generateMetadata({ params }: LabsPageParams): Promise<Metadata> {
-  const { slug } = await params;
-  const tool = getTool(slug);
-  if (!tool) return {};
-  return {
-    title: tool.title,
-    description: tool.metaDescription,
-    alternates: { canonical: `/labs/${tool.slug}` },
-  };
-}
-
-export default async function LabsToolPage({ params }: LabsPageParams) {
-  const { slug } = await params;
-  const tool = getTool(slug);
-  if (!tool || tool.tier !== 4) notFound();
+export default async function PeptideReconstitutionPage() {
   const Calculator = calculators[tool.slug];
-  if (!Calculator) notFound();
 
   const { default: Editorial } = await import(`@/content/tools/${tool.slug}.mdx`);
   const jsonLdBlocks = [
@@ -41,8 +31,8 @@ export default async function LabsToolPage({ params }: LabsPageParams) {
     faqPageJsonLd(tool),
     breadcrumbJsonLd([
       { name: "Home", path: "/" },
-      { name: "Labs", path: "/labs" },
-      { name: tool.title, path: `/labs/${tool.slug}` },
+      { name: "Peptides", path: "/learn/peptides" },
+      { name: tool.title, path },
     ]),
   ];
 
@@ -59,7 +49,7 @@ export default async function LabsToolPage({ params }: LabsPageParams) {
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
           <span aria-hidden="true"> / </span>
-          <Link href="/labs" className="hover:text-foreground">Labs</Link>
+          <Link href="/learn/peptides" className="hover:text-foreground">Peptides</Link>
         </nav>
         <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
         <p className="mt-1 max-w-prose text-muted">{tool.valueLine ?? tool.metaDescription}</p>
@@ -69,10 +59,10 @@ export default async function LabsToolPage({ params }: LabsPageParams) {
       <aside
         role="note"
         aria-label="Enhanced disclaimer"
-        data-testid="labs-disclaimer"
+        data-testid="enhanced-disclaimer"
         className="rounded-lg border border-warning-border bg-warning-bg p-4 text-sm"
       >
-        <h2 className="font-semibold">Labs tool — enhanced disclaimer</h2>
+        <h2 className="font-semibold">Enhanced disclaimer</h2>
         <p className="mt-1">
           This tool performs arithmetic only, on values you supply — it
           offers no compound information, no dosing recommendations and no

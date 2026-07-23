@@ -15,7 +15,7 @@
 
 import type { EvidenceBasis, EvidenceTier } from "@/registry/peptides";
 import type { FaqEntry, Source } from "@/registry/types";
-import { getTool } from "@/registry/tools";
+import { getTool, toolPath } from "@/registry/tools";
 
 export const GLOWUP_LAST_REVIEWED = "2026-07-23";
 
@@ -450,7 +450,6 @@ export function resolveGlowUpTools(slugs: string[]): CrossLink[] {
   return slugs.flatMap((slug) => {
     const tool = getTool(slug);
     if (!tool) return [];
-    const href = tool.tier === 4 ? `/labs/${tool.slug}` : `/${tool.slug}`;
-    return [{ href, title: tool.title }];
+    return [{ href: toolPath(tool), title: tool.title }];
   });
 }

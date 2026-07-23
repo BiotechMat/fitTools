@@ -1,48 +1,65 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { openMainNav } from "./helpers";
 
-/** M4 acceptance: labs serve no ads and gate on acknowledgement; embeds are < 50 kB and link back. */
+/**
+ * M4 acceptance, updated for the 2026-07-23 restructure: the reconstitution
+ * calculator lives inside the peptides section (the /labs route is retired
+ * and redirects), keeps its enhanced disclaimer and serves no ads; embeds
+ * are < 50 kB and link back.
+ */
 
-test.describe("labs", () => {
+const TOOL_PATH = "/learn/peptides/peptide-reconstitution";
+
+test.describe("peptide reconstitution calculator", () => {
   // Acknowledgement gate removed at Mat's direction 2026-07-21 (recorded in
   // SPEC §7); the enhanced disclaimer remains mandatory and is asserted here.
-  test("peptide page: enhanced disclaimer visible, calculator direct, no ads", async ({ page }) => {
-    await page.goto("/labs/peptide-reconstitution");
-    await expect(page.getByTestId("labs-disclaimer")).toBeVisible();
-    await expect(page.getByTestId("labs-disclaimer")).toContainText("arithmetic only");
+  test("tool page: enhanced disclaimer visible, calculator direct, no ads", async ({ page }) => {
+    await page.goto(TOOL_PATH);
+    await expect(page.getByTestId("enhanced-disclaimer")).toBeVisible();
+    await expect(page.getByTestId("enhanced-disclaimer")).toContainText("arithmetic only");
     // Calculator renders directly with the default arithmetic:
     // 5 mg / 2 ml, 250 mcg → 0.1 ml → 10 units.
     await expect(page.getByTestId("peptide-units")).toContainText("10.0");
     await expect(page.getByTestId("peptide-ml")).toContainText("0.100 ml");
-    // No ad slot, ever, on labs pages.
+    // No ad slot, ever, on the reconstitution calculator.
     await expect(page.locator("[data-ad-slot]")).toHaveCount(0);
   });
 
-  test("header navigation includes a Labs tab", async ({ page }) => {
-    await page.goto("/");
+  test("peptides pillar page links to the calculator; no Labs tab remains", async ({ page }) => {
+    await page.goto("/learn/peptides");
+    await expect(
+      page.getByRole("link", { name: /Peptide Reconstitution/ }),
+    ).toHaveAttribute("href", TOOL_PATH);
+    await openMainNav(page);
     const nav = page.getByRole("navigation", { name: "Main" });
-    await expect(nav.getByRole("link", { name: "Labs" })).toHaveAttribute("href", "/labs");
-    await nav.getByRole("link", { name: "Labs" }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toContainText("Labs");
+    await expect(nav.getByRole("link", { name: "Labs", exact: true })).toHaveCount(0);
   });
 
-  test("homepage has a Labs section linking to the peptide tool", async ({ page }) => {
+  test("homepage has a Peptides section linking to the calculator", async ({ page }) => {
     await page.goto("/");
     const section = page.locator("section", {
-      has: page.getByRole("heading", { name: "Labs" }),
+      has: page.getByRole("heading", { name: "Peptides" }),
     });
     await expect(section.getByRole("link", { name: /Peptide Reconstitution/ })).toHaveAttribute(
       "href",
-      "/labs/peptide-reconstitution",
+      TOOL_PATH,
     );
-    await expect(section).toContainText("enhanced disclaimers");
+    await expect(section).toContainText("enhanced disclaimer");
   });
 
-  test("labs index lists the tool; no critical axe violations", async ({ page }) => {
-    await page.goto("/labs");
-    await expect(
-      page.getByRole("link", { name: /Peptide Reconstitution/ }),
-    ).toBeVisible();
+  test("retired /labs URLs redirect permanently into the peptides section", async ({ request }) => {
+    const index = await request.get("/labs", { maxRedirects: 0 });
+    expect(index.status()).toBe(308);
+    expect(index.headers()["location"]).toContain("/learn/peptides");
+
+    const tool = await request.get("/labs/peptide-reconstitution", { maxRedirects: 0 });
+    expect(tool.status()).toBe(308);
+    expect(tool.headers()["location"]).toContain(TOOL_PATH);
+  });
+
+  test("tool page has no critical axe violations", async ({ page }) => {
+    await page.goto(TOOL_PATH);
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations.filter((v) => v.impact === "critical")).toEqual([]);
   });

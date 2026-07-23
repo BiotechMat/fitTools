@@ -28,9 +28,11 @@ Goals, in priority order:
 ## 2. Non-negotiable constraints
 - No medical advice. Every tool page renders the medical disclaimer component. Results
   copy uses "estimate", never prescriptive language.
-- Tier 4 tools (`/labs/` route group) ship with `monetization.ads: false`, a stronger
-  disclaimer, and no compound-specific dosing recommendations — the user supplies their
-  own prescribed values; the tool does arithmetic only.
+- Tier 4 tools ship with `monetization.ads: false`, a stronger disclaimer, and no
+  compound-specific dosing recommendations — the user supplies their own prescribed
+  values; the tool does arithmetic only. (Originally the `/labs/` route group; at Mat's
+  direction 2026-07-23 the /labs URL is retired and tier 4 renders inside the peptides
+  section at /learn/peptides/, with permanent redirects and the same rules intact.)
 - Calculation logic is client-side pure TypeScript **by default** — it keeps the static
   tools private, zero-cost to host, SEO-friendly and inside the performance budgets, so
   new calculators start here. Server-side calculation and external/AI APIs are **permitted
@@ -54,9 +56,10 @@ Goals, in priority order:
 ```
 /src
   /app
-    /(hubs)/nutrition|strength|recovery/page.tsx   # hub landing pages
+    /(hubs)/nutrition|workout|recovery/page.tsx    # topic sections: calculators + domain content
+    /calculators/page.tsx                          # all-calculators index (nav submenu target)
     /(tools)/[slug]/page.tsx                       # tool template, statically generated
-    /labs/[slug]/page.tsx                          # Tier 4, ads disabled
+    /learn/peptides/peptide-reconstitution/        # Tier 4, ads disabled (was /labs/[slug])
     /about, /author/mathew-beale, /legal/*         # static pages
     sitemap.ts, robots.ts
   /components        # CalculatorShell, UnitInput, ResultsPanel, Methodology,
@@ -178,7 +181,8 @@ sleep threshold.
 **Creatine**: loading 0.3 g/kg/day for 5–7 days; maintenance 3–5 g/day. Source: ISSN
 position stand (Kreider et al. 2017).
 
-**Peptide reconstitution (Tier 4, /labs/)**: concentration = vial mg ÷ diluent ml;
+**Peptide reconstitution (Tier 4, /learn/peptides/ — /labs/ until 2026-07-23)**:
+concentration = vial mg ÷ diluent ml;
 draw volume = desired dose ÷ concentration; U-100 syringe units = ml × 100. Inputs are
 user-supplied only; no compound presets, no dosing suggestions; `ads: false`; enhanced
 disclaimer always visible. (Original requirement included an acknowledgement gate
@@ -288,6 +292,9 @@ consent-gating verified, CLS still < 0.05.
 **M4 — Labs + distribution.** `/labs/` route group with peptide + reconstitution
 acknowledgement flow, embed builds + copy-embed UI.
 ✓ Labs pages serve no ads; embed renders < 50 kB and links back.
+(2026-07-23, at Mat's direction: /labs retired post-acceptance — the reconstitution
+calculator moved into the peptides section with its tier-4 rules intact; old URLs
+redirect permanently.)
 
 ## 17. Out of scope (v1)
 CMS, blog beyond tool editorial, i18n, native apps.

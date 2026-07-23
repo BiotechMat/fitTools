@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   HEART_AGE_REFERENCE,
   type PreventInput,
@@ -103,9 +103,16 @@ export function HeartAgeCalculator() {
 
   // One lub-dub through the phone when a result lands (mobile only; no-op
   // where the Vibration API is missing, and skipped under reduced motion).
+  // The default result computed on mount doesn't count as landing — and
+  // vibrating before any tap is blocked by the browser anyway.
   const heartAgeValue = result?.heartAge;
+  const resultHasLanded = useRef(false);
   useEffect(() => {
     if (heartAgeValue === undefined) return;
+    if (!resultHasLanded.current) {
+      resultHasLanded.current = true;
+      return;
+    }
     if (typeof navigator === "undefined" || !("vibrate" in navigator)) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     navigator.vibrate([30, 90, 45]);

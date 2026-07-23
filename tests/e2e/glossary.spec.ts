@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { glossaryEntries } from "../../src/registry/glossary";
+import { openMainNav } from "./helpers";
 
 /**
  * Glossary section (CONTENT-reference.md §6, §9 Definition of Done): the hub
@@ -10,6 +11,7 @@ import { glossaryEntries } from "../../src/registry/glossary";
 
 test("glossary is in the header nav and the hub lists every term", async ({ page }) => {
   await page.goto("/");
+  await openMainNav(page);
   await expect(
     page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Glossary" }),
   ).toHaveAttribute("href", "/glossary");
