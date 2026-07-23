@@ -32,6 +32,40 @@ export interface SelectOptions {
   maxRun?: number;
   /** Cap on how much affinity can tilt weighting (default 0.6). */
   affinityCap?: number;
+  /** Restrict to fresh (recent-discovery) chunks — the "New" chip (PULSE.md §15.5). */
+  freshOnly?: boolean;
+  /** Reference time for freshness decay. Injectable for tests; default now. */
+  nowMs?: number;
+  /** Cap on how much recency can tilt weighting, mirroring affinityCap (default 0.6). */
+  freshnessCap?: number;
+  /** Freshness half-life in days — boost halves every this many days (default 7). */
+  freshHalfLifeDays?: number;
+  /** Guaranteed fresh picks per batch while unseen fresh chunks exist (default 2). */
+  freshReserve?: number;
+}
+
+/** A chunk counts as fresh only when explicitly tagged and dated (PULSE.md §15.4). */
+function isFreshChunk(c: GroundingChunk): boolean {
+  return c.kind === "fresh" && typeof c.addedAt === "string";
+}
+
+/**
+ * Recency tilt for a fresh chunk: 1.0 on its added-day, halving every
+ * `halfLifeDays`, → ~0 by 30 days (PULSE.md §15.5). Capped like affinity so the
+ * §5.3 diversity floor and novelty injection always bind. Evergreen chunks and
+ * undated/unparseable ones contribute 0 (back-compatible).
+ */
+function freshnessTilt(
+  c: GroundingChunk,
+  nowMs: number,
+  cap: number,
+  halfLifeDays: number,
+): number {
+  if (!isFreshChunk(c) || !c.addedAt) return 0;
+  const added = Date.parse(c.addedAt);
+  if (Number.isNaN(added)) return 0;
+  const ageDays = Math.max(0, (nowMs - added) / 86_400_000);
+  return cap * Math.pow(0.5, ageDays / halfLifeDays);
 }
 
 /** Small, fast, seedable PRNG (mulberry32) — deterministic for tests. */
@@ -65,6 +99,11 @@ export function selectChunks(
     noveltyFraction = 0.3,
     maxRun = 2,
     affinityCap = 0.6,
+    freshOnly = false,
+    nowMs = Date.now(),
+    freshnessCap = 0.6,
+    freshHalfLifeDays = 7,
+    freshReserve = 2,
   } = opts;
   const seen = new Set(opts.seen ?? []);
   const affinity = opts.affinity ?? {};
@@ -72,6 +111,10 @@ export function selectChunks(
 
   const filterSet = categories && categories.length > 0 ? new Set(categories) : null;
   let candidates = pool.filter((c) => !filterSet || filterSet.has(c.category));
+  // "New" chip (§15.5): restrict strictly to fresh chunks. If there are none,
+  // the draw returns empty and the UI shows its "nothing new" state — honest,
+  // rather than silently serving evergreen cards under the New tab.
+  if (freshOnly) candidates = candidates.filter(isFreshChunk);
 
   // No-repeat window: drop seen, but if that empties the pool, reset (§5.3.3).
   const unseen = candidates.filter((c) => !seen.has(c.id));
@@ -81,6 +124,7 @@ export function selectChunks(
   const used = new Set<string>();
   let runCategory: PulseCategory | null = null;
   let runLength = 0;
+  let freshPicked = 0;
 
   const want = Math.min(count, candidates.length);
   for (let i = 0; i < want; i++) {
@@ -88,17 +132,37 @@ export function selectChunks(
     const ignoreAffinity = rand() < noveltyFraction;
 
     let available = candidates.filter((c) => !used.has(c.id));
+
+    // Fresh reserve (§15.5): guarantee up to `freshReserve` fresh picks per
+    // batch. Only bites at the tail — if the remaining slots are all we have
+    // left to satisfy the reserve, restrict to fresh (never to empty).
+    const freshStillWanted = freshReserve - freshPicked;
+    if (freshStillWanted > 0 && want - i <= freshStillWanted) {
+      const fresh = available.filter(isFreshChunk);
+      if (fresh.length > 0) available = fresh;
+    }
+
     // Diversity floor: once a category has run `maxRun` in a row, exclude it if
-    // any other category is still available (§5.3.1).
+    // any other category is still available (§5.3.1). Applied within whatever
+    // the fresh reserve left, and never to empty.
     if (runCategory && runLength >= maxRun) {
       const others = available.filter((c) => c.category !== runCategory);
       if (others.length > 0) available = others;
     }
     if (available.length === 0) break;
 
-    const pick = weightedSample(available, rand, ignoreAffinity ? {} : affinity, affinityCap);
+    const pick = weightedSample(
+      available,
+      rand,
+      ignoreAffinity ? {} : affinity,
+      affinityCap,
+      nowMs,
+      freshnessCap,
+      freshHalfLifeDays,
+    );
     result.push(pick);
     used.add(pick.id);
+    if (isFreshChunk(pick)) freshPicked += 1;
 
     if (pick.category === runCategory) {
       runLength += 1;
@@ -115,12 +179,18 @@ function weightedSample(
   rand: () => number,
   affinity: Partial<Record<PulseCategory, number>>,
   affinityCap: number,
+  nowMs: number,
+  freshnessCap: number,
+  freshHalfLifeDays: number,
 ): GroundingChunk {
-  // weight = base(1) + capped affinity tilt + jitter. All strictly positive.
+  // weight = base(1) + capped affinity tilt + capped recency tilt + jitter.
+  // All strictly positive. Recency applies to everyone (editorial, not
+  // personalisation), so it is NOT gated by novelty injection.
   const weights = items.map((c) => {
     const aff = clamp(affinity[c.category] ?? 0, -1, 1) * affinityCap;
+    const fresh = freshnessTilt(c, nowMs, freshnessCap, freshHalfLifeDays);
     const jitter = rand() * 0.25;
-    return Math.max(0.05, 1 + aff + jitter);
+    return Math.max(0.05, 1 + aff + fresh + jitter);
   });
   const total = weights.reduce((s, w) => s + w, 0);
   let r = rand() * total;

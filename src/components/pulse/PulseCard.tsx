@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { PULSE_CATEGORY_LABELS } from "@/lib/pulse/types";
-import type { PulseCard as Card } from "@/lib/pulse/types";
+import type { PulseCard as Card, PulseStudy } from "@/lib/pulse/types";
 
 /**
  * A single Pulse card (PULSE.md §7). Espresso/paper card, ink border + hard
@@ -49,10 +49,16 @@ export function PulseCard({
         <span className="inline-flex items-center rounded-full bg-primary-soft px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-primary">
           {PULSE_CATEGORY_LABELS[card.category]}
         </span>
+        {card.kind === "fresh" ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-fresh px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-foreground">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-fresh" />
+            New{freshnessLabel(card.addedAt) ? ` · ${freshnessLabel(card.addedAt)}` : ""}
+          </span>
+        ) : null}
         <EvidenceTier tier={card.tier} basis={card.basis} />
         {hero ? (
           <span className="ml-auto rounded-full border border-good bg-good-soft px-2 py-0.5 text-xs font-semibold text-good">
-            Fact of the day
+            {card.kind === "fresh" ? "Discovery of the day" : "Fact of the day"}
           </span>
         ) : null}
       </div>
@@ -60,6 +66,20 @@ export function PulseCard({
       <p className={hero ? "text-xl font-medium sm:text-2xl" : "text-lg font-medium"}>
         {card.fact}
       </p>
+
+      {/* Reality-check line — always visible for fresh cards (PULSE.md §15.3). */}
+      {card.caveat ? (
+        <p className="flex gap-2 rounded-md border border-border bg-surface-deep px-3 py-2 text-sm text-muted">
+          <span aria-hidden="true">⚠</span>
+          <span>
+            <span className="font-semibold text-foreground">What it shows: </span>
+            {card.caveat}
+            {studyLabel(card.study) ? (
+              <span className="mt-0.5 block font-mono text-xs text-muted">{studyLabel(card.study)}</span>
+            ) : null}
+          </span>
+        </p>
+      ) : null}
 
       {card.detail ? (
         <div>
@@ -133,6 +153,30 @@ export function PulseCard({
       </div>
     </article>
   );
+}
+
+/** "3 days ago" / "today" for the New badge. Coarse and local — no timezone fuss. */
+function freshnessLabel(addedAt?: string): string | null {
+  if (!addedAt) return null;
+  const added = Date.parse(addedAt);
+  if (Number.isNaN(added)) return null;
+  const days = Math.floor((Date.now() - added) / 86_400_000);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 7) return `${days} days ago`;
+  const weeks = Math.floor(days / 7);
+  return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
+}
+
+/** Compact evidence framing line: "RCT · n=43 · untrained men · J Sport Sci". */
+function studyLabel(study?: PulseStudy): string | null {
+  if (!study) return null;
+  const parts: string[] = [];
+  if (study.design) parts.push(study.design);
+  if (typeof study.n === "number") parts.push(`n=${study.n}`);
+  if (study.population) parts.push(study.population);
+  if (study.journal) parts.push(study.journal);
+  return parts.length > 0 ? parts.join(" · ") : null;
 }
 
 function ActionButton({

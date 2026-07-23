@@ -10,13 +10,18 @@ import type { PulseCategory } from "@/lib/pulse/types";
  */
 export function PulseFilterBar({
   active,
+  freshOnly,
   onToggle,
+  onToggleFresh,
   onClear,
 }: {
   active: Set<PulseCategory>;
+  freshOnly: boolean;
   onToggle: (category: PulseCategory) => void;
+  onToggleFresh: () => void;
   onClear: () => void;
 }) {
+  const allActive = active.size === 0 && !freshOnly;
   return (
     <div
       className="sticky top-0 z-10 -mx-4 mb-4 overflow-x-auto border-b border-border bg-background/95 px-4 py-3 backdrop-blur"
@@ -26,11 +31,20 @@ export function PulseFilterBar({
       <div className="flex w-max gap-2">
         <button
           type="button"
-          aria-pressed={active.size === 0}
+          aria-pressed={allActive}
           onClick={onClear}
-          className={chipClass(active.size === 0)}
+          className={chipClass(allActive)}
         >
           All
+        </button>
+        <button
+          type="button"
+          aria-pressed={freshOnly}
+          onClick={onToggleFresh}
+          className={freshChipClass(freshOnly)}
+        >
+          <span aria-hidden="true" className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-fresh align-middle" />
+          New
         </button>
         {PULSE_CATEGORIES.map((c) => (
           <button
@@ -53,5 +67,14 @@ function chipClass(activeState: boolean): string {
     activeState
       ? "border-foreground bg-primary-strong text-white"
       : "border-border bg-surface text-muted hover:bg-surface-deep"
+  }`;
+}
+
+/** The "New" chip: matcha-accented when active, distinct from the Blaze category chips. */
+function freshChipClass(activeState: boolean): string {
+  return `whitespace-nowrap rounded-full border px-3 py-1 text-sm font-semibold transition-colors ${
+    activeState
+      ? "border-foreground bg-fresh text-foreground"
+      : "border-fresh bg-surface text-foreground hover:bg-surface-deep"
   }`;
 }

@@ -30,6 +30,7 @@ const SCROLL_PAST_MS = 800;
  */
 export function PulseScroller() {
   const [active, setActive] = useState<Set<PulseCategory>>(new Set());
+  const [freshOnly, setFreshOnly] = useState(false);
 
   const toggleCategory = (c: PulseCategory) => {
     setActive((prev) => {
@@ -41,24 +42,39 @@ export function PulseScroller() {
     });
   };
 
+  const toggleFresh = () => {
+    setFreshOnly((prev) => {
+      const next = !prev;
+      trackEvent({ name: "pulse_filter_applied", params: { categories: next ? "fresh" : "" } });
+      return next;
+    });
+  };
+
   const clear = () => {
     setActive(new Set());
+    setFreshOnly(false);
     trackEvent({ name: "pulse_filter_applied", params: { categories: "" } });
   };
 
   const categories = Array.from(active);
-  const key = categories.slice().sort().join(",") || "all";
+  const key = `${categories.slice().sort().join(",") || "all"}|${freshOnly ? "fresh" : "all"}`;
 
   return (
     <div>
-      <PulseFilterBar active={active} onToggle={toggleCategory} onClear={clear} />
-      <PulseFeed key={key} categories={categories} />
+      <PulseFilterBar
+        active={active}
+        freshOnly={freshOnly}
+        onToggle={toggleCategory}
+        onToggleFresh={toggleFresh}
+        onClear={clear}
+      />
+      <PulseFeed key={key} categories={categories} freshOnly={freshOnly} />
     </div>
   );
 }
 
 /** The card list for one filter. Remounts (fresh state) whenever the filter changes. */
-function PulseFeed({ categories }: { categories: PulseCategory[] }) {
+function PulseFeed({ categories, freshOnly }: { categories: PulseCategory[]; freshOnly: boolean }) {
   const rawStore = useSyncExternalStore(subscribePulseStore, readRawPulseStore, () => null);
   const store = useMemo(() => parsePulseStore(rawStore), [rawStore]);
 
@@ -82,7 +98,7 @@ function PulseFeed({ categories }: { categories: PulseCategory[] }) {
       const res = await fetch("/api/pulse", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ categories, count: BATCH, seen, affinity: current.affinity, seed: Date.now() }),
+        body: JSON.stringify({ categories, count: BATCH, seen, affinity: current.affinity, seed: Date.now(), freshOnly }),
       });
       if (!res.ok) return;
       const data = (await res.json()) as PulseBatchResponse;
@@ -100,7 +116,7 @@ function PulseFeed({ categories }: { categories: PulseCategory[] }) {
       loadingRef.current = false;
       setLoading(false);
     }
-  }, [categories]);
+  }, [categories, freshOnly]);
 
   // Initial load on mount (async setState is fine; only synchronous is flagged).
   useEffect(() => {
@@ -205,7 +221,9 @@ function PulseFeed({ categories }: { categories: PulseCategory[] }) {
 
       {cards.length === 0 && !loading && !exhausted ? (
         <p className="mt-6 text-center text-sm text-muted" role="status">
-          Nothing to show for this filter yet.
+          {freshOnly
+            ? "No fresh discoveries right now — check back soon."
+            : "Nothing to show for this filter yet."}
         </p>
       ) : null}
 

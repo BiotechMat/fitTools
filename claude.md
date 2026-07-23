@@ -48,7 +48,11 @@ and Mat has signed off.
   never model-invented). v1 built (see §14): src/lib/pulse/*, src/registry/
   pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
   vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
-  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER.
+  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER. Fresh-cards extension (recent-
+  discovery chunks via a PR-gated ingest pipeline, interleaved with a "New"
+  chip) — §15; F0 (schema, ranking boost + "New" chip, three verified fresh
+  seed chunks) BUILT 2026-07-23 (§15.8); ingest pipeline F1–F2 + weekly digest
+  F3 remain.
 - DAILY-GAMES.md — the daily ritual games at `/daily` ("Ballpark"
   guess-the-stat daily + "Myth or Fact?" weekly), the daily-return loop
   (ROADMAP E3/E5 threads). Hand-authored, sourced, deterministic per day —

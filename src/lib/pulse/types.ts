@@ -56,6 +56,29 @@ export function isPulseCategory(value: unknown): value is PulseCategory {
 }
 
 /**
+ * Whether a chunk is a durable evergreen claim or a recent-discovery "fresh"
+ * card (PULSE.md §15). Freshness is cross-cutting, NOT a tenth category — a new
+ * creatine trial is still `supplements`. Absent → evergreen (back-compatible).
+ */
+export type PulseChunkKind = "evergreen" | "fresh";
+
+/**
+ * What a fresh chunk's evidence actually is (PULSE.md §15.4). Surfaced on the
+ * card so a single new study is never dressed up as settled science — the
+ * reality-check voice that distinguishes Pulse from hype aggregators (§15.3).
+ */
+export interface PulseStudy {
+  doi?: string;
+  journal?: string;
+  /** e.g. "RCT", "cohort", "meta-analysis", "preprint". */
+  design?: string;
+  /** Sample size, when meaningful. */
+  n?: number;
+  /** e.g. "untrained men", "mice". */
+  population?: string;
+}
+
+/**
  * A grounding chunk: a vetted, sourced claim the generator rephrases into
  * fresh cards. This is grounding material, NOT a bank of finished cards — the
  * served fact is generated; the chunk exists to keep the citation real and to
@@ -76,6 +99,14 @@ export interface GroundingChunk {
   relatedTool?: string;
   /** Optional cross-link to an article/route (validated to resolve). */
   relatedContent?: string;
+  /** Evergreen (default) or fresh recent-discovery card (PULSE.md §15.4). */
+  kind?: PulseChunkKind;
+  /** ISO date the chunk entered the corpus — drives the freshness decay (§15.5). */
+  addedAt?: string;
+  /** What the evidence is — required framing for fresh chunks (§15.4). */
+  study?: PulseStudy;
+  /** The honesty line ("one RCT, n=43, untrained men"). REQUIRED when kind==="fresh". */
+  caveat?: string;
 }
 
 /**
@@ -107,6 +138,11 @@ export interface PulseCard {
   relatedContent?: string;
   /** True when LLM-generated; false when the vetted claim is served verbatim. */
   generated: boolean;
+  /** Carried from the chunk (PULSE.md §15) — drives the "New" badge + caveat line. */
+  kind?: PulseChunkKind;
+  addedAt?: string;
+  study?: PulseStudy;
+  caveat?: string;
 }
 
 export interface PulseBatchResponse {

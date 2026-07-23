@@ -37,7 +37,11 @@ interface RequestBody {
   affinity?: unknown;
   seed?: unknown;
   daily?: unknown;
+  freshOnly?: unknown;
 }
+
+/** Days within which the daily hero prefers a fresh chunk (PULSE.md §15.5). */
+const DAILY_FRESH_WINDOW_DAYS = 7;
 
 function parseCategories(v: unknown): PulseCategory[] {
   if (!Array.isArray(v)) return [];
@@ -70,9 +74,12 @@ export async function POST(request: Request): Promise<NextResponse> {
   const generator = getGenerator();
   const degraded = !generator.available;
 
-  // Daily hero: one deterministic, date-seeded card.
+  // Daily hero: one deterministic, date-seeded card. Prefers a recently-added
+  // fresh chunk when one exists (§15.5), still stable per UTC day for everyone.
   if (body.daily === true) {
-    const chunk = groundingChunks[dailyChunkIndex(todayISO(), groundingChunks.length)];
+    const dailyPool = recentFreshChunks();
+    const pool = dailyPool.length > 0 ? dailyPool : groundingChunks;
+    const chunk = pool[dailyChunkIndex(todayISO(), pool.length)];
     const cards = chunk ? await cardsForChunks([chunk.id]) : [];
     return NextResponse.json({ cards, degraded } satisfies PulseBatchResponse);
   }
@@ -82,11 +89,22 @@ export async function POST(request: Request): Promise<NextResponse> {
   const seen = Array.isArray(body.seen) ? body.seen.filter((s): s is string => typeof s === "string") : [];
   const affinity = parseAffinity(body.affinity);
   const seed = typeof body.seed === "number" && Number.isFinite(body.seed) ? body.seed : Date.now();
+  const freshOnly = body.freshOnly === true;
 
-  const selected = selectChunks(groundingChunks, { categories, count, seen, affinity, seed });
+  const selected = selectChunks(groundingChunks, { categories, count, seen, affinity, seed, freshOnly });
   const cards = await cardsForChunks(selected.map((c) => c.id));
 
   return NextResponse.json({ cards, degraded } satisfies PulseBatchResponse);
+}
+
+/** Fresh chunks added within the daily-hero window (PULSE.md §15.5). */
+function recentFreshChunks() {
+  const cutoff = Date.now() - DAILY_FRESH_WINDOW_DAYS * 86_400_000;
+  return groundingChunks.filter((c) => {
+    if (c.kind !== "fresh" || !c.addedAt) return false;
+    const added = Date.parse(c.addedAt);
+    return !Number.isNaN(added) && added >= cutoff;
+  });
 }
 
 function clampCount(v: unknown): number {

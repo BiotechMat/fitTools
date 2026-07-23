@@ -55,6 +55,10 @@ export function buildCardsFromDrafts(
       relatedTool: chunk.relatedTool,
       relatedContent: chunk.relatedContent,
       generated: true,
+      kind: chunk.kind,
+      addedAt: chunk.addedAt,
+      study: chunk.study,
+      caveat: chunk.caveat,
     });
   }
   return cards;
@@ -74,6 +78,10 @@ export function buildCardsFromChunks(chunks: GroundingChunk[]): PulseCard[] {
     relatedTool: chunk.relatedTool,
     relatedContent: chunk.relatedContent,
     generated: false,
+    kind: chunk.kind,
+    addedAt: chunk.addedAt,
+    study: chunk.study,
+    caveat: chunk.caveat,
   }));
 }
 

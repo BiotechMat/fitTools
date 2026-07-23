@@ -12,6 +12,12 @@ ahead of its ROADMAP phase" hold). Corpus registry, grounded generation
 pipeline, `/api/pulse`, ranking, local store and the core feed UI exist; saved
 view, share image, per-chunk SEO pages and analytics wiring remain (§13).
 
+**Extension "fresh cards" — F0 BUILT (2026-07-23):** recent-discovery
+(news-feel) chunks interleaved into the feed with a "New" chip. Decisions in
+§11.9–11.11; full spec in §15; as-built in §15.8. F0 is the schema + feed
+surface + three verified fresh seed chunks; the ingestion pipeline (F1–F2) and
+weekly digest (F3) remain.
+
 **Decisions locked (see §11 for the record):** feed-native category superset ·
 name *Pulse* / `/pulse` · OG-image share card built up front · a "fact of the
 day" hero · engagement signal includes dwell (local-only, guardrailed per §5.1)
@@ -184,7 +190,8 @@ route degrades, it doesn't break.
   already-sourced claims. Harvesting reuses vetted claims *and* creates natural
   `relatedContent` links back to the source article. Every new chunk must
   bring its own verified primary source (§2.1); no chunk is authored from
-  memory.
+  memory. (§15 adds a second, PR-gated authorship path: *fresh* chunks
+  drafted by the discovery pipeline from newly published research.)
 - Long-term this is the E5 content cadence: a steady drip of new chunks *is*
   the "what's new" novelty the phase calls for.
 
@@ -490,6 +497,26 @@ Recorded so the rationale survives; changing any of these is a spec change.
    nothing (§5.1.1a). Chosen so selection, caching and generation share one
    draw path.
 
+**Resolved 2026-07-23 (fresh cards — §15):**
+
+9. **Fresh-chunk trust gate → PR review.** The discovery pipeline may *draft*
+   chunks; only a PR Mat merges *publishes* them. Human-vetted by construction
+   (§1.1 stays literally true), zero new infrastructure, no admin surface
+   needed pre-E0, and a retraction is a revert. Auto-publish — any path where
+   pipeline output reaches the feed without a merged review — is out of scope
+   (§12) and would be a §1.1 spec change.
+10. **Discovery → allowlisted feeds + AI web search.** Structured sources are
+    the backbone (PubMed E-utilities, journal/EurekAlert RSS, medRxiv–bioRxiv
+    API); Claude web search is a secondary channel for big stories the feeds
+    miss, and any result not resolving to an allowlisted domain is dropped.
+    Chosen over search-only (noisy input) and over runtime per-request search
+    (rejected outright — §15 intro).
+11. **Placement → interleaved with a "New" chip.** Freshness is a
+    cross-cutting chunk attribute (`kind: "fresh"`), NOT a tenth category — a
+    new creatine trial is still `supplements`. Capped freshness boost +
+    reserved slots in the existing feed; no separate route in v1 (the weekly
+    digest page is the later F3 artefact, §15.7).
+
 **Still genuinely open (minor, decide during build):** the tuning constants —
 affinity cap (0.6), novelty fraction (0.3), `maxRun` (2), cache TTL (30 min),
 engagement steps (§6) — to settle empirically against the grown corpus; and
@@ -504,6 +531,9 @@ high-volume, low-complexity workload — §14).
   (§1.1); it may not originate facts, statistics or sources. Any change that
   lets model output reach the feed without a vetted chunk behind it is a spec
   change to §1.1, not an implementation detail.
+- **Unreviewed pipeline output — never.** §15's discovery pipeline may draft
+  fresh chunks, but nothing enters the corpus without a merged PR (§11.9).
+  Removing that gate is a §1.1 spec change, not a pipeline optimisation.
 - User-submitted facts / comments (moderation burden; revisit far later).
 - Cross-user social graph, following, public profiles (beyond ROADMAP).
 - Stored server-side personalisation: no profiles, no server-kept affinity, no
@@ -527,6 +557,9 @@ The v1 vertical slice is built (§14). Still to do, in suggested order:
    pipeline; also unlocks achievement-card reuse everywhere else.
 5. **Reciprocal "related facts" strips** on tool/article pages (§9).
 6. **Tuning pass** on the §11 constants against the grown corpus.
+7. **Fresh cards** (§15) — the recent-discovery extension, in its own build
+   order: F0 schema/feed → F1 harvest session → F2 scheduled automation →
+   F3 weekly digest (§15.7).
 
 ---
 
@@ -615,3 +648,183 @@ redeploy beyond picking up the env var):
   client-fetched in v1.
 - **`@anthropic-ai/sdk`** — using `fetch` to avoid a dependency-approval gate;
   swapping to the SDK is a small change if desired.
+
+---
+
+## 15. Fresh cards — the recent-discovery extension (specced 2026-07-23; not built)
+
+Extends Pulse with news-feel cards about **newly published research** ("fresh"
+chunks). Decisions locked with Mat 2026-07-23 (§11.9–11.11). The design
+principle: **the runtime does not change** — no live web search in
+`/api/pulse`, no per-request news fetch. What becomes dynamic is the
+**corpus**: a discovery pipeline drafts new grounding chunks from recent
+studies and lands them through a PR gate. The feed then *feels* like a
+dynamically generated news feed because new chunks keep arriving and the
+existing generator keeps rephrasing them — while the §1.1 contract (every
+claim and citation human-vetted before serving) stays literally true. This is
+the ROADMAP E5 "content cadence", partially automated.
+
+**Runtime web search — rejected.** Live search returns *real* URLs but not
+*vetted* sources (the moat is vetted — §1.1): open-web results happily include
+tabloid health headlines and supplement-brand press releases. It would also add
+per-request cost/latency, break the stable `chunkId` identity that
+likes/saves/seen key on, give every user a different unreviewed feed, and make
+arbitrary web content a prompt-injection surface feeding served copy. Rejecting
+it is a consequence of §1.1, not a new rule.
+
+### 15.1 Trust model (locked §11.9)
+
+The pipeline may **draft**; only a **merged PR publishes**. Drafted chunks
+arrive as a PR against the registry; Mat reviews claim, tier, caveat and
+source before merge. Consequences: human-vetted by construction, zero new
+infrastructure (no KV, no admin auth pre-E0), retractions are a revert, and
+publish latency is merge + deploy — acceptable because the cadence is
+weekly-ish (§15.7), which is honest for this domain: studies don't break
+hourly, and "fresh this week" framing beats fake urgency.
+
+### 15.2 Discovery (locked §11.10 — feeds + AI web search)
+
+- **Backbone — allowlisted structured sources:** PubMed E-utilities (free JSON
+  API; one saved query per Pulse category), journal / EurekAlert RSS, and the
+  medRxiv–bioRxiv API (preprints, always labelled as such in `study.design`).
+  Deterministic, free, and buildable with `fetch` — no new dependency for the
+  JSON paths; ask before adding any RSS/XML parsing dependency (CLAUDE.md).
+- **Secondary — Claude web search** (the API's web-search tool) to catch big
+  stories the feeds miss (conference findings, major reviews). Any result
+  whose final URL does not resolve to an **allowlisted domain is dropped**.
+  The allowlist lives in the pipeline config; changing it is itself a
+  reviewed change.
+- **Press releases are leads, not sources.** An EurekAlert item must be traced
+  to the paper it describes; the chunk cites the paper (primary), the release
+  at most as a secondary explainer (§2.1).
+- **Dedupe before drafting** by DOI/URL against the entire corpus, so the same
+  study covered by five outlets yields one chunk.
+
+### 15.3 Drafting rules (the AI step)
+
+- Model: Haiku-class (`PULSE_NEWS_MODEL`, default `claude-haiku-4-5`), same
+  key infra as generation (`ANTHROPIC_API_KEY`). Two passes: **triage**
+  (audience-fit score over discovered items) then **draft** for the keepers.
+- A draft supplies: `claim` (British English), `category`/`tags` (controlled
+  vocabulary), proposed `tier` — **defaulting to `preliminary`**; a fresh
+  single study ships as anything stronger only if the reviewer upgrades it —
+  and the mandatory `caveat` (§15.4).
+- **Citations are captured mechanically** from feed/search metadata (title,
+  journal, year, URL, DOI) by code. The model never emits a URL — the same
+  structural anti-hallucination contract as runtime generation (§1.1).
+- **The reality-check voice is the product.** Every health-news aggregator
+  amplifies hype; Pulse's fresh cards lead with the finding *and* always show
+  what it actually is — "one RCT, n = 43, untrained men", "in mice",
+  "correlational", "industry-funded". Evidence discipline as voice, matching
+  the Myth-or-Fact / debunk posture.
+
+### 15.4 Data model
+
+Freshness is **cross-cutting, not a tenth category** (locked §11.11).
+`GroundingChunk` gains:
+
+```ts
+kind?: "evergreen" | "fresh";  // absent → evergreen (back-compatible)
+addedAt?: string;              // ISO date the chunk entered the corpus
+study?: {                      // fresh chunks: what the evidence actually is
+  doi?: string;
+  journal?: string;
+  design?: string;             // "RCT", "cohort", "meta-analysis", "preprint"…
+  n?: number;
+  population?: string;         // "untrained men", "mice"…
+};
+caveat?: string;               // REQUIRED when kind === "fresh" — the honesty line
+```
+
+`validateCorpus` additions: `caveat` and `addedAt` required when
+`kind === "fresh"`; `study.doi` unique across the corpus; preprints must say so
+in `study.design`.
+
+### 15.5 Feed integration (locked §11.11 — interleaved + "New" chip)
+
+- **Ranking:** `selectChunks` (rank.ts) gains a freshness term — a boost
+  decaying from `addedAt` (half-life ≈ 7 days, zero by ~30) — **capped like
+  affinity**, so the §5.3 diversity floor and novelty injection still bind;
+  plus up to 2 reserved fresh picks per batch while unseen fresh chunks exist.
+  Constants join the §11 "settle empirically" list.
+- **UI:** a "New · x days ago" badge; the `caveat` line always visible (never
+  behind the expand); the existing `<EvidenceTier />` badge does the rest.
+  `PulseFilterBar` gains a **"New" chip** filtering `kind === "fresh"` across
+  categories.
+- **Daily hero:** may feature a fresh chunk via a deterministic rule (e.g.
+  when any chunk is < 7 days old, `dailyChunkIndex` draws over the fresh
+  subset) — still stable per UTC day for every visitor.
+- **Cross-links unchanged:** a fresh creatine trial still sets
+  `relatedTool`/`relatedContent`, so news feeds the internal-linking engine
+  too (§9).
+
+### 15.6 Lifecycle
+
+- The freshness boost decays to zero; at each harvest PR, aged fresh chunks
+  are either **graduated** to evergreen (tier upgraded only with corroborating
+  sources — normal §2 vetting) or **pruned** in the same PR.
+- **Retraction or correction → remove the chunk** (a revert). Because saves
+  key on `chunkId`, the saved view must tolerate a chunk that no longer
+  exists (small UI requirement; applies to any pruned chunk).
+
+### 15.7 Ops, cost & build order
+
+- **F0 — schema + feed surface. ✅ BUILT (2026-07-23, §15.8).** The §15.4
+  fields + validation, the ranking boost, the "New" chip and card badge,
+  seeded with a handful of hand-authored fresh chunks. Proves the loop with no
+  pipeline at all.
+- **F1 — harvest as a session.** A repeatable, Mat-initiated Claude Code
+  harvest run (feeds + web search → triage → draft → PR). No standing
+  infrastructure; PRs remain ask-first (CLAUDE.md workflow).
+- **F2 — scheduled automation.** A weekly GitHub Action running the same
+  script (needs a repo token — ask first).
+- **F3 — the weekly digest.** "This week in the science": a crawlable page
+  built from the week's fresh chunks, doubling as the E5 newsletter unit.
+  Unlike generated phrasings, fresh chunks are **stable artefacts**, so this
+  becomes the durable Pulse SEO surface §8 currently lacks.
+- **Cost bound:** triage ≤ ~50 items/run, ≤ ~6 drafts per PR; Haiku-class →
+  pennies per run. Per-request runtime cost is untouched (the request path
+  doesn't change).
+
+### 15.8 F0 implementation status (BUILT — 2026-07-23)
+
+The schema + feed surface is built and unit-tested (37 Pulse tests, all 470
+repo tests green; typecheck clean for the Pulse files). No pipeline yet — the
+fresh seeds are hand-authored, proving the loop end-to-end. What exists:
+
+- **Types** — `src/lib/pulse/types.ts`: `PulseChunkKind`, `PulseStudy`, and the
+  `kind` / `addedAt` / `study` / `caveat` fields on both `GroundingChunk` and
+  `PulseCard` (optional → fully back-compatible with evergreen chunks).
+- **Corpus + validation** — `src/registry/pulse.ts`: three verified fresh seed
+  chunks (creatine timing pilot RCT · creatine-in-postmenopausal-women
+  meta-analysis · multi-ingredient-protein-in-women meta-analysis), each read
+  from its PubMed record (the §15.2 backbone), extending coverage into the thin
+  supplements + nutrition categories. `validateCorpus` now enforces the §15.4
+  fresh invariants: caveat + well-formed `addedAt` required when `kind==="fresh"`,
+  DOIs unique across the corpus, preprints must be labelled in `study.design`,
+  and caveat/study may not be set on a non-fresh chunk.
+- **Ranking** — `src/lib/pulse/rank.ts`: a capped, decaying freshness tilt
+  (half-life `freshHalfLifeDays`=7, cap `freshnessCap`=0.6, → ~0 by 30 days),
+  applied to *everyone* (editorial recency, so NOT gated by novelty injection);
+  a `freshReserve` (default 2) that guarantees fresh picks per batch only at the
+  tail, so it never front-loads or breaks the diversity floor; and `freshOnly`
+  for the "New" chip (strict — empty pool → honest empty state). Evergreen-only
+  pools are provably unchanged (back-compat test).
+- **API** — `src/app/api/pulse/route.ts`: parses `freshOnly`; the daily hero
+  prefers a fresh chunk added within `DAILY_FRESH_WINDOW_DAYS` (7), still
+  date-seeded and identical for every visitor.
+- **UI** — `PulseCard` renders a matcha "New · Nd ago" badge and an
+  always-visible "What it shows:" caveat line with compact study meta (design ·
+  n · population · journal); hero fresh cards read "Discovery of the day".
+  `PulseFilterBar` gains a "New" chip (coexists with category filters).
+  `PulseScroller` threads `freshOnly` through state, the remount key and the
+  request, with a fresh-specific empty state. `--color-fresh` (matcha) is used
+  as border/dot only — never small-text fill — to stay AA (DESIGN §1 note).
+- **Constants to tune** (join the §11 list): `freshnessCap`, `freshHalfLifeDays`,
+  `freshReserve`, `DAILY_FRESH_WINDOW_DAYS`.
+
+**Not verified in-browser at build time:** a concurrent session had an
+unfinished edit to `src/app/share/page.tsx` (an unclosed `<HoloTilt>` tag) that
+breaks `pnpm build` / full `pnpm typecheck` repo-wide; left untouched. The
+Pulse changes are covered by unit tests; the visual pass is pending a clean
+tree.

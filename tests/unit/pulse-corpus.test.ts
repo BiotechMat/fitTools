@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { groundingChunks, validateCorpus, chunksById } from "@/registry/pulse";
+import type { GroundingChunk } from "@/lib/pulse/types";
 
 /**
  * The Pulse grounding corpus must satisfy the invariants Pulse owns (PULSE.md
@@ -21,5 +22,70 @@ describe("pulse grounding corpus", () => {
 
   it("indexes every chunk by id", () => {
     expect(chunksById.size).toBe(groundingChunks.length);
+  });
+});
+
+/**
+ * Fresh-chunk invariants (PULSE.md §15.4): a recent-discovery card must carry
+ * its honesty line (caveat) and its added-date, so it can never be dressed up
+ * as settled science or escape the freshness decay.
+ */
+describe("pulse fresh chunks (PULSE.md §15)", () => {
+  const fresh = groundingChunks.filter((c) => c.kind === "fresh");
+
+  it("has fresh seed chunks, each with a caveat and a valid addedAt date", () => {
+    expect(fresh.length).toBeGreaterThan(0);
+    for (const c of fresh) {
+      expect(c.caveat?.trim().length).toBeGreaterThan(0);
+      expect(c.addedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Number.isNaN(Date.parse(c.addedAt!))).toBe(false);
+    }
+  });
+
+  const base = (over: Partial<GroundingChunk>): GroundingChunk => ({
+    id: "x",
+    claim: "c",
+    category: "nutrition",
+    tags: [],
+    tier: "preliminary",
+    source: { label: "L", url: "https://pubmed.ncbi.nlm.nih.gov/1/" },
+    ...over,
+  });
+
+  it("flags a fresh chunk with no caveat", () => {
+    expect(validateCorpus([base({ kind: "fresh", addedAt: "2026-07-23" })])).toContain(
+      "x: fresh chunk missing caveat",
+    );
+  });
+
+  it("flags a fresh chunk with a malformed addedAt", () => {
+    const problems = validateCorpus([base({ kind: "fresh", caveat: "small", addedAt: "yesterday" })]);
+    expect(problems).toContain("x: fresh chunk needs addedAt as YYYY-MM-DD");
+  });
+
+  it("flags duplicate study DOIs across the corpus", () => {
+    const problems = validateCorpus([
+      base({ id: "a", kind: "fresh", caveat: "c", addedAt: "2026-07-23", study: { doi: "10.1/x" } }),
+      base({ id: "b", kind: "fresh", caveat: "c", addedAt: "2026-07-23", study: { doi: "10.1/X" } }),
+    ]);
+    expect(problems).toContain("b: duplicate study.doi 10.1/X");
+  });
+
+  it("flags a preprint source not labelled as a preprint", () => {
+    const problems = validateCorpus([
+      base({
+        kind: "fresh",
+        caveat: "c",
+        addedAt: "2026-07-23",
+        source: { label: "L", url: "https://www.biorxiv.org/content/10.1101/2026.01.01.123456v1" },
+        study: { design: "cohort" },
+      }),
+    ]);
+    expect(problems).toContain('x: preprint source must set study.design to note "preprint"');
+  });
+
+  it("flags caveat/study set on a non-fresh chunk (mis-tagging)", () => {
+    const problems = validateCorpus([base({ caveat: "oops" })]);
+    expect(problems).toContain('x: caveat/study set but kind is not "fresh"');
   });
 });
