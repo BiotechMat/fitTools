@@ -79,7 +79,7 @@ export default function RootLayout({
           >
             <Link
               href="/"
-              className="font-display text-xl uppercase tracking-wide"
+              className="absolute inset-y-0 left-1/2 flex -translate-x-1/2 items-center font-display text-3xl uppercase tracking-wide lg:static lg:translate-x-0 lg:text-xl"
             >
               {SITE_NAME.endsWith("Tools") ? (
                 <>
