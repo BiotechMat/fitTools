@@ -1,6 +1,7 @@
 import type { IndexResult } from "@/lib/composite/index-engine";
 import { RadarBreakdown } from "@/components/composite/RadarBreakdown";
 import { ScoreCard } from "@/components/ScoreCard";
+import { ShareResult } from "@/components/ShareResult";
 
 const TIER_TEXT: Record<string, string> = {
   T1: "T1 · strong evidence",
@@ -21,6 +22,7 @@ export function IndexResultPanel({
   paceLabel,
   paceValue,
   scoreLabel = "index",
+  shareTool,
   whatItIs,
   whatItIsnt,
 }: {
@@ -29,6 +31,8 @@ export function IndexResultPanel({
   paceLabel?: string;
   paceValue?: string;
   scoreLabel?: string;
+  /** Registry tool slug — when set, renders a "share result" button (E1). */
+  shareTool?: string;
   whatItIs: string;
   whatItIsnt: string;
 }) {
@@ -45,6 +49,17 @@ export function IndexResultPanel({
             : undefined
         }
       />
+
+      {shareTool ? (
+        <div className="mt-3">
+          <ShareResult
+            tool={shareTool}
+            value={String(Math.round(result.index))}
+            unit="/ 100"
+            title={scoreLabel}
+          />
+        </div>
+      ) : null}
 
       {result.reducedConfidence ? (
         <p className="mt-2 rounded-md border border-warning-border bg-warning-bg p-2 text-sm">

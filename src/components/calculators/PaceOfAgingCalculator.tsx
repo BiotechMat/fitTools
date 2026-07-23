@@ -105,6 +105,7 @@ export function PaceOfAgingCalculator() {
             result={result}
             version={PACE_OF_AGING_VERSION}
             scoreLabel="Pace of Aging Index"
+            shareTool="pace-of-aging-index"
             paceLabel="Pace"
             paceValue={formatNumber(result.pace, 2)}
             whatItIs="A transparent lifestyle-trajectory score from modifiable habits and simple measures, with every weight and mapping published. Best read as a set of levers to work on."

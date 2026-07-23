@@ -72,6 +72,7 @@ export function MetabolicFitnessCalculator() {
             result={result}
             version={METABOLIC_FITNESS_VERSION}
             scoreLabel="Metabolic Fitness Index"
+            shareTool="metabolic-fitness-index"
             whatItIs="A transparent self-tracking score that summarises five metabolic markers into one number, with every weight and mapping published. Best used to watch your own trend over time."
             whatItIsnt="A diagnosis, a medical test, or a validated predictor of disease. It cannot tell you whether you have a metabolic condition — that is for a clinician and proper testing."
           />
