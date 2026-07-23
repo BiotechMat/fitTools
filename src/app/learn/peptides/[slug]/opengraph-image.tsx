@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import { OG_SIZE, ogCard } from "@/lib/og-image";
-import { TIER_LABELS, allPeptides, getPeptide } from "@/registry/peptides";
+import {
+  GRADE_LABELS,
+  allPeptides,
+  evidenceGrade,
+  getPeptide,
+} from "@/registry/peptides";
 
 export const size = OG_SIZE;
 export const contentType = "image/png";
@@ -19,6 +24,6 @@ export default async function Image({
   const page = getPeptide(slug);
   if (!page) notFound();
   return ogCard(page.name, page.valueLine, {
-    kicker: `Peptide reference · ${TIER_LABELS[page.headlineTier]}`,
+    kicker: `Peptide reference · ${GRADE_LABELS[evidenceGrade(page.headlineTier, page.headlineBasis)]}`,
   });
 }

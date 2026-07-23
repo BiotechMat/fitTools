@@ -7,7 +7,7 @@ import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
 export const metadata: Metadata = {
   title: "Supplement Evidence Explorer: Every Tier, Every Receipt",
   description:
-    "Every supplement we cover, laid out by evidence tier: well-supported, preliminary, or marketing claim. Search the shelf, read the honest one-liner, pull the full cited review.",
+    "Every supplement we cover, graded like medals: Gold for strong human evidence, Silver for some, Bronze for early or animal-only, plus the Unproven shelf for the oversold. Search the shelf, read the honest one-liner, pull the full cited review.",
   alternates: { canonical: "/tools/supplement-explorer" },
 };
 

@@ -20,9 +20,11 @@ involved, author box, last-reviewed date. No new engineering — this is the
 
 ## 1. Non-negotiable principles
 
-1. **Same evidence honesty.** Any health/performance claim is tiered
-   **Well-supported / Preliminary / Marketing claim**, cited, with human vs animal
-   vs in-vitro flagged. This is the differentiator versus the vendor-fluff that
+1. **Same evidence honesty.** Any health/performance claim is graded on the
+   medal ladder — **Gold / Silver / Bronze** for genuine evidence (strong
+   human → some human → early/animal-only), **Unproven** and **Not supported**
+   earning no medal — cited, with human vs animal vs in-vitro flagged (that
+   basis is what splits Silver from Bronze; see DESIGN §3). This is the differentiator versus the vendor-fluff that
    dominates these searches.
 2. **Cross-linking is a first-class requirement, not an afterthought.** Every
    reference page links to the relevant calculator(s); every relevant calculator

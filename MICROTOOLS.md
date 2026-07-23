@@ -91,15 +91,16 @@ elsewhere); pause/resume/reset; document.title carries the countdown.
 
 ## 6. Supplement evidence explorer — /tools/supplement-explorer
 
-- An interactive **tier board**, not a scatter (no numeric effect sizes
-  exist in the registry and none may be invented): columns for
-  well-supported / preliminary / marketing-claim, cards sorted A→Z,
-  filterable by text and by "related tool" context. Tap a card → inline
-  detail: `short`, basis chip, safety flag when present, receipts count,
-  link to the full page.
-- Pure presentation over `supplements.ts` + `supplementsByTier()` which
-  already exists. Tier chips reuse `EvidenceTier` styling rules (tier
-  always spelled out, never colour alone).
+- An interactive **medal board**, not a scatter (no numeric effect sizes
+  exist in the registry and none may be invented): columns for the evidence
+  medals — Gold / Silver / Bronze — plus the no-medal Unproven shelf, cards
+  sorted A→Z, filterable by text and by "related tool" context. Tap a card →
+  inline detail: `short`, basis chip, safety flag when present, receipts
+  count, link to the full page.
+- Pure presentation over `supplements.ts` + `supplementsByGrade()` (the
+  medal ladder — `evidenceGrade()` derived from each entry's tier + basis).
+  Medal chips reuse `EvidenceTier` styling rules (grade always spelled out,
+  never colour alone).
 
 ## 7. Build order & status
 
