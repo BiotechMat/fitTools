@@ -183,6 +183,18 @@ and Mat has signed off.
 - BUSINESS_PLAN.md — strategy/context only. Never a build instruction.
 - CONTENT-peptides.md — educational peptides reference section. Build from
   this when building those pages. No dosing/protocols by design.
+- PERFORMANCE-LAB.md — BLUEPRINT (not signed off, not scheduled) for the
+  "Performance Lab": a self-measurement hub (reaction time, working-memory
+  span, peripheral awareness, coordination, task-switching, hand–eye,
+  sustained focus, plus guided breathing practice) at a proposed
+  /performance-lab hub. Direction (Mat, 2026-07-24): measuring and
+  comparing the player is a first-class feature — percentiles, norms,
+  composite scores and leaderboards in scope; the former site-wide "never
+  measure the player" rule is retired (ARCADE-IDEAS §5 and DAILY-GAMES §2
+  record the scoping; arcade games themselves stay cartoons).
+  Station-specific medical-style disclaimers stay per the Don'ts rule.
+  Proposes re-homing the Exhale breathwork candidate from the arcade
+  bench. Does not jump the STATUS.md queue.
 - CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
   Gen-Z "glow-up" content section (skin/sun, sleep, body-comp, hair, a
   debunk hub) plus retention psychology and a body-composition estimator.
