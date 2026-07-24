@@ -18,6 +18,7 @@ import { authClient, useSession } from "@/lib/auth/client";
 import { bandAllowsHealthStorage, isAgeBand, AGE_BANDS, type AgeBand } from "@/lib/auth/shared";
 import { hasAccountHint, setAccountHint, resetProbe } from "@/lib/auth/session-probe";
 import { PENDING_BAND_KEY } from "@/components/account/SignInCard";
+import { ProfileWizard, profileWizardNeeded } from "@/components/account/ProfileWizard";
 import { trackEvent } from "@/lib/analytics";
 
 const BAND_LABELS: Record<AgeBand, string> = {
@@ -49,6 +50,8 @@ export function AccountView(): React.ReactElement {
   const [deleted, setDeleted] = useState(false);
   const [bandSaving, setBandSaving] = useState(false);
   const bandAdoptedRef = useRef(false);
+  /** Fresh sign-in destination held while the profile wizard runs. */
+  const [wizardNext, setWizardNext] = useState<string | null>(null);
 
   const user = session?.user as (typeof session extends null | undefined
     ? never
@@ -112,12 +115,14 @@ export function AccountView(): React.ReactElement {
       }
     }
     // Fresh sign-ins forward on (Mat, 2026-07-24: land on the dashboard)
-    // once completion is done — hint set, band known. Only safe internal
-    // paths; only sign-in flows mint the `next` param.
+    // once completion is done — hint set, band known — pausing at the
+    // profile wizard first when the profile is still empty. Only safe
+    // internal paths; only sign-in flows mint the `next` param.
     if (ageBand !== null) {
       const next = new URLSearchParams(window.location.search).get("next");
       if (next !== null && next.startsWith("/") && !next.startsWith("//")) {
-        window.location.replace(next);
+        if (profileWizardNeeded()) setWizardNext(next);
+        else window.location.replace(next);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run on session arrival
@@ -181,6 +186,11 @@ export function AccountView(): React.ReactElement {
       setBusy(false);
     }
   };
+
+  if (wizardNext !== null) {
+    // First sign-in: collect the basics, then continue to the destination.
+    return <ProfileWizard onDone={() => window.location.replace(wizardNext)} />;
+  }
 
   if (deleted) {
     return (

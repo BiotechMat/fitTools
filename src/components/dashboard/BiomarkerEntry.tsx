@@ -15,8 +15,9 @@
  * exactly like the blood-test page.
  */
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { ACCOUNT_CHANGE_EVENT, hasAccountHint } from "@/lib/auth/session-probe";
 import {
   DASHBOARD_CHANGE_EVENT,
   parseDashboard,
@@ -42,6 +43,15 @@ const inputClass = "rounded-xl border-2 border-foreground bg-background px-3 py-
 export function BiomarkerEntry(): React.ReactElement {
   const raw = useSyncExternalStore(subscribe, readRawDashboard, () => null);
   const doc = useMemo(() => parseDashboard(raw), [raw]);
+
+  // Adding results requires an account (Mat, 2026-07-24). null = pre-hydration.
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    const check = (): void => setSignedIn(hasAccountHint());
+    check();
+    window.addEventListener(ACCOUNT_CHANGE_EVENT, check);
+    return () => window.removeEventListener(ACCOUNT_CHANGE_EVENT, check);
+  }, []);
 
   const [marker, setMarker] = useState(biomarkers[0]?.id ?? "");
   const [value, setValue] = useState("");
@@ -97,8 +107,25 @@ export function BiomarkerEntry(): React.ReactElement {
         <ClinicalDisclaimer />
       </div>
 
+      {signedIn === false ? (
+        <div className="mt-4 rounded-2xl border-2 border-foreground bg-surface p-5 shadow-[4px_4px_0_0_var(--color-foreground)]">
+          <p className="text-sm text-muted">
+            Blood results live in your account.{" "}
+            <Link
+              href="/signin?next=%2Fdashboard"
+              className="font-bold underline underline-offset-2 hover:text-foreground"
+            >
+              Sign in to add results
+            </Link>{" "}
+            — free, and everything you add can be exported or deleted in one
+            click.
+          </p>
+        </div>
+      ) : null}
+
       <form
         onSubmit={add}
+        hidden={signedIn !== true}
         className="mt-4 rounded-2xl border-2 border-foreground bg-surface p-5 shadow-[4px_4px_0_0_var(--color-foreground)]"
       >
         <div className="flex flex-wrap items-end gap-3">

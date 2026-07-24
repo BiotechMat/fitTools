@@ -76,11 +76,17 @@ caller sweep — the promise those modules were built to keep.
 
 1. **Free stays free; the answer is never gated** (MONETISATION §2.1). An
    account is never required to run a calculator, read content, play a game
-   or see a result. Signed-out behaviour changes not at all.
-2. **Local-first stays the default.** `localStorage` remains the read path
-   and the source of truth on-device; the account is a sync/backup layer on
-   top. The "runs in your browser" trust line stays true for signed-out
-   users, and signed-in users keep working offline.
+   or see a result. *Revised 2026-07-24 (Mat): **saving is an account
+   feature** — signed out you can calculate, read and play everything, but
+   deliberate saves (bookmarks, stack, exercises, calculator history,
+   blood results) require sign-in, and the save action itself is the
+   prompt. Carve-out: ambient game state (arcade bests/skins, daily
+   streaks, Pulse likes) stays device-local for signed-out players —
+   under-13s cannot hold accounts and were promised the games.*
+2. **Local-first stays the architecture.** `localStorage` remains the read
+   path and the on-device source of truth for signed-in users (who keep
+   working offline); signed out, the stores simply hold nothing new (§2.1
+   revision). The "runs in your browser" trust line stays true.
 3. **Premium sells persistence and depth, never the answer** (MONETISATION
    §2.2). v1 accounts are **free-only**; no tier logic ships until the
    MONETISATION §4 detail decisions — price/mechanics and the exact
@@ -755,7 +761,24 @@ runs byte-identical signed-out and auth routes return 503):
   collect and the server 422s any dashboard document carrying them, so
   the two consents can never leak into each other. Like everything else
   it is dark until provisioning + the DPIA sign-off turn accounts on.
-- **Signup prompts (Mat, 2026-07-24):** a signed-out save is the prompt
+- **Saving requires sign-in (Mat, 2026-07-24 — supersedes the nudge
+  approach the same day):** signed out, the save/bookmark buttons ARE the
+  signup prompt (they link to /signin with a return path and store
+  nothing), calculator results show "Not tracked — a free account saves
+  this number" instead of banking history, and the blood-result form
+  gates behind sign-in. Ambient game state stays local for everyone (the
+  under-13 carve-out, flagged for Mat's veto). Pre-existing local data is
+  never deleted — it lies dormant and merges in on sign-in.
+- **First-sign-in wizard + auto-populate (Mat, 2026-07-24 — PROFILE §2.1
+  pulled forward):** after the first sign-in (before landing on the
+  dashboard) a skippable one-card wizard asks sex, date of birth, height,
+  weight (metric or imperial) and optional extras (resting heart rate),
+  writing the dashboard vitals (canonical SI; age derived from DOB; syncs
+  under the health consent). `profile-prefill.ts` + the "Prefilled from
+  your profile · edit" chip then auto-populate calculators — TDEE is
+  wired as the pattern; sweeping the rest of the catalogue is the named
+  follow-up.
+- **Superseded prompts (same day):** a signed-out save is the prompt
   moment — tapping any save/bookmark button, every calculator's auto-save
   footer, and the dashboard's saved grid show one quiet inline nudge
   ("on this device only — a free account keeps it everywhere" -> /signin).

@@ -28,6 +28,20 @@ export function SignInCard(): React.ReactElement {
   const [phase, setPhase] = useState<Phase>("form");
   const [error, setError] = useState<string | null>(null);
 
+  /** Post-auth destination: /account completes sign-in, then forwards here. */
+  const callbackURL = (): string => {
+    let next = "/dashboard";
+    try {
+      const requested = new URLSearchParams(window.location.search).get("next");
+      if (requested !== null && requested.startsWith("/") && !requested.startsWith("//")) {
+        next = requested;
+      }
+    } catch {
+      // default stands
+    }
+    return `/account?next=${encodeURIComponent(next)}`;
+  };
+
   const rememberBand = (): void => {
     if (band !== null && band !== "under-13") {
       try {
@@ -45,7 +59,7 @@ export function SignInCard(): React.ReactElement {
     rememberBand();
     const { error: sendError } = await authClient.signIn.magicLink({
       email,
-      callbackURL: "/account?next=%2Fdashboard",
+      callbackURL: callbackURL(),
     });
     if (sendError) {
       if (sendError.status === 503) {
@@ -64,7 +78,7 @@ export function SignInCard(): React.ReactElement {
     rememberBand();
     const { error: socialError } = await authClient.signIn.social({
       provider,
-      callbackURL: "/account?next=%2Fdashboard",
+      callbackURL: callbackURL(),
     });
     if (socialError) {
       setError(
