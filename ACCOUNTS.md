@@ -787,9 +787,10 @@ runs byte-identical signed-out and auth routes return 503):
   rules).
 - **Post-auth flow (Mat, 2026-07-24):** signing in lands on the dashboard
   (/account completes the sign-in — hint, band, consents — then forwards
-  via a safe internal `next` param), and a signed-in avatar chip (email
-  initial, riso circle) sits top-right in the nav beside the CTA,
-  linking to /account. Signed out: no chip, no probe, no requests.
+  via a safe internal `next` param), and the nav carries a permanent
+  top-right account chip beside the CTA (Mat, 2026-07-24): signed out a
+  person icon linking to /signin (no probe, no requests — the hint check
+  is local); signed in the email-initial avatar linking to /account.
 - **Tests:** 688 green (38 account-specific: merges, stores, registry,
   engine incl. the 409 path, the two-consent gates and the
   bloodwork-vs-dashboard separation); typecheck, lint, build and budgets
