@@ -231,21 +231,27 @@ describe("mergePulse (PULSE §6 — monotonic sets; LWW affinity)", () => {
 });
 
 describe("namespace registry (ACCOUNTS §6.2)", () => {
-  it("validates: unique keys/storage/events, conventions, consent flags, safe merges", () => {
+  it("validates: unique keys/events, conventions, consent flags, safe merges", () => {
     expect(validateNamespaces()).toEqual([]);
   });
 
-  it("covers the four existing stores with the documented consent split", () => {
+  it("covers every savable surface with the documented consent split", () => {
     expect(ACCOUNT_NAMESPACES.map((n) => n.key).sort()).toEqual([
+      "arcade",
       "daily",
       "dashboard",
+      "favourites",
       "history",
+      "prefs",
       "pulse",
+      "stack",
+      "training",
     ]);
-    expect(namespaceByKey("history")?.healthFlavoured).toBe(true);
-    expect(namespaceByKey("dashboard")?.healthFlavoured).toBe(true);
-    expect(namespaceByKey("daily")?.healthFlavoured).toBe(false);
-    expect(namespaceByKey("pulse")?.healthFlavoured).toBe(false);
+    // Consent-gated: the health-flavoured trio, exactly (ACCOUNTS §6.2).
+    const gated = ACCOUNT_NAMESPACES.filter((n) => n.healthFlavoured).map((n) => n.key);
+    expect(gated.sort()).toEqual(["dashboard", "history", "stack"]);
+    // bloodwork is deliberately ABSENT until A4 — its absence IS the gate.
+    expect(namespaceByKey("bloodwork")).toBeUndefined();
   });
 
   it("wire-format merge round-trips: garbage on either side degrades, data survives", () => {
