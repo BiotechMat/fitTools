@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
       // 2026-07-23: the arcade slicer pivoted from Snake Oil (myth slogans —
       // unreadable at toss speed) to Five a Day (produce vs junk, FIVEADAY.md).
       { source: "/snake-oil", destination: "/five-a-day", permanent: true },
+      // 2026-07-24: the Steady buzz wire was pulled same-day (it measured
+      // pointer smoothness, not the person — PERFORMANCE-LAB.md §13).
+      { source: "/performance-lab/steady", destination: "/performance-lab", permanent: true },
     ];
   },
 };

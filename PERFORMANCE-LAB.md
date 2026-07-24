@@ -135,18 +135,11 @@ all: pure logic module + tests, canvas or DOM component, station page
 - **Build note:** medium; best on tablet/desktop where the viewport gives
   real eccentricity.
 
-### 4.4 Steady — fine motor control
+### 4.4 Steady — fine motor control — REMOVED (2026-07-24, see §13)
 
-- **Paradigm:** path tracing / steadiness; lineage the classic buzz-wire
-  and mirror-tracing rigs.
-- **Loop:** drag along a winding track without touching the edges; the
-  track narrows. Clean distance + touches scored.
-- **Score sentence:** "Traced 82% clean."
-- **Funnel:** exercise library mobility/warm-up content; recovery clusters
-  (the "shaky after leg day" retest hook).
-- **Build note:** easy-medium; authored track paths, point-to-path
-  distance is the whole engine. Offset the cursor point on touch (finger
-  occludes the track).
+Built as the buzz wire and pulled the same day: it scored the input
+device more than the person. Kept here as the record; coordination as a
+capacity is served by Track.
 
 ### 4.5 Switch — cognitive flexibility
 
@@ -414,14 +407,15 @@ bench's next three, all device-agnostic at design time (Track's lesson):
   event.timeStamp). Tiers SHAPESHIFTER (≤0) → GYMNAST → JUGGLER → HUMAN
   → ONE-TRACK MIND → HANDBRAKE TURN → BSOD, with error rate >25% capped
   at BUTTON MASHER; bests only count from legitimate runs.
-- **Steady (§4.4):** the buzz wire — an authored serpentine
-  (`WIRE`/`nearestOnWire`, exact segment projection), corridor a
-  constant 52 px (thumb-clearing at phone scaling, asserted in tests),
-  sparks debounced by a re-arm distance, progress monotonic with an
-  anti-wall-cutting hop cap, lifting off pauses the probe while the
-  clock runs; every run completes. Score = sparks (+ time as flavour).
-  Tiers SURGEON → STEADY EDDIE → HUMAN → JITTERBUG → ESPRESSO OVERDOSE
-  → JACKHAMMER.
+- **Steady (§4.4): BUILT, THEN REMOVED the same day (Mat).** The buzz
+  wire shipped (authored serpentine, spark-scored, corridor thumb-wide)
+  and the verdict was immediate: dragging a pointer along a corridor
+  measures pointer smoothness — mouse gain, screen friction, palm
+  rejection — more than it measures the person; it didn't test anything
+  well. Pulled from the roster; `/performance-lab/steady` permanently
+  redirects to the hub. Lesson recorded for the bench: a station earns
+  its place only if the thing scored is the human, not the input
+  device. (Coordination as a capacity is still better served by Track.)
 
 All three ride the full share pipeline (bounded params `pct` /
 `cost`+`err` / `sparks`+`secs`, tiers recomputed server-side, hero +

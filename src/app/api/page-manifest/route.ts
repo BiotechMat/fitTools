@@ -82,12 +82,6 @@ const PAGES: Record<string, PageEntry> = {
     shortName: "Switch",
     icon: "/apple-icon",
   },
-  "lab-steady": {
-    path: "/performance-lab/steady",
-    name: "Steady — Performance Lab",
-    shortName: "Steady",
-    icon: "/apple-icon",
-  },
   timer: {
     path: "/tools/timer",
     name: "Gym Timers",

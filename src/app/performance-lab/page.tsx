@@ -6,7 +6,7 @@ import { LabBestChip } from "@/components/lab/LabBestChip";
 export const metadata: Metadata = {
   title: "The Performance Lab: Test Your Reaction, Memory, Aim and Focus",
   description:
-    "Six free browser tests with real pedigrees: Reaction, Recall, Track, Vigil, Switch and Steady — speed, memory, aim, focus, flexibility and steadiness. Get your number, get your tier, run it back. No sign-up.",
+    "Five free browser tests with real pedigrees: Reaction, Recall, Track, Vigil and Switch — speed, memory, aim, focus and flexibility. Get your number, get your tier, run it back. No sign-up.",
   alternates: { canonical: "/performance-lab" },
 };
 
@@ -78,19 +78,6 @@ const STATIONS = [
     unit: "ms",
     cta: "Test flexibility",
   },
-  {
-    href: "/performance-lab/steady",
-    glyph: "🖐",
-    glyphClass: "bg-foreground text-background",
-    name: "Steady",
-    tag: "Control",
-    blurb:
-      "The buzz wire. Drag the probe end to end; every wall touch sparks. Surgeon hands or jackhammer — the wire always knows.",
-    storageKey: "fittools.lab.steady.best",
-    bestLabel: "Fewest sparks",
-    unit: "",
-    cta: "Test steadiness",
-  },
 ] as const;
 
 export default function PerformanceLabPage() {
@@ -120,9 +107,9 @@ export default function PerformanceLabPage() {
         <strong className="font-semibold text-foreground">
           This room measures you.
         </strong>{" "}
-        Six instruments with real pedigrees — speed, memory, aim, focus,
-        flexibility, steadiness — each with a tier ladder built for the group
-        chat. Your numbers stay on your device — beat them tomorrow.
+        Five instruments with real pedigrees — speed, memory, aim, focus,
+        flexibility — each with a tier ladder built for the group chat. Your
+        numbers stay on your device — beat them tomorrow.
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">

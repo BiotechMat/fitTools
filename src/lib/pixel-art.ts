@@ -173,16 +173,3 @@ export const LAB_ARROWS = [
   "..KK.........",
 ];
 
-/** The Lab's Steady wire — one bend, one spark. */
-export const LAB_WIRE = [
-  ".KKKKKKKKKK..",
-  "..........KK.",
-  "...A.......KK",
-  "..AKA......KK",
-  "...A......KK.",
-  ".....KKKKKK..",
-  "....KK.......",
-  "...KK........",
-  "..KK.........",
-  ".KKKKKKKKKKK.",
-];

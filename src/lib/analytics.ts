@@ -59,8 +59,7 @@ export type LabStation =
   | "recall"
   | "track"
   | "vigil"
-  | "switch"
-  | "steady";
+  | "switch";
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

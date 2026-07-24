@@ -14,7 +14,6 @@ import { recallTier } from "@/lib/lab/recall";
 import { MAX_POINTS, TRACK, pointsRatio, trackTier } from "@/lib/lab/track";
 import { VIGIL_SECONDS, vigilTier } from "@/lib/lab/vigil";
 import { switchTier } from "@/lib/lab/switch";
-import { steadyTier } from "@/lib/lab/steady";
 import {
   CardFooter,
   CardSheet,
@@ -30,7 +29,6 @@ import {
   LAB_BOLT,
   LAB_EYE,
   LAB_GRID,
-  LAB_WIRE,
   LIFELINE_HEART,
   MAXOUT_LIFTER,
   FIVEADAY_APPLE,
@@ -138,14 +136,6 @@ const GAME_META: Record<
     strap: "COLOUR? SHAPE? · THE RULE KEEPS FLIPPING · YOUR BRAIN PAYS IN MS",
     path: "/PERFORMANCE-LAB/SWITCH",
     sprite: LAB_ARROWS,
-    cell: 8,
-    title: "PERFORMANCE LAB",
-  },
-  "lab-steady": {
-    name: "STEADY",
-    strap: "DRAG THE WIRE END TO END · TOUCH A WALL, IT SPARKS",
-    path: "/PERFORMANCE-LAB/STEADY",
-    sprite: LAB_WIRE,
     cell: 8,
     title: "PERFORMANCE LAB",
   },
@@ -516,26 +506,6 @@ function resultSpec(result: ShareResultPayload): CardSpec {
           </div>
         ),
         footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/SWITCH`,
-      };
-    }
-    case "lab-steady": {
-      const tier = steadyTier(result.sparks, true);
-      return {
-        title: "PERFORMANCE LAB · STEADY",
-        middle: (
-          <div style={MIDDLE_COL}>
-            <PixelSprite rows={LAB_WIRE} cell={7} />
-            <Kicker text={`WIRE CLEARED IN ${result.secs} S`} />
-            <Score
-              value={String(result.sparks)}
-              unit={result.sparks === 1 ? "SPARK" : "SPARKS"}
-              size={180}
-            />
-            <Gag text={tier.name} colour={OG_COLORS.forest} />
-            <Gag text={tier.blurb} />
-          </div>
-        ),
-        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/STEADY`,
       };
     }
     case "lab-track": {
