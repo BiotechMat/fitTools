@@ -1,6 +1,9 @@
 # PERFORMANCE-LAB.md — the performance measurement hub
 
-**BLUEPRINT — not signed off, not scheduled.** Direction and scope for a
+**Spec + build record.** MVP BUILT (2026-07-24, Mat's direction — see §13):
+the hub at `/performance-lab` with the top-three stations Reaction, Recall
+and Track. The rest of this doc remains the blueprint for the bench
+(Vigil, Switch, Steady, Wide Angle, Breathe). Direction and scope for a
 "Performance Lab" — a hub of HTML5 stations that measure the player:
 reaction time, working memory, peripheral awareness, coordination,
 cognitive flexibility, hand–eye, sustained focus, plus one guided
@@ -309,3 +312,45 @@ Not scheduled — STATUS.md Phases 1–3 come first. When a slot opens:
 - 2026-07-24 — Mat's direction: those guardrails removed (header note);
   percentiles, norms, composite scores and leaderboards brought into
   scope; comparison made the headline feature.
+- 2026-07-24 — top three picked (§9) and the MVP built the same day (§13).
+
+## 13. Build record — MVP (2026-07-24)
+
+**Built:** the `/performance-lab` hub + Reaction, Recall and Track, per
+§4.1/§4.2/§4.6 with the character layer that makes scores travel:
+
+- **Tier ladders are the share hook** (in lieu of percentile data at
+  launch): Reaction runs LIGHTNING → LOCKED IN → CAFFEINATED → HUMAN →
+  NPC → BUFFERING → PING 999; Recall climbs an animal ladder GOLDFISH →
+  PIGEON → HUMAN → CROW → DOLPHIN → ELEPHANT → GRANDMASTER → MAINFRAME;
+  Track runs AIMBOT → SNIPER → SHARPSHOOTER → HUMAN → CASUAL → BUTTER
+  FINGERS, with sub-70% accuracy capped at STORMTROOPER regardless of
+  speed. Deliberately memes, not norms — "NPC" travels further than a
+  percentile, and nothing is claimed about populations.
+- **Share blocks** are Wordle-shaped: header emoji + score sentence +
+  tier + a per-round block grid (Reaction) + kicker + station URL, via
+  navigator.share with clipboard fallback (`*ShareText` in the libs).
+- **Mechanics:** Reaction — 5 scored taps, 1.5–3.2 s seeded waits, early
+  taps re-arm as counted "false starts" (gameplay, not a stats rule), avg
+  ms scored from `event.timeStamp` against a rAF-stamped onset, silent by
+  design (a sound cue would beat the paint). Recall — Simon-style 3×3,
+  pentatonic pad tones, start at 3, one wobble replays the pattern, two
+  ends it; span = longest completed. Track — 25 targets, radius 34→18 px,
+  ≥110 px forced travel between targets, strays scored against accuracy.
+- **Files:** logic `src/lib/lab/{reaction,recall,track}.ts` (+ 3 test
+  files, house test-first style); components `src/components/lab/
+  {ReactionTest,RecallTest,TrackTest}.tsx` + `labSynth.ts` (shared
+  WebAudio, one Lab-wide mute key) + `LabBestChip.tsx`; pages
+  `src/app/performance-lab/**` + hub OG image; nav "Lab" link; sitemap
+  entries; typed analytics (`lab_test_started` / `lab_test_completed`
+  with score+tier / `lab_test_shared`); bests in localStorage
+  (`fittools.lab.<station>.best`). Arcade hub cross-rails to the Lab and
+  back. All DOM+CSS (no canvas needed yet), zero new dependencies,
+  reduced-motion safe, works on touch/keyboard/silent/private-mode.
+
+**Deliberately deferred** (the §3 feature set beyond MVP): pooled
+percentiles/norm bands, the composite Lab Score, leaderboards (all need
+data or accounts), OG score-card unfurls via the `/api/arcade-card`
+pipeline (STATUS Phase 2 share thread), the daily-seeded circuit,
+streaks, and dashboard/Trajectory metric registration. Names still
+proposed, not locked.

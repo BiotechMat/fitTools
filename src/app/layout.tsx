@@ -61,6 +61,7 @@ const shortTitle = (title: string) => title.split(":")[0].trim();
 const navItems: NavItem[] = [
   { href: "/pulse", label: "Pulse", emphasis: true },
   { href: "/arcade", label: "Arcade", emphasis: true },
+  { href: "/performance-lab", label: "Lab", emphasis: true },
   { href: "/tools", label: "Tools", emphasis: true },
   { href: "/dashboard", label: "Dashboard", emphasis: true },
   {

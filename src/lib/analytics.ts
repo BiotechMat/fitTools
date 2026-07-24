@@ -36,7 +36,20 @@ export type AnalyticsEvent =
   | { name: "maxout_form_failed"; params: { kg: number; cause: string } }
   // Five a Day arcade (FIVEADAY.md). Counts only — nothing about the player.
   | { name: "fiveaday_run_started"; params: Record<string, never> }
-  | { name: "fiveaday_run_ended"; params: { portions: number; plants: number } };
+  | { name: "fiveaday_run_ended"; params: { portions: number; plants: number } }
+  // Performance Lab stations (PERFORMANCE-LAB.md §4). The Lab measures the
+  // player openly by design (direction 2026-07-24): the score and its tier
+  // are the product, so they ride the completion event.
+  | { name: "lab_test_started"; params: { station: "reaction" | "recall" | "track" } }
+  | {
+      name: "lab_test_completed";
+      params: {
+        station: "reaction" | "recall" | "track";
+        score: number;
+        tier: string;
+      };
+    }
+  | { name: "lab_test_shared"; params: { station: "reaction" | "recall" | "track" } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;
