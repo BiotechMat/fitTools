@@ -46,10 +46,10 @@ const STATIONS = [
     name: "Track",
     tag: "Precision",
     blurb:
-      "25 targets, shrinking as they go, and every stray tap counts. Speed sorts Sniper from Butter Fingers; spraying caps you at Stormtrooper.",
-    storageKey: "fittools.lab.track.best",
-    bestLabel: "Quickest",
-    unit: "ms",
+      "25 archery boards, every tap scored by ring — bullseye is 10, grouping is everything. No misses, just worse arrows. 250 on offer.",
+    storageKey: "fittools.lab.track.range.best",
+    bestLabel: "Top score",
+    unit: "pts",
     cta: "Test aim",
   },
 ] as const;

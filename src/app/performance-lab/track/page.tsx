@@ -9,7 +9,7 @@ import { gameMetadata } from "@/lib/arcade-metadata";
 const COPY = {
   title: "Track: The Aim and Hand-Eye Test",
   description:
-    "25 targets that shrink as they go, with every stray tap counted. Speed sorts Sniper from Butter Fingers; spraying caps you at Stormtrooper. Free browser aim test, no sign-up.",
+    "25 archery boards, every tap scored by the ring it lands in — bullseye 10, 250 on offer. Grouping and speed sort Sniper from Stormtrooper. Free browser aim test, works the same on touch and mouse.",
   canonical: "/performance-lab/track",
   hero: "lab-track",
 } as const;
@@ -51,13 +51,14 @@ export default function TrackPage() {
         Track
       </h1>
       <p className="mt-2 max-w-prose text-muted">
-        Targets appear, you put them down.{" "}
+        Boards appear, you loose arrows.{" "}
         <strong className="font-semibold text-foreground">
-          25 of them, shrinking as the run goes
-        </strong>
-        , with every stray tap held against you — the aimed-tapping trade-off
-        (speed versus precision) that movement scientists have studied since
-        the fifties, wearing a crosshair.
+          Every tap scores by the ring it lands in
+        </strong>{" "}
+        — bullseye 10, out to 4, wide is nought — and the board moves on
+        either way. It&rsquo;s the speed-versus-precision trade-off movement
+        scientists have studied since the fifties, scored like an archery
+        round: no misses, just worse arrows, on a thumb and a mouse alike.
       </p>
 
       <div className="mt-6">
@@ -67,10 +68,10 @@ export default function TrackPage() {
 
       <p className="mt-6 max-w-prose text-sm text-muted">
         Hand–eye speed is trainable and shamelessly warm-up-sensitive — cold
-        hands post terrible times, which is your excuse ready-made. Your
-        number includes your screen and your thumbs, so the real opponent is
-        yesterday&rsquo;s you on the same device. Warm hands travel well: take
-        them to{" "}
+        hands post terrible groupings, which is your excuse ready-made. Ring
+        scoring keeps the test honest across devices: a thumb&rsquo;s wobble
+        and a cursor&rsquo;s overshoot cost the same points. The real opponent
+        is still yesterday&rsquo;s you. Warm hands travel well: take them to{" "}
         <Link
           href="/max-out"
           className="text-primary underline underline-offset-2 hover:text-foreground"

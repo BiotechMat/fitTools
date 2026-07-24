@@ -162,11 +162,17 @@ all: pure logic module + tests, canvas or DOM component, station page
 
 ### 4.6 Track — hand–eye coordination
 
-- **Paradigm:** aimed tapping; lineage Fitts (1954) — target size and
-  distance vary, so the score has a principled basis.
-- **Loop:** tap the target as it relocates; 30 targets; hits, accuracy and
-  speed scored.
-- **Score sentence:** "28 of 30, 412 ms to target."
+- **Paradigm:** aimed tapping; lineage Fitts (1954) — the speed-versus-
+  precision trade-off, scored like an archery round (v2, see the §13
+  record).
+- **Loop:** full-size ring boards relocate around the arena; every tap
+  scores by the ring it lands in (bullseye 10 · 7 · 4 · wide 0) and
+  advances — no binary miss exists. 25 boards, 250 on offer; grouping
+  ratio gates the tier, speed sorts it.
+- **Score sentence:** "236/250 · 412 ms a target."
+- **Device-agnostic by scoring design:** a thumb's occlusion wobble and a
+  cursor's overshoot cost the same ring points; nothing shrinks, nothing
+  is small enough to fat-finger, no stray-tap double punishment.
 - **Funnel:** exercise library (agility/plyometrics), the workout section.
 - **Build note:** easy; the most arcade-adjacent station and a natural
   cross-link to /arcade.
@@ -337,14 +343,23 @@ Not scheduled — STATUS.md Phases 1–3 come first. When a slot opens:
   pentatonic pad tones, start at 3, one wobble replays the pattern, two
   ends it; span = longest completed. Track — 25 targets, radius 34→18 px,
   ≥110 px forced travel between targets, strays scored against accuracy.
-  **Touch tuning (2026-07-24):** on coarse pointers Track runs bigger
-  discs (40→26 px), deeper edge margins (56 px, clear of browser gesture
-  zones) and a 12 px invisible grace ring around the drawn disc (2 px on
-  fine pointers) — a fingertip occludes the target at the moment of
-  truth, so a near-miss inside the ring counts as the hit it was meant
-  to be instead of a miss-plus-stray. Smallest tappable circle verified
-  ≥44 CSS px on an emulated Pixel 7. Tier thresholds are shared across
-  devices; the "compare on the same device" line covers the difference.
+  **Track v2 — the range (2026-07-24, same day):** v1's hit-or-miss
+  shrinking targets made Track a different game per device — tiny discs,
+  finger occlusion, and the miss-plus-stray double punishment all stacked
+  against touch; a coarse-pointer tuning pass helped but couldn't close
+  the gap. A BATAK-style light-board redesign was considered and
+  rejected (Mat): big pads that light up collapse into a second Reaction
+  test. The fix that kept the aim identity: **ring scoring**. Boards are
+  full-size and fixed (outer ring bigger than v1's launch target, no
+  shrinking), every tap scores by the ring it lands in (10/7/4/0) and
+  always advances, and the tier gate runs on grouping ratio (<55% caps
+  at STORMTROOPER) with speed sorting the rest. Imprecision now costs
+  points continuously and identically for thumbs and cursors — the test
+  is device-agnostic by scoring design, with zero per-device tuning in
+  the code. Share params moved `acc` → `pts` (0–250); legacy `acc` links
+  still parse, mapped onto ring points. New best key
+  (`fittools.lab.track.range.best`) — v1 bests measured a different
+  protocol and don't mix.
 - **Files:** logic `src/lib/lab/{reaction,recall,track}.ts` (+ 3 test
   files, house test-first style); components `src/components/lab/
   {ReactionTest,RecallTest,TrackTest}.tsx` + `labSynth.ts` (shared

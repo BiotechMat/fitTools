@@ -173,7 +173,7 @@ describe("performance lab shares", () => {
     expect(parseLabResult("lab-reaction", { avg: "fast" })).toBeNull();
     expect(parseLabResult("lab-recall", { span: "0" })).toBeNull();
     expect(parseLabResult("lab-recall", { span: "41" })).toBeNull();
-    expect(parseLabResult("lab-track", { ms: "412" })).toBeNull(); // needs acc
+    expect(parseLabResult("lab-track", { ms: "412" })).toBeNull(); // needs pts
     expect(parseLabResult("lab-track", { ms: "412", acc: "101" })).toBeNull();
   });
 
@@ -183,8 +183,17 @@ describe("performance lab shares", () => {
       span: 8,
     });
     expect(
-      parseLabResult("lab-track", query(labTrackSharePath({ ms: 412, acc: 93 }))),
-    ).toEqual({ game: "lab-track", ms: 412, acc: 93 });
+      parseLabResult("lab-track", query(labTrackSharePath({ ms: 412, pts: 236 }))),
+    ).toEqual({ game: "lab-track", ms: 412, pts: 236 });
+  });
+
+  it("maps legacy Track accuracy links onto ring points", () => {
+    expect(parseLabResult("lab-track", { ms: "412", acc: "93" })).toEqual({
+      game: "lab-track",
+      ms: 412,
+      pts: 233, // 93% of 250
+    });
+    expect(parseLabResult("lab-track", { ms: "412", pts: "251" })).toBeNull(); // over max
   });
 
   it("titles carry the score AND the server-derived tier", () => {
@@ -194,11 +203,11 @@ describe("performance lab shares", () => {
     expect(resultTitle({ game: "lab-recall", span: 8 })).toBe(
       "Recall: span 8 · DOLPHIN",
     );
-    expect(resultTitle({ game: "lab-track", ms: 412, acc: 93 })).toBe(
-      "Track: 412 ms to target · SNIPER",
+    expect(resultTitle({ game: "lab-track", ms: 412, pts: 236 })).toBe(
+      "Track: 236/250 · SNIPER",
     );
-    // Spray-and-pray caps at Stormtrooper on the unfurl too.
-    expect(resultTitle({ game: "lab-track", ms: 300, acc: 50 })).toContain(
+    // Spraying wide caps at Stormtrooper on the unfurl too.
+    expect(resultTitle({ game: "lab-track", ms: 300, pts: 100 })).toContain(
       "STORMTROOPER",
     );
   });
@@ -206,7 +215,9 @@ describe("performance lab shares", () => {
   it("descriptions carry the score", () => {
     expect(resultDescription({ game: "lab-reaction", avg: 231 })).toContain("231 ms");
     expect(resultDescription({ game: "lab-recall", span: 8 })).toContain("span 8");
-    expect(resultDescription({ game: "lab-track", ms: 412, acc: 93 })).toContain("93%");
+    expect(resultDescription({ game: "lab-track", ms: 412, pts: 236 })).toContain(
+      "236 of 250",
+    );
   });
 });
 
@@ -245,7 +256,7 @@ describe("card image params", () => {
       { game: "myth", puzzle: 2, correct: 0, total: 5 },
       { game: "lab-reaction", avg: 231, row: "ggygr" },
       { game: "lab-recall", span: 8 },
-      { game: "lab-track", ms: 412, acc: 93 },
+      { game: "lab-track", ms: 412, pts: 236 },
     ] as const;
     for (const result of results) {
       const parsed = parseCardParams(query(arcadeCardPath({ kind: "result", result })));

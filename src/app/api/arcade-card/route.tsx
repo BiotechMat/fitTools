@@ -11,7 +11,7 @@ import { MISS_CAUSES, formatKg, platesPhrase } from "@/lib/maxout";
 import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
 import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
-import { TRACK, trackTier } from "@/lib/lab/track";
+import { MAX_POINTS, TRACK, pointsRatio, trackTier } from "@/lib/lab/track";
 import {
   CardFooter,
   CardSheet,
@@ -113,7 +113,7 @@ const GAME_META: Record<
   },
   "lab-track": {
     name: "TRACK",
-    strap: `${TRACK.targets} SHRINKING TARGETS · EVERY STRAY TAP COUNTS`,
+    strap: `${TRACK.targets} TARGETS · EVERY TAP SCORES BY RING · BULLSEYE ${TRACK.rings[0].points}`,
     path: "/PERFORMANCE-LAB/TRACK",
     sprite: BALLPARK_TARGET,
     cell: 8,
@@ -457,16 +457,16 @@ function resultSpec(result: ShareResultPayload): CardSpec {
       };
     }
     case "lab-track": {
-      const tier = trackTier(result.ms, result.acc / 100);
+      const tier = trackTier(result.ms, pointsRatio(result.pts));
       return {
         title: "PERFORMANCE LAB · TRACK",
         middle: (
           <div style={MIDDLE_COL}>
             <PixelSprite rows={BALLPARK_TARGET} cell={6} />
-            <Kicker text={`${TRACK.targets} TARGETS DOWN`} />
+            <Kicker text={`${TRACK.targets} TARGETS · ${result.ms} MS EACH`} />
             <Score
-              value={String(result.ms)}
-              unit={`MS · ${result.acc}%`}
+              value={String(result.pts)}
+              unit={`/ ${MAX_POINTS}`}
               size={170}
             />
             <Gag text={tier.name} colour={OG_COLORS.forest} />

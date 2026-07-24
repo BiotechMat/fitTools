@@ -6,12 +6,13 @@ import { trackEvent } from "@/lib/analytics";
 import { mulberry32 } from "@/lib/lifeline";
 import { formatMs } from "@/lib/lab/reaction";
 import {
+  BOARD_RADIUS,
+  MAX_POINTS,
   TRACK,
-  accuracyFor,
   averageHitMs,
-  hitRadiusFor,
+  pointsRatio,
   positionFor,
-  radiusFor,
+  ringPointsFor,
   trackShareText,
   trackTier,
   type TargetPos,
@@ -26,33 +27,46 @@ import {
 } from "./labSynth";
 
 /**
- * Track (PERFORMANCE-LAB.md §4.6): 25 targets relocate around the arena and
- * shrink as the run goes; stray taps count against you. Fitts tapping in a
- * riso shirt. DOM only — the target is an absolutely-positioned button in a
- * fixed-aspect arena, coordinates in the logical 420×480 space rendered as
- * percentages so touch and desktop play the same course.
+ * Track v2 (PERFORMANCE-LAB.md §4.6): the range. Full-size archery
+ * boards relocate around the arena; EVERY tap scores by the ring it
+ * lands in and advances — no binary miss, so a thumb and a cursor play
+ * the same game and imprecision costs ring points proportionally.
+ * The whole arena is the input surface; the boards are drawings.
  */
 
-const BEST_KEY = "fittools.lab.track.best";
+const BEST_KEY = "fittools.lab.track.range.best";
+
+/* Award → beep frequency: the range sings when you group well. */
+const AWARD_FREQ: Record<number, number> = { 10: 1046, 7: 784, 4: 523, 0: 150 };
 
 type Phase = "ready" | "live" | "done";
+
+interface Award {
+  x: number;
+  y: number;
+  points: number;
+  id: number;
+}
 
 export function TrackTest() {
   const [phase, setPhase] = useState<Phase>("ready");
   const [index, setIndex] = useState(0);
   const [pos, setPos] = useState<TargetPos>({ x: 210, y: 240 });
-  const [misses, setMisses] = useState(0);
+  const [points, setPoints] = useState(0);
   const [times, setTimes] = useState<number[]>([]);
+  const [award, setAward] = useState<Award | null>(null);
   const [best, setBest] = useState(0);
   const [newBest, setNewBest] = useState(false);
   const [muted, setMuted] = useState(false);
   const [copied, setCopied] = useState(false);
-  /* Coarse pointer (touch): bigger discs, deeper margins, a wider grace
-     ring — a fingertip is not a cursor (PERFORMANCE-LAB §4.6 build note). */
-  const [coarse, setCoarse] = useState(false);
+  /* The finishing tap's ghost click must not press a result-card button
+     that mounts under the same spot (the Lifeline restart-guard pattern). */
+  const [guarded, setGuarded] = useState(false);
 
   const phaseRef = useRef<Phase>("ready");
+  const guardTimerRef = useRef<number | null>(null);
   const spawnAtRef = useRef(0);
+  const awardIdRef = useRef(0);
   const synthRef = useRef<LabSynth | null>(null);
   const rngRef = useRef<(() => number) | null>(null);
   /* Lazily seeded on first use — Math.random is impure during render. */
@@ -68,15 +82,19 @@ export function TrackTest() {
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect -- one-time localStorage
-       + media-query hydration after mount; server render must stay neutral */
+       hydration after mount; server render must stay storage-free */
     try {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
     } catch {
       /* private mode */
     }
     setMuted(readLabMuted());
-    setCoarse(window.matchMedia("(pointer: coarse)").matches);
     /* eslint-enable react-hooks/set-state-in-effect */
+    return () => {
+      if (guardTimerRef.current !== null) {
+        window.clearTimeout(guardTimerRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -86,69 +104,78 @@ export function TrackTest() {
   const begin = () => {
     if (!synthRef.current) synthRef.current = createLabSynth(muted);
     setIndex(0);
-    setMisses(0);
+    setPoints(0);
     setTimes([]);
+    setAward(null);
     setCopied(false);
-    setPos(positionFor(rng, null, coarse));
+    setPos(positionFor(rng, null));
     spawnAtRef.current = performance.now();
     trackEvent({ name: "lab_test_started", params: { station: "track" } });
     setPhaseBoth("live");
   };
 
-  const finish = (finalTimes: number[], finalMisses: number) => {
+  const finish = (finalTimes: number[], finalPoints: number) => {
     const avg = averageHitMs(finalTimes);
-    const accuracy = accuracyFor(TRACK.targets, finalMisses);
     setNewBest(false);
     setBest((prev) => {
-      if (prev === 0 || avg < prev) {
+      if (finalPoints > prev) {
         setNewBest(true);
         try {
-          localStorage.setItem(BEST_KEY, String(avg));
+          localStorage.setItem(BEST_KEY, String(finalPoints));
         } catch {
           /* fine */
         }
-        return avg;
+        return finalPoints;
       }
       return prev;
     });
     trackEvent({
       name: "lab_test_completed",
-      params: { station: "track", score: avg, tier: trackTier(avg, accuracy).name },
+      params: {
+        station: "track",
+        score: finalPoints,
+        tier: trackTier(avg, pointsRatio(finalPoints)).name,
+      },
     });
     labBeep(synthRef.current, 1046, 160, "triangle", 0.05);
+    setGuarded(true);
+    if (guardTimerRef.current !== null) window.clearTimeout(guardTimerRef.current);
+    guardTimerRef.current = window.setTimeout(() => setGuarded(false), 400);
     setPhaseBoth("done");
   };
 
-  const hit = (tapAt: number) => {
+  /** Every arrow lands somewhere: score the ring, advance the board. */
+  const arrow = (e: React.PointerEvent<HTMLDivElement>) => {
     if (phaseRef.current !== "live") return;
-    const ms = Math.max(1, Math.round(tapAt - spawnAtRef.current));
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * TRACK.width;
+    const y = ((e.clientY - rect.top) / rect.height) * TRACK.height;
+    const awarded = ringPointsFor(Math.hypot(x - pos.x, y - pos.y));
+    const ms = Math.max(1, Math.round(e.timeStamp - spawnAtRef.current));
+
     const nextTimes = [...times, ms];
+    const nextPoints = points + awarded;
     setTimes(nextTimes);
-    labBeep(synthRef.current, 700 + index * 14, 60, "square", 0.04);
+    setPoints(nextPoints);
+    awardIdRef.current += 1;
+    setAward({ x, y, points: awarded, id: awardIdRef.current });
+    labBeep(synthRef.current, AWARD_FREQ[awarded] ?? 150, awarded > 0 ? 70 : 90, awarded > 0 ? "square" : "sawtooth", 0.04);
+
     if (nextTimes.length >= TRACK.targets) {
-      finish(nextTimes, misses);
+      finish(nextTimes, nextPoints);
       return;
     }
     setIndex(nextTimes.length);
-    setPos((prev) => positionFor(rng, prev, coarse));
+    setPos((prev) => positionFor(rng, prev));
     spawnAtRef.current = performance.now();
-  };
-
-  const stray = () => {
-    if (phaseRef.current !== "live") return;
-    setMisses((n) => n + 1);
-    labBeep(synthRef.current, 150, 90, "sawtooth", 0.04);
   };
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const avg = averageHitMs(times);
     // Result params make the pasted link unfurl as the score card.
-    const path = labTrackSharePath({
-      ms: avg,
-      acc: Math.round(accuracyFor(TRACK.targets, misses) * 100),
-    });
-    const text = `${trackShareText(misses, avg)}\n${origin}${path}`;
+    const path = labTrackSharePath({ ms: avg, pts: points });
+    const text = `${trackShareText(points, avg)}\n${origin}${path}`;
     trackEvent({ name: "lab_test_shared", params: { station: "track" } });
     if (typeof navigator.share === "function") {
       try {
@@ -168,10 +195,8 @@ export function TrackTest() {
   };
 
   const avg = averageHitMs(times);
-  const accuracy = accuracyFor(TRACK.targets, misses);
-  const tier = trackTier(avg, accuracy);
-  const radius = radiusFor(index, coarse);
-  const hitRadius = hitRadiusFor(index, coarse);
+  const tier = trackTier(avg, pointsRatio(points));
+  const pct = (v: number, axis: number) => `${(v / axis) * 100}%`;
 
   return (
     <div className="relative mx-auto w-full max-w-[420px] select-none">
@@ -182,7 +207,13 @@ export function TrackTest() {
             ? `TARGET ${Math.min(index + 1, TRACK.targets)}/${TRACK.targets}`
             : "TRACK"}
         </span>
-        <span>{phase === "live" ? `STRAYS ${misses}` : best > 0 ? `Quickest hands: ${best} ms` : ""}</span>
+        <span>
+          {phase === "live"
+            ? `POINTS ${points}`
+            : best > 0
+              ? `Top score: ${best}/${MAX_POINTS}`
+              : ""}
+        </span>
         <button
           type="button"
           aria-pressed={muted}
@@ -198,56 +229,77 @@ export function TrackTest() {
         </button>
       </div>
 
-      {/* The arena */}
+      {/* The range. The arena is the input; the board is a drawing. */}
       <div
         onPointerDown={(e) => {
           e.preventDefault();
-          stray();
+          arrow(e);
         }}
         role="presentation"
+        aria-label={`The range — tap the target board. ${TRACK.targets} targets, rings score ${TRACK.rings.map((r) => r.points).join(", ")}.`}
         className="relative w-full touch-none overflow-hidden rounded-2xl border-2 border-foreground bg-surface-deep shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${TRACK.width} / ${TRACK.height}` }}
       >
         {phase === "live" ? (
-          /* The button is the tappable GRACE zone (invisible, larger than
-             the disc); the drawn target sits inside it. On touch the finger
-             occludes the disc at the moment of truth, so near-misses inside
-             the ring count as hits instead of miss-plus-stray. */
-          <button
-            type="button"
-            onPointerDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              hit(e.timeStamp);
-            }}
-            aria-label={`Target ${index + 1} of ${TRACK.targets}`}
-            className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-crosshair items-center justify-center rounded-full"
+          <span
+            aria-hidden="true"
+            className="absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-foreground bg-background shadow-[2px_2px_0_0_var(--color-foreground)]"
             style={{
-              left: `${(pos.x / TRACK.width) * 100}%`,
-              top: `${(pos.y / TRACK.height) * 100}%`,
-              width: `${((hitRadius * 2) / TRACK.width) * 100}%`,
+              left: pct(pos.x, TRACK.width),
+              top: pct(pos.y, TRACK.height),
+              width: pct(BOARD_RADIUS * 2, TRACK.width),
               aspectRatio: "1",
             }}
           >
             <span
-              aria-hidden="true"
-              className="flex items-center justify-center rounded-full border-2 border-foreground bg-primary-strong shadow-[2px_2px_0_0_var(--color-foreground)]"
-              style={{ width: `${(radius / hitRadius) * 100}%`, aspectRatio: "1" }}
+              className="flex items-center justify-center rounded-full border-2 border-foreground bg-primary-soft"
+              style={{
+                width: `${(TRACK.rings[1].radius / BOARD_RADIUS) * 100}%`,
+                aspectRatio: "1",
+              }}
             >
-              <span className="block h-1/3 w-1/3 rounded-full border-2 border-background bg-background/20" />
+              <span
+                className="block rounded-full border-2 border-foreground bg-primary-strong"
+                style={{
+                  width: `${(TRACK.rings[0].radius / TRACK.rings[1].radius) * 100}%`,
+                  aspectRatio: "1",
+                }}
+              />
             </span>
-          </button>
+          </span>
+        ) : null}
+
+        {/* The last arrow's award, floating where it landed. */}
+        {phase === "live" && award ? (
+          <span
+            key={award.id}
+            aria-hidden="true"
+            className="sticker-slap pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 font-mono text-sm font-bold"
+            style={{
+              left: pct(award.x, TRACK.width),
+              top: pct(award.y, TRACK.height),
+              color:
+                award.points >= 7
+                  ? "var(--color-good)"
+                  : award.points > 0
+                    ? "var(--color-foreground)"
+                    : "var(--color-primary)",
+            }}
+          >
+            {award.points > 0 ? `+${award.points}` : "0"}
+          </span>
         ) : null}
 
         {phase === "ready" ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
             <p className="font-display text-4xl uppercase">Track</p>
             <p className="max-w-[16rem] font-mono text-xs font-bold uppercase tracking-[0.12em]">
-              {TRACK.targets} targets. They shrink. Strays count. Don&rsquo;t
-              spray.
+              {TRACK.targets} targets, scored by ring — bullseye is{" "}
+              {TRACK.rings[0].points}. No misses, just worse arrows.
             </p>
             <button
               type="button"
+              onPointerDown={(e) => e.stopPropagation()}
               onClick={begin}
               className="riso-press rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 text-sm font-bold text-background"
             >
@@ -257,17 +309,21 @@ export function TrackTest() {
         ) : null}
 
         {phase === "done" ? (
-          <div className="absolute inset-0 flex items-center justify-center p-4">
+          <div
+            className={`absolute inset-0 flex items-center justify-center p-4 ${
+              guarded ? "pointer-events-none" : ""
+            }`}
+          >
             <div className="sticker-slap w-full rounded-2xl border-2 border-foreground bg-surface p-5 text-center shadow-[4px_4px_0_0_var(--color-foreground)]">
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
-                Average to target
+                Ring points
               </p>
               <p className="font-display text-6xl uppercase text-primary-strong">
-                {formatMs(avg)}
+                {points}
+                <span className="text-3xl text-muted">/{MAX_POINTS}</span>
               </p>
               <p className="mt-1 font-mono text-xs font-bold uppercase tracking-[0.16em]">
-                Accuracy {Math.round(accuracy * 100)}% · {misses}{" "}
-                {misses === 1 ? "stray" : "strays"}
+                {formatMs(avg)} a target
               </p>
               <p className="mt-2 inline-block -rotate-2 rounded-full border-2 border-foreground bg-primary-soft px-4 py-1 font-display text-xl uppercase tracking-wide">
                 {tier.name}
@@ -275,7 +331,7 @@ export function TrackTest() {
               <p className="mt-1 text-sm font-semibold">{tier.blurb}</p>
               <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
                 <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
-                  Quickest {formatMs(best)}
+                  Top score {best}/{MAX_POINTS}
                 </span>
                 {newBest ? (
                   <span className="sticker-slap inline-block rotate-2 rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
@@ -286,13 +342,15 @@ export function TrackTest() {
               <div className="mt-4 flex flex-wrap justify-center gap-2">
                 <button
                   type="button"
+                  onPointerDown={(e) => e.stopPropagation()}
                   onClick={begin}
                   className="riso-press rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 text-sm font-bold text-background"
                 >
-                  Reload
+                  Nock another
                 </button>
                 <button
                   type="button"
+                  onPointerDown={(e) => e.stopPropagation()}
                   onClick={share}
                   className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
                 >
@@ -300,6 +358,7 @@ export function TrackTest() {
                 </button>
                 <Link
                   href="/max-out"
+                  onPointerDown={(e) => e.stopPropagation()}
                   className="riso-press rounded-full border-2 border-foreground bg-surface px-5 py-2 text-sm font-bold"
                 >
                   Hands warm? Max Out →
@@ -309,6 +368,11 @@ export function TrackTest() {
           </div>
         ) : null}
       </div>
+
+      <p className="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+        Rings score {TRACK.rings.map((ring) => ring.points).join(" · ")} · every
+        tap counts · needs a touchscreen or pointer
+      </p>
     </div>
   );
 }

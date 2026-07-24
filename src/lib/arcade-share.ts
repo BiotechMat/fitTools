@@ -17,7 +17,7 @@ import { ZONES, zoneName } from "@/lib/powerhouse";
 import type { ClosenessTier } from "@/lib/daily/types";
 import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
-import { trackTier } from "@/lib/lab/track";
+import { MAX_POINTS, pointsRatio, trackTier } from "@/lib/lab/track";
 
 export type LifelineCauseId = (typeof OBSTACLE_KINDS)[number]["id"] | "gravity";
 
@@ -110,8 +110,8 @@ export interface LabTrackResult {
   game: "lab-track";
   /** Average time-to-target, whole ms. */
   ms: number;
-  /** Accuracy percentage, 0–100. */
-  acc: number;
+  /** Ring points, 0..MAX_POINTS (the range's archery scoring). */
+  pts: number;
 }
 
 export type LabResult = LabReactionResult | LabRecallResult | LabTrackResult;
@@ -171,6 +171,8 @@ const BOUNDS = {
   labAvg: { min: 50, max: 2000 },
   labSpan: { min: 1, max: 40 },
   labMs: { min: 50, max: 5000 },
+  labPts: { min: 0, max: MAX_POINTS },
+  /** Legacy Track links (pre-range v2) carried accuracy % instead. */
   labAcc: { min: 0, max: 100 },
 } as const;
 
@@ -262,7 +264,7 @@ export function labRecallSharePath(r: Omit<LabRecallResult, "game">): string {
 }
 
 export function labTrackSharePath(r: Omit<LabTrackResult, "game">): string {
-  const q = new URLSearchParams({ ms: String(r.ms), acc: String(r.acc) });
+  const q = new URLSearchParams({ ms: String(r.ms), pts: String(r.pts) });
   return `/performance-lab/track?${q.toString()}`;
 }
 
@@ -330,9 +332,13 @@ export function parseLabResult(
     }
     case "lab-track": {
       const ms = intIn(sp.ms, BOUNDS.labMs);
+      if (ms === undefined) return null;
+      const pts = intIn(sp.pts, BOUNDS.labPts);
+      if (pts !== undefined) return { game: station, ms, pts };
+      /* Legacy pre-range links carried accuracy % — map onto ring points. */
       const acc = intIn(sp.acc, BOUNDS.labAcc);
-      if (ms === undefined || acc === undefined) return null;
-      return { game: station, ms, acc };
+      if (acc === undefined) return null;
+      return { game: station, ms, pts: Math.round((acc / 100) * MAX_POINTS) };
     }
   }
 }
@@ -406,7 +412,7 @@ export function arcadeCardPath(payload: ArcadeCardPayload): string {
       break;
     case "lab-track":
       q.set("ms", String(r.ms));
-      q.set("acc", String(r.acc));
+      q.set("pts", String(r.pts));
       break;
   }
   return `/api/arcade-card?${q.toString()}`;
@@ -483,7 +489,7 @@ export function resultTitle(result: ShareResultPayload): string {
     case "lab-recall":
       return `Recall: span ${result.span} · ${recallTier(result.span).name}`;
     case "lab-track":
-      return `Track: ${result.ms} ms to target · ${trackTier(result.ms, result.acc / 100).name}`;
+      return `Track: ${result.pts}/${MAX_POINTS} · ${trackTier(result.ms, pointsRatio(result.pts)).name}`;
   }
 }
 
@@ -511,7 +517,7 @@ export function resultDescription(result: ShareResultPayload): string {
     case "lab-reaction":
       return `${result.avg} ms average over five taps — faster than ${reactionPercentile(result.avg)}% of people. Wait for the flash, tap, find your tier. Beat it on your own screen.`;
     case "lab-track":
-      return `${result.ms} ms to target at ${result.acc}% accuracy across 25 shrinking targets. Sniper or Stormtrooper — find out.`;
+      return `${result.pts} of ${MAX_POINTS} ring points at ${result.ms} ms a target. Every tap scores by ring — grouping tells the truth. Sniper or Stormtrooper?`;
     case "lab-recall":
       return `The grid lit a pattern and they tapped it back to span ${result.span}. Goldfish to mainframe — where do you land on the animal ladder?`;
   }

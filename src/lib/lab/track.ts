@@ -2,11 +2,19 @@ import type { LabTier } from "./reaction";
 import { formatMs } from "./reaction";
 
 /**
- * Track station logic (PERFORMANCE-LAB.md §4.6) — pure, testable tuning.
- * Aimed tapping in the Fitts (1954) lineage: targets relocate around the
- * arena and shrink as the run goes; stray taps are misses. The score is
- * hit time + accuracy, and the tier ladder runs Stormtrooper → Aimbot,
- * because gamers already speak this language fluently.
+ * Track station logic v2 (PERFORMANCE-LAB.md §4.6) — the range.
+ *
+ * v1 was hit-or-miss on shrinking targets, which made it a different
+ * game per device: tiny discs, finger occlusion and the miss-plus-stray
+ * double punishment stacked against touch. v2 keeps the aim identity —
+ * free-position targets, real hand travel — and fixes the judging
+ * instead: every target is a full-size archery board and every tap
+ * scores by the ring it lands in, then advances. No binary miss exists,
+ * so a thumb's few pixels of occlusion error cost ring points
+ * proportionally, exactly like a sloppy cursor flick. Precision becomes
+ * a continuous grouping measure and the test reads the same on every
+ * device. (A light-board redesign was considered and rejected the same
+ * day — it collapsed into a second Reaction test.)
  */
 
 export const TRACK = {
@@ -15,47 +23,26 @@ export const TRACK = {
   /** Logical arena, portrait like the arcade canvases. */
   width: 420,
   height: 480,
-  /** Target radius shrinks across the run (logical px). */
-  startRadius: 34,
-  minRadius: 18,
   /**
-   * Coarse-pointer (touch) tuning: a fingertip is not a cursor. Bigger
-   * discs (the floor keeps the tappable circle above the ~44 px touch
-   * guideline once the grace ring is added) and a deeper margin so late
-   * targets never hide under browser edge-gesture zones.
+   * The board: fixed size, generous — the outer ring alone is bigger
+   * than v1's launch target, so there is nothing small to fat-finger.
    */
-  coarseStartRadius: 40,
-  coarseMinRadius: 26,
-  /** Keep targets clear of the arena edges. */
-  margin: 44,
-  coarseMargin: 56,
-  /**
-   * The tappable zone extends past the drawn disc — a whisker on desktop,
-   * a real allowance on touch, where the finger occludes the target at
-   * the moment of truth. Near-misses inside the grace ring count as hits
-   * instead of double-punishing (miss + stray).
-   */
-  hitGraceFine: 2,
-  hitGraceCoarse: 12,
-  /** Force real travel between consecutive targets (logical px). */
+  rings: [
+    { radius: 12, points: 10 }, // bullseye
+    { radius: 26, points: 7 },
+    { radius: 44, points: 4 },
+  ],
+  /** Keep boards clear of arena edges and browser gesture zones. */
+  margin: 56,
+  /** Force real travel between consecutive boards (logical px). */
   minJump: 110,
 } as const;
 
-/** Radius for the nth target (0-based) — a linear shrink, floored. */
-export function radiusFor(index: number, coarse = false): number {
-  const start = coarse ? TRACK.coarseStartRadius : TRACK.startRadius;
-  const min = coarse ? TRACK.coarseMinRadius : TRACK.minRadius;
-  const t = Math.min(1, index / (TRACK.targets - 1));
-  return Math.round(start - (start - min) * t);
-}
+/** The outer edge of the drawn board. */
+export const BOARD_RADIUS: number = TRACK.rings[TRACK.rings.length - 1].radius;
 
-/** Radius of the TAPPABLE zone — the drawn disc plus the grace ring. */
-export function hitRadiusFor(index: number, coarse = false): number {
-  return (
-    radiusFor(index, coarse) +
-    (coarse ? TRACK.hitGraceCoarse : TRACK.hitGraceFine)
-  );
-}
+/** A perfect run: every arrow in the bullseye. */
+export const MAX_POINTS: number = TRACK.targets * TRACK.rings[0].points;
 
 export interface TargetPos {
   x: number;
@@ -63,19 +50,17 @@ export interface TargetPos {
 }
 
 /**
- * Next target position: inside the margins, at least `minJump` from the
- * previous target so every hit involves actual hand travel.
+ * Next board position: inside the margins, at least `minJump` from the
+ * previous board so every arrow involves actual hand travel.
  */
 export function positionFor(
   rng: () => number,
   prev: TargetPos | null,
-  coarse = false,
 ): TargetPos {
-  const margin = coarse ? TRACK.coarseMargin : TRACK.margin;
-  const minX = margin;
-  const maxX = TRACK.width - margin;
-  const minY = margin;
-  const maxY = TRACK.height - margin;
+  const minX = TRACK.margin;
+  const maxX = TRACK.width - TRACK.margin;
+  const minY = TRACK.margin;
+  const maxY = TRACK.height - TRACK.margin;
   for (let attempt = 0; attempt < 40; attempt++) {
     const x = minX + rng() * (maxX - minX);
     const y = minY + rng() * (maxY - minY);
@@ -91,10 +76,17 @@ export function positionFor(
   };
 }
 
-/** Hits landed / taps thrown. */
-export function accuracyFor(hits: number, misses: number): number {
-  const taps = hits + misses;
-  return taps === 0 ? 0 : hits / taps;
+/** Ring points for a tap this far (logical px) from the board's centre. */
+export function ringPointsFor(distance: number): number {
+  for (const ring of TRACK.rings) {
+    if (distance <= ring.radius) return ring.points;
+  }
+  return 0;
+}
+
+/** Total ring points as a 0–1 ratio of the perfect run. */
+export function pointsRatio(points: number): number {
+  return MAX_POINTS === 0 ? 0 : Math.max(0, Math.min(1, points / MAX_POINTS));
 }
 
 /** Mean time-to-target, whole ms. */
@@ -104,13 +96,13 @@ export function averageHitMs(times: number[]): number {
 }
 
 /**
- * The tier ladder. Spray-and-pray caps at Stormtrooper no matter how fast —
- * accuracy is half the skill — then speed sorts the rest.
+ * The tier ladder. Spraying wide caps at Stormtrooper no matter how fast
+ * — grouping is half the skill — then speed sorts the rest.
  */
-export function trackTier(avgMs: number, accuracy: number): LabTier {
-  if (avgMs <= 0) return { name: "UNRATED", blurb: "the targets went untroubled." };
-  if (accuracy < 0.7)
-    return { name: "STORMTROOPER", blurb: "all that firepower, none of the hits." };
+export function trackTier(avgMs: number, ratio: number): LabTier {
+  if (avgMs <= 0) return { name: "UNRATED", blurb: "the range stayed quiet." };
+  if (ratio < 0.55)
+    return { name: "STORMTROOPER", blurb: "all that firepower, none of the rings." };
   if (avgMs < 340) return { name: "AIMBOT", blurb: "someone check this hardware." };
   if (avgMs < 430) return { name: "SNIPER", blurb: "one tap, one target." };
   if (avgMs < 530) return { name: "SHARPSHOOTER", blurb: "the crosshair is a formality." };
@@ -119,17 +111,12 @@ export function trackTier(avgMs: number, accuracy: number): LabTier {
   return { name: "BUTTER FINGERS", blurb: "the targets died of old age." };
 }
 
-/**
- * The screenshot-in-text share block (PERFORMANCE-LAB.md §6). A finished
- * run always lands all the targets (they wait to be hit) — the bragging
- * numbers are speed and how few strays it took.
- */
-export function trackShareText(misses: number, avgMs: number): string {
-  const accuracy = accuracyFor(TRACK.targets, misses);
+/** The screenshot-in-text share block (PERFORMANCE-LAB.md §6). */
+export function trackShareText(points: number, avgMs: number): string {
   return [
     "🎯 THE LAB · TRACK",
-    `${formatMs(avgMs)} to target · ${Math.round(accuracy * 100)}% accuracy · ${trackTier(avgMs, accuracy).name}`,
+    `${points}/${MAX_POINTS} · ${formatMs(avgMs)} a target · ${trackTier(avgMs, pointsRatio(points)).name}`,
     `${TRACK.targets} targets down.`,
-    "Every stray tap counts.",
+    "Grouping tells the truth.",
   ].join("\n");
 }

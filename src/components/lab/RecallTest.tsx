@@ -48,6 +48,9 @@ export function RecallTest() {
   const [newBest, setNewBest] = useState(false);
   const [muted, setMuted] = useState(false);
   const [copied, setCopied] = useState(false);
+  /* The ending tap's ghost click must not press a result-card button that
+     mounts under the same spot (the Lifeline restart-guard pattern). */
+  const [guarded, setGuarded] = useState(false);
 
   const phaseRef = useRef<Phase>("ready");
   const seqRef = useRef<number[]>([]);
@@ -149,6 +152,8 @@ export function RecallTest() {
       params: { station: "recall", score: finalSpan, tier: recallTier(finalSpan).name },
     });
     labBeep(synthRef.current, 196, 450, "sawtooth", 0.05);
+    setGuarded(true);
+    later(() => setGuarded(false), 400);
     setPhaseBoth("done");
   };
 
@@ -297,7 +302,11 @@ export function RecallTest() {
           ) : null}
 
           {phase === "done" ? (
-            <div className="absolute inset-0 flex items-center justify-center p-2">
+            <div
+              className={`absolute inset-0 flex items-center justify-center p-2 ${
+                guarded ? "pointer-events-none" : ""
+              }`}
+            >
               <div className="sticker-slap w-full rounded-2xl border-2 border-foreground bg-surface p-5 text-center shadow-[4px_4px_0_0_var(--color-foreground)]">
                 <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-primary">
                   Sequence span
