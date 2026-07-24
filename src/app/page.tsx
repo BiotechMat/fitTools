@@ -74,10 +74,10 @@ function startHereCards() {
 }
 
 const TICKER_ITEMS = [
-  "Built on published science",
-  "No sign-up, no paywall",
-  "Every formula cited",
-  "Check our working",
+  "Backed by research",
+  "Free to use, sign-in optional",
+  "We show the math",
+  "Know your numbers in seconds",
 ];
 
 function TickerCopy({ toolCount }: { toolCount: number }) {
@@ -116,7 +116,7 @@ export default function HomePage() {
       <section className="grid gap-6 py-8 lg:grid-cols-[1.7fr_1fr] lg:items-center">
         <div>
           <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-primary">
-            {toolCount} calculators · every formula cited · free, no sign-up
+            {toolCount} calculators · every formula cited · free to use
           </p>
           <h1 className="mt-3 font-display text-4xl uppercase sm:text-5xl">
             Evidence-based{" "}
@@ -253,7 +253,7 @@ export default function HomePage() {
       </section>
 
       <section aria-label="Browse categories" className="pt-8 pb-4">
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {HUB_STRIP.map(({ key, classes }) => {
             const entry = hubsWithTools.find(({ meta }) => meta.hub === key);
             if (!entry) return null;
