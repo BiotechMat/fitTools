@@ -77,7 +77,7 @@ const TICKER_ITEMS = [
   "Built on published science",
   "No sign-up, no paywall",
   "Every formula cited",
-  "Zone 2 is the new rave",
+  "Check our working",
 ];
 
 function TickerCopy({ toolCount }: { toolCount: number }) {
@@ -164,6 +164,47 @@ export default function HomePage() {
         </ThrowableTicker>
       </div>
 
+      <section className="py-8" aria-labelledby="start-here">
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 id="start-here" className="font-display text-2xl uppercase">
+            Start with the big four
+          </h2>
+          <Link
+            href="#all-tools"
+            className="text-sm font-semibold text-primary underline underline-offset-2"
+          >
+            All {toolCount} tools →
+          </Link>
+        </div>
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {cards.map((card) => (
+            <li
+              key={card.slug}
+              className="riso-press relative rounded-2xl border-2 border-foreground bg-surface p-4"
+            >
+              <span
+                className={`inline-block rounded-full border border-foreground px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${card.chip}`}
+              >
+                {card.hub}
+              </span>
+              <p className="mt-3 font-display text-3xl uppercase tabular-nums">
+                {card.stat}{" "}
+                <span className="font-mono text-sm normal-case text-muted">
+                  {card.unit}
+                </span>
+              </p>
+              <h3 className="mt-1 font-bold">
+                <Link href={`/${card.slug}`} className="hover:text-primary">
+                  <span className="absolute inset-0" aria-hidden="true" />
+                  {card.name}
+                </Link>
+              </h3>
+              <p className="mt-1 text-sm text-muted">{card.blurb}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="pt-8" aria-labelledby="bloodtest-cta">
         <Link
           href="/blood-test"
@@ -209,47 +250,6 @@ export default function HomePage() {
             Play today &rarr;
           </span>
         </Link>
-      </section>
-
-      <section className="py-8" aria-labelledby="start-here">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 id="start-here" className="font-display text-2xl uppercase">
-            Start with the big four
-          </h2>
-          <Link
-            href="#all-tools"
-            className="text-sm font-semibold text-primary underline underline-offset-2"
-          >
-            All {toolCount} tools →
-          </Link>
-        </div>
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map((card) => (
-            <li
-              key={card.slug}
-              className="riso-press relative rounded-2xl border-2 border-foreground bg-surface p-4"
-            >
-              <span
-                className={`inline-block rounded-full border border-foreground px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.14em] ${card.chip}`}
-              >
-                {card.hub}
-              </span>
-              <p className="mt-3 font-display text-3xl uppercase tabular-nums">
-                {card.stat}{" "}
-                <span className="font-mono text-sm normal-case text-muted">
-                  {card.unit}
-                </span>
-              </p>
-              <h3 className="mt-1 font-bold">
-                <Link href={`/${card.slug}`} className="hover:text-primary">
-                  <span className="absolute inset-0" aria-hidden="true" />
-                  {card.name}
-                </Link>
-              </h3>
-              <p className="mt-1 text-sm text-muted">{card.blurb}</p>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section aria-label="Browse categories" className="pb-4">
