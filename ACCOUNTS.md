@@ -351,9 +351,14 @@ on local change, subscribed to the change events every store already emits;
 **pull-if-newer** (per-document `updated_at`) on page load with a session.
 **Writes are conditional**: every PUT carries the `updated_at` it last saw
 (an etag); a mismatch returns 409 and the client re-pulls, re-merges with
-the same pure merge functions, and re-pushes — so a cross-device race (a
-phone offline for a week pushing over a desktop's fresh entries) resolves
-by **merge, never by silently dropping a device's data**. Plain
+the same pure merge functions, and re-pushes — so a stale writer resolves
+by **merge, never by silently dropping data**. The realistic stale writer
+is not an offline device (there is no offline mode) but a **resumed mobile
+tab**: phone browsers resurrect tabs from memory for days without
+reloading, so a tab that last pulled on Monday can push on Thursday over
+everything another device wrote in between; failed pushes retrying on
+flaky gym signal are the same class. The guard costs one header and one
+retry branch over merge functions A2 builds anyway. Plain
 last-write-wins applies only to genuinely scalar namespaces (`prefs`). At
 one-user-few-devices scale that plus set-union semantics is sufficient; no
 CRDTs. Offline or failed pushes retry on the next change/load; the
