@@ -3,6 +3,7 @@ import {
   TRACK,
   accuracyFor,
   averageHitMs,
+  hitRadiusFor,
   positionFor,
   radiusFor,
   trackShareText,
@@ -17,24 +18,38 @@ describe("the targets (PERFORMANCE-LAB.md §4.6)", () => {
     for (let i = 1; i < TRACK.targets; i++) {
       expect(radiusFor(i)).toBeLessThanOrEqual(radiusFor(i - 1));
     }
-    /* Two logical px shy of the 44px touch target, drawn with a ring —
-       the tappable button is the full diameter. */
-    expect(TRACK.minRadius * 2).toBeGreaterThanOrEqual(36);
+  });
+
+  it("run bigger for coarse pointers, and the smallest tappable zone clears ~44px", () => {
+    expect(radiusFor(0, true)).toBe(TRACK.coarseStartRadius);
+    expect(radiusFor(TRACK.targets - 1, true)).toBe(TRACK.coarseMinRadius);
+    for (let i = 0; i < TRACK.targets; i++) {
+      expect(radiusFor(i, true)).toBeGreaterThan(radiusFor(i, false));
+      expect(hitRadiusFor(i, true)).toBe(radiusFor(i, true) + TRACK.hitGraceCoarse);
+      expect(hitRadiusFor(i, false)).toBe(radiusFor(i, false) + TRACK.hitGraceFine);
+    }
+    /* Logical 420 renders ≈ 390 CSS px on a phone (×0.93): the smallest
+       tappable circle must still clear the 44 px touch-target guideline. */
+    const smallestTappable = hitRadiusFor(TRACK.targets - 1, true) * 2 * 0.93;
+    expect(smallestTappable).toBeGreaterThanOrEqual(44);
   });
 
   it("spawn inside the margins and always demand real hand travel", () => {
-    const rng = mulberry32(17);
-    let prev = positionFor(rng, null);
-    for (let i = 0; i < 300; i++) {
-      const next = positionFor(rng, prev);
-      expect(next.x).toBeGreaterThanOrEqual(TRACK.margin);
-      expect(next.x).toBeLessThanOrEqual(TRACK.width - TRACK.margin);
-      expect(next.y).toBeGreaterThanOrEqual(TRACK.margin);
-      expect(next.y).toBeLessThanOrEqual(TRACK.height - TRACK.margin);
-      expect(Math.hypot(next.x - prev.x, next.y - prev.y)).toBeGreaterThanOrEqual(
-        TRACK.minJump,
-      );
-      prev = next;
+    for (const coarse of [false, true]) {
+      const margin = coarse ? TRACK.coarseMargin : TRACK.margin;
+      const rng = mulberry32(17);
+      let prev = positionFor(rng, null, coarse);
+      for (let i = 0; i < 300; i++) {
+        const next = positionFor(rng, prev, coarse);
+        expect(next.x).toBeGreaterThanOrEqual(margin);
+        expect(next.x).toBeLessThanOrEqual(TRACK.width - margin);
+        expect(next.y).toBeGreaterThanOrEqual(margin);
+        expect(next.y).toBeLessThanOrEqual(TRACK.height - margin);
+        expect(Math.hypot(next.x - prev.x, next.y - prev.y)).toBeGreaterThanOrEqual(
+          TRACK.minJump,
+        );
+        prev = next;
+      }
     }
   });
 });

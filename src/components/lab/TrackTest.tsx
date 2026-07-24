@@ -9,6 +9,7 @@ import {
   TRACK,
   accuracyFor,
   averageHitMs,
+  hitRadiusFor,
   positionFor,
   radiusFor,
   trackShareText,
@@ -46,6 +47,9 @@ export function TrackTest() {
   const [newBest, setNewBest] = useState(false);
   const [muted, setMuted] = useState(false);
   const [copied, setCopied] = useState(false);
+  /* Coarse pointer (touch): bigger discs, deeper margins, a wider grace
+     ring — a fingertip is not a cursor (PERFORMANCE-LAB §4.6 build note). */
+  const [coarse, setCoarse] = useState(false);
 
   const phaseRef = useRef<Phase>("ready");
   const spawnAtRef = useRef(0);
@@ -64,13 +68,14 @@ export function TrackTest() {
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect -- one-time localStorage
-       hydration after mount; server render must stay storage-free */
+       + media-query hydration after mount; server render must stay neutral */
     try {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
     } catch {
       /* private mode */
     }
     setMuted(readLabMuted());
+    setCoarse(window.matchMedia("(pointer: coarse)").matches);
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -84,7 +89,7 @@ export function TrackTest() {
     setMisses(0);
     setTimes([]);
     setCopied(false);
-    setPos(positionFor(rng, null));
+    setPos(positionFor(rng, null, coarse));
     spawnAtRef.current = performance.now();
     trackEvent({ name: "lab_test_started", params: { station: "track" } });
     setPhaseBoth("live");
@@ -125,7 +130,7 @@ export function TrackTest() {
       return;
     }
     setIndex(nextTimes.length);
-    setPos((prev) => positionFor(rng, prev));
+    setPos((prev) => positionFor(rng, prev, coarse));
     spawnAtRef.current = performance.now();
   };
 
@@ -165,7 +170,8 @@ export function TrackTest() {
   const avg = averageHitMs(times);
   const accuracy = accuracyFor(TRACK.targets, misses);
   const tier = trackTier(avg, accuracy);
-  const radius = radiusFor(index);
+  const radius = radiusFor(index, coarse);
+  const hitRadius = hitRadiusFor(index, coarse);
 
   return (
     <div className="relative mx-auto w-full max-w-[420px] select-none">
@@ -203,6 +209,10 @@ export function TrackTest() {
         style={{ aspectRatio: `${TRACK.width} / ${TRACK.height}` }}
       >
         {phase === "live" ? (
+          /* The button is the tappable GRACE zone (invisible, larger than
+             the disc); the drawn target sits inside it. On touch the finger
+             occludes the disc at the moment of truth, so near-misses inside
+             the ring count as hits instead of miss-plus-stray. */
           <button
             type="button"
             onPointerDown={(e) => {
@@ -211,15 +221,21 @@ export function TrackTest() {
               hit(e.timeStamp);
             }}
             aria-label={`Target ${index + 1} of ${TRACK.targets}`}
-            className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-crosshair items-center justify-center rounded-full border-2 border-foreground bg-primary-strong shadow-[2px_2px_0_0_var(--color-foreground)]"
+            className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-crosshair items-center justify-center rounded-full"
             style={{
               left: `${(pos.x / TRACK.width) * 100}%`,
               top: `${(pos.y / TRACK.height) * 100}%`,
-              width: `${((radius * 2) / TRACK.width) * 100}%`,
+              width: `${((hitRadius * 2) / TRACK.width) * 100}%`,
               aspectRatio: "1",
             }}
           >
-            <span className="block h-1/3 w-1/3 rounded-full border-2 border-background bg-background/20" aria-hidden="true" />
+            <span
+              aria-hidden="true"
+              className="flex items-center justify-center rounded-full border-2 border-foreground bg-primary-strong shadow-[2px_2px_0_0_var(--color-foreground)]"
+              style={{ width: `${(radius / hitRadius) * 100}%`, aspectRatio: "1" }}
+            >
+              <span className="block h-1/3 w-1/3 rounded-full border-2 border-background bg-background/20" />
+            </span>
           </button>
         ) : null}
 

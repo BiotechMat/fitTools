@@ -337,6 +337,14 @@ Not scheduled — STATUS.md Phases 1–3 come first. When a slot opens:
   pentatonic pad tones, start at 3, one wobble replays the pattern, two
   ends it; span = longest completed. Track — 25 targets, radius 34→18 px,
   ≥110 px forced travel between targets, strays scored against accuracy.
+  **Touch tuning (2026-07-24):** on coarse pointers Track runs bigger
+  discs (40→26 px), deeper edge margins (56 px, clear of browser gesture
+  zones) and a 12 px invisible grace ring around the drawn disc (2 px on
+  fine pointers) — a fingertip occludes the target at the moment of
+  truth, so a near-miss inside the ring counts as the hit it was meant
+  to be instead of a miss-plus-stray. Smallest tappable circle verified
+  ≥44 CSS px on an emulated Pixel 7. Tier thresholds are shared across
+  devices; the "compare on the same device" line covers the difference.
 - **Files:** logic `src/lib/lab/{reaction,recall,track}.ts` (+ 3 test
   files, house test-first style); components `src/components/lab/
   {ReactionTest,RecallTest,TrackTest}.tsx` + `labSynth.ts` (shared

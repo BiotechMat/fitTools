@@ -18,17 +18,42 @@ export const TRACK = {
   /** Target radius shrinks across the run (logical px). */
   startRadius: 34,
   minRadius: 18,
+  /**
+   * Coarse-pointer (touch) tuning: a fingertip is not a cursor. Bigger
+   * discs (the floor keeps the tappable circle above the ~44 px touch
+   * guideline once the grace ring is added) and a deeper margin so late
+   * targets never hide under browser edge-gesture zones.
+   */
+  coarseStartRadius: 40,
+  coarseMinRadius: 26,
   /** Keep targets clear of the arena edges. */
   margin: 44,
+  coarseMargin: 56,
+  /**
+   * The tappable zone extends past the drawn disc — a whisker on desktop,
+   * a real allowance on touch, where the finger occludes the target at
+   * the moment of truth. Near-misses inside the grace ring count as hits
+   * instead of double-punishing (miss + stray).
+   */
+  hitGraceFine: 2,
+  hitGraceCoarse: 12,
   /** Force real travel between consecutive targets (logical px). */
   minJump: 110,
 } as const;
 
 /** Radius for the nth target (0-based) — a linear shrink, floored. */
-export function radiusFor(index: number): number {
+export function radiusFor(index: number, coarse = false): number {
+  const start = coarse ? TRACK.coarseStartRadius : TRACK.startRadius;
+  const min = coarse ? TRACK.coarseMinRadius : TRACK.minRadius;
   const t = Math.min(1, index / (TRACK.targets - 1));
-  return Math.round(
-    TRACK.startRadius - (TRACK.startRadius - TRACK.minRadius) * t,
+  return Math.round(start - (start - min) * t);
+}
+
+/** Radius of the TAPPABLE zone — the drawn disc plus the grace ring. */
+export function hitRadiusFor(index: number, coarse = false): number {
+  return (
+    radiusFor(index, coarse) +
+    (coarse ? TRACK.hitGraceCoarse : TRACK.hitGraceFine)
   );
 }
 
@@ -44,11 +69,13 @@ export interface TargetPos {
 export function positionFor(
   rng: () => number,
   prev: TargetPos | null,
+  coarse = false,
 ): TargetPos {
-  const minX = TRACK.margin;
-  const maxX = TRACK.width - TRACK.margin;
-  const minY = TRACK.margin;
-  const maxY = TRACK.height - TRACK.margin;
+  const margin = coarse ? TRACK.coarseMargin : TRACK.margin;
+  const minX = margin;
+  const maxX = TRACK.width - margin;
+  const minY = margin;
+  const maxY = TRACK.height - margin;
   for (let attempt = 0; attempt < 40; attempt++) {
     const x = minX + rng() * (maxX - minX);
     const y = minY + rng() * (maxY - minY);
