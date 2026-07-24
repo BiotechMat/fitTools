@@ -70,6 +70,17 @@ export default function ReactionPage() {
         beneficiary of caffeine — which is exactly why it&rsquo;s worth
         retesting across a week rather than once. Your number includes your
         screen and your hardware, so duel your own best on the same device.
+        The percentile compares you against{" "}
+        <a
+          href="https://humanbenchmark.com/tests/reactiontime/statistics"
+          rel="nofollow noopener"
+          target="_blank"
+          className="text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          public reaction-test aggregates
+        </a>{" "}
+        (median 273 ms across 81M+ browser clicks) until our own player
+        distribution takes over.
         See what actually shifts it with the{" "}
         <Link
           href="/sleep-calculator"

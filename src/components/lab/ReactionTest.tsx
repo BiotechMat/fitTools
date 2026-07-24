@@ -6,13 +6,16 @@ import { trackEvent } from "@/lib/analytics";
 import { mulberry32 } from "@/lib/lifeline";
 import {
   REACTION,
+  REACTION_TIERS,
   averageMs,
   delayFor,
   formatMs,
   reactionBlocks,
+  reactionPercentile,
   reactionRow,
   reactionShareText,
   reactionTier,
+  reactionTierRange,
 } from "@/lib/lab/reaction";
 import { labReactionSharePath } from "@/lib/arcade-share";
 
@@ -252,6 +255,9 @@ export function ReactionTest() {
                 {tier.name}
               </span>
               <span className="mt-1 block text-sm font-semibold">{tier.blurb}</span>
+              <span className="mt-2 inline-block rounded-full border-2 border-good bg-good-soft px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-good">
+                Faster than {reactionPercentile(avg)}% of people
+              </span>
               <span aria-hidden="true" className="mt-2 block text-lg tracking-[0.2em]">
                 {reactionBlocks(times)}
               </span>
@@ -300,6 +306,45 @@ export function ReactionTest() {
           >
             Sleep moves this →
           </Link>
+        </div>
+      ) : null}
+
+      {phase === "done" ? (
+        <div className="mt-4 rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[4px_4px_0_0_var(--color-foreground)]">
+          <p className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+            The ladder
+          </p>
+          <ul className="mt-2">
+            {REACTION_TIERS.map((band, i) => {
+              const yours = band.name === tier.name;
+              return (
+                <li
+                  key={band.name}
+                  className={`flex items-center justify-between gap-3 rounded-lg px-3 py-1.5 ${
+                    yours ? "bg-primary-soft" : ""
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="font-display text-base uppercase tracking-wide">
+                      {band.name}
+                    </span>
+                    {yours ? (
+                      <span className="sticker-slap inline-block rotate-2 rounded-full border-2 border-foreground bg-primary-strong px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-background">
+                        You
+                      </span>
+                    ) : null}
+                  </span>
+                  <span className="font-mono text-xs text-muted">
+                    {reactionTierRange(i)}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
+            Percentile vs public reaction-test data · our own player stats take
+            over soon
+          </p>
         </div>
       ) : null}
     </div>

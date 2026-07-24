@@ -360,8 +360,23 @@ drawn as squares), og:title carries "231 ms · CAFFEINATED", and bare
 station URLs get hero cards through the same route. Manifest entries
 added for add-to-home-screen.
 
+**Reaction comparison layer BUILT (2026-07-24, Mat's direction):** the
+result screen now shows the full tier ladder with each band's ms range
+(rendered from the same `REACTION_TIERS` table that judges the score, so
+they can't drift) with the player's row highlighted, plus a population
+percentile ("Faster than N% of people"). The percentile is an explicitly
+labelled PLACEHOLDER anchored on public browser reaction-test aggregates
+— Human Benchmark's published median 273 ms / mean 284 ms over 81M+
+clicks on the same average-of-5 protocol, tails from corroborating
+public tables (source URLs in `reaction.ts` at `PERCENTILE_ANCHORS`) —
+interpolated and clamped to 1–99, cited on the page, and **to be
+replaced by the pooled playerbase distribution** when that lands. The
+percentile also rides the share text, unfurl description and OG card
+(derived server-side from the score, no new params).
+
 **Deliberately deferred** (the §3 feature set beyond MVP): pooled
-percentiles/norm bands, the composite Lab Score, leaderboards (all need
-data or accounts), the daily-seeded circuit, streaks, and
+percentiles/norm bands for Recall and Track (Reaction's placeholder
+above leads the way; theirs follow with playerbase data), the composite
+Lab Score, leaderboards, the daily-seeded circuit, streaks, and
 dashboard/Trajectory metric registration. Names still proposed, not
 locked.

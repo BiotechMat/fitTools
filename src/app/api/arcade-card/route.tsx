@@ -9,7 +9,7 @@ import {
 import { EDGE_CAUSE, OBSTACLE_KINDS, medalFor, type Medal } from "@/lib/lifeline";
 import { MISS_CAUSES, formatKg, platesPhrase } from "@/lib/maxout";
 import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
-import { reactionTier } from "@/lib/lab/reaction";
+import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
 import { TRACK, trackTier } from "@/lib/lab/track";
 import {
@@ -430,7 +430,10 @@ function resultSpec(result: ShareResultPayload): CardSpec {
             <PixelSprite rows={LAB_BOLT} cell={6} />
             <Kicker text="AVERAGE OF FIVE TAPS" />
             <Score value={String(result.avg)} unit="MS" size={180} />
-            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag
+              text={`${tier.name} · FASTER THAN ${reactionPercentile(result.avg)}% OF PEOPLE`}
+              colour={OG_COLORS.forest}
+            />
             {result.row ? <SpeedRow row={result.row} /> : <Gag text={tier.blurb} />}
           </div>
         ),

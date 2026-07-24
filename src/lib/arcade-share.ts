@@ -15,7 +15,7 @@ import { OBSTACLE_KINDS } from "@/lib/lifeline";
 import { MISS_CAUSES } from "@/lib/maxout";
 import { ZONES, zoneName } from "@/lib/powerhouse";
 import type { ClosenessTier } from "@/lib/daily/types";
-import { reactionTier } from "@/lib/lab/reaction";
+import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
 import { trackTier } from "@/lib/lab/track";
 
@@ -509,7 +509,7 @@ export function resultDescription(result: ShareResultPayload): string {
     case "myth":
       return "The weekly myth-buster quiz, every verdict backed by a study. Can you do better?";
     case "lab-reaction":
-      return `${result.avg} ms average over five taps. Wait for the flash, tap, find your tier — LIGHTNING down to PING 999. Beat it on your own screen.`;
+      return `${result.avg} ms average over five taps — faster than ${reactionPercentile(result.avg)}% of people. Wait for the flash, tap, find your tier. Beat it on your own screen.`;
     case "lab-track":
       return `${result.ms} ms to target at ${result.acc}% accuracy across 25 shrinking targets. Sniper or Stormtrooper — find out.`;
     case "lab-recall":

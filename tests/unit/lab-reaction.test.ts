@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
   REACTION,
+  REACTION_TIERS,
   averageMs,
   delayFor,
   formatMs,
   reactionBlocks,
+  reactionPercentile,
   reactionShareText,
   reactionTier,
+  reactionTierRange,
 } from "@/lib/lab/reaction";
 import { mulberry32 } from "@/lib/lifeline";
 
@@ -56,6 +59,47 @@ describe("the tier ladder", () => {
     }
     expect(reactionTier(0).name).toBe("UNRATED");
   });
+
+  it("the table and the function can never disagree, and ranges tile the axis", () => {
+    for (let i = 0; i < REACTION_TIERS.length; i++) {
+      const band = REACTION_TIERS[i];
+      const floor = i === 0 ? 1 : REACTION_TIERS[i - 1].max;
+      expect(reactionTier(floor).name).toBe(band.name);
+      if (band.max !== Infinity) {
+        expect(reactionTier(band.max - 1).name).toBe(band.name);
+      }
+      expect(reactionTierRange(i).length).toBeGreaterThan(4);
+    }
+    expect(reactionTierRange(0)).toBe("under 190 ms");
+    expect(reactionTierRange(REACTION_TIERS.length - 1)).toBe("450 ms and up");
+  });
+});
+
+describe("the placeholder percentile (public-benchmark anchors)", () => {
+  it("pins the Human Benchmark median and stays monotonic", () => {
+    expect(reactionPercentile(273)).toBe(50); // the published median
+    for (let avg = 60; avg < 1000; avg += 5) {
+      expect(reactionPercentile(avg)).toBeGreaterThanOrEqual(
+        reactionPercentile(avg + 5),
+      );
+    }
+  });
+
+  it("clamps to a 1–99 band and zeroes a missing score", () => {
+    expect(reactionPercentile(1)).toBe(99);
+    expect(reactionPercentile(5000)).toBe(1);
+    expect(reactionPercentile(0)).toBe(0);
+    for (let avg = 60; avg < 1500; avg += 13) {
+      const pct = reactionPercentile(avg);
+      expect(pct).toBeGreaterThanOrEqual(1);
+      expect(pct).toBeLessThanOrEqual(99);
+    }
+  });
+
+  it("lands the corroborated public anchors", () => {
+    expect(reactionPercentile(200)).toBe(88);
+    expect(reactionPercentile(400)).toBe(10);
+  });
 });
 
 describe("the share block", () => {
@@ -70,6 +114,7 @@ describe("the share block", () => {
     expect(text).toContain("THE LAB · REACTION");
     expect(text).toContain("225 ms");
     expect(text).toContain("LOCKED IN");
+    expect(text).toMatch(/Faster than \d+% of people/);
     expect(text).toContain("🟩🟩🟩🟩🟩");
     expect(text).toContain("Blink");
   });
