@@ -173,6 +173,14 @@ line item. Web-only, so Apple's app-store sign-in mandate never applies —
 it is offered on fit, not obligation. Passkeys follow once the account
 base exists.
 
+**Identity note (accepted v1 papercut):** accounts key on verified email.
+Apple's private relay mints a distinct address, so the same person using
+magic link one day and Apple the next can end up with **two accounts**.
+v1 accepts this — `/signin` says plainly "use the same method you signed
+up with", and OAuth providers sharing a verified email do link — and a
+manual account-linking flow on `/account` is the fast-follow alongside
+passkeys. Not worth blocking v1 on.
+
 ### 4.2 Library — self-hosted only
 
 A hosted identity SaaS (Clerk etc.) is **ruled out on posture**: it puts a
@@ -341,10 +349,15 @@ daily actives, debounced sync pushes of a few kB each.
 **Pull → merge → write-local → push** on sign-in; **debounced push** (~2 s)
 on local change, subscribed to the change events every store already emits;
 **pull-if-newer** (per-document `updated_at`) on page load with a session.
-Last-write-wins per document after the deterministic first-login merge —
-at one-user-few-devices scale, document LWW + set-union is honest and
-sufficient; no CRDTs. Offline or failed pushes retry on the next
-change/load; the device's local copy always keeps working (principle §2.2).
+**Writes are conditional**: every PUT carries the `updated_at` it last saw
+(an etag); a mismatch returns 409 and the client re-pulls, re-merges with
+the same pure merge functions, and re-pushes — so a cross-device race (a
+phone offline for a week pushing over a desktop's fresh entries) resolves
+by **merge, never by silently dropping a device's data**. Plain
+last-write-wins applies only to genuinely scalar namespaces (`prefs`). At
+one-user-few-devices scale that plus set-union semantics is sufficient; no
+CRDTs. Offline or failed pushes retry on the next change/load; the
+device's local copy always keeps working (principle §2.2).
 
 ### 6.2 Namespaces & first-login merges (the registry)
 
@@ -446,6 +459,12 @@ exist **before** the first health-flavoured byte is stored server-side:
 3. **User controls, first-class on `/account`**: view what's held, export
    (portability, one JSON), revoke consent, **delete everything** (erasure —
    immediate hard delete of documents, consents and the account; e2e-tested).
+   One honest caveat, disclosed in the policy: provider point-in-time
+   **backups retain deleted data for a short tail** (~7 days,
+   provider-dependent, recorded at A0). Backups are never restored to
+   resurrect deleted accounts; after a disaster-recovery restore,
+   completed deletions are re-applied. This is the standard ICO-accepted
+   posture — stated, not hidden.
 4. **Published posture** before launch: privacy-policy update (the
    blood-test page already promises it), naming storage location/region,
    encryption at rest, the processor list (Vercel, DB provider, email
@@ -614,9 +633,10 @@ namespace (pure, ≥3 vectors each, incl. the documented daily/pulse
 strategies); the health-storage consent step gating the flagged namespaces
 (403 without it); the bloodwork rejection guard; export covers every
 namespace. **Accept:** first-login merge vectors pass per namespace;
-two-device LWW behaves; consent revoke deletes the gated server copies;
-bloodwork content is rejected; size caps enforced; the new stores work
-signed-out identically to the old ones.
+the concurrent-write path is tested (etag mismatch → 409 → re-pull,
+re-merge, re-push — no device's entries silently lost); consent revoke
+deletes the gated server copies; bloodwork content is rejected; size caps
+enforced; the new stores work signed-out identically to the old ones.
 
 ### A3 — Surface integration (Dashboard D2 complete)
 Signed-in dashboard state; save affordances on supplement/exercise pages +
