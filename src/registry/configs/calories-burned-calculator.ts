@@ -16,7 +16,7 @@ export const caloriesBurnedInputsSchema = z.object({
 
 export const caloriesBurnedConfig: ToolConfig = {
   slug: CALORIES_BURNED_SLUG,
-  title: "Calories Burned Calculator — MET Method",
+  title: "Calories Burned Calculator: MET Method",
   valueLine:
     "Estimate the energy cost of any activity using the research-standard MET method and Compendium values.",
   metaDescription:
@@ -28,7 +28,7 @@ export const caloriesBurnedConfig: ToolConfig = {
   faq: [
     {
       q: "How are calories burned calculated?",
-      a: "Each activity has a MET value — a multiple of resting metabolism — from the Compendium of Physical Activities. Energy is MET × 3.5 × bodyweight (kg) ÷ 200 per minute, the standard research formula.",
+      a: "Each activity has a MET value, a multiple of resting metabolism, from the Compendium of Physical Activities. Energy is MET × 3.5 × bodyweight (kg) ÷ 200 per minute, the standard research formula.",
     },
     {
       q: "How accurate are MET estimates?",
@@ -36,7 +36,7 @@ export const caloriesBurnedConfig: ToolConfig = {
     },
     {
       q: "Do fitter people burn fewer calories doing the same exercise?",
-      a: "Slightly, at the same absolute pace — movement economy improves. But fitter people typically work at higher absolute intensities, which usually outweighs the efficiency gain.",
+      a: "Slightly, at the same absolute pace, as movement economy improves. But fitter people typically work at higher absolute intensities, which usually outweighs the efficiency gain.",
     },
     {
       q: "Why does my watch disagree?",
@@ -48,11 +48,11 @@ export const caloriesBurnedConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Compendium of Physical Activities (Adult Compendium) — activity codes and MET values",
+      label: "Compendium of Physical Activities (Adult Compendium): activity codes and MET values",
       url: "https://pacompendium.com/",
     },
     {
-      label: "Ainsworth BE, et al. 2011 Compendium of Physical Activities. Med Sci Sports Exerc 2011;43:1575–1581",
+      label: "Ainsworth BE, et al. 2011 Compendium of Physical Activities. Med Sci Sports Exerc 2011;43:1575-1581",
       url: "https://pubmed.ncbi.nlm.nih.gov/21681120/",
     },
   ],

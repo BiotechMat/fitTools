@@ -50,17 +50,20 @@ test("sitemap lists every page and every URL serves", async ({ request }) => {
   const xml = await response.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 
-  // Home + daily hub + arcade hub + lifeline + powerhouse + blood-test +
+  // Home + daily hub + arcade hub + lifeline + powerhouse + max-out +
+  // five-a-day + blood-test +
   // pulse hub + pulse/this-week + calculators index + 3 calculator category
   // pages + 3 section hubs +
-  // 32 standard tools + reconstitution calculator (in the peptides section) +
+  // 39 standard tools + reconstitution calculator (in the peptides section) +
   // author + 5 legal + peptides pillar + 16 peptide pages + index-methodology +
-  // 8 recovery pillars + 4 recovery satellites + glossary hub + 55 glossary
-  // terms + supplements hub + 35 supplement pages + exercises hub + 3 pattern
+  // 8 recovery pillars + 4 recovery satellites + glossary hub + 78 glossary
+  // terms + supplements hub + 166 supplement pages (the original in-depth
+  // reviews plus a rated page for every distinct supplement in the reference
+  // list) + exercises hub + 3 pattern
   // hubs + 39 exercise pages + food-reference hub + 4 food-reference pages +
   // reference-tables hub + 3 reference tables + glow-up hub +
   // looksmaxxing-myths + skin pillar + 6 skin satellites.
-  expect(locs.length).toBe(237);
+  expect(locs.length).toBe(400);
   for (const loc of locs) {
     const path = new URL(loc).pathname;
     const pageResponse = await request.get(path);
@@ -124,7 +127,7 @@ test("calculators index groups every category under stable anchors", async ({ pa
   expect(await toolLinks.count()).toBeGreaterThanOrEqual(33);
 });
 
-test("Calculators menu nests: menu → categories → each category's calculators", async ({ page }) => {
+test("Calculators menu: full grid on desktop, nested accordion on mobile", async ({ page }) => {
   await page.goto("/");
   const nav = page.getByRole("navigation", { name: "Main" });
   const hamburger = nav.getByRole("button", { name: "Open menu" });
@@ -140,25 +143,42 @@ test("Calculators menu nests: menu → categories → each category's calculator
   const panel = nav.locator(
     onMobile ? "#mobile-group-calculators" : "#nav-group-calculators",
   );
-  // Level 2: the categories, as expandable rows — no tool links yet.
-  for (const category of ["Nutrition", "Workout", "Recovery", "Peptides"]) {
-    await expect(panel.getByRole("button", { name: category })).toBeVisible();
+
+  if (onMobile) {
+    // Mobile: nested accordion. Categories are expandable rows with no tool
+    // links until opened, one category at a time.
+    for (const category of ["Nutrition", "Workout", "Recovery", "Peptides"]) {
+      await expect(panel.getByRole("button", { name: category })).toBeVisible();
+    }
+    await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
+
+    await panel.getByRole("button", { name: "Nutrition" }).click();
+    await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveAttribute(
+      "href",
+      "/tdee-calculator",
+    );
+
+    // One category open at a time: switching swaps the list.
+    await panel.getByRole("button", { name: "Peptides" }).click();
+    await expect(
+      panel.getByRole("link", { name: /Peptide Reconstitution/ }),
+    ).toHaveAttribute("href", "/learn/peptides/peptide-reconstitution");
+    await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
+  } else {
+    // Desktop: the full grid — every category heading and all of its
+    // calculators are on screen at once, no per-category expansion.
+    for (const category of ["Nutrition", "Workout", "Recovery", "Peptides"]) {
+      await expect(panel.getByText(category, { exact: true })).toBeVisible();
+    }
+    // Tools from different categories are visible simultaneously.
+    await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveAttribute(
+      "href",
+      "/tdee-calculator",
+    );
+    await expect(
+      panel.getByRole("link", { name: /Peptide Reconstitution/ }),
+    ).toHaveAttribute("href", "/learn/peptides/peptide-reconstitution");
   }
-  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
-
-  // Level 3: expanding a category reveals its calculators.
-  await panel.getByRole("button", { name: "Nutrition" }).click();
-  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveAttribute(
-    "href",
-    "/tdee-calculator",
-  );
-
-  // One category open at a time: switching swaps the list.
-  await panel.getByRole("button", { name: "Peptides" }).click();
-  await expect(
-    panel.getByRole("link", { name: /Peptide Reconstitution/ }),
-  ).toHaveAttribute("href", "/learn/peptides/peptide-reconstitution");
-  await expect(panel.getByRole("link", { name: /TDEE/ })).toHaveCount(0);
 
   await panel.getByRole("link", { name: "All calculators" }).click();
   await expect(page).toHaveURL(/\/calculators$/);

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: TermParams): Promise<Metadata
   const { term } = await params;
   const entry = getGlossaryEntry(term);
   if (!entry) return {};
-  const title = `${entry.term} — Definition`;
+  const title = `${entry.term}, Definition`;
   return {
     title,
     description: entry.short,

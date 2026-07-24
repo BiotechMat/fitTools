@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: ExerciseParams): Promise<Meta
   const e = getExercise(exercise);
   if (!e || e.pattern !== pattern) return {};
   return {
-    title: `How to ${e.name} — Form, Muscles and Mistakes`,
+    title: `How to ${e.name}: Form, Muscles and Mistakes`,
     description: e.short,
     alternates: { canonical: `/exercises/${e.pattern}/${e.slug}` },
     openGraph: {

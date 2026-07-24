@@ -19,6 +19,7 @@ import {
   speedAt,
 } from "@/lib/lifeline";
 import { trackEvent } from "@/lib/analytics";
+import { lifelineSharePath, type LifelineCauseId } from "@/lib/arcade-share";
 
 /**
  * Lifeline (LIFELINE.md): tap-to-flap heartbeat arcade. All rendering is
@@ -42,12 +43,12 @@ const RESTART_GUARD_MS = 350;
    formula modules (CLAUDE.md: never invent numbers or citations). */
 const FACTS: { text: string; href: string; label: string }[] = [
   {
-    text: "In the Li 2018 cohort, five lifestyle factors were associated with 12–14 extra years of life expectancy at age 50.",
+    text: "In the Li 2018 cohort, five lifestyle factors were associated with 12 to 14 extra years of life expectancy at age 50.",
     href: "/lifestyle-life-expectancy",
     label: "See the study",
   },
   {
-    text: "Your modelled heart age usually moves most with systolic blood pressure — the calculator shows what moves your needle.",
+    text: "Your modelled heart age usually moves most with systolic blood pressure, the calculator shows what moves your needle.",
     href: "/heart-age-calculator",
     label: "Check your heart age",
   },
@@ -68,9 +69,9 @@ interface DailyModifier {
 const MODIFIERS: DailyModifier[] = [
   { id: "jitter", label: "Stress is twitchy today" },
   { id: "shortage", label: "Broccoli shortage" },
-  { id: "headwind", label: "Headwind — everything's faster" },
-  { id: "deepsleep", label: "Deep sleep — Zs are worth double" },
-  { id: "calmday", label: "Recovery day — gaps run wider" },
+  { id: "headwind", label: "Headwind: everything's faster" },
+  { id: "deepsleep", label: "Deep sleep: Zs are worth double" },
+  { id: "calmday", label: "Recovery day: gaps run wider" },
 ];
 
 const RUNS_KEY = "fittools.lifeline.runs";
@@ -341,13 +342,14 @@ function freshWorld(seed: number | null): World {
 const SKINS = [
   { id: "classic", label: "Classic", hint: "The original ticker" },
   { id: "gold", label: "Gold", hint: "Join the centenarian club (100)" },
-  { id: "chalk", label: "Chalk", hint: "Reach 80 — gold-medal territory" },
+  { id: "chalk", label: "Chalk", hint: "Reach 80: gold-medal territory" },
 ] as const;
 type SkinId = (typeof SKINS)[number]["id"];
 
 const SKINS_KEY = "fittools.lifeline.skins";
 const SKIN_KEY = "fittools.lifeline.skin";
 const GHOST_KEY_PREFIX = "fittools.lifeline.ghost.";
+const GHOST_OFF_KEY = "fittools.lifeline.ghostoff";
 
 function swapPalette(rows: string[], map: Record<string, string>): string[] {
   return rows.map((row) => [...row].map((ch) => map[ch] ?? ch).join(""));
@@ -374,6 +376,7 @@ export function LifelineGame() {
   const challengeRef = useRef<{ seed: number; beat: number } | null>(null);
   const skinRef = useRef<SkinId>("classic");
   const ghostRef = useRef<number[] | null>(null);
+  const ghostOffRef = useRef(false);
   const deadAtRef = useRef(0);
   const synthRef = useRef<Synth | null>(null);
   const spritesRef = useRef<Record<string, HTMLCanvasElement> | null>(null);
@@ -381,6 +384,7 @@ export function LifelineGame() {
   const [finalAge, setFinalAge] = useState(0);
   const [cause, setCause] = useState("");
   const [causeLabel, setCauseLabel] = useState("");
+  const [causeId, setCauseId] = useState<LifelineCauseId>("gravity");
   const [best, setBest] = useState(0);
   const [dailyBest, setDailyBest] = useState(0);
   const [lastRuns, setLastRuns] = useState<number[]>([]);
@@ -394,6 +398,8 @@ export function LifelineGame() {
   const [newBest, setNewBest] = useState(false);
   const [copied, setCopied] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [ghostOff, setGhostOff] = useState(false);
+  const [hasGhost, setHasGhost] = useState(false);
 
   const setPhaseBoth = (p: Phase) => {
     phaseRef.current = p;
@@ -416,6 +422,9 @@ export function LifelineGame() {
       setBest(Number(localStorage.getItem(BEST_KEY) ?? 0));
       setDailyBest(Number(localStorage.getItem(DAILY_KEY_PREFIX + todayISO()) ?? 0));
       setMuted(localStorage.getItem(MUTE_KEY) === "1");
+      ghostOffRef.current = localStorage.getItem(GHOST_OFF_KEY) === "1";
+      setGhostOff(ghostOffRef.current);
+      setHasGhost(localStorage.getItem(GHOST_KEY_PREFIX + todayISO()) !== null);
       const runsRaw = localStorage.getItem(RUNS_KEY);
       if (runsRaw) {
         const parsed: unknown = JSON.parse(runsRaw);
@@ -479,7 +488,7 @@ export function LifelineGame() {
       shield: makeSprite(SPRITE_MAPS.shield, 3),
     };
 
-    const die = (deathCause: string, label: string) => {
+    const die = (deathCause: string, label: string, kindId: LifelineCauseId) => {
       const w = world.current;
       const age = Math.floor(ageAt(w.t, w.bonus));
       trackEvent({
@@ -489,6 +498,7 @@ export function LifelineGame() {
       setFinalAge(age);
       setCause(deathCause);
       setCauseLabel(label);
+      setCauseId(kindId);
       setCopied(false);
       setNewBest(false);
       setNewSkin(null);
@@ -520,6 +530,7 @@ export function LifelineGame() {
             GHOST_KEY_PREFIX + todayISO(),
             JSON.stringify(w.rec),
           );
+          setHasGhost(true);
         }
       } catch {
         /* fine */
@@ -618,7 +629,7 @@ export function LifelineGame() {
         w.y < LIFELINE.playerRadius + 2 ||
         w.y > floor - LIFELINE.playerRadius
       ) {
-        die(EDGE_CAUSE, "GRAVITY");
+        die(EDGE_CAUSE, "GRAVITY", "gravity");
         return;
       }
 
@@ -698,7 +709,7 @@ export function LifelineGame() {
             );
             continue;
           }
-          die(c.kind.cause, c.kind.label);
+          die(c.kind.cause, c.kind.label, c.kind.id);
           return;
         }
         if (!c.passed && c.x + LIFELINE.columnHalfWidth < LIFELINE.playerX - LIFELINE.playerRadius) {
@@ -1012,7 +1023,7 @@ export function LifelineGame() {
       }
 
       /* Daily ghost: your best run today, racing you at 30Hz. */
-      if (phaseRef.current === "playing" && ghostRef.current) {
+      if (phaseRef.current === "playing" && ghostRef.current && !ghostOffRef.current) {
         const gi = Math.floor(w.t * 30);
         if (gi < ghostRef.current.length) {
           ctx.globalAlpha = 0.3;
@@ -1206,7 +1217,11 @@ export function LifelineGame() {
     : `Lifeline #${puzzleNo} · flatlined at ${finalAge} · cause: ${causeLabel}`;
   const share = () => {
     try {
-      const url = `${window.location.origin}/lifeline?seed=${finalSeed}&beat=${finalAge}`;
+      // The same URL replays the course AND unfurls as the score card
+      // (the page's generateMetadata reads these params).
+      const url =
+        window.location.origin +
+        lifelineSharePath({ seed: finalSeed, beat: finalAge, cause: causeId });
       void navigator.clipboard.writeText(`${shareText} · beat me: ${url}`);
       setCopied(true);
     } catch {
@@ -1284,7 +1299,7 @@ export function LifelineGame() {
     >
       <canvas
         ref={canvasRef}
-        aria-label="Lifeline — tap or press space to keep the heart beating"
+        aria-label="Lifeline, tap or press space to keep the heart beating"
         className="block h-auto w-full cursor-pointer touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)]"
         style={{ aspectRatio: `${LIFELINE.width} / ${LIFELINE.height}` }}
       />
@@ -1305,6 +1320,27 @@ export function LifelineGame() {
       >
         {muted ? "Sound off" : "Sound on"}
       </button>
+      {hasGhost && !challenge ? (
+        <button
+          type="button"
+          aria-pressed={ghostOff}
+          onClick={() => {
+            setGhostOff((g) => {
+              const next = !g;
+              ghostOffRef.current = next;
+              try {
+                localStorage.setItem(GHOST_OFF_KEY, next ? "1" : "0");
+              } catch {
+                /* fine */
+              }
+              return next;
+            });
+          }}
+          className="absolute bottom-3 left-3 rounded-full border-2 border-foreground bg-surface px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em]"
+        >
+          {ghostOff ? "Ghost off" : "Ghost on"}
+        </button>
+      ) : null}
 
       {phase === "ready" ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center">
@@ -1368,7 +1404,7 @@ export function LifelineGame() {
 
       {phase === "paused" ? (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <p className="font-display text-3xl uppercase">Paused — tap to resume</p>
+          <p className="font-display text-3xl uppercase">Paused, tap to resume</p>
         </div>
       ) : null}
 
@@ -1405,7 +1441,7 @@ export function LifelineGame() {
                   </span>
                 ) : (
                   <span className="inline-block rounded-full border border-border bg-background px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
-                    Target: {challenge.beat} — still standing
+                    Target: {challenge.beat}, still standing
                   </span>
                 )
               ) : null}

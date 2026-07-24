@@ -36,8 +36,8 @@ export default function IndexMethodologyPage() {
       <h1 className="font-display text-3xl uppercase sm:text-4xl">Open composite index methodology</h1>
       <p className="mt-1 text-sm text-muted">Last reviewed: 22 July 2026</p>
       <p>
-        Some of our tools are <strong>open composite indices</strong> — single
-        0–100 scores built from several inputs. The whole point is that they
+        Some of our tools are <strong>open composite indices</strong>, single
+        0 to 100 scores built from several inputs. The whole point is that they
         are transparent: we publish the inputs, how each is scored, the
         weights, and the evidence behind them. You can reconstruct any score
         yourself. That openness is the opposite of the hidden scores inside
@@ -47,7 +47,7 @@ export default function IndexMethodologyPage() {
       <h2>How a score is built</h2>
       <ol>
         <li>
-          <strong>Sub-scores (0–100).</strong> Each input becomes a 0–100
+          <strong>Sub-scores (0 to 100).</strong> Each input becomes a 0 to 100
           sub-score where higher is always more favourable, via a documented,
           clamped linear mapping between stated anchor points.
         </li>
@@ -66,7 +66,7 @@ export default function IndexMethodologyPage() {
         <li>
           <strong>Missing data.</strong> Leave an input blank and the weights
           renormalise across what you provided, with a reduced-confidence
-          flag — we never substitute a value that flatters or penalises you.
+          flag. We never substitute a value that flatters or penalises you.
         </li>
       </ol>
 
@@ -78,7 +78,7 @@ export default function IndexMethodologyPage() {
         estimate, life-expectancy figure or disease probability; body-
         composition inputs are capped and never dominate; and none produces
         medication or supplement advice. A low sub-score points to a
-        modifiable lever — it is never a judgement on you.
+        modifiable lever. It is never a judgement on you.
       </p>
 
       <h2>Versioning &amp; changelog</h2>
@@ -88,19 +88,19 @@ export default function IndexMethodologyPage() {
       </p>
       <ul>
         <li>
-          <strong>Metabolic Fitness Index v1.0.0</strong> (2026-07-22) —
+          <strong>Metabolic Fitness Index v1.0.0</strong> (2026-07-22),
           initial release. See the{" "}
           <Link href="/metabolic-fitness-index">tool page</Link> for its full
           weights and anchors.
         </li>
         <li>
-          <strong>Pace of Aging Index v1.0.0</strong> (2026-07-22) — initial
+          <strong>Pace of Aging Index v1.0.0</strong> (2026-07-22), initial
           release. Cardio fitness (VO₂max) is an optional input pending a
           verifiable fitness-age source; grip and HRV are optional too. See
           the <Link href="/pace-of-aging-index">tool page</Link>.
         </li>
         <li>
-          <strong>Recovery Readiness Index v1.0.0</strong> (2026-07-22) —
+          <strong>Recovery Readiness Index v1.0.0</strong> (2026-07-22),
           initial release. Weights adjusted from the proposed HRV 40% to
           HRV 30 / resting HR 25 / sleep 25 / breathing 20 to respect the
           30% single-input cap. See the{" "}

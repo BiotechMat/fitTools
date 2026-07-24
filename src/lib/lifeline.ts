@@ -37,7 +37,7 @@ export const OBSTACLE_KINDS: ObstacleKind[] = [
     label: "ALL-NIGHTERS",
     cause: "Sleep is a performance enhancer. Was.",
   },
-  { id: "stress", label: "STRESS", cause: "Cortisol 1 — heart 0." },
+  { id: "stress", label: "STRESS", cause: "Cortisol 1, heart 0." },
   { id: "sofa", label: "SOFA", cause: "Sitting is not a sport." },
 ];
 

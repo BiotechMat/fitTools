@@ -41,7 +41,7 @@ function startHereCards() {
       stat: fmt(tdeeKcal),
       unit: "kcal",
       name: "TDEE Calculator",
-      blurb: "How much fuel you actually burn — before you cut, bulk or panic.",
+      blurb: "How much fuel you actually burn, before you cut, bulk or panic.",
     },
     {
       slug: "one-rep-max-calculator",
@@ -65,10 +65,10 @@ function startHereCards() {
       slug: "heart-rate-zone-calculator",
       hub: "Workout",
       chip: "bg-primary-soft text-foreground",
-      stat: `Z2 ${fmt(zone2.lowerBpm)}–${fmt(zone2.upperBpm)}`,
+      stat: `Z2 ${fmt(zone2.lowerBpm)} to ${fmt(zone2.upperBpm)}`,
       unit: "bpm",
       name: "Heart-Rate Zones",
-      blurb: "Five zones, one chart, zero guessing — Zone 2 included.",
+      blurb: "Five zones, one chart, zero guessing, Zone 2 included.",
     },
   ];
 }
@@ -120,19 +120,19 @@ export default function HomePage() {
           </p>
           <h1 className="mt-3 font-display text-4xl uppercase sm:text-5xl">
             Evidence-based{" "}
-            <span className="inline-block -rotate-1 rounded-lg bg-primary-strong px-2 text-background">
+            <span className="inline-block -rotate-1 rounded-lg bg-primary-strong px-2 text-foreground">
               fitness
             </span>
           </h1>
           <p className="mt-3 max-w-prose text-lg text-muted">
             {SITE_NAME} builds every calculator on published, peer-reviewed
-            formulas — with the sources cited on the page, so you can check our
+            formulas, with the sources cited on the page, so you can check our
             working.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <Link
               href="/heart-age-calculator"
-              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-background riso-press"
+              className="rounded-full border-2 border-foreground bg-primary-strong px-5 py-2 font-bold text-foreground riso-press"
             >
               Find your heart age
             </Link>
@@ -154,6 +154,7 @@ export default function HomePage() {
       </section>
 
       <div
+        role="img"
         className="overflow-hidden rounded-xl border-2 border-foreground bg-foreground py-2 text-background"
         aria-label={`${TICKER_ITEMS.join(". ")}. ${toolCount} tools and counting.`}
       >
@@ -173,11 +174,11 @@ export default function HomePage() {
               New · coming soon
             </p>
             <h2 id="bloodtest-cta" className="mt-1 font-display text-2xl uppercase">
-              Know your numbers — at-home blood test
+              Know your numbers, at-home blood test
             </h2>
             <p className="mt-1 max-w-prose text-sm">
-              Test the biomarkers behind your heart, metabolic and biological age —
-              results flow straight into your dashboard and auto-fill the calculators
+              Test the biomarkers behind your heart, metabolic and biological age.
+              Results flow straight into your dashboard and auto-fill the calculators
               that use them.
             </p>
           </div>
@@ -190,7 +191,7 @@ export default function HomePage() {
       <section className="pt-6" aria-labelledby="daily-cta">
         <Link
           href="/daily"
-          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-background riso-press sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-4 rounded-2xl border-2 border-foreground bg-primary-strong p-5 text-foreground riso-press sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
@@ -200,7 +201,7 @@ export default function HomePage() {
               Play today&rsquo;s Ballpark
             </h2>
             <p className="mt-1 max-w-prose text-sm">
-              Guess a real, cited fitness stat in one move — then test yourself on the
+              Guess a real, cited fitness stat in one move, then test yourself on the
               weekly myth-buster quiz. Build a streak, learn the numbers.
             </p>
           </div>
@@ -265,7 +266,7 @@ export default function HomePage() {
                   <span className="font-display text-xl uppercase">
                     {entry.meta.title}
                   </span>
-                  <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
+                  <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-90">
                     {entry.tools.length} {entry.tools.length === 1 ? "tool" : "tools"}
                   </span>
                 </Link>
@@ -278,7 +279,7 @@ export default function HomePage() {
               className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-good p-4 text-background riso-press"
             >
               <span className="font-display text-xl uppercase">All calculators</span>
-              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
+              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-90">
                 {toolCount} tools, one index
               </span>
             </Link>
@@ -289,7 +290,7 @@ export default function HomePage() {
               className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-primary-soft p-4 text-foreground riso-press"
             >
               <span className="font-display text-xl uppercase">Glow-up</span>
-              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-80">
+              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-90">
                 Skin · sun · myths, rated
               </span>
             </Link>
@@ -331,7 +332,7 @@ export default function HomePage() {
             </Link>
           </h2>
           <p className="mt-1 max-w-prose text-sm text-muted">
-            The evidence-tiered peptides reference, plus its calculator —
+            The evidence-tiered peptides reference, plus its calculator,
             arithmetic only on values you supply, with an enhanced disclaimer
             and no advertising.
           </p>

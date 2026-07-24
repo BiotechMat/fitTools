@@ -6,37 +6,54 @@ return engine, E6 monetisation activation). This is the **single working record*
 for where the site's revenue is heading, so the direction stops living scattered
 across those docs.
 
-**Status (2026-07-23, updated same day): WORKING DIRECTION — partially
-resolved.** The *shape* is agreed (premium-lean, free-stays-free), and two of
-the §4 opens are now **decided by Mat (2026-07-23)**: the free tier will carry
-**light, premium-lean ads and paying removes them** (§4.3), and the arcade is
-monetised through **extras, never play-limits** (§2.6 — a binding principle).
-Still open, still Mat's: the exact free/paid feature line (§4.2 — "save
-calculators, bookmark tools" are named candidates; the line itself is
-explicitly not decided yet) and the price point (§4.1 — deliberately deferred
-to the premium build). Reconciliation of `BUSINESS_PLAN.md §7` /
-`ROADMAP.md E6` still waits for the full model (§5).
+**Status (2026-07-23: MODEL CONFIRMED; details updated 2026-07-24).** The
+revenue order is decided (Mat, 2026-07-23): **premium sign-ups are the main
+revenue line** (a very low amount a month, or possibly a one-off lifetime
+unlock — £10 lifetime is the working example), **blood-test profit is the
+second line**, and **affiliate marketing is a small supporting line**. Two
+details were then resolved in the accounts planning session (Mat,
+2026-07-24): the free tier **will carry light, premium-lean ads and paying
+removes them** (§4.2), and the arcade is monetised through **extras, never
+play-limits** (§2.6 — a binding principle). Still open, still Mat's: the
+price and monthly-vs-lifetime mechanics (§4.1) and the exact free/paid
+feature line (§4.3 — "save calculators, bookmark tools" are named
+candidates; the line itself is explicitly not decided yet).
+`BUSINESS_PLAN.md §7/§11` and `ROADMAP.md E6` were reconciled to this model
+on 2026-07-23 (§5).
 
-> **This is a gating decision, not just a doc.** The §4 model choice blocks the
-> design of the accounts/premium tier (`STATUS.md §3` Phase 4) — build premium
-> around what it actually gates, so decide the model *before* that phase. Listed
-> as blocking decision #1 in `STATUS.md §4`.
+> **What still gates Phase 4 (accounts/premium tier design — `STATUS.md §3`):**
+> the remaining §4 detail questions — the exact price and monthly-vs-lifetime
+> mechanics, and the precise free/paid line. Decide those before building the
+> tier, so premium is built around what it actually gates. Tracked as blocking
+> decision #1 in `STATUS.md §4`. The free-account build (ACCOUNTS.md) is not
+> blocked by any of them.
 
 ---
 
 ## 1. The direction
 
-**The eventual primary revenue line is a low-cost monthly subscription** that
-unlocks premium features — a "small amount a month" tier, not a paywall on the
-calculators. Ads and affiliates continue as *supporting* layers, never the thing
-the product is built around.
+**The primary revenue line is premium sign-ups** — a low-cost premium tier at
+"a very low amount a month", or possibly a one-off lifetime unlock (£10
+lifetime is the working example; mechanics open in §4.1). Not a paywall on the
+calculators.
 
-This is a deliberate move away from the original ads-first framing
-(`BUSINESS_PLAN.md §7`): monetising an engaged, returning, trusting audience via
-subscription yields better unit economics — and protects the credibility moat —
-far more than squeezing cold one-off traffic with ad density. `DESIGN.md §5`
-already commits the visual system to this ("premium-lean"); this doc makes it the
-headline revenue strategy rather than a late add-on.
+**The second revenue line is blood-test profit** — margin/commission on tests
+ordered through the site's `/blood-test` offering once the fulfilment partner
+is signed (`STATUS.md §4` decision #5). High revenue per conversion, exactly
+matched to the audience's intent, and it compounds the retention moat: results
+land in the dashboard and feed the biological-age tools.
+
+**Affiliate marketing continues as a small supporting line.** Display ads:
+decided 2026-07-24 — the free tier **will carry light, premium-lean ad
+space and premium removes it** (§4.2); the product is never built around
+them, and every layout still stands complete with ads off (§2.3).
+
+This is a deliberate move away from the original ads-first framing: monetising
+an engaged, returning, trusting audience via premium and blood tests yields
+better unit economics — and protects the credibility moat — far more than
+squeezing cold one-off traffic with ad density. `DESIGN.md §5` already commits
+the visual system to this ("premium-lean"); `BUSINESS_PLAN.md §7` now leads
+with these lines.
 
 ---
 
@@ -64,10 +81,13 @@ question:
    `CONTENT-looksmaxxing.md §6` body-composition estimator — stay free by design;
    charging for an appearance number is exactly the model the strategy rejects.
 6. **The arcade is monetised through extras, never limits** (Mat,
-   2026-07-23). Free play stays unlimited for everyone; premium may sell
-   arcade *depth* — exclusive skins, ghost-run archives, extra modes/stats
-   — but never lives, energy, play caps or paid retries. This keeps the
-   games' own guardrails (LIFELINE §3 "nothing bought"), their
+   2026-07-24). Free play stays unlimited for everyone; premium may sell
+   arcade *depth* — cosmetic sets, ghost-run archives, extra modes/stats
+   — but never lives, energy, play caps or paid retries. In-game **earned**
+   unlocks (e.g. Lifeline's skins — "earned, never bought", LIFELINE §3)
+   stay earned and free; any premium cosmetics are separate subscription
+   perks settled at tier design, never per-item purchases or an in-game
+   currency. This keeps the games' own guardrails, their
    acquisition-funnel role, and the Children's Code posture now accounts
    open at 13+ (ACCOUNTS.md §7.7).
 
@@ -84,11 +104,11 @@ product being charged for:
   trend lines, "what moved this" annotations (`ROADMAP.md E2` — the keystone).
 - **Advanced / branded share cards** (the E1 OG-image pipeline, richer formats).
 - **Ad-free** — now a confirmed benefit: the free tier will carry light ads
-  (§4.3 resolved), so paying removes them.
-- **Arcade extras** — exclusive skins, ghost-run archive, extra modes/stats
-  (§2.6: extras, never play-limits).
+  (§4.2 resolved), so paying removes them.
+- **Arcade extras** — premium cosmetic sets, ghost-run archive, extra
+  modes/stats (§2.6: extras, never play-limits; earned unlocks stay free).
 - **Bookmark/favourites depth** — "bookmark tools" is on Mat's candidate
-  gated list (§4.2); the surface itself is designed in ACCOUNTS.md §6.2.
+  gated list (§4.3); the surface itself is designed in ACCOUNTS.md §6.2.
 - Deeper cuts of features that ship free in a lighter form (e.g. longer history
   windows, more detail in breakdowns).
 
@@ -98,15 +118,24 @@ the thing sold.
 
 ---
 
-## 4. Open questions (need Mat's decision — model not yet confirmed)
+## 4. Open questions (detail decisions — the model order itself is confirmed)
 
-1. **Price point.** "Small amount a month" — the actual number, and monthly vs
-   annual (and whether regional pricing applies). *(2026-07-23: deliberately
-   deferred by Mat — set at the premium build/E6; not needed for the E0
-   accounts build.)*
-2. **The free/paid line.** Exactly which features are free vs premium — where does
+1. **Price point & mechanics.** The monthly number ("a very low amount"), and
+   whether the offer is monthly, annual, or a one-off lifetime unlock (£10
+   lifetime is the working example — early cash and a very easy yes, traded
+   against recurring revenue). Regional pricing TBD. *(2026-07-24:
+   deliberately deferred by Mat — set at the premium build; not needed for
+   the E0 accounts build.)*
+2. **Ads in the free tier — RESOLVED (Mat, 2026-07-24): yes — light ads,
+   premium removes them.** The SPEC §10–§11 rules bind unchanged
+   (consent-gated, reserved dimensions, lazy, never above the calculator,
+   no layout depends on an ad); with accounts open at 13+ (ACCOUNTS.md
+   §7.7), under-18 users get **non-personalised serving only**, per the
+   Children's Code posture. "Ad-free" is thereby a confirmed premium
+   benefit (§3).
+3. **The free/paid line.** Exactly which features are free vs premium — where does
    "saved results" sit (a teaser of N saves free?), how much Trajectory history is
-   free before it's paid. *(2026-07-23: Mat's sketch recorded — the gated set
+   free before it's paid. *(2026-07-24: Mat's sketch recorded — the gated set
    will be "stuff like save calculators, bookmark tools" plus arcade extras
    (§2.6) — but the exact line is explicitly not decided yet. Candidate
    shapes on the table: (a) fun layer syncs free, the numbers archive is
@@ -115,36 +144,30 @@ the thing sold.
    whichever is chosen: **nothing launches free and is walled later** —
    gating is additive (caps lifted, extras added), so any surface that might
    be gated ships capped or ships with the tier — see ACCOUNTS.md §9.9.)*
-3. **Ads in the free tier — or not at all?** ***RESOLVED (Mat, 2026-07-23):
-   option (a)*** — the free tier carries light, premium-lean ads and paying
-   removes them. The SPEC §10–§11 rules bind unchanged (consent-gated,
-   reserved dimensions, lazy, never above the calculator, no layout depends
-   on an ad); with accounts open at 13+ (ACCOUNTS.md §7.7), under-18 users
-   get **non-personalised serving only**, per the Children's Code posture.
-   "Ad-free" is thereby a confirmed premium benefit (§3).
 4. **Trial / freemium mechanics.** Free trial, or a permanent free tier with a
    paid upgrade (the `DESIGN.md §5` "30 days free, full history paid" note is a
-   candidate, not a decision).
-5. **Timing.** Premium is *monetised retention*, so it activates once accounts
+   candidate, not a decision). A lifetime unlock reshapes this question.
+5. **Blood-test commercials.** Partner choice, margin/commission per order, and
+   whether a test purchase bundles premium. Gated on the partner decision
+   (`STATUS.md §4` #5).
+6. **Timing.** Premium is *monetised retention*, so it activates once accounts
    (`ROADMAP.md E0`) and the return loop (`E2`) exist and traffic justifies it
-   (`E6`). Sequencing vs the ad switch-on is part of the model decision.
+   (`E6`).
 
 ---
 
-## 5. Reconciliation owed (coherence note)
+## 5. Reconciliation record (done 2026-07-23)
 
-Once the model is confirmed, these docs should be updated to match — they pre-date
-this direction and currently read ads-first:
+The model was confirmed on 2026-07-23 and the owed reconciliation is complete:
 
-- **`BUSINESS_PLAN.md §7` (revenue streams) & §11 (financial plan)** — reorder to
-  lead with subscription; ads/affiliates as supporting lines. `DESIGN.md §5`
-  already flags this doc as needing the update.
-- **`ROADMAP.md E6`** — elevate premium from "scaffold a tier once traffic
-  arrives" to a first-class outcome the earlier phases (especially E2) are built
-  toward.
-- **`claude.md` / `SPEC.md §10`** — state the "premium gates persistence & depth,
-  never the calculation" rule as a product principle, not only a design note.
+- **`BUSINESS_PLAN.md §7` (revenue streams) & §11 (financial plan)** — reordered
+  to lead with premium sign-ups, then blood-test profit; affiliates a small
+  supporting line; free-tier ads optional.
+- **`ROADMAP.md E6`** — rewritten around premium + blood-test activation, with
+  free-tier ads an optional extra.
+- **`SPEC.md §1/§10`** — revenue summary updated; "premium gates persistence &
+  depth, never the calculation" stated as a binding product principle.
 
-Until then, **this file is the source of truth for revenue direction**; where it
-and an older doc disagree, this file's principles (§2) win, and its open questions
-(§4) are genuinely open.
+**This file remains the source of truth for revenue direction**; where it and an
+older doc disagree, this file's principles (§2) win, and its open questions (§4)
+are genuinely open.

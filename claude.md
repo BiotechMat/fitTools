@@ -23,7 +23,8 @@ reference tables, plus both-way calculator↔reference cross-links), the Pulse
 feed + fresh-cards pipeline F0–F3 (PULSE.md), the daily games (DAILY-GAMES.md),
 the arcade (LIFELINE.md /lifeline heartbeat flapper; POWERHOUSE.md /powerhouse
 side-scrolling mitochondria shooter; MAXOUT.md /max-out one-rep-max timing
-game; SNAKEOIL.md /snake-oil myth slicer; ARCADE-IDEAS.md is the candidate
+game; FIVEADAY.md /five-a-day produce slicer — pivoted same-day from the
+Snake Oil myth slicer, /snake-oil redirects; ARCADE-IDEAS.md is the candidate
 bench; hub at /arcade — nav + homepage CTA point there), the glow-up section first step (CONTENT-looksmaxxing.md §8), the E1 share
 loop (/share achievement card — tool-only for now; extending it to Pulse/Daily/
 arcade is STATUS.md Phase 2),
@@ -32,7 +33,10 @@ local scaffold (DASHBOARD.md; D1–D4 gated behind accounts + the
 data-protection posture), the DESIGN.md §8 motion & effects system, and the
 "Our recommendation" affiliate-card system (2026-07-23: shared
 src/components/RecommendationCard.tsx + surface-keyed src/registry/affiliates.ts
-wired across supplement, recovery, glow-up and tool pages; cards render their
+wired across supplement, recovery, glow-up and tool pages via
+src/components/RecommendationRail.tsx — on desktop the card sits in its own
+sticky right-hand column, below lg it follows the content; surfaces without
+picks render single-column, and the old AffiliateBlock shim is gone; cards render their
 editorial picks now, and the buy button + disclosure appear per pick once its
 affiliate URL is pasted into the registry — activation notes in the registry
 header; no picks on marketing-claim pages by rule, enforced in
@@ -86,7 +90,10 @@ and Mat has signed off.
   never model-invented). v1 built (see §14): src/lib/pulse/*, src/registry/
   pulse.ts, src/lib/pulse-store.ts, /api/pulse, /pulse. Degrades to serving
   vetted claims with no API key. Generation env: ANTHROPIC_API_KEY /
-  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER. Fresh-cards extension (recent-
+  PULSE_LLM_MODEL / PULSE_LLM_PROVIDER; cost is site-wide and bounded — one
+  corpus-wide phrasing pass per UTC day, claude-haiku-4-5 default, hard daily
+  call budget (src/lib/pulse/phrasings.ts, PULSE §14.1) — the request path
+  never calls the model. Fresh-cards extension (recent-
   discovery chunks via a PR-gated ingest pipeline, interleaved with a "New"
   chip) — §15. BUILT 2026-07-23: F0 schema/ranking/"New" chip + 3 verified
   fresh seeds (§15.8), F1 harvest pipeline `pnpm harvest` (src/lib/pulse/
@@ -120,20 +127,24 @@ and Mat has signed off.
   proposed, not locked.
 - ARCADE-IDEAS.md — the arcade candidate bench: the house formula distilled,
   eight game pitches, guardrail-rejected anti-ideas. Proposals, not build
-  instructions; the two ⭐ picks are now built (MAXOUT.md, SNAKEOIL.md).
+  instructions; the two ⭐ picks are built (MAXOUT.md; the Snake Oil pick
+  shipped then pivoted to FIVEADAY.md — its §3.2 post-mortem records why).
 - MAXOUT.md — spec + build for "Max Out", the one-rep-max timing game at
   `/max-out` (stop-the-needle lineage; score = kg on the bar, flex = plates a
   side). The arcade's strength entry. v1 BUILT (2026-07-23): src/lib/maxout.ts
   (+ tests), src/components/maxout/*, /max-out; in the /arcade hub. A funnel to
   the One-Rep Max calculator + strength standards; cartoon, not a training
   plan (§3). Name "Max Out" proposed, not locked.
-- SNAKEOIL.md — spec + build for "Snake Oil", the myth-slicing game at
-  `/snake-oil` (Fruit Ninja lineage; slice the myths, spare the truths; every
-  claim derives from the vetted daily-games registry and the death card cites
-  the real source). v1 BUILT (2026-07-23): src/lib/snakeoil.ts (+ tests incl.
-  roster validation), src/components/snakeoil/*, /snake-oil; in the /arcade
-  hub. A funnel to Myth or Fact? and the debunk content; claims are about the
-  world, never the player (§3). Name "Snake Oil" proposed, not locked.
+- FIVEADAY.md — spec + build for "Five a Day", the produce-slicing game at
+  `/five-a-day` (Fruit Ninja lineage; slice the fruit and veg for portions
+  with smoothie combos + plant-variety bonuses, never the junk — the sibling
+  games' villains end the run on contact). Pivoted same-day from "Snake Oil"
+  (myth slogans — unreadable at toss speed; §1 records the lesson);
+  /snake-oil permanently redirects. v1 BUILT (2026-07-23):
+  src/lib/fiveaday.ts (+ tests incl. roster validation),
+  src/components/fiveaday/*, /five-a-day; in the /arcade hub. A funnel to
+  the food reference; cartoon, not nutrition advice (§4). Name "Five a Day"
+  chosen by Mat (2026-07-23).
 - DASHBOARD.md — spec + build for the personal dashboard at `/dashboard`
   ("Your numbers"): the home base that aggregates vitals, saved calculations,
   composite/biological-age scores and blood-test biomarkers, with longitudinal
@@ -147,7 +158,7 @@ and Mat has signed off.
   and real blood values need ROADMAP E0 accounts + the BUSINESS_PLAN §13 /
   SPEC §17 data-protection posture (§8). Build sequence + gates in §11.
 - ACCOUNTS.md — BLUEPRINT for ROADMAP E0 sign-in & accounts, the STATUS.md
-  Phase 4 crossing. Stack decisions RESOLVED 2026-07-23 (delegated by Mat):
+  Phase 4 crossing. Stack decisions RESOLVED 2026-07-24 (delegated by Mat):
   magic link + Google + Apple via Better Auth, Neon Postgres (UK/EU region,
   functions pinned), Resend, 13+ accounts tiered by age band (health-
   flavoured sync 16+; Children's Code in A0), sized for ~200k users at peak.
@@ -156,9 +167,11 @@ and Mat has signed off.
   Pulse, arcade bests/skins, the supplement stack, saved exercises, prefs;
   bloodwork is its own gated namespace at A4 (manual entry first). Build
   sequence A0–A4; nothing built yet — build when Phase 4 is scheduled. The
-  monetisation model is partially resolved (2026-07-23: light ads in the
-  free tier, premium removes them; arcade extras never play-limits); the
-  exact free/paid line and price remain Mat's open calls (MONETISATION §4).
+  monetisation model is confirmed premium-led (MONETISATION, 2026-07-23)
+  with two details resolved 2026-07-24 — light ads in the free tier,
+  premium removes them; arcade extras never play-limits; the exact
+  free/paid line and price/mechanics remain Mat's open calls
+  (MONETISATION §4).
 - PROFILE.md — BLUEPRINT (not built, not signed off) for the health profile +
   bloodwork auto-populate that accounts unlock (STATUS.md Phase 4, after
   ACCOUNTS.md's E0 foundation). Manual profile + auto-populate is the lighter

@@ -4,8 +4,9 @@ import Link from "next/link";
 import { AUTHOR } from "@/lib/site";
 import {
   CATEGORY_LABELS,
-  TIER_LABELS,
+  GRADE_LABELS,
   allPeptides,
+  evidenceGrade,
   getPeptide,
   relatedPeptides,
 } from "@/registry/peptides";
@@ -139,7 +140,7 @@ export default async function PeptidePageRoute({ params }: PeptidePageParams) {
                 >
                   {r.name}
                 </Link>{" "}
-                <span className="text-xs text-muted">— {TIER_LABELS[r.headlineTier]}</span>
+                <span className="text-xs text-muted">({GRADE_LABELS[evidenceGrade(r.headlineTier, r.headlineBasis)]})</span>
                 <p className="mt-1 text-sm text-muted">{r.metaDescription}</p>
               </li>
             ))}

@@ -18,4 +18,4 @@ export const BODY_FAT_DEFAULTS = {
 } as const;
 
 /** Error band presented with every result (SPEC §7). */
-export const BODY_FAT_ERROR_BAND_PP = "±3–4";
+export const BODY_FAT_ERROR_BAND_PP = "±3 to 4";

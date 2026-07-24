@@ -24,11 +24,11 @@ export type TdeeInputs = z.infer<typeof tdeeInputsSchema>;
 
 export const tdeeConfig: ToolConfig = {
   slug: TDEE_SLUG,
-  title: "TDEE Calculator — Total Daily Energy Expenditure",
+  title: "TDEE Calculator: Total Daily Energy Expenditure",
   valueLine:
     "Estimate the calories you burn per day from your stats and activity level, using peer-reviewed equations.",
   metaDescription:
-    "Estimate your total daily energy expenditure (TDEE) and BMR with the Mifflin–St Jeor, Katch–McArdle or revised Harris–Benedict equations. Free, no sign-up.",
+    "Estimate your total daily energy expenditure (TDEE) and BMR with the Mifflin-St Jeor, Katch-McArdle or revised Harris-Benedict equations. Free, no sign-up.",
   hub: "nutrition",
   tier: 1,
   inputsSchema: tdeeInputsSchema,
@@ -36,11 +36,11 @@ export const tdeeConfig: ToolConfig = {
   faq: [
     {
       q: "What is TDEE?",
-      a: "TDEE (total daily energy expenditure) is an estimate of the total calories you burn per day. It combines your basal metabolic rate — the energy your body uses at rest — with an activity multiplier that accounts for exercise and daily movement.",
+      a: "TDEE (total daily energy expenditure) is an estimate of the total calories you burn per day. It combines your basal metabolic rate, the energy your body uses at rest, with an activity multiplier that accounts for exercise and daily movement.",
     },
     {
       q: "Which TDEE formula is most accurate?",
-      a: "For most people the Mifflin–St Jeor equation is the best-validated starting point, which is why this calculator uses it by default. If you know your body-fat percentage from a reliable measurement, the Katch–McArdle equation may give a better estimate because it works from lean mass.",
+      a: "For most people the Mifflin-St Jeor equation is the best-validated starting point, which is why this calculator uses it by default. If you know your body-fat percentage from a reliable measurement, the Katch-McArdle equation may give a better estimate because it works from lean mass.",
     },
     {
       q: "What is the difference between BMR and TDEE?",
@@ -64,15 +64,15 @@ export const tdeeConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr 1990;51:241–247",
+      label: "Mifflin MD, St Jeor ST, et al. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr 1990;51:241-247",
       url: "https://pubmed.ncbi.nlm.nih.gov/2305711/",
     },
     {
-      label: "Roza AM, Shizgal HM. The Harris Benedict equation reevaluated. Am J Clin Nutr 1984;40:168–182",
+      label: "Roza AM, Shizgal HM. The Harris Benedict equation reevaluated. Am J Clin Nutr 1984;40:168-182",
       url: "https://pubmed.ncbi.nlm.nih.gov/6741850/",
     },
     {
-      label: "Endotext: Obesity — dietary treatment (Mifflin–St Jeor equation reference table)",
+      label: "Endotext: Obesity, dietary treatment (Mifflin-St Jeor equation reference table)",
       url: "https://www.ncbi.nlm.nih.gov/books/NBK278991/table/diet-treatment-obes.table12est/",
     },
   ],

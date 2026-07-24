@@ -8,13 +8,14 @@ import {
 import { toolPath } from "@/registry/tools";
 import { peptideConfig } from "@/registry/configs/peptide-reconstitution";
 import { AuthorBox } from "@/components/AuthorBox";
+import { CardSearch } from "@/components/CardSearch";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { PeptideSafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Peptides in Fitness — What They Are, and What the Evidence Says",
+  title: "Peptides in Fitness: What They Are, and What the Evidence Says",
   description:
     "A non-promotional, evidence-tiered reference on the peptides discussed in fitness: what each compound is, what's claimed, what the research actually shows, and the legality and safety reality. No dosing or protocols.",
   alternates: { canonical: "/learn/peptides" },
@@ -70,7 +71,7 @@ export default function PeptidesPillarPage() {
       <div className="prose">
         <h2>What are peptides?</h2>
         <p>
-          Peptides are short chains of amino acids — the same building blocks as
+          Peptides are short chains of amino acids, the same building blocks as
           proteins, just fewer of them. Your body makes and uses thousands of
           them as signalling molecules. The compounds people ask about in
           fitness are synthetic versions designed to mimic or trigger some of
@@ -81,8 +82,7 @@ export default function PeptidesPillarPage() {
           A few terms get used loosely. A <strong>peptide hormone</strong> is a
           signalling peptide like insulin or growth hormone. A{" "}
           <strong>secretagogue</strong> is something that makes your body release
-          more of its own hormone. And some compounds sold alongside peptides —
-          MK-677 is the common example — are not peptides at all, a distinction
+          more of its own hormone. And some compounds sold alongside peptides (MK-677 is the common example) are not peptides at all, a distinction
           we flag on the individual pages.
         </p>
 
@@ -90,7 +90,7 @@ export default function PeptidesPillarPage() {
         <p>
           This is the part the marketing skips. Most of these compounds are{" "}
           <strong>not approved medicines</strong> for the uses people want them
-          for. They are typically sold as &ldquo;research chemicals&rdquo; —
+          for. They are typically sold as &ldquo;research chemicals&rdquo;,
           made outside pharmaceutical quality control, where the purity, the
           actual dose in the vial, and the absence of contamination{" "}
           <em>cannot be assumed</em>. Several are prohibited in sport under the
@@ -99,31 +99,38 @@ export default function PeptidesPillarPage() {
           approved medicine.
         </p>
 
-        <h2>Claimed vs shown — how we tier the evidence</h2>
+        <h2>Claimed vs shown, how we grade the evidence</h2>
         <p>
-          Every page labels the evidence behind a compound&rsquo;s fitness
-          claims using three tiers, and flags whether the evidence is from
-          humans, animals, or the lab bench:
+          We grade the evidence behind a compound&rsquo;s fitness claims like
+          medals. The stronger the evidence, the higher the medal, and we flag
+          whether it comes from humans, animals, or the lab bench. Claims that
+          are merely oversold earn no medal at all:
         </p>
         <ul>
           <li>
-            <EvidenceTier tier="well-supported" /> — real, replicated human
-            trials (usually because the compound went through drug development).
+            <EvidenceTier tier="well-supported" basis="human" />, strong,
+            replicated human trials (usually because the compound went through
+            drug development).
           </li>
           <li>
-            <EvidenceTier tier="preliminary" /> — some evidence, but limited,
-            early, or animal-dominated; promising is not the same as proven.
+            <EvidenceTier tier="preliminary" basis="human" />, real but limited
+            human evidence; promising is not the same as proven.
           </li>
           <li>
-            <EvidenceTier tier="marketing-claim" /> — heavily promoted, but the
+            <EvidenceTier tier="preliminary" basis="animal" />, early or
+            animal-only evidence: a lead worth noting, not a result to rely on.
+          </li>
+          <li>
+            <EvidenceTier tier="marketing-claim" />, heavily promoted, but the
             human evidence is weak, absent, or actively didn&rsquo;t pan out.
+            No medal.
           </li>
         </ul>
         <p>
           A useful thing happens when you line them up: the compounds with the
           strongest evidence (tesamorelin, the GLP-1 medicines, bremelanotide)
           are precisely the ones that were developed and approved as{" "}
-          <em>medicines for specific conditions</em> — not as fitness aids. They
+          <em>medicines for specific conditions</em>, not as fitness aids. They
           show what real evidence looks like, and how far most &ldquo;research
           peptides&rdquo; fall short of it.
         </p>
@@ -131,7 +138,7 @@ export default function PeptidesPillarPage() {
         <h2>What this section will not do</h2>
         <p>
           We do not give doses, protocols, routes, cycles, stacks, or sourcing
-          information for any of these compounds — deliberately. This is a
+          information for any of these compounds, deliberately. This is a
           reference for understanding what they are and what the evidence says,
           not a how-to. If you are considering any of them, that is a
           conversation for a qualified clinician who knows your history.
@@ -151,7 +158,7 @@ export default function PeptidesPillarPage() {
               {peptideConfig.title}
             </Link>
             <p className="mt-1 text-sm text-muted">
-              Arithmetic only, on values you supply — concentration, draw
+              Arithmetic only, on values you supply, concentration, draw
               volume and U-100 syringe units. Enhanced disclaimer; no dosing
               guidance, ever.
             </p>
@@ -159,29 +166,35 @@ export default function PeptidesPillarPage() {
         </ul>
       </section>
 
-      {grouped.map(([category, pages]) => (
-        <section key={category} aria-labelledby={`cat-${category}`}>
-          <h2 id={`cat-${category}`} className="font-display text-2xl uppercase">
-            {CATEGORY_LABELS[category]}
-          </h2>
-          <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-            {pages.map((p) => (
-              <li key={p.slug} className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Link
-                    href={`/learn/peptides/${p.slug}`}
-                    className="font-semibold text-primary underline underline-offset-2"
-                  >
-                    {p.name}
-                  </Link>
-                  <EvidenceTier tier={p.headlineTier} basis={p.headlineBasis} />
-                </div>
-                <p className="mt-1 text-sm text-muted">{p.metaDescription}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      <CardSearch label="Search peptides" className="space-y-8">
+        {grouped.map(([category, pages]) => (
+          <section key={category} aria-labelledby={`cat-${category}`} data-search-group>
+            <h2 id={`cat-${category}`} className="font-display text-2xl uppercase">
+              {CATEGORY_LABELS[category]}
+            </h2>
+            <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+              {pages.map((p) => (
+                <li
+                  key={p.slug}
+                  data-search-item={p.name}
+                  className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Link
+                      href={`/learn/peptides/${p.slug}`}
+                      className="font-semibold text-primary underline underline-offset-2"
+                    >
+                      {p.name}
+                    </Link>
+                    <EvidenceTier tier={p.headlineTier} basis={p.headlineBasis} />
+                  </div>
+                  <p className="mt-1 text-sm text-muted">{p.metaDescription}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </CardSearch>
 
       <AuthorBox lastReviewed={LAST_REVIEWED} />
       <DisclaimerBanner />

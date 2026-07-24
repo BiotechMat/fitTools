@@ -21,8 +21,7 @@ export function AuthorBox({ lastReviewed }: { lastReviewed: string }) {
           <Link href={AUTHOR.path} className="text-primary underline underline-offset-2">
             {AUTHOR.name}
           </Link>
-        </span>{" "}
-        — {AUTHOR.credentials}.
+        </span>,{" "}{AUTHOR.credentials}.
       </p>
       <p className="mt-1 text-muted">
         Last reviewed:{" "}

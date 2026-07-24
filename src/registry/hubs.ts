@@ -19,14 +19,14 @@ export const hubMeta: Record<Hub, HubMeta> = {
     hub: "nutrition",
     title: "Nutrition",
     description:
-      "Calculators for energy needs, macros and body composition, plus quick food-reference tables — every formula cited to its published source.",
+      "Calculators for energy needs, macros and body composition, plus quick food-reference tables, with every formula cited to its published source.",
     path: "/nutrition",
   },
   strength: {
     hub: "strength",
     title: "Workout",
     description:
-      "Training calculators — one-rep max, plate loading, progression planning and strength standards — plus the exercise library.",
+      "Training calculators for one-rep max, plate loading, progression planning and strength standards, plus the exercise library.",
     path: "/workout",
   },
   recovery: {

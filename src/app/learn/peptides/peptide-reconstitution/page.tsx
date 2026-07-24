@@ -64,7 +64,7 @@ export default async function PeptideReconstitutionPage() {
       >
         <h2 className="font-semibold">Enhanced disclaimer</h2>
         <p className="mt-1">
-          This tool performs arithmetic only, on values you supply — it
+          This tool performs arithmetic only, on values you supply, it
           offers no compound information, no dosing recommendations and no
           medical advice. Preparation and use of any injectable substance
           belongs under the direction of a licensed prescriber and

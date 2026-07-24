@@ -74,7 +74,7 @@ export function IdealWeightCalculator() {
               Historical formula range
             </h2>
             <p className="mt-1 text-3xl font-bold text-primary-strong" data-testid="ideal-weight-range">
-              {display(result.range.minKg)} – {display(result.range.maxKg)}
+              {display(result.range.minKg)} to {display(result.range.maxKg)}
             </p>
             <table className="mt-4 w-full text-sm">
               <caption className="sr-only">Ideal weight by formula</caption>
@@ -96,14 +96,14 @@ export function IdealWeightCalculator() {
               </tbody>
             </table>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              These are historical estimating formulas — most were built for
+              These are historical estimating formulas, most were built for
               drug dosing, not health advice. The spread between them is the
               honest takeaway: there is no single ideal weight for a height.
             </p>
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter a height of at least 152.4 cm (5 ft) — the formulas are
+            Enter a height of at least 152.4 cm (5 ft), the formulas are
             undefined below that.
           </p>
         )}

@@ -50,25 +50,25 @@ export const EXERCISES_LAST_REVIEWED = "2026-07-22";
 export const exercisePatterns: ExercisePattern[] = [
   {
     slug: "legs",
-    title: "Legs — squat, hinge & single-leg",
+    title: "Legs: squat, hinge and single-leg",
     description:
       "The big lower-body lifts: squats, hip hinges and single-leg work that drive most of your strength and muscle.",
   },
   {
     slug: "push",
-    title: "Push — chest, shoulders & triceps",
+    title: "Push: chest, shoulders and triceps",
     description:
       "Horizontal and vertical pressing: the movements that build the chest, shoulders and triceps.",
   },
   {
     slug: "pull",
-    title: "Pull — back & biceps",
+    title: "Pull: back and biceps",
     description:
       "Horizontal and vertical pulling: the movements that build a strong back and biceps.",
   },
   {
     slug: "core",
-    title: "Core — abs & trunk",
+    title: "Core: abs and trunk",
     description:
       "Anti-extension, anti-rotation and flexion work that builds a strong, stable midsection to brace and protect the spine.",
   },
@@ -88,7 +88,7 @@ export const exercises: ExerciseEntry[] = [
     name: "Back squat",
     aka: ["Barbell squat"],
     pattern: "legs",
-    short: "The classic barbell squat — a cornerstone lower-body strength lift.",
+    short: "The classic barbell squat, a cornerstone lower-body strength lift.",
     whatItIs:
       "A squat with the barbell resting across your upper back, lowering your hips down and back and driving up. It is the benchmark lower-body strength movement.",
     primaryMuscles: ["Quadriceps", "Glutes"],
@@ -115,16 +115,16 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["front-squat", "bulgarian-split-squat"],
     programmingNote:
-      "A staple main lift. Strength work often sits around 3–6 reps, hypertrophy around 6–12. Warm up in ramped sets and progress gradually.",
+      "A staple main lift. Strength work often sits around 3 to 6 reps, hypertrophy around 6 to 12. Warm up in ramped sets and progress gradually.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
         q: "High bar or low bar squat?",
-        a: "High bar (bar on the traps) stays more upright and emphasises the quads; low bar (bar lower, on the rear delts) allows more weight and involves the hips and back more. Choose based on goal and comfort — both are effective.",
+        a: "High bar (bar on the traps) stays more upright and emphasises the quads; low bar (bar lower, on the rear delts) allows more weight and involves the hips and back more. Choose based on goal and comfort, since both are effective.",
       },
       {
         q: "How deep should I squat?",
-        a: "At least to parallel — hip crease level with the top of the knee — if your mobility allows it with a controlled, neutral spine. Deeper is fine if you can maintain position; forcing depth you can't control is not worth it.",
+        a: "At least to parallel, with the hip crease level with the top of the knee, if your mobility allows it with a controlled, neutral spine. Deeper is fine if you can maintain position; forcing depth you can't control is not worth it.",
       },
     ],
   },
@@ -132,7 +132,7 @@ export const exercises: ExerciseEntry[] = [
     slug: "front-squat",
     name: "Front squat",
     pattern: "legs",
-    short: "A squat with the bar on the front of the shoulders — quad-focused and upright.",
+    short: "A squat with the bar on the front of the shoulders, quad-focused and upright.",
     whatItIs:
       "A squat holding the barbell across the front of your shoulders. The front-loaded position forces a more upright torso and shifts emphasis toward the quads.",
     primaryMuscles: ["Quadriceps"],
@@ -160,7 +160,7 @@ export const exercises: ExerciseEntry[] = [
     faq: [
       {
         q: "Why can I lift less on front squats?",
-        a: "The front-loaded position demands a very upright torso and is limited by your upper-back and core's ability to resist folding forward — so loads are typically lower than the back squat, which is normal.",
+        a: "The front-loaded position demands a very upright torso and is limited by your upper-back and core's ability to resist folding forward, so loads are typically lower than the back squat, which is normal.",
       },
       {
         q: "My wrists hurt in the rack position.",
@@ -191,7 +191,7 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         fault: "Turning it into a squat by bending the knees too much.",
-        fix: "Keep the shins near-vertical and push the hips back — it's a hinge, not a squat.",
+        fix: "Keep the shins near-vertical and push the hips back, since it's a hinge, not a squat.",
       },
       {
         fault: "Bar drifting away from the body.",
@@ -200,16 +200,16 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["conventional-deadlift", "hip-thrust"],
     programmingNote:
-      "A top hamstring/glute builder. Often trained in the 6–12 rep range with a focus on the stretch; leave a rep or two in reserve to keep form tight.",
+      "A top hamstring/glute builder. Often trained in the 6 to 12 rep range with a focus on the stretch; leave a rep or two in reserve to keep form tight.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
-        q: "RDL vs conventional deadlift — what's the difference?",
+        q: "RDL vs conventional deadlift: what's the difference?",
         a: "The Romanian deadlift starts from the top and emphasises the hamstring stretch with minimal knee bend and the weight never resting on the floor. The conventional deadlift starts from the floor and involves more quad and overall drive.",
       },
       {
         q: "How low should the bar go?",
-        a: "To the point of a strong hamstring stretch while keeping a flat back — for most people that's around mid-shin, but it depends on your hip mobility. Don't chase the floor by rounding your back.",
+        a: "To the point of a strong hamstring stretch while keeping a flat back. For most people that's around mid-shin, but it depends on your hip mobility. Don't chase the floor by rounding your back.",
       },
     ],
   },
@@ -218,7 +218,7 @@ export const exercises: ExerciseEntry[] = [
     name: "Conventional deadlift",
     aka: ["Deadlift"],
     pattern: "legs",
-    short: "A full-body pull from the floor — one of the best total strength builders.",
+    short: "A full-body pull from the floor, one of the best total strength builders.",
     whatItIs:
       "Lifting a barbell from the floor to a standing position by extending the hips and knees. It trains nearly the whole posterior chain and is a benchmark of total-body strength.",
     primaryMuscles: ["Glutes", "Hamstrings", "Spinal erectors"],
@@ -245,12 +245,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["romanian-deadlift", "back-squat"],
     programmingNote:
-      "Highly fatiguing, so most people need less volume than on other lifts. Strength work often sits at 1–5 reps; keep the reps clean rather than grinding with poor form.",
+      "Highly fatiguing, so most people need less volume than on other lifts. Strength work often sits at 1 to 5 reps; keep the reps clean rather than grinding with poor form.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
         q: "Should my back be completely vertical at the start?",
-        a: "No — in a conventional deadlift the hips sit higher than in a squat and the shoulders are slightly ahead of the bar, so there is some forward torso lean. What matters is that the spine stays neutral (flat), not that the torso is upright.",
+        a: "No. In a conventional deadlift the hips sit higher than in a squat and the shoulders are slightly ahead of the bar, so there is some forward torso lean. What matters is that the spine stays neutral (flat), not that the torso is upright.",
       },
       {
         q: "Mixed grip, double overhand or straps?",
@@ -277,7 +277,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Over-arching the lower back at the top instead of using the glutes.",
-        fix: "Tuck the chin, keep the ribs down, and think about a posterior tilt — finish with the glutes, not the spine.",
+        fix: "Tuck the chin, keep the ribs down, and think about a posterior tilt, finishing with the glutes, not the spine.",
       },
       {
         fault: "Feet too far forward or back, reducing glute tension.",
@@ -286,7 +286,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["romanian-deadlift", "bulgarian-split-squat"],
     programmingNote:
-      "A great glute-focused accessory. Responds well to higher reps (8–15) with a deliberate top squeeze and full range.",
+      "A great glute-focused accessory. Responds well to higher reps (8 to 15) with a deliberate top squeeze and full range.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
@@ -327,7 +327,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["back-squat", "front-squat"],
     programmingNote:
-      "An excellent unilateral builder that's easy on the spine. Usually programmed 8–15 reps per leg; start light — it's humbling.",
+      "An excellent unilateral builder that's easy on the spine. Usually programmed 8 to 15 reps per leg; start light, because it's humbling.",
     relatedTools: ["training-volume-calculator", "one-rep-max-calculator"],
     faq: [
       {
@@ -351,7 +351,7 @@ export const exercises: ExerciseEntry[] = [
     secondaryMuscles: ["Adductors", "Hamstrings"],
     steps: [
       "Sit in the machine with your whole back and head supported, feet flat on the platform about shoulder-width.",
-      "Release the safety catches and take the platform's weight with legs almost — but not fully — locked out.",
+      "Release the safety catches and take the platform's weight with legs almost, but not fully, locked out.",
       "Lower the platform under control by bending the knees until your thighs approach your torso, without your lower back rounding off the pad.",
       "Press back up through the whole foot to just short of lockout, keeping tension on the legs.",
     ],
@@ -367,7 +367,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["back-squat", "leg-extension"],
     programmingNote:
-      "A joint-friendly way to add quad and glute volume without the stability demand of a barbell squat. Usually trained 8–15 reps; a good option for pushing close to failure safely.",
+      "A joint-friendly way to add quad and glute volume without the stability demand of a barbell squat. Usually trained 8 to 15 reps; a good option for pushing close to failure safely.",
     relatedTools: ["training-volume-calculator", "one-rep-max-calculator"],
     faq: [
       {
@@ -384,7 +384,7 @@ export const exercises: ExerciseEntry[] = [
     slug: "goblet-squat",
     name: "Goblet squat",
     pattern: "legs",
-    short: "A dumbbell or kettlebell squat held at the chest — great for learning the pattern.",
+    short: "A dumbbell or kettlebell squat held at the chest, great for learning the pattern.",
     whatItIs:
       "A squat performed holding a single dumbbell or kettlebell vertically against your chest. The front-loaded, easy-to-learn position encourages an upright torso and good depth, making it ideal for beginners and for higher-rep leg work.",
     primaryMuscles: ["Quadriceps", "Glutes"],
@@ -407,12 +407,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["back-squat", "bulgarian-split-squat"],
     programmingNote:
-      "An excellent teaching tool and higher-rep leg builder. Load is limited by what you can hold at the chest, so it's usually programmed 8–15+ reps rather than for maximal strength.",
+      "An excellent teaching tool and higher-rep leg builder. Load is limited by what you can hold at the chest, so it's usually programmed 8 to 15+ reps rather than for maximal strength.",
     relatedTools: ["training-volume-calculator", "one-rep-max-calculator"],
     faq: [
       {
         q: "Are goblet squats good for beginners?",
-        a: "Yes — holding the weight at the chest naturally counterbalances you into a more upright, controlled squat, which makes it one of the best ways to learn the pattern before progressing to a barbell.",
+        a: "Yes. Holding the weight at the chest naturally counterbalances you into a more upright, controlled squat, which makes it one of the best ways to learn the pattern before progressing to a barbell.",
       },
       {
         q: "Can I build muscle with just goblet squats?",
@@ -447,12 +447,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bulgarian-split-squat", "back-squat"],
     programmingNote:
-      "A great unilateral builder and conditioning tool. Often programmed for distance or 8–12 steps per leg; expect it to be humbling and elevate the heart rate.",
+      "A great unilateral builder and conditioning tool. Often programmed for distance or 8 to 12 steps per leg; expect it to be humbling and elevate the heart rate.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Walking lunges or split squats?",
-        a: "Walking lunges add a dynamic, balance and conditioning element as you travel; Bulgarian split squats keep you in place for more stable, focused loading. Both build the same muscles — pick based on space, goal and preference.",
+        a: "Walking lunges add a dynamic, balance and conditioning element as you travel; Bulgarian split squats keep you in place for more stable, focused loading. Both build the same muscles, so pick based on space, goal and preference.",
       },
       {
         q: "Why do my knees feel it more than my muscles?",
@@ -466,7 +466,7 @@ export const exercises: ExerciseEntry[] = [
     pattern: "legs",
     short: "A machine isolation exercise that targets the quadriceps directly.",
     whatItIs:
-      "A seated machine exercise where you extend your knees against a padded lever, isolating the quadriceps. It loads the quads — including through the lengthened position — without involving the hips or requiring balance.",
+      "A seated machine exercise where you extend your knees against a padded lever, isolating the quadriceps. It loads the quads, including through the lengthened position, without involving the hips or requiring balance.",
     primaryMuscles: ["Quadriceps"],
     secondaryMuscles: ["Hip flexors"],
     steps: [
@@ -482,17 +482,17 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         fault: "Only doing the top half of the movement.",
-        fix: "Lower to a full stretch each rep — the lengthened portion is a key part of the stimulus.",
+        fix: "Lower to a full stretch each rep, because the lengthened portion is a key part of the stimulus.",
       },
     ],
     substitutions: ["leg-press", "back-squat"],
     programmingNote:
-      "A useful quad-isolation accessory, especially for adding volume or bringing up the quads. Typically 10–20 reps; a good movement to take close to failure safely.",
+      "A useful quad-isolation accessory, especially for adding volume or bringing up the quads. Typically 10 to 20 reps; a good movement to take close to failure safely.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Are leg extensions bad for the knees?",
-        a: "For most healthy people used sensibly — controlled reps, reasonable loads — they're a fine quad-building exercise. If you have specific knee issues, moderate the load and range and see how your knees respond, or get individual advice.",
+        a: "For most healthy people, used sensibly with controlled reps and reasonable loads, they're a fine quad-building exercise. If you have specific knee issues, moderate the load and range and see how your knees respond, or get individual advice.",
       },
       {
         q: "Do I need them if I squat?",
@@ -523,12 +523,12 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         fault: "Rushing the lowering phase.",
-        fix: "Control the descent to a full stretch — the eccentric is valuable for hamstring growth and health.",
+        fix: "Control the descent to a full stretch, because the eccentric is valuable for hamstring growth and health.",
       },
     ],
     substitutions: ["romanian-deadlift", "leg-press"],
     programmingNote:
-      "Trains the hamstrings' knee-flexion role that hinges miss, so it pairs well with Romanian deadlifts. Usually 8–15 reps with a controlled tempo.",
+      "Trains the hamstrings' knee-flexion role that hinges miss, so it pairs well with Romanian deadlifts. Usually 8 to 15 reps with a controlled tempo.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -559,7 +559,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Bouncing quickly through a short range.",
-        fix: "Slow down and use a full range — a deep stretch at the bottom and a high squeeze at the top.",
+        fix: "Slow down and use a full range, with a deep stretch at the bottom and a high squeeze at the top.",
       },
       {
         fault: "Bending the knees and turning it into a partial leg press.",
@@ -568,7 +568,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["leg-press", "walking-lunge"],
     programmingNote:
-      "The calves tolerate and often need higher reps and frequency. Train through a full range, 10–20+ reps, with a pause in the stretched and contracted positions.",
+      "The calves tolerate and often need higher reps and frequency. Train through a full range, 10 to 20+ reps, with a pause in the stretched and contracted positions.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -595,13 +595,13 @@ export const exercises: ExerciseEntry[] = [
     steps: [
       "Lie back with eyes under the bar, feet planted, and set a slight natural arch with your shoulder blades pulled together and down.",
       "Grip a little wider than shoulder-width and un-rack to lockout over your chest.",
-      "Lower the bar under control to your lower chest, keeping the elbows around 45–75° from your torso.",
+      "Lower the bar under control to your lower chest, keeping the elbows around 45 to 75° from your torso.",
       "Press up and slightly back toward the shoulders to lockout, keeping the shoulder blades set.",
     ],
     formFaults: [
       {
         fault: "Elbows flaring straight out to the sides.",
-        fix: "Tuck the elbows to roughly 45–75° from the torso to protect the shoulders and press more efficiently.",
+        fix: "Tuck the elbows to roughly 45 to 75° from the torso to protect the shoulders and press more efficiently.",
       },
       {
         fault: "Bouncing the bar off the chest.",
@@ -614,7 +614,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["incline-bench-press", "overhead-press"],
     programmingNote:
-      "A primary push lift. Strength work sits around 3–6 reps, hypertrophy 6–12. Always bench with safeties or a spotter.",
+      "A primary push lift. Strength work sits around 3 to 6 reps, hypertrophy 6 to 12. Always bench with safeties or a spotter.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
@@ -633,11 +633,11 @@ export const exercises: ExerciseEntry[] = [
     pattern: "push",
     short: "A bench press on an incline that emphasises the upper chest and shoulders.",
     whatItIs:
-      "A barbell (or dumbbell) press performed on a bench inclined roughly 15–30°, shifting emphasis toward the upper chest and front deltoids.",
+      "A barbell (or dumbbell) press performed on a bench inclined roughly 15 to 30°, shifting emphasis toward the upper chest and front deltoids.",
     primaryMuscles: ["Upper chest (clavicular pectorals)"],
     secondaryMuscles: ["Front deltoids", "Triceps"],
     steps: [
-      "Set the bench to about 15–30°; steeper turns it into more of a shoulder press.",
+      "Set the bench to about 15 to 30°; steeper turns it into more of a shoulder press.",
       "Set your shoulder blades, plant your feet, and un-rack the bar over your upper chest.",
       "Lower the bar to your upper chest just below the collarbone, elbows moderately tucked.",
       "Press back up to lockout over the same point, keeping the shoulder blades set.",
@@ -645,7 +645,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Setting the incline too steep.",
-        fix: "Keep it around 15–30°; much steeper shifts most of the work to the front delts.",
+        fix: "Keep it around 15 to 30°; much steeper shifts most of the work to the front delts.",
       },
       {
         fault: "Lowering the bar too high, toward the neck.",
@@ -654,12 +654,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "overhead-press"],
     programmingNote:
-      "A strong upper-chest developer, often used alongside or in place of flat bench. Typically 6–12 reps for hypertrophy.",
+      "A strong upper-chest developer, often used alongside or in place of flat bench. Typically 6 to 12 reps for hypertrophy.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
         q: "What incline is best for upper chest?",
-        a: "Around 15–30° hits the upper chest well while keeping the shoulders from taking over. Once you get much past 45° it becomes essentially a shoulder press.",
+        a: "Around 15 to 30° hits the upper chest well while keeping the shoulders from taking over. Once you get much past 45° it becomes essentially a shoulder press.",
       },
       {
         q: "Barbell or dumbbell incline?",
@@ -695,12 +695,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "incline-bench-press"],
     programmingNote:
-      "Progresses more slowly than the bench because less muscle is involved — small jumps and patience pay off. Usually 3–8 reps for strength, 8–12 for size.",
+      "Progresses more slowly than the bench because less muscle is involved, so small jumps and patience pay off. Usually 3 to 8 reps for strength, 8 to 12 for size.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
         q: "Why is my overhead press so much weaker than my bench?",
-        a: "The press uses a smaller muscle mass through a longer range and demands full-body stability, so far lower numbers are completely normal — a press around two-thirds of your bench is a common ballpark.",
+        a: "The press uses a smaller muscle mass through a longer range and demands full-body stability, so far lower numbers are completely normal, and a press around two-thirds of your bench is a common ballpark.",
       },
       {
         q: "Standing or seated press?",
@@ -713,7 +713,7 @@ export const exercises: ExerciseEntry[] = [
     name: "Dumbbell bench press",
     aka: ["DB bench"],
     pattern: "push",
-    short: "A bench press with dumbbells — greater range and even side-to-side loading.",
+    short: "A bench press with dumbbells, giving greater range and even side-to-side loading.",
     whatItIs:
       "A horizontal press performed with a dumbbell in each hand while lying on a bench. The independent weights allow a greater range of motion and force each side to work equally, building the chest, front shoulders and triceps.",
     primaryMuscles: ["Chest (pectorals)"],
@@ -736,7 +736,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "incline-bench-press"],
     programmingNote:
-      "A great chest builder with a bigger stretch than the barbell and no bar to pin you. Usually 6–15 reps; getting heavy dumbbells into position is the main practical limit.",
+      "A great chest builder with a bigger stretch than the barbell and no bar to pin you. Usually 6 to 15 reps; getting heavy dumbbells into position is the main practical limit.",
     relatedTools: ["one-rep-max-calculator", "training-volume-calculator"],
     faq: [
       {
@@ -777,7 +777,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "push-up"],
     programmingNote:
-      "A strong pressing builder that scales from assisted (band or machine) to weighted with a belt. Train 5–12 reps; ease off the depth if the shoulders complain.",
+      "A strong pressing builder that scales from assisted (band or machine) to weighted with a belt. Train 5 to 12 reps; ease off the depth if the shoulders complain.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -818,7 +818,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["overhead-press", "incline-bench-press"],
     programmingNote:
-      "A shoulder builder that's easier on the joints than a barbell for many, with a bigger range. Typically 8–12 reps; getting the dumbbells up is the main limit when heavy.",
+      "A shoulder builder that's easier on the joints than a barbell for many, with a bigger range. Typically 8 to 12 reps; getting the dumbbells up is the main limit when heavy.",
     relatedTools: ["training-volume-calculator", "one-rep-max-calculator"],
     faq: [
       {
@@ -850,7 +850,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Swinging the torso and using momentum to throw the weights up.",
-        fix: "Use a lighter weight and keep the body still — the side delts respond to control, not heaving.",
+        fix: "Use a lighter weight and keep the body still, because the side delts respond to control, not heaving.",
       },
       {
         fault: "Shrugging so the traps take over.",
@@ -859,7 +859,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["dumbbell-shoulder-press", "overhead-press"],
     programmingNote:
-      "Almost everyone chasing wider shoulders benefits from direct side-delt work. Go light with high reps (12–20+) and strict form; leave the ego weights for the presses.",
+      "Almost everyone chasing wider shoulders benefits from direct side-delt work. Go light with high reps (12 to 20+) and strict form; leave the ego weights for the presses.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -900,7 +900,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "dumbbell-bench-press"],
     programmingNote:
-      "A good chest-isolation accessory that keeps tension where dumbbells lose it. Usually 10–15 reps with a deliberate stretch and squeeze, done after the main presses.",
+      "A good chest-isolation accessory that keeps tension where dumbbells lose it. Usually 10 to 15 reps with a deliberate stretch and squeeze, done after the main presses.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -941,12 +941,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["bench-press", "dip"],
     programmingNote:
-      "Endlessly scalable: elevate the hands to make it easier, elevate the feet or add load to make it harder. Great for volume and can be trained frequently in the 8–20+ rep range.",
+      "Endlessly scalable: elevate the hands to make it easier, elevate the feet or add load to make it harder. Great for volume and can be trained frequently in the 8 to 20+ rep range.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Are push-ups enough to build a chest?",
-        a: "For beginners and for endurance, yes for a while. As you get stronger you'll need to make them harder — feet elevated, weighted, or slower — to keep progressing, or add loaded pressing like the bench press.",
+        a: "For beginners and for endurance, yes for a while. As you get stronger you'll need to make them harder, whether feet elevated, weighted, or slower, to keep progressing, or add loaded pressing like the bench press.",
       },
       {
         q: "How do I make push-ups harder without equipment?",
@@ -982,12 +982,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["dip", "overhead-press"],
     programmingNote:
-      "A staple triceps accessory that spares the elbows compared to heavy pressing. Usually 10–20 reps; a rope lets you spread the ends at the bottom for a stronger contraction.",
+      "A staple triceps accessory that spares the elbows compared to heavy pressing. Usually 10 to 20 reps; a rope lets you spread the ends at the bottom for a stronger contraction.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Do I need direct triceps work if I press a lot?",
-        a: "Pressing already trains the triceps heavily, so it isn't essential — but a little direct work like pushdowns is an efficient way to add arm size and can be gentler on the elbows than more heavy pressing.",
+        a: "Pressing already trains the triceps heavily, so it isn't essential, but a little direct work like pushdowns is an efficient way to add arm size and can be gentler on the elbows than more heavy pressing.",
       },
       {
         q: "Bar or rope attachment?",
@@ -1007,7 +1007,7 @@ export const exercises: ExerciseEntry[] = [
     primaryMuscles: ["Lats", "Mid-back (rhomboids, traps)"],
     secondaryMuscles: ["Rear deltoids", "Biceps", "Spinal erectors"],
     steps: [
-      "Hinge at the hips with a flat back until your torso is roughly 15–45° above horizontal, knees softly bent.",
+      "Hinge at the hips with a flat back until your torso is roughly 15 to 45° above horizontal, knees softly bent.",
       "Let the bar hang with arms straight, gripping around shoulder-width.",
       "Pull the bar to your lower ribs / upper stomach, leading with the elbows and squeezing the shoulder blades.",
       "Lower under control to full arm extension without letting the torso rise.",
@@ -1024,7 +1024,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["lat-pulldown", "pull-up"],
     programmingNote:
-      "A key back builder that also strengthens the hinge. Usually 6–12 reps; keep the torso still so the back, not momentum, does the work.",
+      "A key back builder that also strengthens the hinge. Usually 6 to 12 reps; keep the torso still so the back, not momentum, does the work.",
     relatedTools: BARBELL_TOOLS,
     faq: [
       {
@@ -1065,7 +1065,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["lat-pulldown", "barbell-row"],
     programmingNote:
-      "If you can't yet do one, build with band-assisted or machine-assisted reps and slow negatives. Once you can do many, add load with a belt. Train in the 4–12 rep range.",
+      "If you can't yet do one, build with band-assisted or machine-assisted reps and slow negatives. Once you can do many, add load with a belt. Train in the 4 to 12 rep range.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1082,7 +1082,7 @@ export const exercises: ExerciseEntry[] = [
     slug: "lat-pulldown",
     name: "Lat pulldown",
     pattern: "pull",
-    short: "A cable vertical pull — the scalable stand-in for the pull-up.",
+    short: "A cable vertical pull, the scalable stand-in for the pull-up.",
     whatItIs:
       "Seated at a cable machine, you pull a bar down to your upper chest. It trains the same vertical-pull pattern as the pull-up with easily adjustable load.",
     primaryMuscles: ["Lats"],
@@ -1100,12 +1100,12 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         fault: "Pulling the bar behind the neck.",
-        fix: "Pull to the upper chest in front — behind-the-neck pulldowns stress the shoulders for no added benefit.",
+        fix: "Pull to the upper chest in front, because behind-the-neck pulldowns stress the shoulders for no added benefit.",
       },
     ],
     substitutions: ["pull-up", "barbell-row"],
     programmingNote:
-      "A reliable lat builder and pull-up regression/accessory. Typically 8–15 reps with a focus on feeling the lats and a full stretch at the top.",
+      "A reliable lat builder and pull-up regression/accessory. Typically 8 to 15 reps with a focus on feeling the lats and a full stretch at the top.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1141,17 +1141,17 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         fault: "Cutting the range short at the bottom or top.",
-        fix: "Straighten the arm fully each rep and curl to full flexion — partial reps leave gains on the table.",
+        fix: "Straighten the arm fully each rep and curl to full flexion, because partial reps leave gains on the table.",
       },
     ],
     substitutions: ["pull-up", "barbell-row"],
     programmingNote:
-      "An accessory, not a main lift — the big pulls already train the biceps. Higher reps (8–15) with strict form work well; leave the ego at the door.",
+      "An accessory, not a main lift, since the big pulls already train the biceps. Higher reps (8 to 15) with strict form work well; leave the ego at the door.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Do I even need direct biceps work?",
-        a: "Rows and pull-ups already train the biceps heavily, so they aren't essential — but a little direct curl work is an efficient way to add arm size if that's a goal.",
+        a: "Rows and pull-ups already train the biceps heavily, so they aren't essential, but a little direct curl work is an efficient way to add arm size if that's a goal.",
       },
       {
         q: "Should I curl both arms together or alternate?",
@@ -1187,7 +1187,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["barbell-row", "lat-pulldown"],
     programmingNote:
-      "A back-thickness builder that's easy on the lower back, so it suits higher volume. Usually 8–15 reps with a focus on squeezing the mid-back and a full stretch.",
+      "A back-thickness builder that's easy on the lower back, so it suits higher volume. Usually 8 to 15 reps with a focus on squeezing the mid-back and a full stretch.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1228,12 +1228,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["barbell-row", "seated-cable-row"],
     programmingNote:
-      "An excellent unilateral back builder with a big range of motion and low lower-back stress. Usually 8–15 reps per side with a controlled stretch.",
+      "An excellent unilateral back builder with a big range of motion and low lower-back stress. Usually 8 to 15 reps per side with a controlled stretch.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "Why single-arm rows?",
-        a: "Working one side at a time lets you brace the torso, use a bigger range of motion, and even out any strength difference between sides — while keeping the lower back supported rather than holding a hinge.",
+        a: "Working one side at a time lets you brace the torso, use a bigger range of motion, and even out any strength difference between sides, while keeping the lower back supported rather than holding a hinge.",
       },
       {
         q: "Where should I pull the dumbbell to?",
@@ -1268,7 +1268,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["seated-cable-row", "lateral-raise"],
     programmingNote:
-      "A high-value 'prehab' accessory that balances pressing volume and supports shoulder health. Train light with high reps (12–20+) and a deliberate squeeze; hard to do too much of.",
+      "A high-value 'prehab' accessory that balances pressing volume and supports shoulder health. Train light with high reps (12 to 20+) and a deliberate squeeze; hard to do too much of.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1308,7 +1308,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["dumbbell-curl", "hammer-curl"],
     programmingNote:
-      "The heaviest-loading direct biceps exercise. Usually 6–12 reps; an EZ-bar is friendlier on the wrists than a straight bar for many people.",
+      "The heaviest-loading direct biceps exercise. Usually 6 to 12 reps; an EZ-bar is friendlier on the wrists than a straight bar for many people.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1340,7 +1340,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Rotating the wrists as you curl.",
-        fix: "Keep the palms facing inward throughout — that neutral grip is the whole point of the movement.",
+        fix: "Keep the palms facing inward throughout, because that neutral grip is the whole point of the movement.",
       },
       {
         fault: "Swinging the torso for momentum.",
@@ -1349,12 +1349,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["dumbbell-curl", "barbell-curl"],
     programmingNote:
-      "A great addition for arm thickness and forearm involvement, and often more comfortable than a supinated curl. Usually 8–15 reps as an accessory.",
+      "A great addition for arm thickness and forearm involvement, and often more comfortable than a supinated curl. Usually 8 to 15 reps as an accessory.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
         q: "What's the difference from a normal curl?",
-        a: "The neutral (palms-in) grip shifts emphasis onto the brachialis — a muscle under the biceps that pushes the biceps up when developed — and the forearm, whereas a supinated curl targets the biceps more directly.",
+        a: "The neutral (palms-in) grip shifts emphasis onto the brachialis, a muscle under the biceps that pushes the biceps up when developed, and the forearm, whereas a supinated curl targets the biceps more directly.",
       },
       {
         q: "Do hammer curls build bigger arms?",
@@ -1367,7 +1367,7 @@ export const exercises: ExerciseEntry[] = [
     name: "Shrug",
     aka: ["Barbell shrug", "Dumbbell shrug"],
     pattern: "pull",
-    short: "A direct trap-builder — elevating the shoulders against load.",
+    short: "A direct trap-builder, elevating the shoulders against load.",
     whatItIs:
       "An exercise where you elevate your shoulders straight up against a loaded barbell or dumbbells, isolating the upper trapezius. It's the main direct movement for building the upper traps.",
     primaryMuscles: ["Traps (upper)"],
@@ -1381,7 +1381,7 @@ export const exercises: ExerciseEntry[] = [
     formFaults: [
       {
         fault: "Rolling the shoulders in circles.",
-        fix: "Shrug straight up and down — rolling adds no benefit and can irritate the shoulders.",
+        fix: "Shrug straight up and down, because rolling adds no benefit and can irritate the shoulders.",
       },
       {
         fault: "Bending the elbows to help lift.",
@@ -1390,7 +1390,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["barbell-row", "seated-cable-row"],
     programmingNote:
-      "A simple, effective upper-trap builder. Usually 8–15 reps with a pause at the top; a full range and controlled tempo beat bouncing heavy weight.",
+      "A simple, effective upper-trap builder. Usually 8 to 15 reps with a pause at the top; a full range and controlled tempo beat bouncing heavy weight.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1399,7 +1399,7 @@ export const exercises: ExerciseEntry[] = [
       },
       {
         q: "Should I roll my shoulders when shrugging?",
-        a: "No — shrug straight up and down. Rolling the shoulders adds no extra benefit and puts the joint in a weaker position under load.",
+        a: "No, shrug straight up and down. Rolling the shoulders adds no extra benefit and puts the joint in a weaker position under load.",
       },
     ],
   },
@@ -1411,7 +1411,7 @@ export const exercises: ExerciseEntry[] = [
     pattern: "core",
     short: "An isometric hold that trains the core to resist extension and stay rigid.",
     whatItIs:
-      "An isometric exercise where you hold a straight-body position on your forearms and toes. It trains the core's main job — resisting movement (here, anti-extension) to keep the spine stable — rather than crunching.",
+      "An isometric exercise where you hold a straight-body position on your forearms and toes. It trains the core's main job, which is resisting movement (here, anti-extension) to keep the spine stable, rather than crunching.",
     primaryMuscles: ["Core (rectus abdominis, deep core)"],
     secondaryMuscles: ["Shoulders", "Glutes"],
     steps: [
@@ -1432,12 +1432,12 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["hanging-leg-raise", "ab-wheel-rollout"],
     programmingNote:
-      "Train quality over marathon holds — once you can hold a solid position for around 45–60 seconds, add difficulty (weight, longer lever, reaching) rather than just chasing minutes.",
+      "Train quality over marathon holds. Once you can hold a solid position for around 45 to 60 seconds, add difficulty (weight, longer lever, reaching) rather than just chasing minutes.",
     relatedTools: [],
     faq: [
       {
         q: "How long should I hold a plank?",
-        a: "Long holds have diminishing returns. Once you can hold a strong, straight position for around a minute, it's more useful to make it harder — add weight, extend the lever, or add reaching movements — than to keep extending the time.",
+        a: "Long holds have diminishing returns. Once you can hold a strong, straight position for around a minute, it's more useful to make it harder, by adding weight, extending the lever, or adding reaching movements, than to keep extending the time.",
       },
       {
         q: "Why do I feel it in my lower back?",
@@ -1472,7 +1472,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["plank", "cable-crunch"],
     programmingNote:
-      "Regress with bent knees or lying leg raises; progress toward straight legs and eventually toes-to-bar. Train 8–15 controlled reps rather than swinging for numbers.",
+      "Regress with bent knees or lying leg raises; progress toward straight legs and eventually toes-to-bar. Train 8 to 15 controlled reps rather than swinging for numbers.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1498,13 +1498,13 @@ export const exercises: ExerciseEntry[] = [
     steps: [
       "Kneel below a high pulley with a rope, holding the ends by your head.",
       "Hinge slightly at the hips to set your starting position with the abs under tension.",
-      "Crunch down by rounding your spine and bringing your ribs toward your pelvis — lead with the abs, not the arms.",
+      "Crunch down by rounding your spine and bringing your ribs toward your pelvis, leading with the abs, not the arms.",
       "Return under control to a stretch without letting the weight pull you upright by the lower back.",
     ],
     formFaults: [
       {
         fault: "Turning it into a hip hinge or a lat pulldown with straight abs.",
-        fix: "Keep the hips fairly fixed and round the spine — the movement is the ribs curling toward the pelvis.",
+        fix: "Keep the hips fairly fixed and round the spine, because the movement is the ribs curling toward the pelvis.",
       },
       {
         fault: "Yanking with the arms.",
@@ -1513,7 +1513,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["hanging-leg-raise", "plank"],
     programmingNote:
-      "One of the few ab exercises you can genuinely load, so it suits progressive overload. Train 10–20 reps with a full crunch and stretch; add weight over time as with any lift.",
+      "One of the few ab exercises you can genuinely load, so it suits progressive overload. Train 10 to 20 reps with a full crunch and stretch; add weight over time as with any lift.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {
@@ -1533,7 +1533,7 @@ export const exercises: ExerciseEntry[] = [
     pattern: "core",
     short: "A demanding anti-extension exercise using a rolling wheel.",
     whatItIs:
-      "An exercise where you roll a small wheel forward, extending your body, then pull it back — while the core fights to stop the lower back from over-extending. It's one of the hardest and most effective anti-extension core exercises.",
+      "An exercise where you roll a small wheel forward, extending your body, then pull it back, while the core fights to stop the lower back from over-extending. It's one of the hardest and most effective anti-extension core exercises.",
     primaryMuscles: ["Core (rectus abdominis, deep core)"],
     secondaryMuscles: ["Lats", "Shoulders"],
     steps: [
@@ -1554,7 +1554,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["plank", "hanging-leg-raise"],
     programmingNote:
-      "Start from the knees with a short range and progress the distance as you get stronger; standing rollouts are an advanced goal. Train 5–12 controlled reps — quality over range.",
+      "Start from the knees with a short range and progress the distance as you get stronger; standing rollouts are an advanced goal. Train 5 to 12 controlled reps, quality over range.",
     relatedTools: [],
     faq: [
       {
@@ -1574,7 +1574,7 @@ export const exercises: ExerciseEntry[] = [
     pattern: "core",
     short: "An anti-rotation exercise that trains the core to resist twisting.",
     whatItIs:
-      "An exercise where you press a cable or band straight out from your chest while it tries to rotate you, and your core resists. It trains anti-rotation — a key, often-neglected core function for a stable, protected trunk.",
+      "An exercise where you press a cable or band straight out from your chest while it tries to rotate you, and your core resists. It trains anti-rotation, a key, often-neglected core function for a stable, protected trunk.",
     primaryMuscles: ["Core (obliques, deep core)"],
     secondaryMuscles: ["Shoulders", "Glutes"],
     steps: [
@@ -1622,7 +1622,7 @@ export const exercises: ExerciseEntry[] = [
       "Set up on the bench with your hips supported at the pad and feet anchored.",
       "Cross your arms or hold a light weight at your chest, body straight.",
       "Hinge down at the hips under control, keeping the spine neutral.",
-      "Extend back up until your body is in a straight line — squeezing the glutes — without over-arching past straight.",
+      "Extend back up until your body is in a straight line, squeezing the glutes, without over-arching past straight.",
     ],
     formFaults: [
       {
@@ -1636,7 +1636,7 @@ export const exercises: ExerciseEntry[] = [
     ],
     substitutions: ["plank", "romanian-deadlift"],
     programmingNote:
-      "Strengthens the spinal erectors, glutes and hamstrings and supports bigger hinge lifts. Usually 10–15 reps; add light load at the chest before chasing heavy weight, and keep the top position neutral.",
+      "Strengthens the spinal erectors, glutes and hamstrings and supports bigger hinge lifts. Usually 10 to 15 reps; add light load at the chest before chasing heavy weight, and keep the top position neutral.",
     relatedTools: ["training-volume-calculator"],
     faq: [
       {

@@ -32,9 +32,11 @@ SEO asset, and the link-building engine.
 
 **The model.** Audience first, monetisation second. Grow traffic and returning
 users through SEO and positive-psychology viral loops, then switch on the
-pre-built layers: display ads → contextual affiliates → premium subscription →
-(longer term) B2B/licensing. Near-zero cash cost to operate; the primary
-investment is founder time over a 6–12 month SEO ramp.
+pre-built layers: **premium sign-ups** (a very low monthly amount, or a one-off
+lifetime unlock — the main line) → **blood-test profit** → a small affiliate
+layer, with light free-tier display ads an optional extra → (longer term)
+B2B/licensing. Near-zero cash cost to operate; the primary investment is
+founder time over a 6–12 month SEO ramp.
 
 **Founder fit.** Built by a founder combining full-stack engineering, an MSc in
 Biotechnology (the domain credibility this space demands), and enterprise B2B
@@ -91,19 +93,20 @@ app market, is ~$12–14bn in 2026 and projected to roughly triple to $33–45bn
 the single biggest market. Adjacent and overlapping: the longevity/biological-age
 testing market (~$1.8bn→$4.3bn) and the broad health-and-wellness market (measured
 in trillions). These size the *demand*, not our direct revenue — our economics are
-a web property's (traffic → ads/affiliates/subscription), not an app-store
-subscription business.
+a web property's (traffic → premium sign-ups / blood-test orders / affiliates),
+not an app-store subscription business.
 
 **TAM / SAM / SOM (framed as monetisable attention):**
 - **TAM:** global online search and attention around health, fitness, nutrition
   and longevity tools — hundreds of millions of monthly searches; the associated
   ad + affiliate + subscription value is the addressable pool.
 - **SAM:** English-language, US/UK-weighted health-tool and longevity search
-  traffic we can realistically target — high-value because US traffic drives the
-  overwhelming majority of display-ad revenue.
+  traffic we can realistically target — high-value because US/UK audiences carry
+  the strongest premium, blood-test and affiliate purchasing power (and most of
+  the display-ad value, if free-tier ads are ever enabled).
 - **SOM (3-year realistic):** a mid-five- to low-six-figure monthly-session
-  audience captured via long-tail SEO and viral loops, monetised across ads,
-  affiliates and a small premium base.
+  audience captured via long-tail SEO and viral loops, monetised primarily
+  through premium sign-ups and blood-test orders, with a small affiliate layer.
 
 **Target segments:**
 1. **Optimisers / longevity-minded** (core) — track biomarkers, read Attia/Huberman,
@@ -116,8 +119,9 @@ subscription business.
    drives volume and feeds the loop.
 
 **Geography:** build for a global audience but optimise the **US experience first**
-(imperial-first UX, US-relevant content), because US traffic share is the single
-biggest lever on ad and affiliate revenue.
+(imperial-first UX, US-relevant content), because US traffic share is a major
+lever on affiliate and (optional) ad revenue — while the UK is the likely home
+ground for the blood-test offer and premium's first market.
 
 ---
 
@@ -180,50 +184,61 @@ boxes or the paywalls on the basics.
 
 ## 7. Business model & revenue streams
 
-> **Reconciliation owed (2026-07-23).** This section and §11 pre-date the current
-> revenue direction and still read *ads-first*. The working direction is now
-> **premium-lean, subscription-led** — a low-cost subscription selling
-> *persistence and depth* (saved history, Trajectory) is the intended primary
-> line, with ads/affiliates as *supporting* layers (see `MONETISATION.md`, the
-> source of truth for revenue direction). Once Mat confirms the model
-> (`MONETISATION.md §4`), reorder the streams below to lead with subscription.
-> Tracked in `STATUS.md §6`.
+> **Model confirmed (2026-07-23, Mat) — premium-led.** The streams below lead
+> with premium sign-ups, then blood-test profit; affiliates are a deliberately
+> small supporting line; free-tier display ads: decided 2026-07-24 — light,
+> premium-lean, and premium removes them (`MONETISATION.md §4.2`).
+> `MONETISATION.md` holds the detail and the remaining open questions (exact
+> price/mechanics and the free/paid line).
 
 Audience first; monetisation switched on in layers as traffic arrives. All
 infrastructure is pre-built behind flags so activation is a switch, not a rebuild.
 
-1. **Display advertising** (primary early revenue). Enter via Journey by Mediavine
-   at ~1,000 monthly sessions (70% rev share), graduate to premium networks
-   (Raptive at 25,000 monthly pageviews, or Mediavine's main network at $5,000
-   trailing-12-month ad revenue). Health/wellness commands mid-range display RPMs;
-   US traffic share is the key multiplier.
-2. **Affiliate** (from launch, contextual). Protein/supplements beside nutrition
-   tools; CGMs, wearables and test kits beside longevity tools; equipment beside
-   strength tools; and — a major surface — high-intent recovery/wellness content
+1. **Premium sign-ups (the main revenue line).** A low-cost premium tier — "a
+   very low amount a month", or possibly a one-off lifetime unlock (£10 lifetime
+   is the working example; mechanics open in `MONETISATION.md §4`). Free tools
+   stay free forever; premium sells *persistence and depth* — saved profiles,
+   longitudinal Trajectory, advanced cards/reports, ad-free (if ads exist) —
+   surfaced on the personal dashboard (`DASHBOARD.md`). Recurring (or prepaid)
+   revenue from the engaged, returning audience the engagement loops create.
+2. **Blood-test profit (the second line).** Margin/commission on blood tests
+   ordered through the site's `/blood-test` offering with a fulfilment partner
+   (partner selection is an open decision — `STATUS.md §4`). High revenue per
+   conversion, exactly matched to the audience's intent, and it compounds the
+   retention moat: results land in the dashboard and feed the biological-age
+   tools.
+3. **Affiliate (small, contextual, from launch).** Protein/supplements beside
+   nutrition tools; CGMs, wearables and test kits beside longevity tools;
+   equipment beside strength tools; and high-intent recovery/wellness content
    (saunas, cold plunges, devices) where readers research before a significant
-   purchase (`CONTENT.md`). High-value in this niche (test kits and devices pay
-   well); direct brand programmes out-earn generic marketplaces.
-3. **Own / branded products** (opportunistic, higher margin). Selling our own or
+   purchase (`CONTENT.md`). Direct brand programmes out-earn generic
+   marketplaces. Deliberately a *supporting* line, never the headline.
+4. **Display advertising (decided 2026-07-24: light ads in the free tier,
+   premium removes them** — `MONETISATION.md §4.2`; activation still waits
+   for E6 traffic). Enter via Journey by Mediavine at ~1,000 monthly sessions
+   (70% rev share), graduate to premium networks (Raptive at 25,000 monthly
+   pageviews, or Mediavine's main network at $5,000 trailing-12-month ad
+   revenue). Under-18 accounts get non-personalised serving only
+   (`ACCOUNTS.md §7.7`). Never structural: every layout stands complete
+   without ads (`DESIGN.md §5`).
+5. **Own / branded products** (opportunistic, higher margin). Selling our own or
    branded physical products (e.g. recovery gear, supplements) or digital products
    on commercial content pages. Managed to avoid conflict: the evidence assessment
    stays honest and neutral pages stay separate from commercial ones, so
    credibility is preserved (`CONTENT.md` §1–4).
-4. **Premium subscription** (from Phase E6). Free tools stay free forever; monetise
-   *persistence* — saved profiles, longitudinal tracking, advanced cards/reports,
-   ad-free. That persistence is surfaced on the personal dashboard
-   (`DASHBOARD.md`). Recurring revenue that smooths ad volatility.
-5. **B2B / licensing** (longer-term optionality). Embeddable widgets and a scoring
+6. **B2B / licensing** (longer-term optionality). Embeddable widgets and a scoring
    API for coaches, gyms and other sites; the consumer property becomes
    distribution and the tooling becomes infrastructure. Steadier, higher-margin
    revenue independent of own-traffic.
-6. **Data & authority products** (longer-term, handled carefully). Anonymised,
+7. **Data & authority products** (longer-term, handled carefully). Anonymised,
    consented benchmarking and an annual "state of healthspan" report — a media/SEO
    asset and potential B2B/research value.
 
-**Why this order:** an engaged, returning, proud audience monetises at far better
-ad RPMs, affiliate conversion and subscription uptake than cold one-off traffic —
-so deferring monetisation until the loops form is a revenue-maximising choice, not
-a delay.
+**Why this order:** an engaged, returning, trusting audience converts to premium
+and orders blood tests at far better rates than cold one-off traffic — so
+deferring monetisation until the loops form is a revenue-maximising choice, not
+a delay. Ads sit last by design: they are the one line that taxes the trust
+moat, so they stay optional and premium-lean if they happen at all.
 
 ---
 
@@ -284,7 +299,7 @@ Sequenced across the three build docs; monetisation gated on traffic.
 | **Engage E2** | Trajectory (longitudinal tracking) — the keystone | Retention engine |
 | **Engage E3–E4** | Identity, streaks, segmented status, challenges | — |
 | **Engage E5** | Weekly trends feed + newsletter | Recurring habit |
-| **Monetise (E6)** | Ads → affiliates → premium | Journey at ~1k sessions; premium once returning base exists |
+| **Monetise (E6)** | Premium + blood test → affiliates (light free-tier ads, premium removes) | Premium once accounts + return loop exist; blood test on partner signing |
 | **Expansion** | B2B widgets/API, data/authority products | Once audience + data mature |
 
 ---
@@ -297,23 +312,32 @@ one; the investment is founder time over the SEO ramp.
 
 **Revenue — illustrative scenarios.** New domains typically take 6–12 months to
 build meaningful organic traffic; these are scenario markers, **contingent on
-execution and SEO ramp**, not forecasts. Assumptions: blended session RPM rising
-from ~$8 (early, Journey, low US share) toward ~$18–25 (mature, premium network,
-better US share); affiliate revenue from high-intent product links (device/test-kit
-commissions are meaningful in this niche); a small premium base converting at ~£5/mo.
+execution and SEO ramp**, not forecasts. Assumptions: premium converting at
+~0.5–2% of returning users at a very low monthly price (or one-off lifetime
+unlocks — £10 lifetime is the working example, which trades recurring revenue
+for early cash and an easy yes); blood-test margin/commission per completed
+order, with per-order economics set by the partner deal (`STATUS.md §4`);
+affiliate revenue as a deliberately small line from high-intent product links;
+optional free-tier ads counted as upside only (`MONETISATION.md §4`).
 
-| Stage (approx.) | Monthly sessions | Ads | Affiliate | Premium | Blended (USD/mo) |
+| Stage (approx.) | Monthly sessions | Premium | Blood test | Affiliate | Blended (£/mo) |
 |---|---|---|---|---|---|
-| Ramp (~Mo 6) | ~5,000 | ~$40 | minimal | — | pre-revenue / validation |
-| Growth (~Mo 12) | ~30,000 | ~$300–450 | ~$200–400 | — | ~$500–850 |
-| Scale (~Mo 18) | ~100,000 | ~$1,500–2,500 | ~$1,000–2,000 | early | ~$3,000–5,000 |
-| Mature (~Mo 24+) | ~250,000 | ~$4,500–6,000 | ~$3,000–6,000 | ~£2–4k MRR | ~$10,000–15,000 |
+| Ramp (~Mo 6) | ~5,000 | — | — | minimal | pre-revenue / validation |
+| Growth (~Mo 12) | ~30,000 | early (~£100–300) | early orders (~£100–300) | ~£100–250 | ~£300–850 |
+| Scale (~Mo 18) | ~100,000 | ~£800–2,000 | ~£600–1,500 | ~£500–1,000 | ~£1,900–4,500 |
+| Mature (~Mo 24+) | ~250,000 | ~£3,000–6,000 MRR-equivalent | ~£1,500–4,000 | ~£1,000–2,500 | ~£5,500–12,500 |
+
+Light free-tier display ads, if ever enabled, would add roughly £200/mo (Growth)
+to £3,000+/mo (Mature) on top at typical health-niche RPMs — treated strictly as
+optional upside, never plan-of-record.
 
 **Path to profitability:** because fixed costs are negligible, the site is
-effectively profitable from first ad dollar; the question is not break-even but
-traffic scale. **Ad income is volatile and should never be treated as a sole
-income source** — the affiliate and premium layers, and eventual B2B, are what turn
-this from a traffic-dependent utility into a durable, diversified asset.
+effectively profitable from the first premium sign-up; the question is not
+break-even but conversion volume. **No single line is relied on alone:** premium
+conversion is unproven until measured, blood-test profit depends on a partner
+deal not yet signed, and affiliates are deliberately small — the diversification
+across these lines (plus eventual B2B) is what turns this from a
+traffic-dependent utility into a durable, diversified asset.
 
 **Strategic (non-cash) return:** even in a conservative traffic scenario, the
 project is a high-value portfolio and credibility asset — a shipped, technically
@@ -350,9 +374,12 @@ allows; keep the core lean.
   guaranteed. *Mitigation:* near-zero cost means a long runway; viral loops provide
   a non-SEO acquisition channel; target the low-competition mid/long-tail and the
   time-sensitive cardiovascular window first.
-- **Ad-revenue volatility & dependence.** RPMs swing and tool pages dwell less than
-  content. *Mitigation:* diversify early into affiliates, then premium and B2B;
-  never rely on ads alone.
+- **Revenue-mix risk.** Premium conversion is unproven until measured; blood-test
+  profit depends on a partner deal not yet signed; affiliate income is small by
+  design; optional ad income (if ever enabled) is volatile. *Mitigation:* multiple
+  independent lines (premium, blood test, affiliates, later B2B); the lifetime-
+  unlock option de-risks early willingness-to-pay; free-tier ads stay optional
+  upside, never the plan.
 - **Competition / cloneability.** Tools are copyable. *Mitigation:* compound the
   non-copyable moat — credibility, open methodology, longitudinal data, brand.
 - **YMYL / accuracy risk.** Wrong health outputs are both harmful and
@@ -386,7 +413,8 @@ market (industry market reports, ~$1.8bn→$4.3bn); wellness priority and longev
 demand (McKinsey Future of Wellness); wearables as #1 2026 trend (ACSM Worldwide
 Fitness Trends); OTC CGM availability (Dexcom Stelo, Abbott Lingo); the March 2026
 ACC/AHA dyslipidemia guidelines (ApoB/Lp(a)); GLP-1 household penetration (PwC);
-ad-network thresholds and rev shares (Mediavine Journey, Raptive, Mediavine); and
+ad-network thresholds and rev shares (Mediavine Journey, Raptive, Mediavine —
+retained for the optional free-tier-ads line); and
 app retention, gamification and social-comparison research (fitness app retention
 benchmarks; gamification/streak studies; social-comparison literature). All
 financial figures are illustrative scenarios with the assumptions stated in §11,

@@ -101,6 +101,18 @@ describe("harvest — triage (§15.2)", () => {
     ]);
   });
 
+  it("drops non-research publication types (letter, comment, editorial)", () => {
+    const cands = [
+      candidate({ externalId: "r", doi: "10.1/rct", url: "https://pubmed.ncbi.nlm.nih.gov/r/", pubTypes: ["Randomized Controlled Trial"] }),
+      candidate({ externalId: "l", doi: "10.1/letter", url: "https://pubmed.ncbi.nlm.nih.gov/l/", pubTypes: ["Letter"] }),
+      candidate({ externalId: "c", doi: "10.1/comment", url: "https://pubmed.ncbi.nlm.nih.gov/c/", pubTypes: ["Journal Article", "Comment"] }),
+      candidate({ externalId: "e", doi: "10.1/ed", url: "https://pubmed.ncbi.nlm.nih.gov/e/", pubTypes: ["Editorial"] }),
+    ];
+    const { kept, skipped } = triage(cands, existingKeys([]), CONFIG.allowlist);
+    expect(kept.map((c) => c.externalId)).toEqual(["r"]);
+    expect(skipped.filter((s) => s.reason.includes("not primary research"))).toHaveLength(3);
+  });
+
   it("proposes a stable, deterministic kebab id", () => {
     const id = proposeChunkId(candidate());
     expect(id).toMatch(/^fresh-[a-z0-9-]+$/);
@@ -157,6 +169,31 @@ describe("harvest — buildFreshChunks (§15.3 anti-hallucination)", () => {
     ];
     expect(buildFreshChunks(drafts, cands, CONFIG)).toHaveLength(1);
   });
+
+  it("clamps a single study's tier: well-supported → preliminary unless meta-analysis", () => {
+    const rct = [candidate({ pubTypes: ["Randomized Controlled Trial"] })];
+    const [c1] = buildFreshChunks(
+      [{ index: 0, claim: "A single RCT hints at an effect.", category: "supplements", tags: [], tier: "well-supported", caveat: "One RCT, n=40." }],
+      rct,
+      CONFIG,
+    );
+    expect(c1.tier).toBe("preliminary"); // clamped — a lone RCT can't be well-supported
+
+    const meta = [candidate({ pubTypes: ["Meta-Analysis"] })];
+    const [c2] = buildFreshChunks(
+      [{ index: 0, claim: "A meta-analysis supports the effect.", category: "supplements", tags: [], tier: "well-supported", caveat: "15 RCTs." }],
+      meta,
+      CONFIG,
+    );
+    expect(c2.tier).toBe("well-supported"); // meta-analysis may keep it
+  });
+
+  it("rejects a draft whose claim/caveat reads like a no-abstract placeholder", () => {
+    const drafts: CandidateDraft[] = [
+      { index: 0, claim: "Abstract unavailable.", category: "training", tags: [], tier: "preliminary", caveat: "No abstract provided; unable to assess." },
+    ];
+    expect(buildFreshChunks(drafts, cands, CONFIG)).toHaveLength(0);
+  });
 });
 
 describe("harvest — mergeFresh", () => {
@@ -192,7 +229,13 @@ describe("harvest — runHarvest (end to end, injected)", () => {
     return {
       ok: true,
       json: async () => body,
-      text: async () => "Abstract: a small randomized trial…",
+      // A realistic-length abstract so it clears the MIN_ABSTRACT_CHARS gate
+      // (index.ts §4) — a study with no usable abstract is skipped, not drafted.
+      text: async () =>
+        "Abstract: In this eight-week randomized controlled trial, 22 resistance-trained men " +
+        "supplemented creatine either immediately before or after training. Both groups gained " +
+        "strength and lean mass, with a small, non-significant edge for pre-training timing. " +
+        "Larger trials are needed to confirm any true timing effect.",
     };
   };
 
@@ -236,6 +279,23 @@ describe("harvest — runHarvest (end to end, injected)", () => {
     expect(res.discovered).toBe(1);
     expect(res.additions).toHaveLength(0);
     expect(res.degraded).toBe(true);
+  });
+
+  it("drops a candidate whose abstract is unavailable — no placeholder card", async () => {
+    const noAbstractFetch: FetchLike = async (url: string) => {
+      const base = await fakeFetch(url);
+      return url.includes("efetch") ? { ...base, text: async () => "" } : base;
+    };
+    const res = await runHarvest({
+      existing: [],
+      fetchImpl: noAbstractFetch,
+      drafter: fakeDrafter,
+      queries: [{ category: "supplements", term: "creatine" }],
+      config: CONFIG,
+    });
+    expect(res.discovered).toBe(1);
+    expect(res.additions).toHaveLength(0); // nothing drafted from an empty abstract
+    expect(res.skipped.some((s) => s.reason.includes("no abstract"))).toBe(true);
   });
 
   it("skips a study already in the corpus (dedupe against existing)", async () => {

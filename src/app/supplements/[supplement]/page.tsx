@@ -13,7 +13,7 @@ import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EvidenceTier } from "@/components/EvidenceTier";
 import { FAQ } from "@/components/FAQ";
-import { RecommendationCard } from "@/components/RecommendationCard";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -32,11 +32,11 @@ export async function generateMetadata({ params }: SupplementParams): Promise<Me
   const s = getSupplement(supplement);
   if (!s) return {};
   return {
-    title: `${s.name} — Benefits, Evidence and Safety`,
+    title: `${s.name}: Benefits, Evidence and Safety`,
     description: s.metaDescription,
     alternates: { canonical: `/supplements/${s.slug}` },
     openGraph: {
-      title: `${s.name} — what the evidence says`,
+      title: `${s.name}: what the evidence says`,
       description: s.metaDescription,
       type: "article",
       url: `/supplements/${s.slug}`,
@@ -55,7 +55,11 @@ export default async function SupplementPage({ params }: SupplementParams) {
   const s = getSupplement(supplement);
   if (!s) notFound();
 
-  const { default: Content } = await import(`@/content/supplements/${s.slug}.mdx`);
+  // Reference pages (built from the 200-supplement list) carry a structured
+  // `body`; the original in-depth entries render a richer per-slug MDX file.
+  const Content = s.body
+    ? null
+    : (await import(`@/content/supplements/${s.slug}.mdx`)).default;
   const relatedSupplements = resolveRelatedSupplements(s.relatedSupplements);
   const relatedTools = s.relatedTools.flatMap((slug) => {
     const link = toolLink(slug);
@@ -83,6 +87,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
+      <RecommendationRail surface={`supplement:${s.slug}`}>
       <div>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -112,7 +117,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
       ) : null}
 
       <div className="prose">
-        <Content />
+        {s.body ? s.body.map((p, i) => <p key={i}>{p}</p>) : Content ? <Content /> : null}
         <h2>Sources</h2>
         <ul>
           {s.sources.map((src) => (
@@ -122,8 +127,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
       </div>
 
       {s.faq.length > 0 ? <FAQ entries={s.faq} /> : null}
-
-      <RecommendationCard surface={`supplement:${s.slug}`} />
+      </RecommendationRail>
 
       {relatedTools.length > 0 ? (
         <section aria-labelledby="related-tools">

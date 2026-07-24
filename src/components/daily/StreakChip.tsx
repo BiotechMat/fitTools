@@ -14,7 +14,7 @@ export function StreakChip({ streak }: { streak: StreakState }) {
   if (current === 0) {
     return (
       <p className="text-sm text-muted">
-        Play today to start a streak. Miss a day and an earned freeze covers it —
+        Play today to start a streak. Miss a day and an earned freeze covers it,
         no guilt, no lost progress.
       </p>
     );

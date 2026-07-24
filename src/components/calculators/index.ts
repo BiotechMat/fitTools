@@ -131,4 +131,25 @@ export const calculators: Readonly<Record<string, ComponentType>> = {
       (m) => m.RecoveryReadinessCalculator,
     ),
   ),
+  "protein-intake-calculator": dynamic(() =>
+    import("@/components/calculators/ProteinCalculator").then((m) => m.ProteinCalculator),
+  ),
+  "vo2max-calculator": dynamic(() =>
+    import("@/components/calculators/Vo2maxCalculator").then((m) => m.Vo2maxCalculator),
+  ),
+  "waist-to-height-ratio-calculator": dynamic(() =>
+    import("@/components/calculators/WhtrCalculator").then((m) => m.WhtrCalculator),
+  ),
+  "waist-to-hip-ratio-calculator": dynamic(() =>
+    import("@/components/calculators/WhrCalculator").then((m) => m.WhrCalculator),
+  ),
+  "vertical-jump-calculator": dynamic(() =>
+    import("@/components/calculators/JumpPowerCalculator").then((m) => m.JumpPowerCalculator),
+  ),
+  "calories-burned-by-heart-rate": dynamic(() =>
+    import("@/components/calculators/HrCaloriesCalculator").then((m) => m.HrCaloriesCalculator),
+  ),
+  "keto-calculator": dynamic(() =>
+    import("@/components/calculators/KetoCalculator").then((m) => m.KetoCalculator),
+  ),
 };

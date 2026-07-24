@@ -39,6 +39,11 @@ asserted again in M3 acceptance.
 
 ## Activation guide (M3 infrastructure — all off by default)
 
+> Note: revenue is premium-led (MONETISATION.md) — premium sign-ups, then
+> blood-test profit, with affiliates a small supporting line. Whether the free
+> tier ever carries ads is an open call (MONETISATION.md §4); the ad/CMP
+> infrastructure below is optional capacity, not a commitment.
+
 | Variable | Effect when set |
 | --- | --- |
 | `NEXT_PUBLIC_GA4_ID` | Loads GA4 **only after consent is granted** (basic Consent Mode v2, default denied). Enables the consent banner. |
@@ -58,7 +63,8 @@ offers). Every rendered offer carries the disclosure line and
 `rel="sponsored nofollow"` automatically; clicks emit `affiliate_click`.
 
 Beyond these ad/consent flags, the full go-live activation checklist (Pulse's
-`ANTHROPIC_API_KEY` + `PULSE_LLM_MODEL`, the harvest Action secret, Search
+`ANTHROPIC_API_KEY` — cost-bounded site-wide, one daily phrasing pass on the
+Haiku default (PULSE.md §14.1) — the harvest Action secret, Search
 Console, a double-opt-in email provider for `EmailCapture`, and pasting real
 affiliate URLs) is **`STATUS.md §3` Phase 1** — the near-term, highest-ROI work,
 mostly config rather than code.

@@ -1,9 +1,13 @@
 [
   {
     "id": "fresh-creatine-timing-pre-workout",
-    "claim": "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after — early, exploratory evidence rather than a firm recommendation.",
+    "claim": "A small pilot trial suggests that taking creatine just before a resistance-training session may support slightly greater same-day strength than taking it during or after, though this is early, exploratory evidence rather than a firm recommendation.",
     "category": "supplements",
-    "tags": ["creatine", "timing", "strength"],
+    "tags": [
+      "creatine",
+      "timing",
+      "strength"
+    ],
     "tier": "preliminary",
     "basis": "human",
     "source": {
@@ -26,7 +30,12 @@
     "id": "fresh-creatine-postmenopausal-muscle",
     "claim": "A 2026 meta-analysis in postmenopausal women found that creatine (around 5 g a day) alongside resistance training produced small but real gains in lean mass and leg strength, with no change in bone density and no safety signals.",
     "category": "longevity",
-    "tags": ["creatine", "menopause", "strength", "ageing"],
+    "tags": [
+      "creatine",
+      "menopause",
+      "strength",
+      "ageing"
+    ],
     "tier": "well-supported",
     "basis": "human",
     "source": {
@@ -36,7 +45,7 @@
     "relatedContent": "/supplements/creatine-monohydrate",
     "kind": "fresh",
     "addedAt": "2026-07-23",
-    "caveat": "Pooled from seven trials (608 women, median 38 weeks). Gains were modest — about 0.4 kg lean mass — and appeared mainly at ≥5 g a day with training; several trials had some risk-of-bias concerns, and bone density did not move.",
+    "caveat": "Pooled from seven trials (608 women, median 38 weeks). Gains were modest, about 0.4 kg lean mass, and appeared mainly at ≥5 g a day with training; several trials had some risk-of-bias concerns, and bone density did not move.",
     "study": {
       "doi": "10.1080/15502783.2026.2668435",
       "journal": "J Int Soc Sports Nutr",
@@ -47,9 +56,13 @@
   },
   {
     "id": "fresh-protein-supplement-women-body-comp",
-    "claim": "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength — but made no difference to fat mass or body-fat percentage.",
+    "claim": "In a 2025 meta-analysis of nine trials in women, pairing a protein supplement with exercise gave small but significant gains in fat-free mass, muscle size and strength, but made no difference to fat mass or body-fat percentage.",
     "category": "nutrition",
-    "tags": ["protein", "body-composition", "women"],
+    "tags": [
+      "protein",
+      "body-composition",
+      "women"
+    ],
     "tier": "preliminary",
     "basis": "human",
     "source": {
@@ -59,13 +72,91 @@
     "relatedContent": "/supplements/whey-protein",
     "kind": "fresh",
     "addedAt": "2026-07-23",
-    "caveat": "Nine trials, 408 women aged 18–73. Muscle effects were small (about 0.45 kg fat-free mass) and there was no effect on fat loss; the authors call for more high-quality trials.",
+    "caveat": "Nine trials, 408 women aged 18 to 73. Muscle effects were small (about 0.45 kg fat-free mass) and there was no effect on fat loss; the authors call for more high-quality trials.",
     "study": {
       "doi": "10.3389/fnut.2025.1678433",
       "journal": "Front Nutr",
       "design": "Meta-analysis (9 RCTs)",
       "n": 408,
-      "population": "healthy women 18–73"
+      "population": "healthy women 18 to 73"
+    }
+  },
+  {
+    "id": "fresh-two-way-ballistic-versus-jump-squat-1kmld2",
+    "claim": "Two-way ballistic and jump squat training both improve explosive strength in highly trained sprinters, but through different neuromuscular pathways: ballistic training enhances early-phase force production with greater vastus lateralis activation during take-off, whilst jump squat training preferentially improves reactive strength.",
+    "category": "training",
+    "tags": [
+      "explosive-strength",
+      "plyometrics",
+      "sprinting",
+      "neuromuscular-adaptation",
+      "resistance-training"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "Effects of Two-Way Ballistic Versus Jump Squat Training on Explosive Strength and Neuromuscular Adaptations in Highly Trained Sprinters. Scand J Med Sci Sports 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42487231/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "RCT in 40 highly trained male sprinters only; 6-week intervention; unclear whether findings generalise to other populations or training contexts.",
+    "study": {
+      "doi": "10.1111/sms.70333",
+      "journal": "Scand J Med Sci Sports",
+      "design": "RCT"
+    }
+  },
+  {
+    "id": "fresh-impact-physical-activity-children-attention-math-7qdekz",
+    "claim": "Physical activity interventions show small positive associations with attention and mathematics performance in children and adolescents, though the effect sizes are modest and sensitive to small-study bias.",
+    "category": "mind",
+    "tags": [
+      "cognition",
+      "academic-performance",
+      "children",
+      "attention",
+      "exercise"
+    ],
+    "tier": "well-supported",
+    "basis": "human",
+    "source": {
+      "label": "The impact of physical activity on children's attention and math performance: A meta-analysis. Eur J Pediatr 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42487009/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "Meta-analysis of 40 RCTs; trim-and-fill analyses suggest publication bias and imputed missing studies; 95% confidence intervals of adjusted estimates included null, indicating uncertainty; subgroup comparisons were descriptive and formal tests of differences between subgroups were not conducted.",
+    "study": {
+      "doi": "10.1007/s00431-026-07229-2",
+      "journal": "Eur J Pediatr",
+      "design": "Meta-analysis"
+    }
+  },
+  {
+    "id": "fresh-free-weight-resistance-training-based-hexagonal-ll3nv3",
+    "claim": "Twenty-four weeks of hexagonal barbell deadlift-based resistance training twice weekly improves trunk lean mass, reduces body fat, and enhances trunk extensor strength and mobility in older women, with no adverse events reported.",
+    "category": "training",
+    "tags": [
+      "resistance-training",
+      "older-adults",
+      "body-composition",
+      "strength",
+      "functional-performance"
+    ],
+    "tier": "preliminary",
+    "basis": "human",
+    "source": {
+      "label": "Effects of free-weight resistance training based on hexagonal barbell deadlift in older women: A 24-week randomized controlled trial. Exp Gerontol 2026",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42486377/"
+    },
+    "kind": "fresh",
+    "addedAt": "2026-07-23",
+    "caveat": "Single RCT, n = 32 older women (mean age 67.6 years), supervised twice-weekly training; no assessment of long-term adherence or sustained benefits beyond 24 weeks; whole-body lean mass and lower-limb isokinetic strength did not differ between groups.",
+    "study": {
+      "doi": "10.1016/j.exger.2026.113246",
+      "journal": "Exp Gerontol",
+      "design": "Study"
     }
   }
 ]

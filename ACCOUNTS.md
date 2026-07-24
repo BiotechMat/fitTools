@@ -8,17 +8,19 @@ accounts & sync), `PROFILE.md` (the feature accounts unlock next),
 free account), `DESIGN.md` (§5 upsell posture, §6 retention surfaces) and
 `BUSINESS_PLAN.md` (§13 the data-protection threshold).
 
-**Status (2026-07-23): BLUEPRINT — decisions taken, build not started.** Mat
+**Status (2026-07-24): BLUEPRINT — decisions taken, build not started.** Mat
 delegated the stack decisions the same day ("choose the best option,
 justify"); they are recorded in §9 with rationale, sized for **~200k
-registered users at peak** (§5.4). Scope direction from Mat, also 2026-07-23:
+registered users at peak** (§5.4). Scope direction from Mat, also 2026-07-24:
 **nearly every surface becomes savable to the account** — calculators,
 estimators/predictors, the supplements a user takes, the exercises they save,
 arcade scores, and (gated, sequenced) bloodwork — folded into §3, §6 and the
-A-sequence. The one decision deliberately left open is the MONETISATION §4
-model (Mat-only; it gates the premium tier, not this build). Per `STATUS.md
-§3` this work is **Phase 4**; the build starts when it is scheduled and the
-preceding phase is signed off (CLAUDE.md workflow).
+A-sequence. The revenue model is confirmed premium-led (MONETISATION,
+2026-07-23) with two details resolved in this session (§9.9); the remaining
+opens — price/mechanics and the exact free/paid line — gate the premium
+tier, not this build. Per `STATUS.md §3` this work is **Phase 4**; the
+build starts when it is scheduled and the preceding phase is signed off
+(CLAUDE.md workflow).
 
 ---
 
@@ -53,7 +55,7 @@ are the identity + storage foundation that unlocks, in order:
 | Manual biomarker entry, then blood-test auto-population (D3) | DASHBOARD §3.3, §11.4 | E0 + §7 — scheduled as **A4** (§10); manual entry ships before the partner (decided §9.7) |
 | Bloodwork upload & extraction | PROFILE §4 | E0 + §7 + its own threat model |
 | Body-composition estimator (18+, ephemeral) | CONTENT-looksmaxxing §6 | E0 + §7 + §6.3 guardrails |
-| Premium tier (persistence & depth) | MONETISATION | E0 + the §4 model decision |
+| Premium tier (persistence & depth) | MONETISATION | E0 + the §4 detail decisions (price/mechanics, exact free/paid line) |
 | Leaderboards / challenges / anonymous counts | ROADMAP E4 | E0 + own posture |
 
 ### 1.2 Why the promotion is cheap (the seam is real)
@@ -79,7 +81,8 @@ caller sweep — the promise those modules were built to keep.
    users, and signed-in users keep working offline.
 3. **Premium sells persistence and depth, never the answer** (MONETISATION
    §2.2). v1 accounts are **free-only**; no tier logic ships until the
-   MONETISATION §4 model is decided (`STATUS.md §4` blocking decision #1).
+   MONETISATION §4 detail decisions — price/mechanics and the exact
+   free/paid line — are made (`STATUS.md §4` blocking decision #1).
 4. **Honest, quiet upsell — no dark patterns** (DESIGN §5). The sign-up
    prompt is the existing "keep these across devices — free account" card:
    plain benefit, never blocking, never a countdown, never blurred content.
@@ -107,7 +110,7 @@ caller sweep — the promise those modules were built to keep.
   **Sign in with Apple**. No passwords stored, ever (smaller breach surface,
   fits the privacy moat). Passkeys are the first fast-follow, not v1.
 - **Account storage — every savable surface** (Mat's direction,
-  2026-07-23). One namespace per surface (§6.2), each a local-first
+  2026-07-24). One namespace per surface (§6.2), each a local-first
   document that works signed-out and syncs signed-in:
   - `history` — every calculator / estimator / predictor result (store
     exists; only TDEE + 1RM write to it today — wiring the rest is the
@@ -145,8 +148,8 @@ caller sweep — the promise those modules were built to keep.
   auto-population later on the same namespace. Until A4 the server
   **rejects** biomarker content (§6.4) — the crossing stays deliberate;
   the schedule is now real.
-- **Premium/tier logic, payments** — blocked on MONETISATION §4 (the one
-  decision still Mat's — §9.9).
+- **Premium/tier logic, payments** — blocked on the MONETISATION §4 detail
+  decisions (price/mechanics, exact free/paid line — §9.9).
 - **Profile auto-populate** — the next milestone (PROFILE §9.2), built on
   this foundation.
 - **Structured workout logging** (sets/reps/sessions) — a later namespace
@@ -190,7 +193,7 @@ whose moat is "your data stays yours". Auth must run in our own Next.js app
 against our own database.
 
 Two credible candidates were weighed (both free, self-hosted, DB-backed;
-either is a new dependency — approval granted under the 2026-07-23
+either is a new dependency — approval granted under the 2026-07-24
 delegation, recorded in §9.2):
 
 | | **Better Auth** (decided) | **Auth.js / NextAuth v5** (fallback) |
@@ -317,7 +320,7 @@ broadcasts on Resend — a config swap, not a rebuild. Sender domain
 
 ### 5.4 Capacity & cost at the 200k peak
 
-Sizing target (Mat, 2026-07-23): **~200k registered accounts at peak.**
+Sizing target (Mat, 2026-07-24): **~200k registered accounts at peak.**
 Working assumptions: ~15–25% monthly-active (30–50k MAU), a few thousand
 daily actives, debounced sync pushes of a few kB each.
 
@@ -485,7 +488,7 @@ exist **before** the first health-flavoured byte is stored server-side:
    documented). No analytics or marketing attaches to account identity; the
    existing consent-mode gating is unchanged, and account events (§8.4)
    carry no health data.
-7. **Minors — 13+ accounts, tiered by age band** (Mat, 2026-07-23: floor
+7. **Minors — 13+ accounts, tiered by age band** (Mat, 2026-07-24: floor
    at the UK legal minimum so younger audiences can save the games).
    Sign-up captures a **self-declared age band (13–15 / 16–17 / 18+) —
    the band only, never a date of birth** (data minimisation; the optional
@@ -551,7 +554,7 @@ a result; D7 return among account holders vs not.
 
 ---
 
-## 9. Decisions (taken 2026-07-23 — delegated by Mat; rationale recorded)
+## 9. Decisions (taken 2026-07-24 — delegated by Mat; rationale recorded)
 
 Mat delegated the stack decisions ("choose the best option, justify"), set
 the sizing target (~200k users at peak) and the all-surfaces savable scope.
@@ -577,7 +580,7 @@ deliberately left with Mat.
    deliverability, EU processing, ~$20–90/mo at peak. Documented fallback:
    transactional to Postmark, broadcasts stay (§5.3).
 5. **Age line → 13+ accounts (UK legal floor), tiered by band** — revised
-   2026-07-23 by Mat, superseding the earlier 16+ call: younger audiences
+   2026-07-24 by Mat, superseding the earlier 16+ call: younger audiences
    are exactly who the games serve, so the account floor drops to the
    legal minimum. The tiering keeps the cautious line where it matters:
    health-flavoured sync (`history`, `dashboard`, `stack`) is offered from
@@ -595,18 +598,22 @@ deliberately left with Mat.
    (§6.5).
 8. **Sessions → 60-day rolling + ~5-min signed cookie cache** (§4.3):
    fewer login emails, no per-request DB read, bounded revocation window.
-9. **Monetisation model — PARTIALLY RESOLVED (Mat, 2026-07-23).**
-   Decided: the free tier will carry light, premium-lean ads and premium
-   removes them (MONETISATION §4.3); the arcade is monetised through
-   **extras, never play-limits** (MONETISATION §2.6). Still open, still
-   Mat's: the exact free/paid feature line ("save calculators, bookmark
-   tools" are named candidates; the line itself is undecided) and the
-   price point (deferred to the premium build). Consequences for this
-   build: v1 accounts stay free-only and tier-neutral, and because
-   **nothing may launch free and be walled later**, gating must be
-   additive — so A2 ships free sync with modest, honest caps (e.g. a
-   history window) that premium later *lifts*, and premium-candidate
-   surfaces (favourites depth, arcade extras) launch with the tier.
+9. **Monetisation model — shape CONFIRMED (2026-07-23), details advanced
+   here (2026-07-24).** The model order is premium-led: premium sign-ups
+   first (very low monthly or possibly a £10 one-off lifetime unlock —
+   mechanics open), blood-test profit second, affiliates small
+   (MONETISATION §1). This session resolved two details: the free tier
+   will carry light, premium-lean ads and premium removes them
+   (MONETISATION §4.2), and the arcade is monetised through **extras,
+   never play-limits** (MONETISATION §2.6). Still open, still Mat's: the
+   exact free/paid feature line ("save calculators, bookmark tools" are
+   named candidates — MONETISATION §4.3) and price/mechanics (§4.1).
+   Consequences for this build: v1 accounts stay free-only and
+   tier-neutral, and because **nothing may launch free and be walled
+   later**, gating must be additive — so A2 ships free sync with modest,
+   honest caps (e.g. a history window) that premium later *lifts*, and
+   premium-candidate surfaces (favourites depth, arcade extras) launch
+   with the tier.
 
 ---
 

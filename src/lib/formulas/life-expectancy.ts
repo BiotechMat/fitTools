@@ -31,14 +31,14 @@ export const LOW_RISK_FACTOR_DEFINITIONS: Record<
   { label: string; definition: string }
 > = {
   smoking: { label: "Never smoked", definition: "Never a cigarette smoker." },
-  bmi: { label: "Healthy BMI", definition: "Body mass index 18.5–24.9 kg/m²." },
+  bmi: { label: "Healthy BMI", definition: "Body mass index 18.5 to 24.9 kg/m²." },
   physicalActivity: {
     label: "Active",
     definition: "At least 30 minutes a day of moderate-to-vigorous activity.",
   },
   alcohol: {
     label: "Moderate alcohol",
-    definition: "Moderate intake: 5–15 g/day (women) or 5–30 g/day (men).",
+    definition: "Moderate intake: 5 to 15 g/day (women) or 5 to 30 g/day (men).",
   },
   diet: {
     label: "High diet quality",

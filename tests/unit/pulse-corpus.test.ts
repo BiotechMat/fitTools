@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { groundingChunks, validateCorpus, chunksById, freshChunksByRecency } from "@/registry/pulse";
 import type { GroundingChunk } from "@/lib/pulse/types";
+import { allTools, toolPath } from "@/registry/tools";
+import { supplements } from "@/registry/supplements";
+import { glossaryEntries } from "@/registry/glossary";
+import { recoveryClusters } from "@/registry/recovery-content";
+import { referenceTablePages } from "@/registry/reference-tables";
 
 /**
  * The Pulse grounding corpus must satisfy the invariants Pulse owns (PULSE.md
@@ -22,6 +27,34 @@ describe("pulse grounding corpus", () => {
 
   it("indexes every chunk by id", () => {
     expect(chunksById.size).toBe(groundingChunks.length);
+  });
+
+  /**
+   * Cross-link integrity (PULSE.md §3.2 / §9): a card's relatedTool /
+   * relatedContent is the internal-linking payoff, so a broken link must fail
+   * the build, exactly as glossary/recovery cross-links do. Resolve every one
+   * against the real registries.
+   */
+  it("resolves every relatedTool and relatedContent to a real route", () => {
+    const toolPaths = new Set(allTools.map(toolPath));
+    const contentRoutes = new Set<string>([
+      ...supplements.map((s) => `/supplements/${s.slug}`),
+      ...glossaryEntries.map((g) => `/glossary/${g.slug}`),
+      ...recoveryClusters.map((c) => `/recovery/${c.slug}`),
+      ...referenceTablePages.map((t) => `/reference/${t.slug}`),
+    ]);
+    const broken: string[] = [];
+    for (const c of groundingChunks) {
+      if (c.relatedTool && !toolPaths.has(c.relatedTool)) broken.push(`${c.id} → tool ${c.relatedTool}`);
+      if (c.relatedContent && !contentRoutes.has(c.relatedContent)) {
+        broken.push(`${c.id} → content ${c.relatedContent}`);
+      }
+    }
+    expect(broken).toEqual([]);
+  });
+
+  it("has grown past the v1 floor toward the 60–100 target (PULSE.md §3.3)", () => {
+    expect(groundingChunks.length).toBeGreaterThanOrEqual(55);
   });
 });
 

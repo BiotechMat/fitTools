@@ -197,7 +197,9 @@ posture as the `CONTENT-looksmaxxing.md §6` estimator.
 ## 9. Sequencing (build when scheduled)
 
 1. **Accounts + storage (`ROADMAP.md E0`)** — the profile has no home without them;
-   promote the local-first store to per-account server storage.
+   promote the local-first store to per-account server storage. **Now planned
+   in ACCOUNTS.md** (stack decided 2026-07-24, build sequence A0–A4); this
+   profile work is the milestone that follows it.
 2. **Manual profile + auto-populate** — the metrics form and the profile→input
    mapping. This alone delivers most of the value (one-time entry, every tool
    prefilled) with the lighter data-protection weight of user-typed values.

@@ -7,7 +7,7 @@ import { recoveryClusters } from "@/registry/recovery-content";
 const meta = hubMeta.recovery;
 
 export const metadata: Metadata = {
-  title: `${meta.title} — calculators & guides`,
+  title: `${meta.title}: calculators & guides`,
   description: meta.description,
   alternates: { canonical: meta.path },
 };
@@ -20,7 +20,7 @@ export default function RecoveryHubPage() {
           Recovery &amp; wellness guides
         </h2>
         <p className="mt-1 max-w-prose text-sm text-muted">
-          Evidence-tiered explainers on popular recovery practices — what the
+          Evidence-tiered explainers on popular recovery practices, what the
           research actually supports, and what&rsquo;s marketing.
         </p>
         <ul className="mt-4 grid gap-4 sm:grid-cols-2">

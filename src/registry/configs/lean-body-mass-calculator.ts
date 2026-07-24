@@ -13,9 +13,9 @@ export const lbmInputsSchema = z.object({
 
 export const lbmConfig: ToolConfig = {
   slug: LBM_SLUG,
-  title: "Lean Body Mass Calculator — Boer Formula",
+  title: "Lean Body Mass Calculator: Boer Formula",
   valueLine:
-    "Estimate your fat-free mass from height and weight — or exactly, from a measured body-fat percentage.",
+    "Estimate your fat-free mass from height and weight, or exactly, from a measured body-fat percentage.",
   metaDescription:
     "Free lean body mass calculator using the Boer formula, with an optional body-fat override for a direct calculation. Metric and imperial.",
   hub: "nutrition",
@@ -25,19 +25,19 @@ export const lbmConfig: ToolConfig = {
   faq: [
     {
       q: "What is lean body mass?",
-      a: "Lean body mass is everything that isn't fat: muscle, bone, organs and water. It drives most of your resting calorie burn, which is why it appears in equations like Katch–McArdle.",
+      a: "Lean body mass is everything that isn't fat: muscle, bone, organs and water. It drives most of your resting calorie burn, which is why it appears in equations like Katch-McArdle.",
     },
     {
       q: "How accurate is the Boer formula?",
-      a: "It estimates LBM from height, weight and sex alone, so it reflects the average build for your size. If you know your body-fat percentage from a reliable measurement, the direct calculation (weight × (1 − body fat)) is better — enter it and this tool switches automatically.",
+      a: "It estimates LBM from height, weight and sex alone, so it reflects the average build for your size. If you know your body-fat percentage from a reliable measurement, the direct calculation (weight × (1 − body fat)) is better, so enter it and this tool switches automatically.",
     },
     {
       q: "Why do clinicians care about lean body mass?",
-      a: "Several drug doses and physiological estimates scale better with lean mass than total weight — the Boer formula was developed in that clinical context.",
+      a: "Several drug doses and physiological estimates scale better with lean mass than total weight, and the Boer formula was developed in that clinical context.",
     },
     {
       q: "How do I increase lean body mass?",
-      a: "Progressive resistance training with adequate protein (roughly 1.6–2.2 g/kg/day) is the evidence-backed combination. Gains are gradual — think kilograms per year, not per week.",
+      a: "Progressive resistance training with adequate protein (roughly 1.6 to 2.2 g/kg/day) is the evidence-backed combination. Gains are gradual, so think kilograms per year, not per week.",
     },
   ],
   related: ["ffmi-calculator", "body-fat-calculator", "bmr-calculator"],
@@ -45,11 +45,11 @@ export const lbmConfig: ToolConfig = {
   lastReviewed: "2026-07-21",
   sources: [
     {
-      label: "Boer P. Estimated lean body mass as an index for normalization of body fluid volumes in humans. Am J Physiol 1984;247:F632–636",
+      label: "Boer P. Estimated lean body mass as an index for normalization of body fluid volumes in humans. Am J Physiol 1984;247:F632 to 636",
       url: "https://pubmed.ncbi.nlm.nih.gov/6496691/",
     },
     {
-      label: "Morton RW, et al. Br J Sports Med 2018;52:376–384 (protein for lean-mass gain)",
+      label: "Morton RW, et al. Br J Sports Med 2018;52:376-384 (protein for lean-mass gain)",
       url: "https://pubmed.ncbi.nlm.nih.gov/28698222/",
     },
   ],

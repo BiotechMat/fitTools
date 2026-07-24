@@ -5,18 +5,18 @@ export const epithalonPage: PeptidePage = {
   name: "Epithalon",
   aka: ["Epitalon", "Epithalone"],
   category: "metabolic",
-  title: "Epithalon — What It Is and What the Evidence Actually Shows",
+  title: "Epithalon: What It Is and What the Evidence Actually Shows",
   metaDescription:
     "An evidence-tiered explainer on epithalon: a synthetic peptide marketed for longevity and telomere lengthening, whose human evidence is limited, dated and far from establishing any anti-ageing effect.",
   valueLine:
-    "Marketed as a longevity and 'telomerase-activating' peptide — but the supporting human evidence is sparse, dated and nowhere near establishing an anti-ageing effect.",
+    "Marketed as a longevity and 'telomerase-activating' peptide, but the supporting human evidence is sparse, dated and nowhere near establishing an anti-ageing effect.",
   headlineTier: "marketing-claim",
   headlineBasis: "mixed",
   wadaProhibited: false,
   faq: [
     {
       q: "What is epithalon?",
-      a: "It is a synthetic four-amino-acid peptide based on a substance derived from the pineal gland, marketed heavily for longevity and 'anti-ageing', often with claims about lengthening telomeres — the protective caps on chromosomes.",
+      a: "It is a synthetic four-amino-acid peptide based on a substance derived from the pineal gland, marketed heavily for longevity and 'anti-ageing', often with claims about lengthening telomeres, the protective caps on chromosomes.",
     },
     {
       q: "Does epithalon extend lifespan or lengthen telomeres?",
@@ -36,12 +36,12 @@ export const epithalonPage: PeptidePage = {
   sources: [
     {
       label:
-        "PubMed: epithalon / epitalon — telomere, ageing and longevity research (studies and reviews)",
+        "PubMed: epithalon / epitalon, telomere, ageing and longevity research (studies and reviews)",
       url: "https://pubmed.ncbi.nlm.nih.gov/?term=epithalon+OR+epitalon+telomere+aging",
     },
     {
       label:
-        "WADA Prohibited List — non-approved substances (S0) prohibited at all times",
+        "WADA Prohibited List, non-approved substances (S0) prohibited at all times",
       url: "https://www.wada-ama.org/en/prohibited-list",
     },
   ],

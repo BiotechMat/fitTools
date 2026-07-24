@@ -12,11 +12,11 @@ import { ResultsPanel } from "@/components/ResultsPanel";
 import { formatNumber, inputClass, labelClass } from "@/components/calculators/styles";
 
 const ZONE_DESCRIPTIONS = [
-  "Very easy — recovery",
-  "Easy — aerobic base",
-  "Steady — tempo",
-  "Hard — threshold",
-  "Maximal — VO₂ work",
+  "Very easy: recovery",
+  "Easy: aerobic base",
+  "Steady: tempo",
+  "Hard: threshold",
+  "Maximal: VO₂ work",
 ];
 
 export function HrZoneCalculator() {
@@ -96,7 +96,7 @@ export function HrZoneCalculator() {
               gives {formatNumber(result.legacy)} bpm.
               {result.restingHr !== undefined
                 ? " Zones below use your heart-rate reserve (Karvonen)."
-                : " Zones below use %HRmax — add your resting HR for more personal zones."}
+                : " Zones below use %HRmax. Add your resting HR for more personal zones."}
             </p>
             <table className="mt-4 w-full text-sm">
               <caption className="sr-only">Five heart-rate training zones</caption>
@@ -113,22 +113,22 @@ export function HrZoneCalculator() {
                     <td className="py-1.5 font-medium">Z{zone.zone}</td>
                     <td className="py-1.5">{ZONE_DESCRIPTIONS[zone.zone - 1]}</td>
                     <td className="py-1.5 text-right tabular-nums" data-testid={`zone-${zone.zone}`}>
-                      {formatNumber(zone.lowerBpm)}–{formatNumber(zone.upperBpm)}
+                      {formatNumber(zone.lowerBpm)} to {formatNumber(zone.upperBpm)}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Formula-based maxima are estimates — measured values commonly
+              Formula-based maxima are estimates. Measured values commonly
               differ by ten or more beats either way. Anchor training to how
               zones feel as much as to the numbers.
             </p>
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter your age (13–100). Optionally add your waking resting heart
-            rate (30–100 bpm) for Karvonen zones.
+            Enter your age (13 to 100). Optionally add your waking resting heart
+            rate (30 to 100 bpm) for Karvonen zones.
           </p>
         )}
       </ResultsPanel>

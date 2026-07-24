@@ -104,7 +104,7 @@ export function VolumeCalculator() {
           </ul>
           <p className="mt-3 max-w-prose text-sm text-muted">
             Research counts weekly hard sets per muscle as the key volume
-            metric — roughly 10–20 for trained lifters. Log a whole week here
+            metric, roughly 10 to 20 for trained lifters. Log a whole week here
             to compare against that range.
           </p>
         </div>

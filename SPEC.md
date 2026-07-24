@@ -15,15 +15,18 @@ page's Methodology section, not just in code comments.
 ## 1. Product overview
 A statically generated fitness/health calculator website. Each tool is its own
 SEO-optimised landing page (interactive calculator above the fold, editorial depth
-below). Revenue: display ads (Journey by Mediavine → Raptive/Mediavine), contextual
-affiliate placements, email capture, later a "pro" tier. Operator is UK-based; primary
-commercial audience is US + UK.
+below). Revenue (premium-led — MONETISATION.md): premium sign-ups (a very low
+monthly amount, or a one-off lifetime unlock), blood-test partner profit, a small
+contextual affiliate layer, email capture; light free-tier display ads that
+premium removes (decided 2026-07-24 — MONETISATION.md §4.2; infrastructure stays
+behind flags until E6). Operator is UK-based; primary commercial audience is
+US + UK.
 
 Goals, in priority order:
 1. Correctness — this is YMYL health content; every formula verified against published sources.
-2. Core Web Vitals — the site must stay fast after ads are added.
+2. Core Web Vitals — the site must stay fast even if ads are ever enabled.
 3. Shipping velocity — a new calculator should be a config + formula + content file, not new engineering.
-4. Monetisation readiness — consent, ad slots, and affiliate infra built in from the start (ads activate later).
+4. Monetisation readiness — consent, ad slots, and affiliate infra built in from the start (activation is a switch at E6; the free tier will carry light ads that premium removes — MONETISATION.md §4.2, decided 2026-07-24).
 
 ## 2. Non-negotiable constraints
 - No medical advice. Every tool page renders the medical disclaimer component. Results
@@ -219,7 +222,11 @@ tools with descriptions and interlink laterally.
 - `EmailCapture`: provider-agnostic POST (env-configured endpoint), double-opt-in
   compatible, one placement per page max.
 - Accounts & pro tier: PLANNED (ROADMAP E0/E6) — sign-in is on the near-term
-  roadmap. Results history is saved to localStorage behind a `HistoryProvider`
+  roadmap; the full build blueprint is **ACCOUNTS.md** (stack decided
+  2026-07-24: Better Auth + Neon Postgres + Resend; per-namespace document
+  sync over the HistoryProvider seam). **Binding product principle
+  (MONETISATION §2): premium gates *persistence and depth*, never the
+  calculation** — every result and its methodology stay free. Results history is saved to localStorage behind a `HistoryProvider`
   designed to swap to authed storage when accounts land; build all new
   persistence through it so that migration stays a central change. The
   aggregating surface for that persistence — profile/vitals, saved scores and

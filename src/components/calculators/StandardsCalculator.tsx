@@ -132,14 +132,14 @@ export function StandardsCalculator() {
               </tbody>
             </table>
             <p className="mt-3 max-w-prose text-sm text-muted">
-              Kilgore standards, age band 20–29 — expectations of training
+              Kilgore standards, age band 20 to 29, expectations of training
               progression, not population averages. Thresholds interpolate
               between the published bodyweight rows.
             </p>
           </div>
         ) : (
           <p className="text-sm text-muted">
-            Enter your bodyweight (40–200 kg) and 1RM to see your level.
+            Enter your bodyweight (40 to 200 kg) and 1RM to see your level.
           </p>
         )}
       </ResultsPanel>

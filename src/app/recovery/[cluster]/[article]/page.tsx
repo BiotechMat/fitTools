@@ -11,7 +11,7 @@ import {
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
-import { RecommendationCard } from "@/components/RecommendationCard";
+import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
@@ -69,6 +69,10 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
       {jsonLd.map((b, i) => (
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }} />
       ))}
+      {/* The recommendation renders in a desktop right-hand rail (after the
+          content below lg) — on buying guides it is the payload (CONTENT.md
+          §4.2), and the rail keeps it in view throughout. */}
+      <RecommendationRail surface={`recovery:${c.slug}/${a.slug}`}>
       <div>
         <nav aria-label="Breadcrumb" className="text-sm text-muted">
           <Link href="/" className="hover:text-foreground">Home</Link>
@@ -88,7 +92,7 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         >
           Disclosure: this is a buying guide. Where we link to products we may
           earn a commission at no extra cost to you. It never changes our
-          evidence assessments — the neutral evidence lives on the{" "}
+          evidence assessments, the neutral evidence lives on the{" "}
           <Link href={`/recovery/${c.slug}`} className="text-primary underline underline-offset-2">
             main guide
           </Link>.
@@ -113,17 +117,8 @@ export default async function RecoveryArticlePage({ params }: ArticleParams) {
         </ul>
       </div>
 
-      {/* On buying guides the recommendation is the payload (CONTENT.md §4.2),
-          so it follows the selection criteria; elsewhere it sits after the FAQ. */}
-      {a.kind === "commercial" ? (
-        <RecommendationCard surface={`recovery:${c.slug}/${a.slug}`} />
-      ) : null}
-
       {a.faq.length > 0 ? <FAQ entries={a.faq} /> : null}
-
-      {a.kind !== "commercial" ? (
-        <RecommendationCard surface={`recovery:${c.slug}/${a.slug}`} />
-      ) : null}
+      </RecommendationRail>
 
       {related.length > 0 ? (
         <section aria-labelledby="related-articles">

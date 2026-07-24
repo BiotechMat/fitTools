@@ -4,9 +4,9 @@ import { foodReferencePages } from "@/registry/food-reference";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 
 export const metadata: Metadata = {
-  title: "Nutrition & Food Reference — Protein, Calories and Portions",
+  title: "Nutrition & Food Reference: Protein, Calories and Portions",
   description:
-    "Bookmarkable food-reference tables: protein content of common foods, high-protein sources by diet, a calorie reference and typical portion sizes — linked to the macro and TDEE calculators.",
+    "Bookmarkable food-reference tables: protein content of common foods, high-protein sources by diet, a calorie reference and typical portion sizes, linked to the macro and TDEE calculators.",
   alternates: { canonical: "/nutrition/reference" },
 };
 
@@ -29,7 +29,7 @@ export default function NutritionReferenceHubPage() {
       </nav>
       <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">Nutrition &amp; food reference</h1>
       <p className="mt-2 max-w-prose text-muted">
-        Quick, bookmarkable tables for everyday nutrition — protein, calories and
+        Quick, bookmarkable tables for everyday nutrition, protein, calories and
         portions. When you need your personal numbers, each page links to the
         calculator that works them out.
       </p>
