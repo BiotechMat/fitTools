@@ -45,7 +45,7 @@ export function SignInCard(): React.ReactElement {
     rememberBand();
     const { error: sendError } = await authClient.signIn.magicLink({
       email,
-      callbackURL: "/account",
+      callbackURL: "/account?next=%2Fdashboard",
     });
     if (sendError) {
       if (sendError.status === 503) {
@@ -64,7 +64,7 @@ export function SignInCard(): React.ReactElement {
     rememberBand();
     const { error: socialError } = await authClient.signIn.social({
       provider,
-      callbackURL: "/account",
+      callbackURL: "/account?next=%2Fdashboard",
     });
     if (socialError) {
       setError(

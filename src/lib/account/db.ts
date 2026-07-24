@@ -37,7 +37,8 @@ async function query(strings: TemplateStringsArray, ...values: unknown[]): Promi
 /** Current privacy-policy version stamped onto consent rows (ACCOUNTS §7.1). */
 export const CONSENT_POLICY_VERSION = "2026-07-24";
 
-export type ConsentKind = "health-storage"; // "bloodwork-storage" joins at A4 go-live
+export type { ConsentKind } from "@/lib/auth/shared";
+import type { ConsentKind } from "@/lib/auth/shared";
 
 export interface StoredDocumentRow {
   namespace: string;

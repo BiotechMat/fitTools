@@ -1,12 +1,15 @@
 /**
- * GET/POST /api/account/consent — the granular health-storage consent
- * (ACCOUNTS.md §7.2). GET returns the user's consent state; POST grants or
- * revokes. Granting requires a 16+ age band (§7.7 — under-16s are never
- * offered this consent and the server refuses it regardless of UI).
- * Revoking deletes the gated server copies and keeps local ones.
+ * GET/POST /api/account/consent — the granular storage consents
+ * (ACCOUNTS.md §7.2). Two kinds: "health-storage" (calculator history,
+ * dashboard vitals, supplement stack — 16+ bands) and "bloodwork-storage"
+ * (blood results — 18+ band; Mat 2026-07-24: manual entry and purchased
+ * tests persist to the account). The server refuses a grant outside the
+ * kind's band regardless of UI. Revoking a consent deletes the server
+ * copies of exactly the namespaces it covered and keeps local ones.
  */
 
-import { bandAllowsHealthStorage, getSessionInfo } from "@/lib/auth/server";
+import { getSessionInfo } from "@/lib/auth/server";
+import { bandAllowsConsent, type ConsentKind } from "@/lib/auth/shared";
 import {
   dbEnabled,
   fetchConsents,
@@ -14,13 +17,23 @@ import {
   revokeConsent,
   CONSENT_POLICY_VERSION,
 } from "@/lib/account/db";
-import { ACCOUNT_NAMESPACES } from "@/lib/account/namespaces";
+import { namespacesForConsent } from "@/lib/account/namespaces";
 
 export const runtime = "nodejs";
 
-const HEALTH_NAMESPACES = ACCOUNT_NAMESPACES.filter((ns) => ns.healthFlavoured).map(
-  (ns) => ns.key,
-);
+const KINDS: readonly ConsentKind[] = ["health-storage", "bloodwork-storage"];
+
+function isConsentKind(v: unknown): v is ConsentKind {
+  return typeof v === "string" && (KINDS as readonly string[]).includes(v);
+}
+
+interface KindState {
+  state: "never-asked" | "granted" | "revoked";
+  eligible: boolean;
+  grantedAt?: string;
+  revokedAt?: string;
+  policyVersion?: string;
+}
 
 export async function GET(request: Request): Promise<Response> {
   if (!dbEnabled()) {
@@ -30,20 +43,22 @@ export async function GET(request: Request): Promise<Response> {
   if (session === null) {
     return Response.json({ error: "unauthorised" }, { status: 401 });
   }
-  const consents = await fetchConsents(session.userId);
-  const health = consents.find((c) => c.kind === "health-storage");
+  const rows = await fetchConsents(session.userId);
+  const kinds: Record<string, KindState> = {};
+  for (const kind of KINDS) {
+    const row = rows.find((c) => c.kind === kind);
+    kinds[kind] = {
+      state:
+        row === undefined ? "never-asked" : row.revokedAt === null ? "granted" : "revoked",
+      eligible: bandAllowsConsent(kind, session.ageBand),
+      ...(row !== undefined && row.revokedAt === null
+        ? { grantedAt: row.grantedAt, policyVersion: row.policyVersion }
+        : {}),
+      ...(row !== undefined && row.revokedAt !== null ? { revokedAt: row.revokedAt } : {}),
+    };
+  }
   return Response.json(
-    {
-      ageBand: session.ageBand,
-      eligibleForHealthStorage: bandAllowsHealthStorage(session.ageBand),
-      healthStorage:
-        health === undefined
-          ? { state: "never-asked" }
-          : health.revokedAt === null
-            ? { state: "granted", grantedAt: health.grantedAt, policyVersion: health.policyVersion }
-            : { state: "revoked", revokedAt: health.revokedAt },
-      policyVersion: CONSENT_POLICY_VERSION,
-    },
+    { ageBand: session.ageBand, kinds, policyVersion: CONSENT_POLICY_VERSION },
     { headers: { "Cache-Control": "no-store" } },
   );
 }
@@ -63,16 +78,16 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ error: "invalid-body" }, { status: 400 });
   }
   const r = typeof body === "object" && body !== null ? (body as Record<string, unknown>) : {};
-  if (r.kind !== "health-storage" || typeof r.granted !== "boolean") {
+  if (!isConsentKind(r.kind) || typeof r.granted !== "boolean") {
     return Response.json({ error: "invalid-body" }, { status: 400 });
   }
   if (r.granted) {
-    if (!bandAllowsHealthStorage(session.ageBand)) {
+    if (!bandAllowsConsent(r.kind, session.ageBand)) {
       return Response.json({ error: "age-band-not-eligible" }, { status: 403 });
     }
-    await grantConsent(session.userId, "health-storage");
+    await grantConsent(session.userId, r.kind);
   } else {
-    await revokeConsent(session.userId, "health-storage", HEALTH_NAMESPACES);
+    await revokeConsent(session.userId, r.kind, namespacesForConsent(r.kind));
   }
   return Response.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
 }

@@ -1,23 +1,29 @@
 /**
  * The account namespace registry (ACCOUNTS.md §6.2) — the single source of
  * truth for every savable surface. One entry per namespace: its consent
- * flag, the change events that signal a local edit, `collect` (snapshot the
- * device's current document, serialised), `apply` (adopt a merged document
- * locally) and `merge` over the wire format. The sync engine, the store
- * API's validation, export and delete-all are all driven from this list, so
- * adding a savable surface is a store module + one entry here + a save
- * affordance (§6.5) — never a server change.
+ * requirement, the change events that signal a local edit, `collect`
+ * (snapshot the device's current document, serialised), `apply` (adopt a
+ * merged document locally) and `merge` over the wire format. The sync
+ * engine, the store API's validation, export and delete-all are all driven
+ * from this list, so adding a savable surface is a store module + one entry
+ * here + a save affordance (§6.5) — never a server change.
  *
- * Consent rule (ACCOUNTS §7.2): `healthFlavoured: true` namespaces sync only
- * with an active health-storage consent AND a 16+ age band; the rest sync
- * for every signed-in band. The `bloodwork` namespace is DELIBERATELY absent
- * until A4 — the server rejects unknown namespaces, which IS the pre-A4
- * gate in code (§6.4).
+ * Consent rule (ACCOUNTS §7.2/§7.7): a namespace with `consentKind` syncs
+ * only with that consent active AND the band it demands — "health-storage"
+ * (history, dashboard, stack) needs 16+, "bloodwork-storage" (blood
+ * results — Mat, 2026-07-24: manual now, purchased-test auto-population
+ * later) needs 18+. Enforced server-side; mirrored client-side so the
+ * engine never even sends a gated document without consent.
+ *
+ * Blood values travel ONLY under the `bloodwork` namespace: the dashboard
+ * document strips its biomarkers at collect (and the server rejects any
+ * dashboard document carrying them), so the two consents can never leak
+ * into each other.
  *
  * Merges take and return the wire format (raw JSON strings): each side is
- * tolerant-parsed by the namespace's own parser first, so corrupt or foreign
- * input degrades to empty and a merge widens, never throws — the server
- * re-parses with these same functions and never trusts the wire.
+ * tolerant-parsed by the namespace's own parser first, so corrupt or
+ * foreign input degrades to empty and a merge widens, never throws — the
+ * server re-parses with these same functions and never trusts the wire.
  */
 
 import {
@@ -31,6 +37,7 @@ import {
   parseDashboard,
   serializeDashboard,
   readRawDashboard,
+  readDashboard,
   writeDashboard,
   DASHBOARD_CHANGE_EVENT,
 } from "@/lib/dashboard-store";
@@ -73,8 +80,16 @@ import {
   serializePrefsDoc,
   PREFS_CHANGE_EVENTS,
 } from "@/lib/account/prefs-doc";
+import {
+  BLOODWORK_CHANGE_EVENTS,
+  collectBloodworkDoc,
+  distributeBloodworkDoc,
+  mergeBloodworkDocs,
+  parseBloodworkDoc,
+  serializeBloodworkDoc,
+} from "@/lib/account/bloodwork-doc";
+import type { ConsentKind } from "@/lib/auth/shared";
 
-/** Grows at A4 with `bloodwork` (its own namespace + consent kind). */
 export type AccountNamespaceKey =
   | "history"
   | "dashboard"
@@ -84,23 +99,24 @@ export type AccountNamespaceKey =
   | "stack"
   | "training"
   | "favourites"
-  | "prefs";
+  | "prefs"
+  | "bloodwork";
 
 export interface AccountNamespace {
   key: AccountNamespaceKey;
   /** Document schema version carried in `store_documents.version`. */
   version: 1;
   /**
-   * Requires the health-storage consent + a 16+ age band to sync
-   * (ACCOUNTS §6.2/§7.2). Enforced server-side; mirrored client-side so the
-   * engine never even sends a gated document without consent.
+   * The consent this namespace requires to sync, if any. Band rules ride on
+   * the kind (shared.ts): health-storage → 16+, bloodwork-storage → 18+.
+   * Undefined = syncs for every signed-in band with no extra consent.
    */
-  healthFlavoured: boolean;
+  consentKind?: ConsentKind;
   /**
    * Same-tab events that signal a local edit (the engine debounce-pushes on
-   * these). Empty = no reactive signal; the engine pushes this namespace on
-   * its load/pagehide cycles instead (the arcade case — the games write
-   * their own keys without events, by design).
+   * these). May be shared between namespaces reading the same store (the
+   * dashboard/bloodwork pair). Empty = no reactive signal; pushed on the
+   * engine's load/pagehide cycles instead (the arcade case).
    */
   changeEvents: readonly string[];
   /** Snapshot the device's current document, serialised. SSR-safe. */
@@ -117,12 +133,12 @@ export interface AccountNamespace {
 function collectionNamespace(
   key: AccountNamespaceKey,
   store: CollectionStore,
-  healthFlavoured: boolean,
+  consentKind?: ConsentKind,
 ): AccountNamespace {
   return {
     key,
     version: 1,
-    healthFlavoured,
+    ...(consentKind !== undefined ? { consentKind } : {}),
     changeEvents: [store.changeEvent],
     collect: () => serializeCollection(parseCollection(store.readRaw())),
     apply: (raw) => {
@@ -137,7 +153,7 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
   {
     key: "history",
     version: 1,
-    healthFlavoured: true,
+    consentKind: "health-storage",
     changeEvents: [HISTORY_CHANGE_EVENT],
     collect: () => serializeHistory(parseHistory(readRawHistory())),
     apply: (raw) => {
@@ -149,19 +165,26 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
   {
     key: "dashboard",
     version: 1,
-    healthFlavoured: true,
+    consentKind: "health-storage",
     changeEvents: [DASHBOARD_CHANGE_EVENT],
-    collect: () => serializeDashboard(parseDashboard(readRawDashboard())),
+    // Biomarkers are STRIPPED from this namespace's wire document — blood
+    // values travel only under `bloodwork` and its own consent.
+    collect: () =>
+      serializeDashboard({ ...parseDashboard(readRawDashboard()), biomarkers: [] }),
     apply: (raw) => {
-      writeDashboard(parseDashboard(raw));
+      // Adopt vitals + metrics; preserve this device's local readings.
+      const incoming = parseDashboard(raw);
+      writeDashboard({ ...incoming, biomarkers: readDashboard().biomarkers });
     },
     merge: (baseRaw, overlayRaw) =>
-      serializeDashboard(mergeDashboard(parseDashboard(baseRaw), parseDashboard(overlayRaw))),
+      serializeDashboard({
+        ...mergeDashboard(parseDashboard(baseRaw), parseDashboard(overlayRaw)),
+        biomarkers: [],
+      }),
   },
   {
     key: "daily",
     version: 1,
-    healthFlavoured: false,
     changeEvents: [DAILY_CHANGE_EVENT],
     collect: () => serializeDailyStore(parseDailyStore(readRawDailyStore())),
     apply: (raw) => {
@@ -173,7 +196,6 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
   {
     key: "pulse",
     version: 1,
-    healthFlavoured: false,
     changeEvents: [PULSE_CHANGE_EVENT],
     collect: () => serializePulseStore(parsePulseStore(readRawPulseStore())),
     apply: (raw) => {
@@ -185,7 +207,6 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
   {
     key: "arcade",
     version: 1,
-    healthFlavoured: false,
     changeEvents: [], // games write their keys without events — pushed on load/pagehide
     collect: () => serializeArcadeDoc(collectArcadeDoc()),
     apply: (raw) => {
@@ -194,13 +215,12 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
     merge: (baseRaw, overlayRaw) =>
       serializeArcadeDoc(mergeArcadeDocs(parseArcadeDoc(baseRaw), parseArcadeDoc(overlayRaw))),
   },
-  collectionNamespace("stack", stackStore, true),
-  collectionNamespace("training", trainingStore, false),
-  collectionNamespace("favourites", favouritesStore, false),
+  collectionNamespace("stack", stackStore, "health-storage"),
+  collectionNamespace("training", trainingStore),
+  collectionNamespace("favourites", favouritesStore),
   {
     key: "prefs",
     version: 1,
-    healthFlavoured: false,
     changeEvents: PREFS_CHANGE_EVENTS,
     collect: () => serializePrefsDoc(collectPrefsDoc()),
     apply: (raw) => {
@@ -208,6 +228,20 @@ export const ACCOUNT_NAMESPACES: readonly AccountNamespace[] = [
     },
     merge: (baseRaw, overlayRaw) =>
       serializePrefsDoc(mergePrefsDocs(parsePrefsDoc(baseRaw), parsePrefsDoc(overlayRaw))),
+  },
+  {
+    key: "bloodwork",
+    version: 1,
+    consentKind: "bloodwork-storage",
+    changeEvents: BLOODWORK_CHANGE_EVENTS,
+    collect: () => serializeBloodworkDoc(collectBloodworkDoc()),
+    apply: (raw) => {
+      distributeBloodworkDoc(parseBloodworkDoc(raw));
+    },
+    merge: (baseRaw, overlayRaw) =>
+      serializeBloodworkDoc(
+        mergeBloodworkDocs(parseBloodworkDoc(baseRaw), parseBloodworkDoc(overlayRaw)),
+      ),
   },
 ];
 
@@ -219,6 +253,21 @@ export function isAccountNamespaceKey(key: string): key is AccountNamespaceKey {
   return ACCOUNT_NAMESPACES.some((ns) => ns.key === key);
 }
 
+/** Namespaces covered by a given consent kind (revocation deletes these). */
+export function namespacesForConsent(kind: ConsentKind): readonly AccountNamespaceKey[] {
+  return ACCOUNT_NAMESPACES.filter((ns) => ns.consentKind === kind).map((ns) => ns.key);
+}
+
+export interface ConsentFlags {
+  healthStorage: boolean;
+  bloodworkStorage: boolean;
+}
+
+export function consentSatisfied(ns: AccountNamespace, consents: ConsentFlags): boolean {
+  if (ns.consentKind === undefined) return true;
+  return ns.consentKind === "health-storage" ? consents.healthStorage : consents.bloodworkStorage;
+}
+
 /**
  * Registry invariants, asserted by a unit test so a broken entry fails the
  * build (the validateMetrics / validateCorpus pattern). Returns problem
@@ -227,13 +276,10 @@ export function isAccountNamespaceKey(key: string): key is AccountNamespaceKey {
 export function validateNamespaces(): string[] {
   const problems: string[] = [];
   const keys = new Set<string>();
-  const changeEvents = new Set<string>();
   for (const ns of ACCOUNT_NAMESPACES) {
     if (keys.has(ns.key)) problems.push(`duplicate namespace key: ${ns.key}`);
     keys.add(ns.key);
     for (const event of ns.changeEvents) {
-      if (changeEvents.has(event)) problems.push(`duplicate change event: ${event}`);
-      changeEvents.add(event);
       if (!event.startsWith("fittools:"))
         problems.push(`${ns.key}: change event outside the fittools:* convention`);
     }
@@ -254,28 +300,22 @@ export function validateNamespaces(): string[] {
     }
   }
   // The consent split must match ACCOUNTS.md §6.2 exactly.
-  const expectedHealthFlavoured: Record<AccountNamespaceKey, boolean> = {
-    history: true,
-    dashboard: true,
-    daily: false,
-    pulse: false,
-    arcade: false,
-    stack: true,
-    training: false,
-    favourites: false,
-    prefs: false,
+  const expectedConsent: Record<AccountNamespaceKey, ConsentKind | undefined> = {
+    history: "health-storage",
+    dashboard: "health-storage",
+    daily: undefined,
+    pulse: undefined,
+    arcade: undefined,
+    stack: "health-storage",
+    training: undefined,
+    favourites: undefined,
+    prefs: undefined,
+    bloodwork: "bloodwork-storage",
   };
   for (const ns of ACCOUNT_NAMESPACES) {
-    if (ns.healthFlavoured !== expectedHealthFlavoured[ns.key]) {
-      problems.push(`${ns.key}: healthFlavoured flag disagrees with ACCOUNTS.md §6.2`);
+    if (ns.consentKind !== expectedConsent[ns.key]) {
+      problems.push(`${ns.key}: consentKind disagrees with ACCOUNTS.md §6.2`);
     }
   }
   return problems;
-}
-
-/** Namespaces a signed-in user may sync given their consent/band state. */
-export function syncableNamespaces(healthConsented: boolean): readonly AccountNamespace[] {
-  return healthConsented
-    ? ACCOUNT_NAMESPACES
-    : ACCOUNT_NAMESPACES.filter((ns) => !ns.healthFlavoured);
 }

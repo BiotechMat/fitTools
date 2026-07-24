@@ -15,3 +15,17 @@ export function isAgeBand(v: unknown): v is AgeBand {
 export function bandAllowsHealthStorage(band: unknown): boolean {
   return band === "16-17" || band === "18-plus";
 }
+
+/** Blood-result storage is 18+ (ACCOUNTS §9.5 — settled at A4). */
+export function bandAllowsBloodworkStorage(band: unknown): boolean {
+  return band === "18-plus";
+}
+
+/** The consent kinds a namespace can require (ACCOUNTS §7.2, §6.2). */
+export type ConsentKind = "health-storage" | "bloodwork-storage";
+
+export function bandAllowsConsent(kind: ConsentKind, band: unknown): boolean {
+  return kind === "bloodwork-storage"
+    ? bandAllowsBloodworkStorage(band)
+    : bandAllowsHealthStorage(band);
+}

@@ -3,13 +3,13 @@
  * (ACCOUNTS.md §6.4). The gates, in order:
  *
  *   503  accounts not configured          401  no session
- *   404  unknown namespace                     (this IS the pre-A4 bloodwork
- *                                              gate — the namespace does not
- *                                              exist server-side)
- *   403  health-flavoured namespace without an active health-storage consent
- *        or with an under-16 age band (ACCOUNTS §7.2/§7.7)
+ *   404  unknown namespace
+ *   403  a consent-gated namespace without its consent active or outside
+ *        its band — health-storage needs 16+, bloodwork-storage needs 18+
+ *        (ACCOUNTS §7.2/§7.7/§9.5)
  *   413  document over the size cap
- *   422  a dashboard document carrying biomarker readings (pre-A4 gate)
+ *   422  a dashboard document carrying biomarker readings (blood values
+ *        travel ONLY under the bloodwork namespace and its own consent)
  *   428  missing If-Match precondition
  *   409  stale etag — body carries the current document to re-merge against
  *
@@ -18,7 +18,8 @@
  * client-side stores behave.
  */
 
-import { bandAllowsHealthStorage, getSessionInfo } from "@/lib/auth/server";
+import { getSessionInfo } from "@/lib/auth/server";
+import { bandAllowsConsent } from "@/lib/auth/shared";
 import { dbEnabled, fetchDocument, hasActiveConsent, putDocument } from "@/lib/account/db";
 import { namespaceByKey } from "@/lib/account/namespaces";
 import { parseDashboard } from "@/lib/dashboard-store";
@@ -44,10 +45,10 @@ export async function PUT(
   if (ns === undefined) {
     return Response.json({ error: "unknown-namespace" }, { status: 404 });
   }
-  if (ns.healthFlavoured) {
+  if (ns.consentKind !== undefined) {
     const allowed =
-      bandAllowsHealthStorage(session.ageBand) &&
-      (await hasActiveConsent(session.userId, "health-storage"));
+      bandAllowsConsent(ns.consentKind, session.ageBand) &&
+      (await hasActiveConsent(session.userId, ns.consentKind));
     if (!allowed) {
       return Response.json({ error: "consent-required" }, { status: 403 });
     }
@@ -62,7 +63,8 @@ export async function PUT(
   const sanitised = ns.merge(null, raw);
 
   if (ns.key === "dashboard" && parseDashboard(sanitised).biomarkers.length > 0) {
-    // Blood values do not cross until A4 (ACCOUNTS §3.2/§6.4).
+    // Defence in depth — collect() strips these, so a legit client never
+    // trips this; blood values cross only under `bloodwork`'s consent.
     return Response.json({ error: "biomarkers-not-accepted" }, { status: 422 });
   }
 

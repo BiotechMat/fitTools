@@ -19,7 +19,9 @@
 
 import {
   ACCOUNT_NAMESPACES,
+  consentSatisfied,
   type AccountNamespace,
+  type ConsentFlags,
 } from "@/lib/account/namespaces";
 import { setAccountHint } from "@/lib/auth/session-probe";
 
@@ -32,12 +34,12 @@ interface ServerDocument {
 
 interface PullResponse {
   documents: Record<string, ServerDocument>;
-  healthConsented: boolean;
+  consents: Partial<ConsentFlags>;
 }
 
 interface EngineState {
   running: boolean;
-  healthConsented: boolean;
+  consents: ConsentFlags;
   /** Last server etag per namespace (null = no server doc yet). */
   etags: Map<string, string | null>;
   /** Last document string pushed/adopted per namespace (skip no-op pushes). */
@@ -48,7 +50,7 @@ interface EngineState {
 
 const state: EngineState = {
   running: false,
-  healthConsented: false,
+  consents: { healthStorage: false, bloodworkStorage: false },
   etags: new Map(),
   lastSynced: new Map(),
   timers: new Map(),
@@ -56,7 +58,7 @@ const state: EngineState = {
 };
 
 function syncable(ns: AccountNamespace): boolean {
-  return !ns.healthFlavoured || state.healthConsented;
+  return consentSatisfied(ns, state.consents);
 }
 
 async function pushNamespace(ns: AccountNamespace, allowRetry = true): Promise<void> {
@@ -105,7 +107,8 @@ async function pushNamespace(ns: AccountNamespace, allowRetry = true): Promise<v
     }
     if (response.status === 403) {
       // Consent revoked / band-gated server-side — mirror it and stop sending.
-      state.healthConsented = false;
+      if (ns.consentKind === "bloodwork-storage") state.consents.bloodworkStorage = false;
+      else if (ns.consentKind === "health-storage") state.consents.healthStorage = false;
       return;
     }
     if (response.status === 401) {
@@ -148,7 +151,10 @@ async function initialSync(): Promise<void> {
   } catch {
     return;
   }
-  state.healthConsented = pull.healthConsented === true;
+  state.consents = {
+    healthStorage: pull.consents?.healthStorage === true,
+    bloodworkStorage: pull.consents?.bloodworkStorage === true,
+  };
 
   for (const ns of ACCOUNT_NAMESPACES) {
     if (!state.running) return;
@@ -210,7 +216,7 @@ export function stopAccountSync(): void {
   state.timers.clear();
   state.etags.clear();
   state.lastSynced.clear();
-  state.healthConsented = false;
+  state.consents = { healthStorage: false, bloodworkStorage: false };
 }
 
 /** Re-run the full pull/merge/push cycle (after a consent change). */

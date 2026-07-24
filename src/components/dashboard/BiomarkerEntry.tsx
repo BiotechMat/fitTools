@@ -2,12 +2,12 @@
 
 /**
  * Manual biomarker entry (A4 — DASHBOARD §3.3b, decided ACCOUNTS §9.7:
- * manual entry ships before the partner integration). Device-local: values
- * you type are stored in this browser's dashboard store. Account sync of
- * blood values stays OFF until the bloodwork namespace + its own consent
- * go live at provisioning (the server rejects biomarker content until then
- * — the ACCOUNTS §6.4 gate in code), so nothing typed here leaves the
- * device today.
+ * manual entry ships before the partner integration; the partner
+ * auto-population later lands in the same store). Values are stored in
+ * this browser's dashboard store, and — Mat, 2026-07-24 — follow the
+ * account when its own 18+ consent switch ("bloodwork-storage", separate
+ * from the general health consent) is on, synced via the `bloodwork`
+ * namespace. Without that consent, or signed out, they stay device-only.
  *
  * Compliance (DASHBOARD §9): ClinicalDisclaimer renders wherever blood
  * values show; no reference ranges, no "optimal" values — the registry's
@@ -84,12 +84,12 @@ export function BiomarkerEntry(): React.ReactElement {
         Add a blood result
       </h2>
       <p className="mt-2 max-w-prose text-sm text-muted">
-        Type results from any lab report — they stay in this browser, on this
-        device, and feed the same dashboard your{" "}
+        Type results from any lab report — they feed the same dashboard your{" "}
         <Link href="/blood-test" className="underline hover:text-foreground">
           blood test
         </Link>{" "}
-        will. No target ranges are shown: a number without clinical context is
+        will, stored on this device (and in your account, if you switch that
+        on). No target ranges are shown: a number without clinical context is
         a note, not a verdict — discuss anything unexpected with your GP.
       </p>
 
@@ -162,8 +162,12 @@ export function BiomarkerEntry(): React.ReactElement {
         </div>
         {confirmNote ? (
           <p aria-live="polite" className="mt-3 text-sm text-muted">
-            Saved to this device. Blood values don&apos;t sync to accounts yet —
-            that switch flips only with its own consent step.
+            Saved to this device. Blood results follow your account only if
+            you&apos;ve switched that on (its own consent, 18+) on your{" "}
+            <Link href="/account" className="underline hover:text-foreground">
+              account page
+            </Link>
+            .
           </p>
         ) : null}
       </form>

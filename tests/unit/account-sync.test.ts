@@ -76,7 +76,7 @@ beforeEach(() => {
       documents: {
         history: { doc: historyDoc([SERVER_RESULT]), updatedAt: "2026-07-20T09:00:00.000Z" },
       },
-      healthConsented: true,
+      consents: { healthStorage: true, bloodworkStorage: false },
     });
   vi.stubGlobal(
     "fetch",
@@ -183,7 +183,8 @@ describe("account sync engine (ACCOUNTS §6.1)", () => {
         items: [{ id: "tdee-calculator", addedAt: "2026-07-22T08:00:00.000Z" }],
       }),
     );
-    pullResponse = () => jsonResponse({ documents: {}, healthConsented: false });
+    pullResponse = () =>
+      jsonResponse({ documents: {}, consents: { healthStorage: false, bloodworkStorage: false } });
     startAccountSync();
     await waitForPuts(1);
     // Give any stray pushes a moment, then assert the gate held.
@@ -192,6 +193,57 @@ describe("account sync engine (ACCOUNTS §6.1)", () => {
     expect(puts.some((p) => p.namespace === "history")).toBe(false);
     expect(puts.some((p) => p.namespace === "dashboard")).toBe(false);
     expect(puts.some((p) => p.namespace === "stack")).toBe(false);
+    expect(puts.some((p) => p.namespace === "bloodwork")).toBe(false);
+  });
+
+  it("bloodwork syncs only under its own consent — health consent alone is not enough", async () => {
+    // Local blood reading exists; health granted, bloodwork NOT.
+    storage.setItem(
+      "fittools.dashboard.v1",
+      JSON.stringify({
+        version: 1,
+        profile: {},
+        metrics: [
+          { metric: "tdee.kcal", value: 2400, savedAt: "2026-07-20T08:00:00.000Z" },
+        ],
+        biomarkers: [
+          { marker: "apob", value: 0.9, unit: "g/L", takenAt: "2026-06-01", source: "manual" },
+        ],
+      }),
+    );
+    pullResponse = () =>
+      jsonResponse({ documents: {}, consents: { healthStorage: true, bloodworkStorage: false } });
+    startAccountSync();
+    await waitForPuts(1);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    // The dashboard document goes up WITHOUT the readings; bloodwork stays home.
+    const dashboardPut = puts.find((p) => p.namespace === "dashboard");
+    expect(dashboardPut).toBeDefined();
+    expect((JSON.parse(dashboardPut?.body ?? "{}") as { biomarkers: unknown[] }).biomarkers).toEqual([]);
+    expect(puts.some((p) => p.namespace === "bloodwork")).toBe(false);
+  });
+
+  it("with the bloodwork consent, readings sync under the bloodwork namespace", async () => {
+    storage.setItem(
+      "fittools.dashboard.v1",
+      JSON.stringify({
+        version: 1,
+        profile: {},
+        metrics: [],
+        biomarkers: [
+          { marker: "apob", value: 0.9, unit: "g/L", takenAt: "2026-06-01", source: "manual" },
+        ],
+      }),
+    );
+    pullResponse = () =>
+      jsonResponse({ documents: {}, consents: { healthStorage: true, bloodworkStorage: true } });
+    startAccountSync();
+    await vi.waitFor(() => {
+      expect(puts.some((p) => p.namespace === "bloodwork")).toBe(true);
+    });
+    const bloodworkPut = puts.find((p) => p.namespace === "bloodwork");
+    const doc = JSON.parse(bloodworkPut?.body ?? "{}") as { readings: { marker: string }[] };
+    expect(doc.readings.map((r) => r.marker)).toEqual(["apob"]);
   });
 
   it("a 401 pull stops the engine and clears the device hint", async () => {

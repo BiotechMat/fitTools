@@ -389,7 +389,7 @@ they extend.
 | `training` | saved exercises: registry ids, `addedAt` | no | union by id |
 | `favourites` | bookmarked tools/pages: registry slugs, `addedAt` | no | union by slug |
 | `prefs` | unit preference | no | last-write-wins |
-| `bloodwork` *(A4 — gated)* | dated biomarker readings | **yes — own consent kind** | union by (marker, takenAt); rejected entirely pre-A4 |
+| `bloodwork` | dated biomarker readings (manual now; purchased-test auto-population later) | **yes — own `bloodwork-storage` consent, 18+** | union by (marker, takenAt), overlay wins ties |
 
 Notes. `stack` is consent-gated deliberately: a supplement list can reveal
 health conditions (finasteride, ashwagandha…), so it sits on the cautious
@@ -746,16 +746,24 @@ runs byte-identical signed-out and auth routes return 503):
   AccountNavLink (renders nothing signed out), AccountSync mount,
   SaveItemButton on every supplement/exercise/tool page, the dashboard
   "Saved for later" grid.
-- **A4 (first slice):** manual biomarker entry on the dashboard — 28-marker
-  grouped picker, device-local storage, ClinicalDisclaimer, no reference
-  ranges. **Blood values still do not sync**: the server's biomarker
-  rejection and the absent `bloodwork` namespace stay in force until the
-  §7 posture paperwork completes at provisioning and the namespace +
-  `bloodwork-storage` consent are switched on (a deliberate, recorded
-  step — not forgotten).
-- **Tests:** 686 green (35 account-specific: merges, stores, registry,
-  engine incl. the 409 path and consent gate); typecheck, lint, build and
-  budgets green throughout.
+- **A4 (complete in code — Mat, 2026-07-24: blood results persist to the
+  account):** manual biomarker entry on the dashboard — 28-marker grouped
+  picker, ClinicalDisclaimer, no reference ranges — PLUS the `bloodwork`
+  namespace and its own `bloodwork-storage` consent (18+ band, its own
+  card on /account, separate erasure via revoke). Blood values travel
+  ONLY under that namespace: the dashboard document strips biomarkers at
+  collect and the server 422s any dashboard document carrying them, so
+  the two consents can never leak into each other. Like everything else
+  it is dark until provisioning + the DPIA sign-off turn accounts on.
+- **Post-auth flow (Mat, 2026-07-24):** signing in lands on the dashboard
+  (/account completes the sign-in — hint, band, consents — then forwards
+  via a safe internal `next` param), and a signed-in avatar chip (email
+  initial, riso circle) sits top-right in the nav beside the CTA,
+  linking to /account. Signed out: no chip, no probe, no requests.
+- **Tests:** 688 green (38 account-specific: merges, stores, registry,
+  engine incl. the 409 path, the two-consent gates and the
+  bloodwork-vs-dashboard separation); typecheck, lint, build and budgets
+  green throughout.
 
 **Blocked on A0 provisioning (Mat's hands — cannot be done from the repo):**
 Neon project (London; run `db/schema.sql` + Better Auth CLI migrate),

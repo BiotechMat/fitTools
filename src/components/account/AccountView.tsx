@@ -26,9 +26,14 @@ const BAND_LABELS: Record<AgeBand, string> = {
   "18-plus": "18 or over",
 };
 
-interface ConsentState {
+interface KindState {
   state: "never-asked" | "granted" | "revoked";
   eligible: boolean;
+}
+
+interface ConsentState {
+  health: KindState;
+  bloodwork: KindState;
 }
 
 const cardClass =
@@ -55,13 +60,19 @@ export function AccountView(): React.ReactElement {
       const response = await fetch("/api/account/consent");
       if (!response.ok) return;
       const body = (await response.json()) as {
-        eligibleForHealthStorage?: boolean;
-        healthStorage?: { state?: string };
+        kinds?: Record<string, { state?: string; eligible?: boolean }>;
       };
-      const state = body.healthStorage?.state;
+      const read = (kind: string): KindState => {
+        const k = body.kinds?.[kind];
+        return {
+          state:
+            k?.state === "granted" ? "granted" : k?.state === "revoked" ? "revoked" : "never-asked",
+          eligible: k?.eligible === true,
+        };
+      };
       setConsent({
-        state: state === "granted" ? "granted" : state === "revoked" ? "revoked" : "never-asked",
-        eligible: body.eligibleForHealthStorage === true,
+        health: read("health-storage"),
+        bloodwork: read("bloodwork-storage"),
       });
     } catch {
       // transient — the card shows a retry
@@ -100,6 +111,15 @@ export function AccountView(): React.ReactElement {
         });
       }
     }
+    // Fresh sign-ins forward on (Mat, 2026-07-24: land on the dashboard)
+    // once completion is done — hint set, band known. Only safe internal
+    // paths; only sign-in flows mint the `next` param.
+    if (ageBand !== null) {
+      const next = new URLSearchParams(window.location.search).get("next");
+      if (next !== null && next.startsWith("/") && !next.startsWith("//")) {
+        window.location.replace(next);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run on session arrival
   }, [session === null || session === undefined]);
 
@@ -111,16 +131,21 @@ export function AccountView(): React.ReactElement {
     window.location.reload();
   };
 
-  const setHealthConsent = async (granted: boolean): Promise<void> => {
+  const setStorageConsent = async (
+    kind: "health-storage" | "bloodwork-storage",
+    granted: boolean,
+  ): Promise<void> => {
     setBusy(true);
     try {
       const response = await fetch("/api/account/consent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind: "health-storage", granted }),
+        body: JSON.stringify({ kind, granted }),
       });
       if (response.ok) {
-        trackEvent({ name: "account_consent", params: { kind: "health-storage", granted } });
+        if (kind === "health-storage") {
+          trackEvent({ name: "account_consent", params: { kind, granted } });
+        }
         await refreshConsent();
         const engine = await import("@/lib/account/sync");
         engine.resyncAccount();
@@ -253,7 +278,7 @@ export function AccountView(): React.ReactElement {
               retry
             </button>
           </p>
-        ) : consent.state === "granted" ? (
+        ) : consent.health.state === "granted" ? (
           <>
             <p className="mt-2 text-sm text-muted">
               You&apos;ve chosen to store your health-related numbers (calculator
@@ -265,7 +290,7 @@ export function AccountView(): React.ReactElement {
             <button
               type="button"
               disabled={busy}
-              onClick={() => void setHealthConsent(false)}
+              onClick={() => void setStorageConsent("health-storage", false)}
               className={`${buttonClass} mt-4 bg-background`}
             >
               Stop storing — delete server copies
@@ -285,7 +310,7 @@ export function AccountView(): React.ReactElement {
             <button
               type="button"
               disabled={busy}
-              onClick={() => void setHealthConsent(true)}
+              onClick={() => void setStorageConsent("health-storage", true)}
               className={`${buttonClass} mt-4 bg-primary-strong`}
             >
               Yes — store my numbers in my account
@@ -293,6 +318,53 @@ export function AccountView(): React.ReactElement {
           </>
         )}
       </section>
+
+      {ageBand === "18-plus" ? (
+        <section className={cardClass}>
+          <h2 className="font-display text-2xl uppercase">Your blood results</h2>
+          {consent === null ? (
+            <p className="mt-2 text-sm text-muted">Checking your consent state…</p>
+          ) : consent.bloodwork.state === "granted" ? (
+            <>
+              <p className="mt-2 text-sm text-muted">
+                Blood results you enter — and, later, results from tests bought
+                through us — are stored in your account and follow you across
+                devices. This has its own switch because blood data deserves
+                one: turn it off any time and we delete the server copies,
+                leaving this device&apos;s entries untouched.
+              </p>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => void setStorageConsent("bloodwork-storage", false)}
+                className={`${buttonClass} mt-4 bg-background`}
+              >
+                Stop storing blood results — delete server copies
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="mt-2 text-sm text-muted">
+                Blood results you add on the dashboard currently stay on this
+                device only. Turn this on and they&apos;re stored in your account
+                (UK/EU database) so they follow you across devices — and so a
+                test bought through us can land there automatically. Separate
+                from the switch above because blood data deserves its own
+                yes. Never sold, never shared, never used to train anything;
+                one click deletes every server copy.
+              </p>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => void setStorageConsent("bloodwork-storage", true)}
+                className={`${buttonClass} mt-4 bg-primary-strong`}
+              >
+                Yes — store my blood results in my account
+              </button>
+            </>
+          )}
+        </section>
+      ) : null}
 
       <section className={cardClass}>
         <h2 className="font-display text-2xl uppercase">Your data, your controls</h2>

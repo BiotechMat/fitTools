@@ -231,13 +231,14 @@ describe("mergePulse (PULSE §6 — monotonic sets; LWW affinity)", () => {
 });
 
 describe("namespace registry (ACCOUNTS §6.2)", () => {
-  it("validates: unique keys/events, conventions, consent flags, safe merges", () => {
+  it("validates: unique keys, conventions, consent kinds, safe merges", () => {
     expect(validateNamespaces()).toEqual([]);
   });
 
   it("covers every savable surface with the documented consent split", () => {
     expect(ACCOUNT_NAMESPACES.map((n) => n.key).sort()).toEqual([
       "arcade",
+      "bloodwork",
       "daily",
       "dashboard",
       "favourites",
@@ -247,11 +248,16 @@ describe("namespace registry (ACCOUNTS §6.2)", () => {
       "stack",
       "training",
     ]);
-    // Consent-gated: the health-flavoured trio, exactly (ACCOUNTS §6.2).
-    const gated = ACCOUNT_NAMESPACES.filter((n) => n.healthFlavoured).map((n) => n.key);
-    expect(gated.sort()).toEqual(["dashboard", "history", "stack"]);
-    // bloodwork is deliberately ABSENT until A4 — its absence IS the gate.
-    expect(namespaceByKey("bloodwork")).toBeUndefined();
+    // The health trio needs the 16+ consent; blood results need their own
+    // 18+ consent (ACCOUNTS §6.2/§9.5; Mat 2026-07-24).
+    const health = ACCOUNT_NAMESPACES.filter((n) => n.consentKind === "health-storage").map(
+      (n) => n.key,
+    );
+    expect(health.sort()).toEqual(["dashboard", "history", "stack"]);
+    const bloodwork = ACCOUNT_NAMESPACES.filter(
+      (n) => n.consentKind === "bloodwork-storage",
+    ).map((n) => n.key);
+    expect(bloodwork).toEqual(["bloodwork"]);
   });
 
   it("wire-format merge round-trips: garbage on either side degrades, data survives", () => {
