@@ -15,6 +15,8 @@ import {
   upsertResult,
   writeHistory,
 } from "@/lib/history";
+import Link from "next/link";
+import { ACCOUNT_CHANGE_EVENT, hasAccountHint } from "@/lib/auth/session-probe";
 
 /**
  * "Since last time" footer for a ResultsPanel (DESIGN.md §6 — the temporal
@@ -97,7 +99,17 @@ export function ResultHistory({
   // hydration flip, whose display round-trip drifts canonical values by a
   // hair. Neither is progress; neither may bank a result.
   const lastValue = useRef<number | null>(value);
+  // Saving requires an account (Mat, 2026-07-24). null until hydration.
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
   useEffect(() => {
+    const check = (): void => setSignedIn(hasAccountHint());
+    check();
+    window.addEventListener(ACCOUNT_CHANGE_EVENT, check);
+    return () => window.removeEventListener(ACCOUNT_CHANGE_EVENT, check);
+  }, []);
+
+  useEffect(() => {
+    if (signedIn !== true) return; // signed out: nothing is stored
     const previous = lastValue.current;
     const unchanged =
       value !== null && previous !== null
@@ -117,16 +129,31 @@ export function ResultHistory({
       if (saved && claimFirstWin()) setFirstWin(true);
     }, SAVE_DELAY_MS);
     return () => window.clearTimeout(timer);
-  }, [tool, value, epsilon]);
+  }, [tool, value, epsilon, signedIn]);
 
   if (value === null) return null;
 
   let content: React.ReactNode;
-  if (firstWin) {
+  if (signedIn === null) {
+    content = null; // pre-hydration: reserve the row, decide after mount
+  } else if (signedIn === false) {
+    // The quiet DESIGN §5 prompt: tracking is an account feature now.
+    content = (
+      <span className="text-muted">
+        Not tracked —{" "}
+        <Link
+          href="/signin"
+          className="font-bold underline underline-offset-2 hover:text-foreground"
+        >
+          a free account saves this number and tracks it over time
+        </Link>
+      </span>
+    );
+  } else if (firstWin) {
     content = (
       <>
         <span className={goodChipClass}>First number banked ✓</span>
-        <span className="text-muted">Progress saves on this device only.</span>
+        <span className="text-muted">Tracked in your account&apos;s history.</span>
       </>
     );
   } else if (baseline !== null) {
@@ -170,13 +197,13 @@ export function ResultHistory({
           className="text-muted underline underline-offset-2 hover:text-foreground"
           onClick={() => clearToolHistory(tool)}
         >
-          Saved on this device · clear
+          Saved · clear
         </button>
       </>
     );
   } else {
     content = (
-      <span className="text-muted">Results save to this device only. Private, automatic.</span>
+      <span className="text-muted">Results save to your history automatically.</span>
     );
   }
 

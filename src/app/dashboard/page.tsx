@@ -3,6 +3,8 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { DashboardView } from "@/components/dashboard/DashboardView";
+import { SavedCollections } from "@/components/dashboard/SavedCollections";
+import { BiomarkerEntry } from "@/components/dashboard/BiomarkerEntry";
 
 /**
  * The personal dashboard (DASHBOARD.md). A private, per-person surface — not an
@@ -49,6 +51,10 @@ export default function DashboardPage() {
       </header>
 
       <DashboardView />
+
+      <SavedCollections />
+
+      <BiomarkerEntry />
 
       <div className="mt-12 mb-4">
         <DisclaimerBanner />

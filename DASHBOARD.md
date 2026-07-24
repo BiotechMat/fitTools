@@ -369,7 +369,8 @@ Sequenced against SPEC milestones and ROADMAP phases; do not jump the gates.
    store. The keystone view.
 3. **D2 — Accounts & sync** *(with ROADMAP E0 + the §8 gate signed off)*.
    Promote the store from local to authed via the HistoryProvider seam; enable
-   identified profiles.
+   identified profiles. **Build plan: ACCOUNTS.md** (stack decided
+   2026-07-24; D2 completes at its step A3).
 4. **D3 — Biomarkers** *(with §8 + the blood-test partner integration)*. Manual
    entry first, then auto-population from a test bought through us.
 5. **D4 — Share cards & status** *(with ROADMAP E1/E4)*. Achievement OG cards
@@ -402,12 +403,16 @@ Each step gates on the previous one's tests passing and Mat's sign-off
 - **Out of scope (v1 dashboard):** clinician sharing/PDF reports, wearable/API
   sync (Apple Health, CGM live feeds), household/multi-profile, notifications
   beyond opt-in re-run reminders, any social feed. These are ROADMAP-later.
-- **Open questions for Mat:**
+- **Open questions for Mat (updated 2026-07-24 — three of four resolved):**
   1. Route/label — **`/dashboard`** vs **"Your numbers"** as the user-facing
      name (this doc uses `/dashboard` for the route, "Your numbers" for
-     signed-out copy).
-  2. Does manual biomarker entry (§3.3b) ship *before* the paid test, or wait
-     for the partner? It is the earliest thing behind the §8 gate.
-  3. Is the anonymous local dashboard a launch feature, or does the whole
-     surface wait for E0 accounts? (This doc assumes local-first ships first.)
-  4. Retention window for stored health data (feeds the §8 posture).
+     signed-out copy). *Still open.*
+  2. ~~Manual biomarker entry before the paid test?~~ **RESOLVED
+     (ACCOUNTS.md §9.7): yes — manual entry ships first, at ACCOUNTS A4,
+     in its own `bloodwork` namespace with its own consent kind; partner
+     auto-population lands later on the same namespace.**
+  3. ~~Anonymous local dashboard as a launch feature?~~ **Settled in
+     practice — D0 shipped local-first and is live.**
+  4. ~~Retention window?~~ **RESOLVED (ACCOUNTS.md §9.6): keep while
+     active; 24-month inactivity expiry (warning at 22); erasure immediate
+     on request; bloodwork sets its own stricter terms at A4.**

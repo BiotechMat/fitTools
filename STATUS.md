@@ -137,7 +137,19 @@ charting library would blow the budget (README JS-budget history).
 ### Phase 4 — Accounts + data-protection posture (ROADMAP E0) — *the crossing*
 
 The next real engineering milestone and the gate everything sensitive waits on.
-Build as a deliberate, resourced step (BUSINESS_PLAN §13; SPEC §17):
+**IN BUILD (2026-07-24): A0–A4 commenced together at Mat's explicit
+direction, per-phase sign-offs waived — pulled forward from the phase
+order.** Blueprint: `ACCOUNTS.md` (stack decisions §4 #6 below, sized for
+~200k users; every savable surface syncs through the namespace registry).
+Engineering is on the `claude/signin-accounts-planning-tjxc6z` branch and
+substantially complete (auth, sync engine, account API with the gates in
+code, /signin + /account, save affordances, dashboard collections, manual
+biomarker entry — all env-gated, byte-identical signed-out; 686 tests
+green). **Go-live blocks on A0 provisioning only Mat can do** — Neon,
+Resend + domain auth, Google/Apple credentials, ICO fee, live privacy
+policy, DPIA sign-off (draft: `ACCOUNTS-DPIA.md`) — full record:
+ACCOUNTS.md §13. The §8-gate items below are what that provisioning
+completes:
 
 1. Lawful-basis + explicit consent flow for health data; published
    data-protection posture; view / export / **delete-all** controls.
@@ -156,8 +168,9 @@ premium is built around what it actually gates.
 
 Switch on revenue per the **confirmed premium-led model** (MONETISATION.md,
 2026-07-23): premium sign-ups first (very low monthly amount or one-off lifetime
-unlock), blood-test profit second, affiliates a small supporting line, free-tier
-ads optional and undecided. Deferred deliberately: an engaged, returning
+unlock), blood-test profit second, affiliates a small supporting line, and —
+decided 2026-07-24 — light, premium-lean free-tier ads that premium removes
+(non-personalised for under-18s). Deferred deliberately: an engaged, returning
 audience monetises far better than cold traffic.
 
 ---
@@ -167,21 +180,42 @@ audience monetises far better than cold traffic.
 These gate the phases above and cannot be resolved from the code:
 
 1. **Monetisation model detail** (MONETISATION §4) — the model *shape* is
-   confirmed (2026-07-23: premium-led, blood test second, affiliates small, ads
-   optional; docs reconciled — §6 here). Still open, and still gating Phase 4's
-   tier design: the exact price and monthly-vs-lifetime mechanics (£10 lifetime
-   is the working example), the free/paid line, whether the free tier carries
-   ads, and trial mechanics.
+   confirmed (2026-07-23: premium-led, blood test second, affiliates small;
+   docs reconciled — §6 here), and two details were resolved **2026-07-24**
+   in the accounts planning session: the free tier **will carry light,
+   premium-lean ads and premium removes them** (MONETISATION §4.2), and the
+   arcade is monetised through **extras, never play-limits** (MONETISATION
+   §2.6, binding; gating must be additive — nothing launches free then gets
+   walled). Still open, and still gating Phase 4's *tier design* (not the
+   free-account build — ACCOUNTS.md): the exact price and
+   monthly-vs-lifetime mechanics (£10 lifetime is the working example), the
+   precise free/paid line ("save calculators, bookmark tools" named as
+   candidates), and trial mechanics.
 2. **Fitness Age** (METHODOLOGY §3.2) — blocked solely on obtaining the Nes 2011
    full text. Buy/request the paper, or drop the tool (it also carries 25% of the
    Pace of Aging index design).
 3. **Names** — "Myth or Fact?" and "Lifeline" are still working titles;
    "Ballpark" is locked.
-4. **Dashboard open questions** (DASHBOARD §13) — manual biomarker entry before
-   the partner deal? anonymous dashboard as a launch feature? health-data
-   retention window?
+4. **Dashboard open questions** (DASHBOARD §13) — mostly resolved by #6
+   (manual biomarker entry before the partner: **yes**, at ACCOUNTS.md A4;
+   health-data retention window: **24-month inactivity expiry**). Still
+   open: the route/label naming ("Dashboard" vs "Your numbers"). The
+   anonymous local dashboard already shipped in D0, settling that question
+   in practice.
 5. **The blood-test partner** — `/blood-test` is live and makes promises that
    depend on it.
+6. **The accounts stack — RESOLVED (2026-07-24, delegated to Claude by
+   Mat):** magic link + Google + Apple · Better Auth · Neon Postgres
+   (London/Frankfurt, Vercel functions pinned) · Resend (doubles as the
+   Phase 1 newsletter provider) · **13+ accounts tiered by age band**
+   (Mat, 2026-07-24: the games are for younger users too; health-flavoured
+   sync from 16+, bloodwork expected 18+, ICO Children's Code folded into
+   the A0 DPIA) · 24-month inactivity retention · manual biomarker entry
+   before the partner (resolves #4's first question, and #4's retention
+   question). Rationale + the ~200k-user sizing: ACCOUNTS.md §9/§5.4.
+   The monetisation detail decisions (#1 above) are now the only ones
+   still gating Phase 4 — and only its tier design, not the free-account
+   build.
 
 ---
 
@@ -216,6 +250,13 @@ affiliates small; free-tier ads optional) and the owed reconciliation is done:
       persistence & depth, never the calculation" rule stated as a binding
       product principle in SPEC §10 (2026-07-23).
 
+*Addendum (2026-07-24):* the free-tier-ads open recorded above was
+subsequently resolved — **light, premium-lean ads in the free tier, premium
+removes them** (MONETISATION §4.2) — and the "ads optional" phrasing in
+BUSINESS_PLAN §7, ROADMAP (header, §2.6, E6, §5–§6) and SPEC §1 was updated
+to match the same day, alongside the arcade extras-never-limits principle
+(MONETISATION §2.6).
+
 MONETISATION.md remains the source of truth for revenue direction (its §4 detail
-questions are still open) and this file remains the source of truth for build
-status and sequencing.
+questions — price/mechanics and the exact free/paid line — are still open) and
+this file remains the source of truth for build status and sequencing.

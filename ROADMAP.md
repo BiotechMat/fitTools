@@ -2,8 +2,9 @@
 
 Companion to `SPEC.md` (the build) and `METHODOLOGY.md` (the scoring). This
 document sequences the features that make the site **sticky, shareable, and
-return-driven**. Monetisation (premium + blood test + affiliates; free-tier ads
-optional — `MONETISATION.md`) is deliberately deferred: build the audience and
+return-driven**. Monetisation (premium + blood test + affiliates; light
+free-tier ads that premium removes, decided 2026-07-24 — `MONETISATION.md`) is
+deliberately deferred: build the audience and
 the loops first, switch revenue on once traffic arrives. The consent, ad and
 affiliate infrastructure is already stubbed behind flags in `SPEC.md` §10.
 
@@ -62,8 +63,8 @@ generates backlash while progress-driven engagement compounds.
    versioned, non-diagnostic, no mortality figures, body-composition never
    dominant).
 6. **Monetisation deferred.** Nothing revenue-bearing switches on before Phase
-   E6 — and free-tier ads may never (`MONETISATION.md §4`). Keep the experience
-   clean while building the loops.
+   E6 — including the decided light free-tier ads (`MONETISATION.md §4.2`).
+   Keep the experience clean while building the loops.
 
 ---
 
@@ -115,7 +116,10 @@ event: `card_generated`, `card_shared`.
 > a central swap. Accounts, the consent flow and the published data-protection
 > posture are unbuilt; everything sensitive (Dashboard D2–D4, PROFILE.md, the
 > estimator, premium) waits here. This is `STATUS.md §3` Phase 4 — the deliberate
-> crossing (BUSINESS_PLAN §13, SPEC §17).
+> crossing (BUSINESS_PLAN §13, SPEC §17). **Planning blueprint now exists:
+> `ACCOUNTS.md` (2026-07-24)** — stack decided (magic link + Google + Apple via
+> Better Auth, Neon Postgres, Resend; 13+ tiered by age band), sized for ~200k
+> users, every savable surface covered, build sequence A0–A4.
 
 **What:** lightweight accounts (email / social sign-in), a `HistoryProvider`
 promoted from local-only (per `SPEC.md` §10) to stored profiles, and full event
@@ -207,25 +211,26 @@ asset. The Index compounds into authority and backlinks (SEO).
 > CMP, ad slots, affiliate registry and analytics all exist behind env flags
 > (SPEC §10). **The revenue model is confirmed (2026-07-23, MONETISATION.md):
 > premium-led** — premium sign-ups first (low monthly amount or one-off lifetime
-> unlock), blood-test profit second, affiliates a small supporting line,
-> free-tier ads optional and undecided. Premium activation waits on the
-> remaining detail questions (price/mechanics, the free/paid line —
-> MONETISATION §4) and on E0 accounts; blood-test revenue waits on the partner
-> (`STATUS.md §4`).
+> unlock), blood-test profit second, affiliates a small supporting line, and
+> light free-tier ads that premium removes (decided 2026-07-24). Premium
+> activation waits on the remaining detail questions (price/mechanics, the
+> free/paid line — MONETISATION §4) and on E0 accounts (planning blueprint:
+> ACCOUNTS.md); blood-test revenue waits on the partner (`STATUS.md §4`).
 
 **What:** launch the premium tier (very low monthly price, or a one-off lifetime
 unlock — £10 lifetime is the working example) selling persistence and depth —
 saved history, Trajectory, advanced cards; activate the blood-test offer with
 the chosen partner (`/blood-test` is live and waiting); switch on contextual
 affiliate placements (protein, CGMs, wearables, testing kits) as the small
-supporting line. Optionally, if decided, light premium-lean ad space for free
-users via the pre-built slots.
+supporting line; and light premium-lean ad space for free users via the
+pre-built slots (decided 2026-07-24; non-personalised serving for under-18
+accounts — ACCOUNTS.md §7.7).
 **Why:** monetising an engaged, returning, proud audience yields far better
 premium conversion, blood-test uptake and affiliate conversion than monetising
 cold one-off traffic. Deferring protects the loops while they're forming.
 **Success metric:** premium sign-ups + conversion %, blood-test orders +
-revenue per order, affiliate CTR (session RPM only if free-tier ads are
-enabled).
+revenue per order, affiliate CTR, and session RPM once the free-tier ads
+switch on.
 
 ---
 
@@ -237,7 +242,7 @@ enabled).
 - **Retention:** D1 / D7 / D30; returning-user %; sessions per user.
 - **Audience asset:** email/newsletter subscribers.
 - **Revenue (Phase E6+):** premium sign-ups + conversion %, blood-test orders,
-  affiliate CTR (session RPM only if free-tier ads are enabled).
+  affiliate CTR, session RPM once free-tier ads switch on.
 
 ---
 
@@ -250,7 +255,7 @@ enabled).
 4. **E4** — segmented status, challenges, reactivation.
 5. **E5** — weekly content + newsletter (recurring habit + owned audience).
 6. **E6** — turn on premium + the blood-test offer; affiliates supporting;
-   free-tier ads only if decided.
+   the decided light free-tier ads switch on here too.
 
 Start with E1/E0. The keystone build is **E2 (Trajectory)** — it is the safest,
 strongest motivator and the thing that makes every other phase pay off.

@@ -186,9 +186,10 @@ boxes or the paywalls on the basics.
 
 > **Model confirmed (2026-07-23, Mat) — premium-led.** The streams below lead
 > with premium sign-ups, then blood-test profit; affiliates are a deliberately
-> small supporting line; free-tier display ads are optional and undecided.
+> small supporting line; free-tier display ads: decided 2026-07-24 — light,
+> premium-lean, and premium removes them (`MONETISATION.md §4.2`).
 > `MONETISATION.md` holds the detail and the remaining open questions (exact
-> price/mechanics, the free/paid line, the free-tier-ads call).
+> price/mechanics and the free/paid line).
 
 Audience first; monetisation switched on in layers as traffic arrives. All
 infrastructure is pre-built behind flags so activation is a switch, not a rebuild.
@@ -212,12 +213,14 @@ infrastructure is pre-built behind flags so activation is a switch, not a rebuil
    (saunas, cold plunges, devices) where readers research before a significant
    purchase (`CONTENT.md`). Direct brand programmes out-earn generic
    marketplaces. Deliberately a *supporting* line, never the headline.
-4. **Display advertising (optional, undecided).** The free tier may or may not
-   carry light, premium-lean ad space (`MONETISATION.md §4`). If enabled: enter
-   via Journey by Mediavine at ~1,000 monthly sessions (70% rev share), graduate
-   to premium networks (Raptive at 25,000 monthly pageviews, or Mediavine's main
-   network at $5,000 trailing-12-month ad revenue). Never structural: every
-   layout stands complete without ads (`DESIGN.md §5`).
+4. **Display advertising (decided 2026-07-24: light ads in the free tier,
+   premium removes them** — `MONETISATION.md §4.2`; activation still waits
+   for E6 traffic). Enter via Journey by Mediavine at ~1,000 monthly sessions
+   (70% rev share), graduate to premium networks (Raptive at 25,000 monthly
+   pageviews, or Mediavine's main network at $5,000 trailing-12-month ad
+   revenue). Under-18 accounts get non-personalised serving only
+   (`ACCOUNTS.md §7.7`). Never structural: every layout stands complete
+   without ads (`DESIGN.md §5`).
 5. **Own / branded products** (opportunistic, higher margin). Selling our own or
    branded physical products (e.g. recovery gear, supplements) or digital products
    on commercial content pages. Managed to avoid conflict: the evidence assessment
@@ -296,7 +299,7 @@ Sequenced across the three build docs; monetisation gated on traffic.
 | **Engage E2** | Trajectory (longitudinal tracking) — the keystone | Retention engine |
 | **Engage E3–E4** | Identity, streaks, segmented status, challenges | — |
 | **Engage E5** | Weekly trends feed + newsletter | Recurring habit |
-| **Monetise (E6)** | Premium + blood test → affiliates (free-tier ads optional) | Premium once accounts + return loop exist; blood test on partner signing |
+| **Monetise (E6)** | Premium + blood test → affiliates (light free-tier ads, premium removes) | Premium once accounts + return loop exist; blood test on partner signing |
 | **Expansion** | B2B widgets/API, data/authority products | Once audience + data mature |
 
 ---

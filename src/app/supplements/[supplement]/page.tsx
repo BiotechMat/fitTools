@@ -15,6 +15,7 @@ import { EvidenceTier } from "@/components/EvidenceTier";
 import { FAQ } from "@/components/FAQ";
 import { RecommendationRail } from "@/components/RecommendationRail";
 import { SafetyCallout } from "@/components/SafetyCallout";
+import { SaveItemButton } from "@/components/account/SaveItemButton";
 import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/schema-org";
 
 interface SupplementParams {
@@ -99,6 +100,7 @@ export default async function SupplementPage({ params }: SupplementParams) {
           <span className="inline-block rotate-2 [&>span]:border-2 [&>span]:px-3 [&>span]:py-1 [&>span]:text-sm [&>span]:shadow-[3px_3px_0_0_var(--color-foreground)]">
             <EvidenceTier tier={s.headlineTier} basis={s.headlineBasis} />
           </span>
+          <SaveItemButton collection="stack" id={s.slug} />
         </div>
         {s.aka && s.aka.length > 0 ? (
           <p className="mt-1 text-sm text-muted">Also known as: {s.aka.join(", ")}</p>

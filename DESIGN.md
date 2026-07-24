@@ -140,9 +140,9 @@ grey-black; ink flips to `#F6EDE2`; Blaze brightens to `#FF6231` and Matcha to
 Decision (Mat, 2026-07-22): v2 is designed **premium-lean**. The layouts must
 stand complete with ads disabled; ad slots are optional inserts, never
 structural. (The revenue model is now confirmed premium-led — premium sign-ups,
-then blood-test profit, affiliates small, free-tier ads optional; MONETISATION.md
-is the source of truth and BUSINESS_PLAN §7 was reconciled 2026-07-23. This
-section governs design only.)
+then blood-test profit, affiliates small, light free-tier ads that premium
+removes (decided 2026-07-24); MONETISATION.md is the source of truth and
+BUSINESS_PLAN §7 was reconciled 2026-07-23. This section governs design only.)
 
 - **No layout depends on an ad.** Every page composes cleanly with
   `NEXT_PUBLIC_ADS_ENABLED=false`. If ads are switched on later, the existing

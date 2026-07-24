@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { hasProfilePrefill, readProfilePrefill } from "@/lib/account/profile-prefill";
+import { ProfilePrefillChip } from "@/components/account/ProfilePrefillChip";
 import {
   ACTIVITY_FACTORS,
   type ActivityLevel,
@@ -65,6 +67,34 @@ export function TdeeCalculator() {
   const [formula, setFormula] = useState<Formula>(TDEE_DEFAULTS.formula);
   const [bodyFatText, setBodyFatText] = useState("");
 
+  // Auto-populate from the signed-in profile (PROFILE §5 via
+  // profile-prefill.ts): applied once on mount, before any interaction, so
+  // it can never overwrite an edit; the chip discloses the provenance.
+  const [prefilled, setPrefilled] = useState(false);
+  useEffect(() => {
+    const profile = readProfilePrefill();
+    if (!hasProfilePrefill(profile)) return;
+    let used = false;
+    if (profile.sex !== undefined) {
+      setSex(profile.sex);
+      used = true;
+    }
+    if (profile.ageYears !== undefined && inRange(profile.ageYears, TDEE_LIMITS.ageYears)) {
+      setAgeText(String(profile.ageYears));
+      used = true;
+    }
+    if (profile.weightKg !== undefined && inRange(profile.weightKg, TDEE_LIMITS.weightKg)) {
+      setWeightKg(profile.weightKg);
+      used = true;
+    }
+    if (profile.heightCm !== undefined && inRange(profile.heightCm, TDEE_LIMITS.heightCm)) {
+      setHeightCm(profile.heightCm);
+      used = true;
+    }
+    if (used) setPrefilled(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- mount only
+  }, []);
+
   // Range validation mirrors the tool's Zod schema via the shared TDEE_LIMITS
   // constants; Zod itself stays out of the client bundle (SPEC §13 budget).
   const result = useMemo(() => {
@@ -115,6 +145,11 @@ export function TdeeCalculator() {
         aria-label="TDEE calculator inputs"
         onSubmit={(event) => event.preventDefault()}
       >
+        {prefilled ? (
+          <div className="mb-3">
+            <ProfilePrefillChip />
+          </div>
+        ) : null}
         <div className="flex items-center justify-between gap-3">
           <fieldset className="flex gap-4">
             <legend className="sr-only">Sex</legend>
