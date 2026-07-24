@@ -17,6 +17,7 @@ import { labVigilSharePath } from "@/lib/arcade-share";
 import {
   createLabSynth,
   labBeep,
+  labVibrate,
   readLabMuted,
   writeLabMuted,
   type LabSynth,
@@ -38,7 +39,7 @@ export function VigilTest() {
   const [digit, setDigit] = useState<number | null>(null);
   const [trial, setTrial] = useState(0);
   const [slips, setSlips] = useState(0);
-  const [flash, setFlash] = useState<"three" | null>(null);
+  const [flash, setFlash] = useState<"go" | "three" | null>(null);
   const [score, setScore] = useState<VigilScore>({ commissions: 0, omissions: 0, pct: 0 });
   const [best, setBest] = useState(0);
   const [newBest, setNewBest] = useState(false);
@@ -164,7 +165,10 @@ export function VigilTest() {
     }, seq.length * step + 200);
   };
 
-  /** The one verb: respond to the current digit (pad, click or space). */
+  /** The one verb: respond to the current digit (pad, click or space).
+   *  Every REGISTERED tap answers back — tint, tick, tiny buzz — so a
+   *  press never feels swallowed; a second tap on the same digit is
+   *  ignored and deliberately gets nothing. */
   const act = () => {
     if (phaseRef.current !== "live") return;
     const i = trialRef.current;
@@ -176,8 +180,12 @@ export function VigilTest() {
       setFlash("three");
       later(() => setFlash(null), 450);
       labBeep(synthRef.current, 130, 300, "sawtooth", 0.06);
+      labVibrate([25, 40, 25]);
     } else {
-      labBeep(synthRef.current, 880, 30, "sine", 0.02);
+      setFlash("go");
+      later(() => setFlash(null), 130);
+      labBeep(synthRef.current, 880, 40, "sine", 0.03);
+      labVibrate(10);
     }
   };
 
@@ -249,7 +257,11 @@ export function VigilTest() {
         disabled={phase !== "live"}
         aria-label="Vigil pad — tap for every digit except 3"
         className={`block aspect-[420/380] w-full touch-none rounded-2xl border-2 border-foreground shadow-[4px_4px_0_0_var(--color-foreground)] transition-colors duration-100 motion-reduce:transition-none ${
-          flash === "three" ? "bg-primary-soft" : "bg-surface"
+          flash === "three"
+            ? "bg-primary-soft"
+            : flash === "go"
+              ? "bg-good-soft"
+              : "bg-surface"
         } ${phase === "live" ? "cursor-pointer" : "cursor-default"}`}
       >
         {phase === "live" ? (

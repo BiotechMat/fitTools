@@ -40,6 +40,21 @@ export function labBeep(
   osc.stop(ctx.currentTime + ms / 1000);
 }
 
+/**
+ * Micro-haptics for registered inputs — a tap should feel like it landed.
+ * Android Chrome vibrates; iOS Safari has no vibrate API and no-ops.
+ * Haptics are silent, so they run regardless of the sound mute.
+ */
+export function labVibrate(pattern: number | number[]): void {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    try {
+      navigator.vibrate(pattern);
+    } catch {
+      /* blocked by permissions policy — fine */
+    }
+  }
+}
+
 export function readLabMuted(): boolean {
   try {
     return localStorage.getItem(LAB_MUTE_KEY) === "1";
