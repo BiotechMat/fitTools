@@ -12,6 +12,7 @@ import {
   recallTier,
   sequenceFor,
 } from "@/lib/lab/recall";
+import { labRecallSharePath } from "@/lib/arcade-share";
 import {
   createLabSynth,
   labBeep,
@@ -188,7 +189,8 @@ export function RecallTest() {
 
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
-    const text = `${recallShareText(span)}\n${origin}/performance-lab/recall`;
+    // Result params make the pasted link unfurl as the score card.
+    const text = `${recallShareText(span)}\n${origin}${labRecallSharePath({ span })}`;
     trackEvent({ name: "lab_test_shared", params: { station: "recall" } });
     if (typeof navigator.share === "function") {
       try {

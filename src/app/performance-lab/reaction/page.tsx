@@ -3,13 +3,25 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { ReactionTest } from "@/components/lab/ReactionTest";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
+import { parseLabResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Reaction: The Reaction Time Test",
   description:
     "Wait for the flash, tap. Five taps, your average in milliseconds, and a tier from LIGHTNING to PING 999. Free browser reaction time test, no sign-up.",
-  alternates: { canonical: "/performance-lab/reaction" },
-};
+  canonical: "/performance-lab/reaction",
+  hero: "lab-reaction",
+} as const;
+
+// Shared results carry ?avg=&row= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseLabResult("lab-reaction", await searchParams));
+}
 
 export default function ReactionPage() {
   const jsonLd = breadcrumbJsonLd([

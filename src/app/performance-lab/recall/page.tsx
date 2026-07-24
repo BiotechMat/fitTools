@@ -3,13 +3,25 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { RecallTest } from "@/components/lab/RecallTest";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
+import { parseLabResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Recall: The Sequence Memory Test",
   description:
     "The grid lights a pattern, you tap it back, every clean round adds one. Your span puts you on the animal ladder, goldfish to mainframe. Free browser memory test, no sign-up.",
-  alternates: { canonical: "/performance-lab/recall" },
-};
+  canonical: "/performance-lab/recall",
+  hero: "lab-recall",
+} as const;
+
+// Shared results carry ?span= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseLabResult("lab-recall", await searchParams));
+}
 
 export default function RecallPage() {
   const jsonLd = breadcrumbJsonLd([

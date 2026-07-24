@@ -52,6 +52,24 @@ const PAGES: Record<string, PageEntry> = {
     shortName: "Daily",
     icon: "/apple-icon",
   },
+  "lab-reaction": {
+    path: "/performance-lab/reaction",
+    name: "Reaction — Performance Lab",
+    shortName: "Reaction",
+    icon: "/apple-icon",
+  },
+  "lab-recall": {
+    path: "/performance-lab/recall",
+    name: "Recall — Performance Lab",
+    shortName: "Recall",
+    icon: "/apple-icon",
+  },
+  "lab-track": {
+    path: "/performance-lab/track",
+    name: "Track — Performance Lab",
+    shortName: "Track",
+    icon: "/apple-icon",
+  },
   timer: {
     path: "/tools/timer",
     name: "Gym Timers",

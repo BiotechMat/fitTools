@@ -10,9 +10,11 @@ import {
   delayFor,
   formatMs,
   reactionBlocks,
+  reactionRow,
   reactionShareText,
   reactionTier,
 } from "@/lib/lab/reaction";
+import { labReactionSharePath } from "@/lib/arcade-share";
 
 /**
  * Reaction (PERFORMANCE-LAB.md §4.1): wait for the pad to go Blaze, tap.
@@ -145,7 +147,9 @@ export function ReactionTest() {
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const avg = averageMs(times);
-    const text = `${reactionShareText(avg, times)}\n${origin}/performance-lab/reaction`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = labReactionSharePath({ avg, row: reactionRow(times) });
+    const text = `${reactionShareText(avg, times)}\n${origin}${path}`;
     trackEvent({ name: "lab_test_shared", params: { station: "reaction" } });
     if (typeof navigator.share === "function") {
       try {

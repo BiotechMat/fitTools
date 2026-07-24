@@ -15,6 +15,9 @@ import { OBSTACLE_KINDS } from "@/lib/lifeline";
 import { MISS_CAUSES } from "@/lib/maxout";
 import { ZONES, zoneName } from "@/lib/powerhouse";
 import type { ClosenessTier } from "@/lib/daily/types";
+import { reactionTier } from "@/lib/lab/reaction";
+import { recallTier } from "@/lib/lab/recall";
+import { trackTier } from "@/lib/lab/track";
 
 export type LifelineCauseId = (typeof OBSTACLE_KINDS)[number]["id"] | "gravity";
 
@@ -85,6 +88,34 @@ export interface PowerhouseResult {
   zone: number;
 }
 
+/* Performance Lab results (PERFORMANCE-LAB.md §6): the score plus derived
+   presentation only — tiers are recomputed server-side from the number, so
+   a crafted URL can claim a time, never a title. */
+
+export interface LabReactionResult {
+  game: "lab-reaction";
+  /** Average of the scored taps, whole ms. */
+  avg: number;
+  /** Per-tap speed row, one letter per tap (g/y/r), oldest first, ≤5. */
+  row?: string;
+}
+
+export interface LabRecallResult {
+  game: "lab-recall";
+  /** Longest sequence completed. */
+  span: number;
+}
+
+export interface LabTrackResult {
+  game: "lab-track";
+  /** Average time-to-target, whole ms. */
+  ms: number;
+  /** Accuracy percentage, 0–100. */
+  acc: number;
+}
+
+export type LabResult = LabReactionResult | LabRecallResult | LabTrackResult;
+
 export interface BallparkResult {
   game: "ballpark";
   puzzle: number;
@@ -107,7 +138,7 @@ export type ArcadeResult =
 
 export type DailyResult = BallparkResult | MythResult;
 
-export type ShareResultPayload = ArcadeResult | DailyResult;
+export type ShareResultPayload = ArcadeResult | DailyResult | LabResult;
 
 /** Hero (no-score) card ids — the default OG image of each game page. */
 export type HeroCard =
@@ -115,7 +146,10 @@ export type HeroCard =
   | "max-out"
   | "five-a-day"
   | "powerhouse"
-  | "daily";
+  | "daily"
+  | "lab-reaction"
+  | "lab-recall"
+  | "lab-track";
 
 export type ArcadeCardPayload =
   | { kind: "hero"; game: HeroCard }
@@ -133,6 +167,11 @@ const BOUNDS = {
   zone: { min: 0, max: 19 },
   puzzle: { min: 1, max: 99_999 },
   mythTotal: { min: 1, max: 9 },
+  /* Lab stations: generous but implausibility-capped. */
+  labAvg: { min: 50, max: 2000 },
+  labSpan: { min: 1, max: 40 },
+  labMs: { min: 50, max: 5000 },
+  labAcc: { min: 0, max: 100 },
 } as const;
 
 function firstString(v: string | string[] | undefined): string | undefined {
@@ -212,6 +251,21 @@ export function mythSharePath(r: Omit<MythResult, "game">): string {
   return `/daily?${q.toString()}`;
 }
 
+export function labReactionSharePath(r: Omit<LabReactionResult, "game">): string {
+  const q = new URLSearchParams({ avg: String(r.avg) });
+  if (r.row && /^[gyr]{1,5}$/.test(r.row)) q.set("row", r.row);
+  return `/performance-lab/reaction?${q.toString()}`;
+}
+
+export function labRecallSharePath(r: Omit<LabRecallResult, "game">): string {
+  return `/performance-lab/recall?${new URLSearchParams({ span: String(r.span) })}`;
+}
+
+export function labTrackSharePath(r: Omit<LabTrackResult, "game">): string {
+  const q = new URLSearchParams({ ms: String(r.ms), acc: String(r.acc) });
+  return `/performance-lab/track?${q.toString()}`;
+}
+
 /* ------------------------------------------------------- URL param parsing */
 
 /** Parse a game page's own query params into a validated result, else null. */
@@ -249,6 +303,36 @@ export function parseArcadeResult(
       const zone = intIn(sp.zone, BOUNDS.zone);
       if (atp === undefined || zone === undefined) return null;
       return { game, atp, zone };
+    }
+  }
+}
+
+/** Parse a Lab station page's query params into a validated result, else null. */
+export function parseLabResult(
+  station: LabResult["game"],
+  sp: SearchParams,
+): LabResult | null {
+  switch (station) {
+    case "lab-reaction": {
+      const avg = intIn(sp.avg, BOUNDS.labAvg);
+      if (avg === undefined) return null;
+      const row = firstString(sp.row);
+      return {
+        game: station,
+        avg,
+        ...(row && /^[gyr]{1,5}$/.test(row) ? { row } : {}),
+      };
+    }
+    case "lab-recall": {
+      const span = intIn(sp.span, BOUNDS.labSpan);
+      if (span === undefined) return null;
+      return { game: station, span };
+    }
+    case "lab-track": {
+      const ms = intIn(sp.ms, BOUNDS.labMs);
+      const acc = intIn(sp.acc, BOUNDS.labAcc);
+      if (ms === undefined || acc === undefined) return null;
+      return { game: station, ms, acc };
     }
   }
 }
@@ -313,6 +397,17 @@ export function arcadeCardPath(payload: ArcadeCardPayload): string {
       q.set("c", String(r.correct));
       q.set("t", String(r.total));
       break;
+    case "lab-reaction":
+      q.set("avg", String(r.avg));
+      if (r.row) q.set("row", r.row);
+      break;
+    case "lab-recall":
+      q.set("span", String(r.span));
+      break;
+    case "lab-track":
+      q.set("ms", String(r.ms));
+      q.set("acc", String(r.acc));
+      break;
   }
   return `/api/arcade-card?${q.toString()}`;
 }
@@ -352,6 +447,14 @@ export function parseCardParams(sp: SearchParams): ArcadeCardPayload | null {
     return result ? { kind: "result", result } : null;
   }
 
+  if (game === "lab-reaction" || game === "lab-recall" || game === "lab-track") {
+    const hasResultParams =
+      sp.avg !== undefined || sp.span !== undefined || sp.ms !== undefined;
+    if (!hasResultParams) return { kind: "hero", game };
+    const result = parseLabResult(game, sp);
+    return result ? { kind: "result", result } : null;
+  }
+
   if (game === "daily") return { kind: "hero", game };
   return null;
 }
@@ -375,6 +478,12 @@ export function resultTitle(result: ShareResultPayload): string {
       return `Ballpark #${result.puzzle}`;
     case "myth":
       return `Myth or Fact? #${result.puzzle}: ${result.correct}/${result.total}`;
+    case "lab-reaction":
+      return `Reaction: ${result.avg} ms · ${reactionTier(result.avg).name}`;
+    case "lab-recall":
+      return `Recall: span ${result.span} · ${recallTier(result.span).name}`;
+    case "lab-track":
+      return `Track: ${result.ms} ms to target · ${trackTier(result.ms, result.acc / 100).name}`;
   }
 }
 
@@ -399,6 +508,12 @@ export function resultDescription(result: ShareResultPayload): string {
       return "One guess-the-stat a day, every answer cited. Play today's and compare.";
     case "myth":
       return "The weekly myth-buster quiz, every verdict backed by a study. Can you do better?";
+    case "lab-reaction":
+      return `${result.avg} ms average over five taps. Wait for the flash, tap, find your tier — LIGHTNING down to PING 999. Beat it on your own screen.`;
+    case "lab-track":
+      return `${result.ms} ms to target at ${result.acc}% accuracy across 25 shrinking targets. Sniper or Stormtrooper — find out.`;
+    case "lab-recall":
+      return `The grid lit a pattern and they tapped it back to span ${result.span}. Goldfish to mainframe — where do you land on the animal ladder?`;
   }
 }
 

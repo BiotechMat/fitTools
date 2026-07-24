@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
   arcadeCardPath,
   ballparkSharePath,
+  labReactionSharePath,
+  labRecallSharePath,
+  labTrackSharePath,
   lifelineCauseLabel,
   lifelineSharePath,
   maxOutSharePath,
@@ -9,6 +12,7 @@ import {
   parseArcadeResult,
   parseCardParams,
   parseDailyResult,
+  parseLabResult,
   fiveADaySharePath,
   powerhouseSharePath,
   powerhouseZonePhrase,
@@ -142,6 +146,70 @@ describe("daily shares", () => {
   });
 });
 
+describe("performance lab shares", () => {
+  it("round-trips a Reaction average with its speed row", () => {
+    const path = labReactionSharePath({ avg: 231, row: "ggygr" });
+    expect(path).toBe("/performance-lab/reaction?avg=231&row=ggygr");
+    expect(parseLabResult("lab-reaction", query(path))).toEqual({
+      game: "lab-reaction",
+      avg: 231,
+      row: "ggygr",
+    });
+  });
+
+  it("drops a malformed row but keeps the average", () => {
+    expect(parseLabResult("lab-reaction", { avg: "231", row: "ggx" })).toEqual({
+      game: "lab-reaction",
+      avg: 231,
+    });
+    expect(
+      parseLabResult("lab-reaction", { avg: "231", row: "gggggg" }),
+    ).toEqual({ game: "lab-reaction", avg: 231 });
+  });
+
+  it("rejects implausible or non-numeric scores", () => {
+    expect(parseLabResult("lab-reaction", { avg: "49" })).toBeNull();
+    expect(parseLabResult("lab-reaction", { avg: "2001" })).toBeNull();
+    expect(parseLabResult("lab-reaction", { avg: "fast" })).toBeNull();
+    expect(parseLabResult("lab-recall", { span: "0" })).toBeNull();
+    expect(parseLabResult("lab-recall", { span: "41" })).toBeNull();
+    expect(parseLabResult("lab-track", { ms: "412" })).toBeNull(); // needs acc
+    expect(parseLabResult("lab-track", { ms: "412", acc: "101" })).toBeNull();
+  });
+
+  it("round-trips Recall and Track", () => {
+    expect(parseLabResult("lab-recall", query(labRecallSharePath({ span: 8 })))).toEqual({
+      game: "lab-recall",
+      span: 8,
+    });
+    expect(
+      parseLabResult("lab-track", query(labTrackSharePath({ ms: 412, acc: 93 }))),
+    ).toEqual({ game: "lab-track", ms: 412, acc: 93 });
+  });
+
+  it("titles carry the score AND the server-derived tier", () => {
+    expect(resultTitle({ game: "lab-reaction", avg: 231 })).toBe(
+      "Reaction: 231 ms · CAFFEINATED",
+    );
+    expect(resultTitle({ game: "lab-recall", span: 8 })).toBe(
+      "Recall: span 8 · DOLPHIN",
+    );
+    expect(resultTitle({ game: "lab-track", ms: 412, acc: 93 })).toBe(
+      "Track: 412 ms to target · SNIPER",
+    );
+    // Spray-and-pray caps at Stormtrooper on the unfurl too.
+    expect(resultTitle({ game: "lab-track", ms: 300, acc: 50 })).toContain(
+      "STORMTROOPER",
+    );
+  });
+
+  it("descriptions carry the score", () => {
+    expect(resultDescription({ game: "lab-reaction", avg: 231 })).toContain("231 ms");
+    expect(resultDescription({ game: "lab-recall", span: 8 })).toContain("span 8");
+    expect(resultDescription({ game: "lab-track", ms: 412, acc: 93 })).toContain("93%");
+  });
+});
+
 describe("card image params", () => {
   it("a bare game id is the page's hero card", () => {
     expect(parseCardParams({ game: "lifeline" })).toEqual({
@@ -175,6 +243,9 @@ describe("card image params", () => {
       { game: "powerhouse", atp: 12000, zone: 6 },
       { game: "ballpark", puzzle: 7, tiers: ["bullseye"] },
       { game: "myth", puzzle: 2, correct: 0, total: 5 },
+      { game: "lab-reaction", avg: 231, row: "ggygr" },
+      { game: "lab-recall", span: 8 },
+      { game: "lab-track", ms: 412, acc: 93 },
     ] as const;
     for (const result of results) {
       const parsed = parseCardParams(query(arcadeCardPath({ kind: "result", result })));

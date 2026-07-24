@@ -348,9 +348,20 @@ Not scheduled — STATUS.md Phases 1–3 come first. When a slot opens:
   back. All DOM+CSS (no canvas needed yet), zero new dependencies,
   reduced-motion safe, works on touch/keyboard/silent/private-mode.
 
+**Share-card unfurls BUILT (2026-07-24, same day):** Lab share links now
+carry the score as bounded params on the station's own URL
+(`?avg=&row=` / `?span=` / `?ms=&acc=`, validated in
+`src/lib/arcade-share.ts` with the pipeline's forgery posture — tiers
+recomputed server-side from the number, so a crafted URL can claim a
+time, never a title). The station pages' `generateMetadata` unfurls a
+shared link as a score card from `/api/arcade-card` (pixel bolt/grid/
+target emblems in `src/lib/pixel-art.ts`, Reaction's g/y/r speed row
+drawn as squares), og:title carries "231 ms · CAFFEINATED", and bare
+station URLs get hero cards through the same route. Manifest entries
+added for add-to-home-screen.
+
 **Deliberately deferred** (the §3 feature set beyond MVP): pooled
 percentiles/norm bands, the composite Lab Score, leaderboards (all need
-data or accounts), OG score-card unfurls via the `/api/arcade-card`
-pipeline (STATUS Phase 2 share thread), the daily-seeded circuit,
-streaks, and dashboard/Trajectory metric registration. Names still
-proposed, not locked.
+data or accounts), the daily-seeded circuit, streaks, and
+dashboard/Trajectory metric registration. Names still proposed, not
+locked.

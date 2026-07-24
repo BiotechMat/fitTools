@@ -15,6 +15,7 @@ import {
   trackTier,
   type TargetPos,
 } from "@/lib/lab/track";
+import { labTrackSharePath } from "@/lib/arcade-share";
 import {
   createLabSynth,
   labBeep,
@@ -137,7 +138,12 @@ export function TrackTest() {
   const share = async () => {
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const avg = averageHitMs(times);
-    const text = `${trackShareText(misses, avg)}\n${origin}/performance-lab/track`;
+    // Result params make the pasted link unfurl as the score card.
+    const path = labTrackSharePath({
+      ms: avg,
+      acc: Math.round(accuracyFor(TRACK.targets, misses) * 100),
+    });
+    const text = `${trackShareText(misses, avg)}\n${origin}${path}`;
     trackEvent({ name: "lab_test_shared", params: { station: "track" } });
     if (typeof navigator.share === "function") {
       try {

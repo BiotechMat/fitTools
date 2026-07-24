@@ -3,13 +3,25 @@ import Link from "next/link";
 import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { TrackTest } from "@/components/lab/TrackTest";
 import { AddToHomeScreen } from "@/components/tools/AddToHomeScreen";
+import { parseLabResult, type SearchParams } from "@/lib/arcade-share";
+import { gameMetadata } from "@/lib/arcade-metadata";
 
-export const metadata: Metadata = {
+const COPY = {
   title: "Track: The Aim and Hand-Eye Test",
   description:
     "25 targets that shrink as they go, with every stray tap counted. Speed sorts Sniper from Butter Fingers; spraying caps you at Stormtrooper. Free browser aim test, no sign-up.",
-  alternates: { canonical: "/performance-lab/track" },
-};
+  canonical: "/performance-lab/track",
+  hero: "lab-track",
+} as const;
+
+// Shared results carry ?ms=&acc= so the link unfurls as the score card.
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}): Promise<Metadata> {
+  return gameMetadata(COPY, parseLabResult("lab-track", await searchParams));
+}
 
 export default function TrackPage() {
   const jsonLd = breadcrumbJsonLd([

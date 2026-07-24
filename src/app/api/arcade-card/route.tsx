@@ -9,6 +9,9 @@ import {
 import { EDGE_CAUSE, OBSTACLE_KINDS, medalFor, type Medal } from "@/lib/lifeline";
 import { MISS_CAUSES, formatKg, platesPhrase } from "@/lib/maxout";
 import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
+import { reactionTier } from "@/lib/lab/reaction";
+import { recallTier } from "@/lib/lab/recall";
+import { TRACK, trackTier } from "@/lib/lab/track";
 import {
   CardFooter,
   CardSheet,
@@ -20,6 +23,8 @@ import {
 } from "@/lib/og-image";
 import {
   BALLPARK_TARGET,
+  LAB_BOLT,
+  LAB_GRID,
   LIFELINE_HEART,
   MAXOUT_LIFTER,
   FIVEADAY_APPLE,
@@ -45,7 +50,15 @@ const HOST = new URL(SITE_URL).host.toUpperCase();
 
 const GAME_META: Record<
   HeroCard,
-  { name: string; strap: string; path: string; sprite: string[]; cell: number }
+  {
+    name: string;
+    strap: string;
+    path: string;
+    sprite: string[];
+    cell: number;
+    /** Sheet header; the arcade default unless a surface overrides it. */
+    title?: string;
+  }
 > = {
   lifeline: {
     name: "LIFELINE",
@@ -81,6 +94,30 @@ const GAME_META: Record<
     path: "/DAILY",
     sprite: BALLPARK_TARGET,
     cell: 9,
+  },
+  "lab-reaction": {
+    name: "REACTION",
+    strap: "WAIT FOR THE FLASH · FIVE TAPS · FIND YOUR TIER",
+    path: "/PERFORMANCE-LAB/REACTION",
+    sprite: LAB_BOLT,
+    cell: 8,
+    title: "PERFORMANCE LAB",
+  },
+  "lab-recall": {
+    name: "RECALL",
+    strap: "WATCH THE GRID · TAP IT BACK · CLIMB THE ANIMAL LADDER",
+    path: "/PERFORMANCE-LAB/RECALL",
+    sprite: LAB_GRID,
+    cell: 7,
+    title: "PERFORMANCE LAB",
+  },
+  "lab-track": {
+    name: "TRACK",
+    strap: `${TRACK.targets} SHRINKING TARGETS · EVERY STRAY TAP COUNTS`,
+    path: "/PERFORMANCE-LAB/TRACK",
+    sprite: BALLPARK_TARGET,
+    cell: 8,
+    title: "PERFORMANCE LAB",
   },
 };
 
@@ -200,6 +237,32 @@ function TierRow({ tiers }: { tiers: readonly ClosenessTier[] }) {
   );
 }
 
+/** Reaction's per-tap row (g/y/r letters) as bordered speed squares. */
+const ROW_FILL: Record<string, string> = {
+  g: "#8fbf3f", // matcha — quick
+  y: "#e8c33c", // amber — mid
+  r: OG_COLORS.ember, // slow
+};
+
+function SpeedRow({ row }: { row: string }) {
+  return (
+    <div style={{ display: "flex", gap: 14, marginTop: 20 }}>
+      {[...row].map((letter, i) => (
+        <div
+          key={i}
+          style={{
+            width: 38,
+            height: 38,
+            background: ROW_FILL[letter] ?? OG_COLORS.taupe,
+            border: `5px solid ${OG_COLORS.ink}`,
+            display: "flex",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 /** Myth or Fact score as the games' little life hearts. */
 function HeartsRow({ correct, total }: { correct: number; total: number }) {
   const cells = Array.from({ length: total }, (_, i) => i < correct);
@@ -232,7 +295,7 @@ const MIDDLE_COL = {
 function heroSpec(game: HeroCard): CardSpec {
   const meta = GAME_META[game];
   return {
-    title: "FITTOOLS ARCADE",
+    title: meta.title ?? "FITTOOLS ARCADE",
     middle: (
       <div style={MIDDLE_COL}>
         <PixelSprite rows={meta.sprite} cell={meta.cell} />
@@ -358,6 +421,58 @@ function resultSpec(result: ShareResultPayload): CardSpec {
         ),
         footer: `PLAY IT AT ${HOST}/DAILY`,
       };
+    case "lab-reaction": {
+      const tier = reactionTier(result.avg);
+      return {
+        title: "PERFORMANCE LAB · REACTION",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LAB_BOLT} cell={6} />
+            <Kicker text="AVERAGE OF FIVE TAPS" />
+            <Score value={String(result.avg)} unit="MS" size={180} />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            {result.row ? <SpeedRow row={result.row} /> : <Gag text={tier.blurb} />}
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/REACTION`,
+      };
+    }
+    case "lab-recall": {
+      const tier = recallTier(result.span);
+      return {
+        title: "PERFORMANCE LAB · RECALL",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LAB_GRID} cell={5} />
+            <Kicker text="SEQUENCE SPAN" />
+            <Score value={String(result.span)} size={170} />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag text={tier.blurb} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/RECALL`,
+      };
+    }
+    case "lab-track": {
+      const tier = trackTier(result.ms, result.acc / 100);
+      return {
+        title: "PERFORMANCE LAB · TRACK",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={BALLPARK_TARGET} cell={6} />
+            <Kicker text={`${TRACK.targets} TARGETS DOWN`} />
+            <Score
+              value={String(result.ms)}
+              unit={`MS · ${result.acc}%`}
+              size={170}
+            />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag text={tier.blurb} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/TRACK`,
+      };
+    }
   }
 }
 

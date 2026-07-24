@@ -47,11 +47,20 @@ export function reactionTier(avg: number): LabTier {
   return { name: "PING 999", blurb: "blame the lag. always blame the lag." };
 }
 
+/** One letter per scored tap (g/y/r) — the compact form of the share grid,
+ *  carried in share URLs so the unfurl card can redraw the row. */
+export function reactionRow(times: number[]): string {
+  return times
+    .slice(0, REACTION.rounds)
+    .map((t) => (t < 260 ? "g" : t < 350 ? "y" : "r"))
+    .join("");
+}
+
+const ROW_EMOJI: Record<string, string> = { g: "🟩", y: "🟨", r: "🟥" };
+
 /** One block per scored tap — the Wordle-grid share line. */
 export function reactionBlocks(times: number[]): string {
-  return times
-    .map((t) => (t < 260 ? "🟩" : t < 350 ? "🟨" : "🟥"))
-    .join("");
+  return [...reactionRow(times)].map((letter) => ROW_EMOJI[letter]).join("");
 }
 
 /** Whole-ms display — "231 ms". */

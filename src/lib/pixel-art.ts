@@ -111,3 +111,38 @@ export const MINI_HEART_EMPTY = [
   "..KSK..",
   "...K...",
 ];
+
+/** The Lab's Reaction bolt — the flash you're waiting for. */
+export const LAB_BOLT = [
+  "......KKKK.",
+  ".....KBBBK.",
+  "....KBBBK..",
+  "...KBBBK...",
+  "..KBBBBKKK.",
+  ".KBBBBBBBK.",
+  "KKKKABBBK..",
+  "...KABBK...",
+  "..KABBK....",
+  "..KABK.....",
+  ".KABK......",
+  ".KAK.......",
+  ".KK........",
+];
+
+/** The Lab's Recall grid mid-pattern — two pads lit. */
+export const LAB_GRID = [
+  "KKKK.KKKK.KKKK",
+  "KBBK.KSSK.KSSK",
+  "KBBK.KSSK.KSSK",
+  "KKKK.KKKK.KKKK",
+  "..............",
+  "KKKK.KKKK.KKKK",
+  "KSSK.KBBK.KSSK",
+  "KSSK.KBBK.KSSK",
+  "KKKK.KKKK.KKKK",
+  "..............",
+  "KKKK.KKKK.KKKK",
+  "KSSK.KSSK.KBBK",
+  "KSSK.KSSK.KBBK",
+  "KKKK.KKKK.KKKK",
+];
