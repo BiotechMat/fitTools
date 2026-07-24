@@ -263,11 +263,18 @@ Inherits the house build wholesale:
 
 Not scheduled — STATUS.md Phases 1–3 come first. When a slot opens:
 
-- **MVP = hub + three stations: Reaction, Recall, Vigil** — the cheapest
-  builds, the strongest paradigms, and between them they cover the
-  sleep-content funnel from three angles. Breathe joins early if the
-  Exhale re-homing is approved.
-- Then Switch and Track (medium), then Steady and Wide Angle.
+- **MVP = hub + the top three (picked 2026-07-24): Reaction, Recall,
+  Track.** Reaction is the genre's flagship, the cheapest build and the
+  strongest funnel (sleep/caffeine); Recall is the second-biggest
+  self-test genre on a trivial build with the perfect brag sentence
+  ("Span 7"); Track pulls the gamer/aim-trainer audience, is the natural
+  cross-rail to the arcade, and its instant retry loop fits the
+  comparison-first product better than Vigil's three-minute sit. The trio
+  spans speed / memory / precision — three genuinely different axes for a
+  composite Lab Score from day one. Breathe joins early if the Exhale
+  re-homing is approved.
+- Then Vigil and Switch (Vigil's duration makes it a second-wave
+  station), then Steady and Wide Angle.
 - Percentile bands and the share card land with the MVP — comparison is
   the hook (§3), so shipping bare numbers would undersell it. Trajectory
   wiring lands with the MVP too.
