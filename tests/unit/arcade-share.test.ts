@@ -4,7 +4,10 @@ import {
   ballparkSharePath,
   labReactionSharePath,
   labRecallSharePath,
+  labSteadySharePath,
+  labSwitchSharePath,
   labTrackSharePath,
+  labVigilSharePath,
   lifelineCauseLabel,
   lifelineSharePath,
   maxOutSharePath,
@@ -187,6 +190,37 @@ describe("performance lab shares", () => {
     ).toEqual({ game: "lab-track", ms: 412, pts: 236 });
   });
 
+  it("round-trips the second wave: Vigil, Switch, Steady", () => {
+    expect(parseLabResult("lab-vigil", query(labVigilSharePath({ pct: 94 })))).toEqual({
+      game: "lab-vigil",
+      pct: 94,
+    });
+    expect(
+      parseLabResult("lab-switch", query(labSwitchSharePath({ cost: 180, err: 3 }))),
+    ).toEqual({ game: "lab-switch", cost: 180, err: 3 });
+    expect(
+      parseLabResult("lab-steady", query(labSteadySharePath({ sparks: 2, secs: 41 }))),
+    ).toEqual({ game: "lab-steady", sparks: 2, secs: 41 });
+    expect(parseLabResult("lab-vigil", { pct: "101" })).toBeNull();
+    expect(parseLabResult("lab-switch", { cost: "180" })).toBeNull(); // needs err
+    expect(parseLabResult("lab-steady", { sparks: "2", secs: "0" })).toBeNull();
+  });
+
+  it("titles the second wave with the server-derived tier", () => {
+    expect(resultTitle({ game: "lab-vigil", pct: 94 })).toBe(
+      "Vigil: held 94% · FOCUSED",
+    );
+    expect(resultTitle({ game: "lab-switch", cost: 180, err: 3 })).toBe(
+      "Switch: 180 ms cost · HUMAN",
+    );
+    expect(resultTitle({ game: "lab-switch", cost: 50, err: 40 })).toContain(
+      "BUTTON MASHER",
+    );
+    expect(resultTitle({ game: "lab-steady", sparks: 2, secs: 41 })).toBe(
+      "Steady: 2 sparks · STEADY EDDIE",
+    );
+  });
+
   it("maps legacy Track accuracy links onto ring points", () => {
     expect(parseLabResult("lab-track", { ms: "412", acc: "93" })).toEqual({
       game: "lab-track",
@@ -257,6 +291,9 @@ describe("card image params", () => {
       { game: "lab-reaction", avg: 231, row: "ggygr" },
       { game: "lab-recall", span: 8 },
       { game: "lab-track", ms: 412, pts: 236 },
+      { game: "lab-vigil", pct: 94 },
+      { game: "lab-switch", cost: 180, err: 3 },
+      { game: "lab-steady", sparks: 2, secs: 41 },
     ] as const;
     for (const result of results) {
       const parsed = parseCardParams(query(arcadeCardPath({ kind: "result", result })));

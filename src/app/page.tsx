@@ -143,10 +143,10 @@ export default function HomePage() {
               Browse all tools
             </Link>
             <Link
-              href="/arcade"
+              href="/performance-lab"
               className="rounded-full border-2 border-foreground bg-good px-5 py-2 font-bold text-background riso-press"
             >
-              Play in the Arcade ⚡
+              How fast are you? ⚡
             </Link>
           </div>
         </div>

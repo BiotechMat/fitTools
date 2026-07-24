@@ -146,3 +146,43 @@ export const LAB_GRID = [
   "KSSK.KSSK.KBBK",
   "KKKK.KKKK.KKKK",
 ];
+
+/** The Lab's Vigil eye — the watch that never blinks. */
+export const LAB_EYE = [
+  "....KKKKK....",
+  "..KKWWWWWKK..",
+  ".KWWKBBBKWWK.",
+  "KWWKBBKBBKWWK",
+  ".KWWKBBBKWWK.",
+  "..KKWWWWWKK..",
+  "....KKKKK....",
+];
+
+/** The Lab's Switch arrows — the rule going both ways. */
+export const LAB_ARROWS = [
+  ".........KK..",
+  "KKKKKKKKKKFK.",
+  "KFFFFFFFFFFFK",
+  "KKKKKKKKKKFK.",
+  ".........KK..",
+  ".............",
+  "..KK.........",
+  ".KBKKKKKKKKKK",
+  "KBBBBBBBBBBBK",
+  ".KBKKKKKKKKKK",
+  "..KK.........",
+];
+
+/** The Lab's Steady wire — one bend, one spark. */
+export const LAB_WIRE = [
+  ".KKKKKKKKKK..",
+  "..........KK.",
+  "...A.......KK",
+  "..AKA......KK",
+  "...A......KK.",
+  ".....KKKKKK..",
+  "....KK.......",
+  "...KK........",
+  "..KK.........",
+  ".KKKKKKKKKKK.",
+];

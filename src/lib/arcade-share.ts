@@ -18,6 +18,9 @@ import type { ClosenessTier } from "@/lib/daily/types";
 import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
 import { MAX_POINTS, pointsRatio, trackTier } from "@/lib/lab/track";
+import { vigilTier } from "@/lib/lab/vigil";
+import { switchTier } from "@/lib/lab/switch";
+import { steadyTier } from "@/lib/lab/steady";
 
 export type LifelineCauseId = (typeof OBSTACLE_KINDS)[number]["id"] | "gravity";
 
@@ -114,7 +117,35 @@ export interface LabTrackResult {
   pts: number;
 }
 
-export type LabResult = LabReactionResult | LabRecallResult | LabTrackResult;
+export interface LabVigilResult {
+  game: "lab-vigil";
+  /** Correct trials as a whole percent over the 90-second watch. */
+  pct: number;
+}
+
+export interface LabSwitchResult {
+  game: "lab-switch";
+  /** Switch cost in ms (clamped ≥0 for the URL; the tier still applies). */
+  cost: number;
+  /** Error rate as a whole percent — the BUTTON MASHER gate. */
+  err: number;
+}
+
+export interface LabSteadyResult {
+  game: "lab-steady";
+  /** Wall contacts over the full wire. */
+  sparks: number;
+  /** Course time, whole seconds. */
+  secs: number;
+}
+
+export type LabResult =
+  | LabReactionResult
+  | LabRecallResult
+  | LabTrackResult
+  | LabVigilResult
+  | LabSwitchResult
+  | LabSteadyResult;
 
 export interface BallparkResult {
   game: "ballpark";
@@ -149,7 +180,10 @@ export type HeroCard =
   | "daily"
   | "lab-reaction"
   | "lab-recall"
-  | "lab-track";
+  | "lab-track"
+  | "lab-vigil"
+  | "lab-switch"
+  | "lab-steady";
 
 export type ArcadeCardPayload =
   | { kind: "hero"; game: HeroCard }
@@ -174,6 +208,11 @@ const BOUNDS = {
   labPts: { min: 0, max: MAX_POINTS },
   /** Legacy Track links (pre-range v2) carried accuracy % instead. */
   labAcc: { min: 0, max: 100 },
+  labPct: { min: 0, max: 100 },
+  labCost: { min: 0, max: 3000 },
+  labErr: { min: 0, max: 100 },
+  labSparks: { min: 0, max: 99 },
+  labSecs: { min: 1, max: 999 },
 } as const;
 
 function firstString(v: string | string[] | undefined): string | undefined {
@@ -268,6 +307,20 @@ export function labTrackSharePath(r: Omit<LabTrackResult, "game">): string {
   return `/performance-lab/track?${q.toString()}`;
 }
 
+export function labVigilSharePath(r: Omit<LabVigilResult, "game">): string {
+  return `/performance-lab/vigil?${new URLSearchParams({ pct: String(r.pct) })}`;
+}
+
+export function labSwitchSharePath(r: Omit<LabSwitchResult, "game">): string {
+  const q = new URLSearchParams({ cost: String(r.cost), err: String(r.err) });
+  return `/performance-lab/switch?${q.toString()}`;
+}
+
+export function labSteadySharePath(r: Omit<LabSteadyResult, "game">): string {
+  const q = new URLSearchParams({ sparks: String(r.sparks), secs: String(r.secs) });
+  return `/performance-lab/steady?${q.toString()}`;
+}
+
 /* ------------------------------------------------------- URL param parsing */
 
 /** Parse a game page's own query params into a validated result, else null. */
@@ -339,6 +392,23 @@ export function parseLabResult(
       const acc = intIn(sp.acc, BOUNDS.labAcc);
       if (acc === undefined) return null;
       return { game: station, ms, pts: Math.round((acc / 100) * MAX_POINTS) };
+    }
+    case "lab-vigil": {
+      const pct = intIn(sp.pct, BOUNDS.labPct);
+      if (pct === undefined) return null;
+      return { game: station, pct };
+    }
+    case "lab-switch": {
+      const cost = intIn(sp.cost, BOUNDS.labCost);
+      const err = intIn(sp.err, BOUNDS.labErr);
+      if (cost === undefined || err === undefined) return null;
+      return { game: station, cost, err };
+    }
+    case "lab-steady": {
+      const sparks = intIn(sp.sparks, BOUNDS.labSparks);
+      const secs = intIn(sp.secs, BOUNDS.labSecs);
+      if (sparks === undefined || secs === undefined) return null;
+      return { game: station, sparks, secs };
     }
   }
 }
@@ -414,6 +484,17 @@ export function arcadeCardPath(payload: ArcadeCardPayload): string {
       q.set("ms", String(r.ms));
       q.set("pts", String(r.pts));
       break;
+    case "lab-vigil":
+      q.set("pct", String(r.pct));
+      break;
+    case "lab-switch":
+      q.set("cost", String(r.cost));
+      q.set("err", String(r.err));
+      break;
+    case "lab-steady":
+      q.set("sparks", String(r.sparks));
+      q.set("secs", String(r.secs));
+      break;
   }
   return `/api/arcade-card?${q.toString()}`;
 }
@@ -453,9 +534,21 @@ export function parseCardParams(sp: SearchParams): ArcadeCardPayload | null {
     return result ? { kind: "result", result } : null;
   }
 
-  if (game === "lab-reaction" || game === "lab-recall" || game === "lab-track") {
+  if (
+    game === "lab-reaction" ||
+    game === "lab-recall" ||
+    game === "lab-track" ||
+    game === "lab-vigil" ||
+    game === "lab-switch" ||
+    game === "lab-steady"
+  ) {
     const hasResultParams =
-      sp.avg !== undefined || sp.span !== undefined || sp.ms !== undefined;
+      sp.avg !== undefined ||
+      sp.span !== undefined ||
+      sp.ms !== undefined ||
+      sp.pct !== undefined ||
+      sp.cost !== undefined ||
+      sp.sparks !== undefined;
     if (!hasResultParams) return { kind: "hero", game };
     const result = parseLabResult(game, sp);
     return result ? { kind: "result", result } : null;
@@ -490,6 +583,12 @@ export function resultTitle(result: ShareResultPayload): string {
       return `Recall: span ${result.span} · ${recallTier(result.span).name}`;
     case "lab-track":
       return `Track: ${result.pts}/${MAX_POINTS} · ${trackTier(result.ms, pointsRatio(result.pts)).name}`;
+    case "lab-vigil":
+      return `Vigil: held ${result.pct}% · ${vigilTier(result.pct).name}`;
+    case "lab-switch":
+      return `Switch: ${result.cost} ms cost · ${switchTier(result.cost, result.err / 100).name}`;
+    case "lab-steady":
+      return `Steady: ${result.sparks} spark${result.sparks === 1 ? "" : "s"} · ${steadyTier(result.sparks, true).name}`;
   }
 }
 
@@ -520,6 +619,12 @@ export function resultDescription(result: ShareResultPayload): string {
       return `${result.pts} of ${MAX_POINTS} ring points at ${result.ms} ms a target. Every tap scores by ring — grouping tells the truth. Sniper or Stormtrooper?`;
     case "lab-recall":
       return `The grid lit a pattern and they tapped it back to span ${result.span}. Goldfish to mainframe — where do you land on the animal ladder?`;
+    case "lab-vigil":
+      return `Held ${result.pct}% over ninety seconds of digits — tap everything except the 3. Monk mode or tab hoarder: find out.`;
+    case "lab-switch":
+      return `The rule kept flipping and their brain paid ${result.cost} ms a flip. Colour? Shape? How much does YOUR gear change cost?`;
+    case "lab-steady":
+      return `${result.sparks} spark${result.sparks === 1 ? "" : "s"} on the buzz wire in ${result.secs} s. Surgeon hands or jackhammer — the wire always knows.`;
   }
 }
 

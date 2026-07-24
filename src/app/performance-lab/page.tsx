@@ -4,9 +4,9 @@ import { breadcrumbJsonLd } from "@/lib/schema-org";
 import { LabBestChip } from "@/components/lab/LabBestChip";
 
 export const metadata: Metadata = {
-  title: "The Performance Lab: Test Your Reaction, Memory and Aim",
+  title: "The Performance Lab: Test Your Reaction, Memory, Aim and Focus",
   description:
-    "Free browser tests with real pedigrees: Reaction (average ms over five taps), Recall (sequence span on the grid) and Track (25 shrinking targets). Get your number, get your tier, run it back. No sign-up.",
+    "Six free browser tests with real pedigrees: Reaction, Recall, Track, Vigil, Switch and Steady — speed, memory, aim, focus, flexibility and steadiness. Get your number, get your tier, run it back. No sign-up.",
   alternates: { canonical: "/performance-lab" },
 };
 
@@ -52,6 +52,45 @@ const STATIONS = [
     unit: "pts",
     cta: "Test aim",
   },
+  {
+    href: "/performance-lab/vigil",
+    glyph: "🧿",
+    glyphClass: "bg-primary-strong text-background",
+    name: "Vigil",
+    tag: "Focus",
+    blurb:
+      "Ninety seconds of digits — tap every one except the 3. Sounds easy. The 3 disagrees. Monk mode to tab hoarder.",
+    storageKey: "fittools.lab.vigil.best",
+    bestLabel: "Best hold",
+    unit: "%",
+    cta: "Test focus",
+  },
+  {
+    href: "/performance-lab/switch",
+    glyph: "🔀",
+    glyphClass: "bg-good text-background",
+    name: "Switch",
+    tag: "Flexibility",
+    blurb:
+      "Colour? Shape? The rule keeps flipping and your brain pays for every flip in milliseconds. Shapeshifter to BSOD.",
+    storageKey: "fittools.lab.switch.best",
+    bestLabel: "Lowest cost",
+    unit: "ms",
+    cta: "Test flexibility",
+  },
+  {
+    href: "/performance-lab/steady",
+    glyph: "🖐",
+    glyphClass: "bg-foreground text-background",
+    name: "Steady",
+    tag: "Control",
+    blurb:
+      "The buzz wire. Drag the probe end to end; every wall touch sparks. Surgeon hands or jackhammer — the wire always knows.",
+    storageKey: "fittools.lab.steady.best",
+    bestLabel: "Fewest sparks",
+    unit: "",
+    cta: "Test steadiness",
+  },
 ] as const;
 
 export default function PerformanceLabPage() {
@@ -81,9 +120,9 @@ export default function PerformanceLabPage() {
         <strong className="font-semibold text-foreground">
           This room measures you.
         </strong>{" "}
-        Three instruments with real pedigrees, thirty-second protocols, and a
-        tier ladder built for the group chat. Your numbers stay on your device
-        — beat them tomorrow.
+        Six instruments with real pedigrees — speed, memory, aim, focus,
+        flexibility, steadiness — each with a tier ladder built for the group
+        chat. Your numbers stay on your device — beat them tomorrow.
       </p>
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -139,12 +178,11 @@ export default function PerformanceLabPage() {
             </div>
           </div>
           <p className="mt-3 flex-1 text-sm text-muted">
-            <strong className="font-semibold text-foreground">Vigil</strong> (three
-            minutes of pure focus), <strong className="font-semibold text-foreground">Switch</strong>{" "}
-            (the rule keeps flipping), <strong className="font-semibold text-foreground">Steady</strong>{" "}
-            (the buzz wire), <strong className="font-semibold text-foreground">Wide Angle</strong>{" "}
-            (edge-of-eye catches) and <strong className="font-semibold text-foreground">Breathe</strong>{" "}
-            (the calm one). The blueprint is written; the bench clears in order.
+            <strong className="font-semibold text-foreground">Wide Angle</strong>{" "}
+            (edge-of-eye catches) and{" "}
+            <strong className="font-semibold text-foreground">Breathe</strong>{" "}
+            (the calm one). The blueprint is written; the bench clears in
+            order.
           </p>
           <div className="mt-4">
             <Link

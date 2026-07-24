@@ -188,14 +188,18 @@ and Mat has signed off.
   measuring and comparing the player is a first-class feature — the former
   site-wide "never measure the player" rule is retired (ARCADE-IDEAS §5
   and DAILY-GAMES §2 record the scoping; arcade games themselves stay
-  cartoons). MVP BUILT (2026-07-24, §13): Reaction (avg-ms, LIGHTNING→
-  PING 999 tiers), Recall (Simon-style span, the animal ladder), Track
-  (25-target aim test, STORMTROOPER→AIMBOT) — src/lib/lab/* (+ tests),
-  src/components/lab/*, nav + sitemap + analytics + hub OG. Tier ladders
-  are memes, not norms; medical-style disclaimers stay per the Don'ts
-  rule. Deferred: percentiles/norms, Lab Score, leaderboards, share-card
-  unfurls, daily circuit, dashboard metrics. Bench (Vigil, Switch,
-  Steady, Wide Angle, Breathe — the re-homed Exhale) still blueprint.
+  cartoons). SIX STATIONS BUILT (2026-07-24, §13): Reaction (avg-ms +
+  tier ladder + placeholder public-benchmark percentile), Recall
+  (Simon-style span, animal ladder), Track (the range — ring-scored
+  aiming, device-agnostic v2), Vigil (90 s SART), Switch (task-switch
+  cost) and Steady (buzz wire, spark-scored) — src/lib/lab/* (+ tests),
+  src/components/lab/*, share-card unfurls with server-derived tiers,
+  nav + sitemap + analytics; homepage hero CTA points at the Lab ("How
+  fast are you?"). All stations device-agnostic by scoring design. Tier
+  ladders are memes, not norms; medical-style disclaimers stay per the
+  Don'ts rule. Bench: Wide Angle, Breathe (the re-homed Exhale).
+  Deferred: pooled percentiles, Lab Score, leaderboards, daily circuit,
+  dashboard metrics.
 - CONTENT-looksmaxxing.md — BLUEPRINT (not signed off) for an evidence-based
   Gen-Z "glow-up" content section (skin/sun, sleep, body-comp, hair, a
   debunk hub) plus retention psychology and a body-composition estimator.

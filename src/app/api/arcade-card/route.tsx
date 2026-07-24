@@ -12,6 +12,9 @@ import { TIER_META, type ClosenessTier } from "@/lib/daily/types";
 import { reactionPercentile, reactionTier } from "@/lib/lab/reaction";
 import { recallTier } from "@/lib/lab/recall";
 import { MAX_POINTS, TRACK, pointsRatio, trackTier } from "@/lib/lab/track";
+import { VIGIL_SECONDS, vigilTier } from "@/lib/lab/vigil";
+import { switchTier } from "@/lib/lab/switch";
+import { steadyTier } from "@/lib/lab/steady";
 import {
   CardFooter,
   CardSheet,
@@ -23,8 +26,11 @@ import {
 } from "@/lib/og-image";
 import {
   BALLPARK_TARGET,
+  LAB_ARROWS,
   LAB_BOLT,
+  LAB_EYE,
   LAB_GRID,
+  LAB_WIRE,
   LIFELINE_HEART,
   MAXOUT_LIFTER,
   FIVEADAY_APPLE,
@@ -116,6 +122,30 @@ const GAME_META: Record<
     strap: `${TRACK.targets} TARGETS · EVERY TAP SCORES BY RING · BULLSEYE ${TRACK.rings[0].points}`,
     path: "/PERFORMANCE-LAB/TRACK",
     sprite: BALLPARK_TARGET,
+    cell: 8,
+    title: "PERFORMANCE LAB",
+  },
+  "lab-vigil": {
+    name: "VIGIL",
+    strap: `${VIGIL_SECONDS} SECONDS OF DIGITS · TAP EVERYTHING EXCEPT THE 3`,
+    path: "/PERFORMANCE-LAB/VIGIL",
+    sprite: LAB_EYE,
+    cell: 9,
+    title: "PERFORMANCE LAB",
+  },
+  "lab-switch": {
+    name: "SWITCH",
+    strap: "COLOUR? SHAPE? · THE RULE KEEPS FLIPPING · YOUR BRAIN PAYS IN MS",
+    path: "/PERFORMANCE-LAB/SWITCH",
+    sprite: LAB_ARROWS,
+    cell: 8,
+    title: "PERFORMANCE LAB",
+  },
+  "lab-steady": {
+    name: "STEADY",
+    strap: "DRAG THE WIRE END TO END · TOUCH A WALL, IT SPARKS",
+    path: "/PERFORMANCE-LAB/STEADY",
+    sprite: LAB_WIRE,
     cell: 8,
     title: "PERFORMANCE LAB",
   },
@@ -454,6 +484,58 @@ function resultSpec(result: ShareResultPayload): CardSpec {
           </div>
         ),
         footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/RECALL`,
+      };
+    }
+    case "lab-vigil": {
+      const tier = vigilTier(result.pct);
+      return {
+        title: "PERFORMANCE LAB · VIGIL",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LAB_EYE} cell={7} />
+            <Kicker text={`HELD FOR ${VIGIL_SECONDS} SECONDS`} />
+            <Score value={String(result.pct)} unit="%" size={180} />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag text={tier.blurb} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/VIGIL`,
+      };
+    }
+    case "lab-switch": {
+      const tier = switchTier(result.cost, result.err / 100);
+      return {
+        title: "PERFORMANCE LAB · SWITCH",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LAB_ARROWS} cell={6} />
+            <Kicker text="SWITCH COST" />
+            <Score value={String(result.cost)} unit="MS" size={180} />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag text={tier.blurb} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/SWITCH`,
+      };
+    }
+    case "lab-steady": {
+      const tier = steadyTier(result.sparks, true);
+      return {
+        title: "PERFORMANCE LAB · STEADY",
+        middle: (
+          <div style={MIDDLE_COL}>
+            <PixelSprite rows={LAB_WIRE} cell={7} />
+            <Kicker text={`WIRE CLEARED IN ${result.secs} S`} />
+            <Score
+              value={String(result.sparks)}
+              unit={result.sparks === 1 ? "SPARK" : "SPARKS"}
+              size={180}
+            />
+            <Gag text={tier.name} colour={OG_COLORS.forest} />
+            <Gag text={tier.blurb} />
+          </div>
+        ),
+        footer: `BEAT IT AT ${HOST}/PERFORMANCE-LAB/STEADY`,
       };
     }
     case "lab-track": {

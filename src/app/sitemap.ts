@@ -145,6 +145,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/performance-lab/reaction`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/performance-lab/recall`, changeFrequency: "monthly" as const },
     { url: `${SITE_URL}/performance-lab/track`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/performance-lab/vigil`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/performance-lab/switch`, changeFrequency: "monthly" as const },
+    { url: `${SITE_URL}/performance-lab/steady`, changeFrequency: "monthly" as const },
     // Blood-test product page (pre-launch; partner integration to come).
     { url: `${SITE_URL}/blood-test`, changeFrequency: "monthly" as const },
     // Pulse hub (endless feed) + the crawlable weekly digest (PULSE.md §15.7 F3),

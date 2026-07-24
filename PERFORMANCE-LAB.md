@@ -397,9 +397,44 @@ replaced by the pooled playerbase distribution** when that lands. The
 percentile also rides the share text, unfurl description and OG card
 (derived server-side from the score, no new params).
 
-**Deliberately deferred** (the §3 feature set beyond MVP): pooled
-percentiles/norm bands for Recall and Track (Reaction's placeholder
-above leads the way; theirs follow with playerbase data), the composite
-Lab Score, leaderboards, the daily-seeded circuit, streaks, and
-dashboard/Trajectory metric registration. Names still proposed, not
-locked.
+**Wave 2 BUILT (2026-07-24, same day — Vigil, Switch, Steady):** the
+bench's next three, all device-agnostic at design time (Track's lesson):
+
+- **Vigil (§4.8):** the SART 90-second short form — 72 digits
+  (`vigilSequence`: exactly 9 threes, never early, never adjacent), tap
+  everything except the 3; score = correct %, with commissions and
+  omissions itemised on the card. One big pad. A hidden tab abandons the
+  run (vigilance can't be paused). Tiers MONK MODE → DEEP WORK → FOCUSED
+  → HUMAN → SQUIRREL → DOOMSCROLLER → TAB HOARDER.
+- **Switch (§4.5):** colour/shape task switching — 4 warm-up + 36 scored
+  cards, rules in seeded runs of 2–4, two big labelled answer pads
+  (labels follow the rule; never colour alone) + ←/→ keys; 3 s answer
+  window; score = switch cost (median switch − median repeat RT,
+  corrects only, onset stamped at paint via rAF, responses via
+  event.timeStamp). Tiers SHAPESHIFTER (≤0) → GYMNAST → JUGGLER → HUMAN
+  → ONE-TRACK MIND → HANDBRAKE TURN → BSOD, with error rate >25% capped
+  at BUTTON MASHER; bests only count from legitimate runs.
+- **Steady (§4.4):** the buzz wire — an authored serpentine
+  (`WIRE`/`nearestOnWire`, exact segment projection), corridor a
+  constant 52 px (thumb-clearing at phone scaling, asserted in tests),
+  sparks debounced by a re-arm distance, progress monotonic with an
+  anti-wall-cutting hop cap, lifting off pauses the probe while the
+  clock runs; every run completes. Score = sparks (+ time as flavour).
+  Tiers SURGEON → STEADY EDDIE → HUMAN → JITTERBUG → ESPRESSO OVERDOSE
+  → JACKHAMMER.
+
+All three ride the full share pipeline (bounded params `pct` /
+`cost`+`err` / `sparks`+`secs`, tiers recomputed server-side, hero +
+result OG cards with new LAB_EYE / LAB_ARROWS / LAB_WIRE emblems,
+manifests, sitemap) and the `lab_test_*` analytics. The homepage hero
+CTA moved from the arcade to the Lab ("How fast are you? ⚡" —
+Mat's direction, 2026-07-24); the arcade keeps its nav item and
+cross-rails. Verified with emulated-touch browser runs of all three
+(Vigil's scripted run scored 100%, validating scoring end to end).
+
+**Deliberately deferred** (the §3 feature set beyond MVP): Wide Angle
+and Breathe (the bench's last two — §4.3's honesty burden and the §10.2
+Exhale re-homing call respectively), pooled percentiles/norm bands
+beyond Reaction's placeholder, the composite Lab Score, leaderboards,
+the daily-seeded circuit, streaks, and dashboard/Trajectory metric
+registration. Names still proposed, not locked.

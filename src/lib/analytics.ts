@@ -46,16 +46,21 @@ export type AnalyticsEvent =
   // Performance Lab stations (PERFORMANCE-LAB.md §4). The Lab measures the
   // player openly by design (direction 2026-07-24): the score and its tier
   // are the product, so they ride the completion event.
-  | { name: "lab_test_started"; params: { station: "reaction" | "recall" | "track" } }
+  | { name: "lab_test_started"; params: { station: LabStation } }
   | {
       name: "lab_test_completed";
-      params: {
-        station: "reaction" | "recall" | "track";
-        score: number;
-        tier: string;
-      };
+      params: { station: LabStation; score: number; tier: string };
     }
-  | { name: "lab_test_shared"; params: { station: "reaction" | "recall" | "track" } };
+  | { name: "lab_test_shared"; params: { station: LabStation } };
+
+/** The Lab's station ids (PERFORMANCE-LAB.md §4). */
+export type LabStation =
+  | "reaction"
+  | "recall"
+  | "track"
+  | "vigil"
+  | "switch"
+  | "steady";
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;
