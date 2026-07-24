@@ -176,7 +176,7 @@ export default function HomePage() {
             All {toolCount} tools →
           </Link>
         </div>
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {cards.map((card) => (
             <li
               key={card.slug}
@@ -187,7 +187,7 @@ export default function HomePage() {
               >
                 {card.hub}
               </span>
-              <p className="mt-3 font-display text-3xl uppercase tabular-nums">
+              <p className="mt-3 font-display text-2xl uppercase tabular-nums sm:text-3xl">
                 {card.stat}{" "}
                 <span className="font-mono text-sm normal-case text-muted">
                   {card.unit}
