@@ -755,6 +755,13 @@ runs byte-identical signed-out and auth routes return 503):
   collect and the server 422s any dashboard document carrying them, so
   the two consents can never leak into each other. Like everything else
   it is dark until provisioning + the DPIA sign-off turn accounts on.
+- **Signup prompts (Mat, 2026-07-24):** a signed-out save is the prompt
+  moment — tapping any save/bookmark button, every calculator's auto-save
+  footer, and the dashboard's saved grid show one quiet inline nudge
+  ("on this device only — a free account keeps it everywhere" -> /signin).
+  Never a modal; "Not now" snoozes every nudge site-wide for 14 days;
+  signed-in devices never see one (DESIGN §5 + Children's Code no-nudge
+  rules).
 - **Post-auth flow (Mat, 2026-07-24):** signing in lands on the dashboard
   (/account completes the sign-in — hint, band, consents — then forwards
   via a safe internal `next` param), and a signed-in avatar chip (email

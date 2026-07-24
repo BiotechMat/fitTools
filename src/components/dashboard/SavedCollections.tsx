@@ -20,6 +20,7 @@ import {
   type SavedItem,
 } from "@/lib/account/collections";
 import { getSupplement } from "@/registry/supplements";
+import { SignupNudge } from "@/components/account/SignupNudge";
 import { getExercise } from "@/registry/exercises";
 import { getTool, toolPath } from "@/registry/tools";
 
@@ -113,6 +114,9 @@ export function SavedCollections(): React.ReactElement {
       <h2 id="dash-saved" className="font-display text-xl uppercase">
         Saved for later
       </h2>
+      <p className="mt-2">
+        <SignupNudge copy="Everything here lives on this device" />
+      </p>
       <div className="mt-3 grid gap-4 sm:grid-cols-3">
         <CollectionCard
           title="My stack"

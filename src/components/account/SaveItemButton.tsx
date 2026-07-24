@@ -11,7 +11,7 @@
  * useSyncExternalStore so every instance stays live across tabs.
  */
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import {
   favouritesStore,
   hasItem,
@@ -21,6 +21,8 @@ import {
   trainingStore,
   type CollectionStore,
 } from "@/lib/account/collections";
+import { SignupNudge } from "@/components/account/SignupNudge";
+import { shouldShowSignupPrompt } from "@/lib/account/signup-prompt";
 
 const STORES = {
   stack: stackStore,
@@ -55,21 +57,28 @@ export function SaveItemButton({
   const raw = useCollectionRaw(store);
   const saved = hasItem(parseCollection(raw), id);
   const labels = LABELS[collection];
+  // Prompt sign-up at the moment of a signed-out save (Mat, 2026-07-24) —
+  // only after this visit's tap, never on mere page load.
+  const [justSaved, setJustSaved] = useState(false);
 
   const toggle = useCallback((): void => {
-    store.update((current) => toggleItem(current, id));
+    const next = store.update((current) => toggleItem(current, id));
+    setJustSaved(hasItem(next, id) && shouldShowSignupPrompt());
   }, [store, id]);
 
   return (
-    <button
-      type="button"
-      aria-pressed={saved}
-      onClick={toggle}
-      className={`rounded-full border-2 border-foreground px-4 py-1.5 text-sm font-bold shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] ${
-        saved ? "bg-good-soft" : "bg-background"
-      }`}
-    >
-      {saved ? labels.saved : labels.save}
-    </button>
+    <>
+      <button
+        type="button"
+        aria-pressed={saved}
+        onClick={toggle}
+        className={`rounded-full border-2 border-foreground px-4 py-1.5 text-sm font-bold shadow-[2px_2px_0_0_var(--color-foreground)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0_0_var(--color-foreground)] ${
+          saved ? "bg-good-soft" : "bg-background"
+        }`}
+      >
+        {saved ? labels.saved : labels.save}
+      </button>
+      {justSaved && saved ? <SignupNudge copy="Saved on this device" /> : null}
+    </>
   );
 }

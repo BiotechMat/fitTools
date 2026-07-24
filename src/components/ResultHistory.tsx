@@ -15,6 +15,7 @@ import {
   upsertResult,
   writeHistory,
 } from "@/lib/history";
+import { SignupNudge } from "@/components/account/SignupNudge";
 
 /**
  * "Since last time" footer for a ResultsPanel (DESIGN.md §6 — the temporal
@@ -126,7 +127,7 @@ export function ResultHistory({
     content = (
       <>
         <span className={goodChipClass}>First number banked ✓</span>
-        <span className="text-muted">Progress saves on this device only.</span>
+        <SignupNudge copy="Saved on this device" />
       </>
     );
   } else if (baseline !== null) {
@@ -172,11 +173,15 @@ export function ResultHistory({
         >
           Saved on this device · clear
         </button>
+        <SignupNudge copy="This device only" />
       </>
     );
   } else {
     content = (
-      <span className="text-muted">Results save to this device only. Private, automatic.</span>
+      <>
+        <span className="text-muted">Results save to this device automatically.</span>
+        <SignupNudge copy="This device only" />
+      </>
     );
   }
 
