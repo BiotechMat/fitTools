@@ -20,18 +20,9 @@ import { nextCookies } from "better-auth/next-js";
 import { Pool } from "@neondatabase/serverless";
 import { SITE_URL } from "@/lib/site";
 import { sendMagicLinkEmail } from "@/lib/auth/email";
+import { isAgeBand, type AgeBand } from "@/lib/auth/shared";
 
-export const AGE_BANDS = ["13-15", "16-17", "18-plus"] as const;
-export type AgeBand = (typeof AGE_BANDS)[number];
-
-export function isAgeBand(v: unknown): v is AgeBand {
-  return typeof v === "string" && (AGE_BANDS as readonly string[]).includes(v);
-}
-
-/** Health-flavoured namespaces need a 16+ band (ACCOUNTS §7.7). */
-export function bandAllowsHealthStorage(band: unknown): boolean {
-  return band === "16-17" || band === "18-plus";
-}
+export { AGE_BANDS, bandAllowsHealthStorage, isAgeBand, type AgeBand } from "@/lib/auth/shared";
 
 const SIXTY_DAYS_S = 60 * 60 * 24 * 60;
 const COOKIE_CACHE_S = 60 * 5;

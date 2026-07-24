@@ -36,7 +36,13 @@ export type AnalyticsEvent =
   | { name: "maxout_form_failed"; params: { kg: number; cause: string } }
   // Five a Day arcade (FIVEADAY.md). Counts only — nothing about the player.
   | { name: "fiveaday_run_started"; params: Record<string, never> }
-  | { name: "fiveaday_run_ended"; params: { portions: number; plants: number } };
+  | { name: "fiveaday_run_ended"; params: { portions: number; plants: number } }
+  // Accounts (ACCOUNTS.md §8.4). No emails, no ids, no health values in params.
+  | { name: "account_signup"; params: { method: "magic-link" | "google" | "apple" } }
+  | { name: "account_signin"; params: Record<string, never> }
+  | { name: "account_consent"; params: { kind: "health-storage"; granted: boolean } }
+  | { name: "account_deleted"; params: Record<string, never> }
+  | { name: "sync_first_merge"; params: Record<string, never> };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;

@@ -7,10 +7,17 @@
  */
 
 import { createAuthClient } from "better-auth/react";
-import { magicLinkClient } from "better-auth/client/plugins";
+import { inferAdditionalFields, magicLinkClient } from "better-auth/client/plugins";
 
 export const authClient = createAuthClient({
-  plugins: [magicLinkClient()],
+  plugins: [
+    magicLinkClient(),
+    // Mirrors server.ts's user.additionalFields (the age band — ACCOUNTS
+    // §7.7). Declared as a plain schema so no server module is imported.
+    inferAdditionalFields({
+      user: { ageBand: { type: "string", required: false, input: true } },
+    }),
+  ],
 });
 
 export const { useSession, signOut } = authClient;

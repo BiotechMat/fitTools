@@ -9,6 +9,8 @@ import { ConsentBanner } from "@/components/ConsentBanner";
 import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { ThirdPartyScripts } from "@/components/ThirdPartyScripts";
 import { SiteNav, type NavItem, type NavLink } from "@/components/SiteNav";
+import { AccountNavLink } from "@/components/account/AccountNavLink";
+import AccountSync from "@/components/account/AccountSync";
 
 // v2 type roles (DESIGN.md §2): Anton shouts, Figtree explains, Space Mono
 // handles the receipts. Self-hosted via next/font — zero CLS (SPEC §13).
@@ -123,6 +125,7 @@ export default function RootLayout({
               )}
             </Link>
             <SiteNav items={navItems} cta={bloodTestCta} />
+            <AccountNavLink />
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">
@@ -157,6 +160,7 @@ export default function RootLayout({
         </footer>
         <ConsentBanner />
         <ThirdPartyScripts />
+        <AccountSync />
       </body>
     </html>
   );
