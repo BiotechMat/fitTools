@@ -67,6 +67,15 @@ body {
   font-family: var(--font-figtree), system-ui, sans-serif;
 }
 
+/* In-page anchor jumps (e.g. "Browse all tools" → #all-tools) glide instead
+   of teleporting — but only when motion is welcome; reduced-motion users get
+   the instant jump. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Display headings (DESIGN.md §2): Anton, caps only, tight leading. */
 .font-display {
   letter-spacing: 0.015em;

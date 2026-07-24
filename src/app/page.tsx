@@ -287,7 +287,7 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <div id="all-tools">
+      <div id="all-tools" className="scroll-mt-8">
         {hubsWithTools.map(({ meta, tools }) => (
           <section key={meta.hub} className="py-4" aria-labelledby={`hub-${meta.hub}`}>
             <h2 id={`hub-${meta.hub}`} className="font-display text-2xl uppercase">
@@ -300,12 +300,13 @@ export default function HomePage() {
               {tools.map((tool) => (
                 <li
                   key={tool.slug}
-                  className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+                  className="riso-press relative rounded-2xl border-2 border-foreground bg-surface p-4"
                 >
                   <Link
                     href={`/${tool.slug}`}
                     className="font-semibold text-primary underline underline-offset-2"
                   >
+                    <span className="absolute inset-0" aria-hidden="true" />
                     {tool.title}
                   </Link>
                   <p className="mt-1 text-sm text-muted">{tool.metaDescription}</p>
@@ -329,12 +330,13 @@ export default function HomePage() {
             {peptideTools.map((tool) => (
               <li
                 key={tool.slug}
-                className="rounded-2xl border-2 border-foreground bg-surface p-4 shadow-[3px_3px_0_0_var(--color-foreground)]"
+                className="riso-press relative rounded-2xl border-2 border-foreground bg-surface p-4"
               >
                 <Link
                   href={toolPath(tool)}
                   className="font-semibold text-primary underline underline-offset-2"
                 >
+                  <span className="absolute inset-0" aria-hidden="true" />
                   {tool.title}
                 </Link>
                 <p className="mt-1 text-sm text-muted">{tool.metaDescription}</p>
