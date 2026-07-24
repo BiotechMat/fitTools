@@ -252,7 +252,7 @@ export default function HomePage() {
         </Link>
       </section>
 
-      <section aria-label="Browse categories" className="pb-4">
+      <section aria-label="Browse categories" className="pt-8 pb-4">
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {HUB_STRIP.map(({ key, classes }) => {
             const entry = hubsWithTools.find(({ meta }) => meta.hub === key);
@@ -281,17 +281,6 @@ export default function HomePage() {
               <span className="font-display text-xl uppercase">All calculators</span>
               <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-90">
                 {toolCount} tools, one index
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/glow-up"
-              className="flex min-h-24 flex-col justify-end rounded-2xl border-2 border-foreground bg-primary-soft p-4 text-foreground riso-press"
-            >
-              <span className="font-display text-xl uppercase">Glow-up</span>
-              <span className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] opacity-90">
-                Skin · sun · myths, rated
               </span>
             </Link>
           </li>
