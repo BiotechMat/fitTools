@@ -137,13 +137,19 @@ charting library would blow the budget (README JS-budget history).
 ### Phase 4 — Accounts + data-protection posture (ROADMAP E0) — *the crossing*
 
 The next real engineering milestone and the gate everything sensitive waits on.
-**Planning blueprint: `ACCOUNTS.md` (2026-07-24)** — architecture, the binding
-consent/data-protection posture, build sequence A0–A4, and the stack decisions
-(§4 #6 below — **resolved 2026-07-24**, sized for ~200k users at peak; scope
-widened the same day at Mat's direction to every savable surface: calculators,
-dashboard, dailies, Pulse, arcade, supplement stack, saved exercises, prefs,
-with bloodwork gated at A4). Build as a deliberate, resourced step
-(BUSINESS_PLAN §13; SPEC §17):
+**IN BUILD (2026-07-24): A0–A4 commenced together at Mat's explicit
+direction, per-phase sign-offs waived — pulled forward from the phase
+order.** Blueprint: `ACCOUNTS.md` (stack decisions §4 #6 below, sized for
+~200k users; every savable surface syncs through the namespace registry).
+Engineering is on the `claude/signin-accounts-planning-tjxc6z` branch and
+substantially complete (auth, sync engine, account API with the gates in
+code, /signin + /account, save affordances, dashboard collections, manual
+biomarker entry — all env-gated, byte-identical signed-out; 686 tests
+green). **Go-live blocks on A0 provisioning only Mat can do** — Neon,
+Resend + domain auth, Google/Apple credentials, ICO fee, live privacy
+policy, DPIA sign-off (draft: `ACCOUNTS-DPIA.md`) — full record:
+ACCOUNTS.md §13. The §8-gate items below are what that provisioning
+completes:
 
 1. Lawful-basis + explicit consent flow for health data; published
    data-protection posture; view / export / **delete-all** controls.

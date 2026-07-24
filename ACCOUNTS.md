@@ -8,7 +8,8 @@ accounts & sync), `PROFILE.md` (the feature accounts unlock next),
 free account), `DESIGN.md` (§5 upsell posture, §6 retention surfaces) and
 `BUSINESS_PLAN.md` (§13 the data-protection threshold).
 
-**Status (2026-07-24): BLUEPRINT — decisions taken, build not started.** Mat
+**Status (2026-07-24): IN BUILD — A0–A4 commenced together at Mat's
+direction (per-phase sign-offs waived, same day). Build record: §13.** Mat
 delegated the stack decisions the same day ("choose the best option,
 justify"); they are recorded in §9 with rationale, sized for **~200k
 registered users at peak** (§5.4). Scope direction from Mat, also 2026-07-24:
@@ -18,9 +19,10 @@ arcade scores, and (gated, sequenced) bloodwork — folded into §3, §6 and the
 A-sequence. The revenue model is confirmed premium-led (MONETISATION,
 2026-07-23) with two details resolved in this session (§9.9); the remaining
 opens — price/mechanics and the exact free/paid line — gate the premium
-tier, not this build. Per `STATUS.md §3` this work is **Phase 4**; the
-build starts when it is scheduled and the preceding phase is signed off
-(CLAUDE.md workflow).
+tier, not this build. Sequencing note: this work is `STATUS.md §3` Phase 4,
+pulled forward by Mat's explicit instruction (2026-07-24: "commence A0–A4
+all together, no per-phase sign-off") — go-live still waits on the A0
+provisioning + posture items only Mat can complete (§13).
 
 ---
 
@@ -712,3 +714,56 @@ at this scale); SSO/2FA (fast-follow candidates with passkeys).
   sent". *Mitigation:* that stays literally true signed-out; the account
   pitch is the honest inverse ("stored only for you, deletable in one
   click"), and §2.7 is published policy.
+
+---
+
+## 13. Build record (2026-07-24 — A0–A4 commenced together, Mat's direction)
+
+**Built and on the branch** (all env-gated: with no `DATABASE_URL` the site
+runs byte-identical signed-out and auth routes return 503):
+
+- **A2 data layer:** `src/lib/account/` — merge.ts (all nine namespaces,
+  pure, vectored), namespaces.ts (the §6.2 registry with collect/apply and
+  the consent split enforced by `validateNamespaces()`), collections.ts
+  (stack/training/favourites stores), arcade-doc.ts (adapter over the
+  games' keys — distribute only ever raises), prefs-doc.ts (units follow
+  the account), sync.ts (the §6.1 engine: pull→merge→push, debounced
+  pushes, 409→re-merge→retry, 401→stop+clear-hint, consent mirrored).
+- **A1 auth:** Better Auth 1.6 over Neon (`src/lib/auth/server.ts` — magic
+  link 15-min single-use via Resend-over-fetch, Google + Apple, 60-day
+  sessions + 5-min cookie cache, DB-backed rate limiting, age band as a
+  user field), `/api/auth/[...all]`, the auth client confined to the
+  /signin + /account chunks, the hand-written nav session probe with the
+  device hint (anonymous pageviews: zero extra requests).
+- **A2 API:** `/api/account/stores` (+ per-namespace conditional PUT with
+  the §6.4 gate ladder: 401/403/404/413/422/428/409), consent grant/revoke
+  (revoke deletes gated server copies), export, DELETE /api/account
+  (explicit hard delete). `db/schema.sql` for the fittools tables; Better
+  Auth tables via its CLI at provisioning.
+- **A1/A3 UI:** /signin (band-first, magic link, social, honest
+  unavailable state), /account (§7.3 controls day one: consent card,
+  export, typed delete-everything, sign out everywhere, band completion),
+  AccountNavLink (renders nothing signed out), AccountSync mount,
+  SaveItemButton on every supplement/exercise/tool page, the dashboard
+  "Saved for later" grid.
+- **A4 (first slice):** manual biomarker entry on the dashboard — 28-marker
+  grouped picker, device-local storage, ClinicalDisclaimer, no reference
+  ranges. **Blood values still do not sync**: the server's biomarker
+  rejection and the absent `bloodwork` namespace stay in force until the
+  §7 posture paperwork completes at provisioning and the namespace +
+  `bloodwork-storage` consent are switched on (a deliberate, recorded
+  step — not forgotten).
+- **Tests:** 686 green (35 account-specific: merges, stores, registry,
+  engine incl. the 409 path and consent gate); typecheck, lint, build and
+  budgets green throughout.
+
+**Blocked on A0 provisioning (Mat's hands — cannot be done from the repo):**
+Neon project (London; run `db/schema.sql` + Better Auth CLI migrate),
+`BETTER_AUTH_SECRET`, Resend key + SPF/DKIM/DMARC on tools.fit, Google
+OAuth credentials, Apple Developer Programme + Sign in with Apple config,
+ICO registration fee, privacy/cookie-policy updates going live, and the
+DPIA sign-off (working draft: `ACCOUNTS-DPIA.md`). Env var names are in
+`.env.example`. **Also pending:** live-database e2e of the full auth flow
+(magic link needs a real DB + inbox; everything below that seam is
+unit-tested), and the A2 free-sync history caps (deferred until the
+free/paid line is decided — additive gating preserved either way).

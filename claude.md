@@ -165,8 +165,11 @@ and Mat has signed off.
   Scope (Mat, same day): EVERY savable surface syncs through the §6.2
   namespace registry — calculators/estimators (history), dashboard, dailies,
   Pulse, arcade bests/skins, the supplement stack, saved exercises, prefs;
-  bloodwork is its own gated namespace at A4 (manual entry first). Build
-  sequence A0–A4; nothing built yet — build when Phase 4 is scheduled. The
+  bloodwork is its own gated namespace at A4 (manual entry first). IN BUILD
+  2026-07-24 (Mat: A0–A4 together, sign-offs waived): auth + sync engine +
+  account API + UI substantially built, env-gated (no DATABASE_URL = site
+  unchanged); go-live blocks on A0 provisioning (ACCOUNTS.md §13; DPIA
+  draft in ACCOUNTS-DPIA.md). The
   monetisation model is confirmed premium-led (MONETISATION, 2026-07-23)
   with two details resolved 2026-07-24 — light ads in the free tier,
   premium removes them; arcade extras never play-limits; the exact
