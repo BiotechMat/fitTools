@@ -159,8 +159,16 @@ export default function ArcadePage() {
       </div>
 
       <p className="mt-8 max-w-prose text-sm text-muted">
-        The games are cartoons, not health advice. The numbers that actually
-        mean something live in the{" "}
+        The games are cartoons, not health advice. Want a score that&rsquo;s
+        actually about you? The{" "}
+        <Link
+          href="/performance-lab"
+          className="text-primary underline underline-offset-2 hover:text-foreground"
+        >
+          Performance Lab
+        </Link>{" "}
+        measures reaction, memory and aim for real. And the numbers that
+        matter most live in the{" "}
         <Link
           href="/#all-tools"
           className="text-primary underline underline-offset-2 hover:text-foreground"

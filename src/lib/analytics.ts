@@ -42,7 +42,20 @@ export type AnalyticsEvent =
   | { name: "account_signin"; params: Record<string, never> }
   | { name: "account_consent"; params: { kind: "health-storage"; granted: boolean } }
   | { name: "account_deleted"; params: Record<string, never> }
-  | { name: "sync_first_merge"; params: Record<string, never> };
+  | { name: "sync_first_merge"; params: Record<string, never> }
+  // Performance Lab stations (PERFORMANCE-LAB.md §4). The Lab measures the
+  // player openly by design (direction 2026-07-24): the score and its tier
+  // are the product, so they ride the completion event.
+  | { name: "lab_test_started"; params: { station: "reaction" | "recall" | "track" } }
+  | {
+      name: "lab_test_completed";
+      params: {
+        station: "reaction" | "recall" | "track";
+        score: number;
+        tier: string;
+      };
+    }
+  | { name: "lab_test_shared"; params: { station: "reaction" | "recall" | "track" } };
 
 interface GtagWindow {
   gtag?: (command: "event", name: string, params: Record<string, unknown>) => void;
