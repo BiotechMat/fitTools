@@ -59,10 +59,11 @@ The games inherit every ROADMAP §2 guardrail and add their own:
    `source.url` mandatory, `<EvidenceTier />` badge on the reveal, no item
    ships without a verified primary source. A scored game that's *wrong* is a
    credibility hit worse than no game.
-2. **Questions are about the world, never about the player.** Population stats,
-   study findings, physiology constants — fine. "Guess *your* body fat" or any
-   guess-about-yourself mechanic — never. The player is the guesser, not the
-   subject.
+2. **Questions are about the world.** Population stats, study findings,
+   physiology constants — that's the dailies' format: a shared quiz needs
+   answers that are the same for everyone. (The former site-wide "never
+   about the player" rule is retired, 2026-07-24 — measuring the player is
+   now the Performance Lab's job, PERFORMANCE-LAB.md.)
 3. **Positive frame (ROADMAP §2.1).** Scoring celebrates closeness; a cold
    guess gets a warm reveal ("most people are way off — the real number
    surprises everyone"), never a dunk on the player.

@@ -139,7 +139,7 @@ Ordered by recommendation strength. All names proposed, not locked.
 > **Re-homing proposed (2026-07-23):** PERFORMANCE-LAB.md §4.7 proposes
 > adopting this design as the Lab's guided breathing practice — its
 > no-fail, no-death shape never fit the arcade formula anyway. Pending
-> Mat's call (PERFORMANCE-LAB §11); if approved, remove it from this bench.
+> Mat's call (PERFORMANCE-LAB §10); if approved, remove it from this bench.
 
 - **Lineage:** none needed — breathwork itself. **Verb:** hold and release.
 - **Loop:** hold to inhale as your ring grows, release to exhale as it
@@ -217,14 +217,13 @@ physics appetite.
 
 ## 5. Anti-ideas (rejected on guardrails — recorded so they stay rejected)
 
-- **Anything that measures the player.** No reaction-time-as-"reflex age",
-  no balance-test scoring, no "guess your body fat" mechanics. Questions and
-  scores are about cartoons and the world, never the player (DAILY-GAMES §2,
-  LIFELINE §3). The line between Lifeline's cartoon age and a game that
-  claims to measure you is the whole brand. *(This rejection stands for the
-  arcade. PERFORMANCE-LAB.md blueprints honest self-measurement as a
-  separate, walled-off surface — its §2 records why that doesn't weaken
-  this rule.)*
+- **Anything that measures the player — RETIRED as a rule (2026-07-24,
+  Mat's direction).** The site now measures and compares players directly
+  in the Performance Lab (PERFORMANCE-LAB.md), where reaction time, spans,
+  percentiles and the rest are the product. What remains for this bench is
+  genre, not prohibition: arcade games are cartoons about the world, and a
+  measurement feature belongs in the Lab rather than dressed as an arcade
+  joke.
 - **Craving/food-whacking or calorie games.** Punishing food desire is
   disordered-eating-adjacent; the fail joke would land on eating itself.
 - **Idle/clicker with offline accrual.** Engineered compulsion — collides
