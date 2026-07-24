@@ -14,6 +14,7 @@ import { getTool, toolPath } from "@/registry/tools";
 import { AuthorBox } from "@/components/AuthorBox";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQ } from "@/components/FAQ";
+import { SaveItemButton } from "@/components/account/SaveItemButton";
 import {
   articleJsonLd,
   breadcrumbJsonLd,
@@ -103,7 +104,10 @@ export default async function ExercisePage({ params }: ExerciseParams) {
           <span aria-hidden="true"> / </span>
           <Link href={`/exercises/${p.slug}`} className="hover:text-foreground">{p.title}</Link>
         </nav>
-        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{e.name}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          <h1 className="font-display text-3xl uppercase sm:text-4xl">{e.name}</h1>
+          <SaveItemButton collection="training" id={e.slug} />
+        </div>
         {e.aka && e.aka.length > 0 ? (
           <p className="mt-1 text-sm text-muted">Also known as: {e.aka.join(", ")}</p>
         ) : null}

@@ -11,6 +11,7 @@ import { ClinicalDisclaimer } from "@/components/ClinicalDisclaimer";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { EmailCapture } from "@/components/EmailCapture";
 import { EmbedCode } from "@/components/EmbedCode";
+import { SaveItemButton } from "@/components/account/SaveItemButton";
 import { FAQ } from "@/components/FAQ";
 import { RelatedTools } from "@/components/RelatedTools";
 import { RelatedReference } from "@/components/RelatedReference";
@@ -102,7 +103,10 @@ export default async function ToolPage({ params }: ToolPageParams) {
             </li>
           </ol>
         </nav>
-        <h1 className="mt-2 font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          <h1 className="font-display text-3xl uppercase sm:text-4xl">{tool.title}</h1>
+          <SaveItemButton collection="favourites" id={tool.slug} />
+        </div>
         <p className="mt-1 max-w-prose text-muted">
           {tool.valueLine ?? tool.metaDescription}
         </p>
