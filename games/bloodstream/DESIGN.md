@@ -36,6 +36,19 @@ soon after the first, which is also how the body actually loses fights.
 natural cross-link targets are the Heart Age calculator and the heart-health
 content when ported into the site.
 
+**Visual identity (2026-07-24 rework, Mat's direction).** The game wears the
+house arcade look of Lifeline/Powerhouse/Five a Day: warm paper ground
+(`#FBF4EC`), Blaze/Ember vessel, flat DESIGN-token colours, ink outlines on
+everything, and hand-drawn pixel sprites (string maps → offscreen canvases,
+nearest-neighbour — the ARCADE-IDEAS §6 convention, sharing the sibling
+games' palette letters: K ink, B blaze, E ember, A amber…). The whole world
+renders into a low-resolution buffer (1/`view.pixelScale` of the screen)
+upscaled nearest-neighbour, so lines, rings and particles land on the same
+chunky pixel grid as the sprites. The infection virus sprite is a deliberate
+cousin of Powerhouse's free-radical enemy. DOM chrome matches: card panels
+with 2 px ink borders and hard ink drop-shadows, monospace ink numerals,
+gold `#C99700` for currency text on paper.
+
 **Controls.** One-finger swipes (left/right/up/down), one-handed portrait.
 Keyboard (arrows/WASD/space) and mouse-drag equivalents. Swipe-down mid-air
 fast-falls — a small expert technique.
@@ -95,6 +108,7 @@ Everything below is hand-tunable; the listed values are the shipped defaults.
 | `zones[]` | 420/380/380 m | Zone lengths, palettes, `orbMult` (Lungs 1.6 = the oxygen-rich reward zone), `pulse` (heartbeat) |
 | `juice.*` | — | Shake px, hit-stop ms, particle cap, count-up ms |
 | `view.curveAmp` / `curveK` | 0.8 / 0.0014 | How hard the vessel appears to bend. Purely visual — collisions are lane-based |
+| `view.pixelScale` | 3 | World renders at 1/N screen resolution, upscaled nearest-neighbour. Bigger = chunkier pixels (and cheaper frames) |
 
 **Difficulty calibration target.** Typical first session: runs of ~150–400 m
 dying to tier-1/2 patterns; PB curve should still be moving at runs 5–8 as
@@ -157,10 +171,10 @@ Flushed on `pagehide`.
 
 ## 9. Verification record (2026-07-24)
 
-Headless Chromium (390×844, DPR 2) automated pass: title → run → forced
-double-stumble death → revive offer → decline → results → restart (~0.25 s
-including driver overhead) → second death → results; save integrity across
-runs; two-tap shop purchase + equip + feat unlock; challenge/feat sheets;
-`#beat=` link banner; interstitial stub cap logic; jump-clears-clot,
-slide-clears-valve, clot-stumble-continues, lane-dodge physics checks;
-55–61 fps; zero console/page errors.
+Headless Chromium (390×844, DPR 2) automated pass, re-run in full after the
+pixel-art rework: title → run → forced double-stumble death → revive offer →
+decline → results → restart (~70 ms including driver overhead) → second
+death → results; save integrity across runs; two-tap shop purchase + equip +
+feat unlock; challenge/feat sheets; `#beat=` link banner; interstitial stub
+cap logic; jump-clears-clot, slide-clears-valve, clot-stumble-continues,
+lane-dodge physics checks; 55–61 fps; zero console/page errors.
