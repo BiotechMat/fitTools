@@ -62,10 +62,36 @@ four families produce the candidates below.
 
 ### 3.1 Guess first — the prediction layer ⭐ cheapest, most house-native
 
-Before a calculator computes, one optional extra tap: **"What do you think
-it'll say?"** Then the result renders beside the guess. Ballpark already
-proved the mechanic; this moves it from trivia numbers to *your own*
-numbers, where the curiosity gap is strongest.
+> **Scope correction (pitch session, Mat, 2026-07-24):** a guess only
+> earns its tap where the output is *opaque* — a number the user can't
+> compute in their head but holds a real (usually biased) intuition
+> about. On arithmetic tools (pace, plate maths, BMI), pure-utility tools
+> (warm-up) or already-known numbers (1RM — knowing it is why you opened
+> the tool), a guess is noise. This is a layer for **~8 tools, not 40**.
+> Guessing *other people's* numbers from photos is a different idea and
+> an anti-idea (§6).
+
+Before an **opaque-output** calculator computes, one optional extra tap:
+**"What do you think it'll say?"** Then the result renders beside the
+guess. Ballpark already proved the mechanic; this points it at *your own*
+numbers, where the curiosity gap is strongest. The qualifying roster —
+each with a documented self-perception gap, so the reveal genuinely
+surprises:
+
+- **TDEE / calories burned** — the canonical misestimate (off by
+  hundreds of kcal in both directions; the "I barely eat" gap lives
+  here).
+- **Body-fat %** — commit to a self-image number before the tape
+  measurements run through the formula.
+- **Heart Age / Phenotypic Age / life expectancy** — *"How old is your
+  heart? Guess first."* The strongest single moment: nobody knows their
+  answer, everybody has an intuition.
+- **VO₂max / strength standards — as a percentile guess.** The best
+  variant of the mechanic: guess *where you stand* ("top what % for
+  your age?") before the norms reveal. Most people underestimate their
+  standing, and the reveal feeds the flattering top-X% card directly —
+  this is where guess-first serves the compare and share verbs, not
+  just revisit.
 
 - **Loop (in-session):** guess → result → surprise → read the methodology
   to understand the gap. The result becomes memorable *because* a
@@ -78,9 +104,10 @@ numbers, where the curiosity gap is strongest.
 - **Share:** "I guessed 15% body fat — it's 22%" is a better card than
   either number alone; self-deprecation is self-chosen, so the positive
   frame holds.
-- **Build:** small. A `guessable` field on `ToolConfig`, a pre-result
-  input, guess stored beside the `ResultHistory` entry. No deps, local
-  only, skippable in one tap (autonomy preserved).
+- **Build:** small. A `guessable` field on `ToolConfig` (set on the ~8
+  qualifying tools only), a pre-result input, guess stored beside the
+  `ResultHistory` entry. No deps, local only, skippable in one tap
+  (autonomy preserved).
 
 ### 3.2 Today's cohort — comparison with zero accounts ⭐
 
@@ -304,6 +331,13 @@ be judged on share/compare/compete, where the roster is thinnest.
 - **Calibration-shaming.** §3.1's guess layer never scores the user's
   self-knowledge as a failing ("you don't know your own body") — the
   frame is tuning in, and the guess is always skippable.
+- **Guessing bodies.** The "guess the body-fat %" photo format (a proven
+  Reddit staple, raised and rejected in the 2026-07-24 pitch session) is
+  appearance-rating with extra steps — it collides with
+  CONTENT-looksmaxxing §1's no-rating rule, disordered-eating adjacency
+  and image rights. Guessing stays pointed at *numbers* — your own
+  (§3.1) or population norms (Ballpark, the Physical Bench's "average
+  plank time" items) — never at bodies.
 - **Notification pressure.** Web push stays parked per UTILITY-LOOPS
   §2.7 — user-scheduled events only, after accounts, never editorial
   pings. The `.ics` file remains the consent-free reminder channel.
@@ -315,9 +349,10 @@ be judged on share/compare/compete, where the roster is thinnest.
 
 Within this doc's remit, the order that compounds best:
 
-1. **§3.1 Guess first** — days, no decisions needed, upgrades every
-   calculator and every future share card, and starts the calibration
-   trend Trajectory can later chart.
+1. **§3.1 Guess first** — days, no decisions needed, upgrades the ~8
+   opaque-output tools (TDEE, body fat, the age indices, the norms
+   tools) and their share cards, and starts the calibration trend
+   Trajectory can later chart.
 2. **§3.4 Misses come back** — days, makes Phase 1's content-bank work
    pay twice, purely local.
 3. **§3.5 Health picture meter** — days, gives the dashboard its day-1
